@@ -1,0 +1,52 @@
+.addmember {
+    width: 1200px;
+    margin: 0 auto;
+}
+.update-memb{
+    margin-left: 40%;
+    margin-top: 70px;
+    margin-bottom: 100px;
+}
+.update-memb .el-button{
+    width: 153px;
+    height: 33px;
+    background: #2450D2;
+    color: #FFFFFF;
+    border-radius: 8px;
+}
+.add_Top {
+    width: 100%;
+    margin-top: 20px;
+    height: 45px;
+    line-height: 45px;
+    background-color: #FAFBFA;
+    padding-left: 20px;
+}
+.add_Top span{
+    display: inline;
+    margin-left: 19%;
+}
+.el-form{
+    margin-top: 30px;
+}
+ .el-form-item {
+    padding-left: 25%;
+    padding-top: 0px;
+}
+
+.el-input {
+    width: 194px;
+}
+
+.formWidth .el-input__inner {
+    width: 194px;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-radius: 0px;
+    border-bottom: 1px solid #C1C1C1;
+}
+
+.el-form-item__label {
+    text-align: left;
+}

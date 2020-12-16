@@ -1,0 +1,12 @@
+/* 组建覆盖央视表 */
+.ivu-col-span-12 {
+    display: block;
+    width: 100% !important;
+}
+.ivu-col-span-12 {
+    display: flex !important;
+    align-items: center;
+}
+.el-range-editor--small.el-input__inner {
+    margin-right: 10px !important;
+}
