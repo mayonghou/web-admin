@@ -8,7 +8,7 @@
 				<label>订单查询</label>
 			</div>
 			<div class="reat-search">
-				<el-input v-model="input" class="input-width" placeholder="输入房源"></el-input>
+				<el-input v-model="input" class="input-width" placeholder="输入订单编号"></el-input>
 				<i style="font-size: 22px;color: #2494D2;margin-left: 20px;margin-top: 5px; margin-right: 20px;" class="el-icon-date"></i>
 				<el-date-picker
 					prefix-icon="md-date_range"
@@ -36,7 +36,7 @@
 		<el-table :data="tableData" border style="width: 100%" >
 			<el-table-column type="index" align="center" label="序号">
 			</el-table-column>
-			<el-table-column prop="orderSn" label="订单编号" align="center" width="250">
+			<el-table-column prop="orderSn" label="订单编号" align="center" width="260">
 			</el-table-column>
 			<el-table-column prop="userName" label="客户名" align="center">
 			</el-table-column>
@@ -63,7 +63,7 @@
 					<el-button @click="btn_detail(scope.row)" class="tab_button">查看详情</el-button>
 					<el-button @click="del_enterprise(scope.row)" v-if="scope.row.status == 3 || scope.row.status == 4 || scope.row.status == 5" class="del_button">删除</el-button>
 					<el-button @click="lijifahuodata(scope.row)" v-if="scope.row.pickupMethodName != '自提带走' && scope.row.status == 1" class="bj_button">立即发货</el-button>
-					<el-button @click="chakanwuliu(scope.row)" v-show="scope.row.status == 2 && scope.row.pickupMethodName != '自提带走'" class="bj_button">查看物流</el-button>
+					<el-button @click="chakanwuliu(scope.row)" v-if="scope.row.status == 2 && scope.row.pickupMethodName != '自提带走' && scope.row.pickupMethod == 1" class="bj_button">查看物流</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -102,7 +102,7 @@
 				</el-tooltip>
 			</div>
 			<div class="divwuliu">
-				<label>物流单号：</label><label>54651454563452313846</label><i class="copy iconfont icon-shuji"></i>
+				<label>物流单号：</label><label>{{this.deliverySn}}</label><i @click="copy" class="copy iconfont icon-shuji"></i>
 			</div>
 			<div class="divwuliu">
 				物流状态：
@@ -237,16 +237,14 @@
 				ordersId: '',
 				userName: '',
 				startTime: '',
-				endTime: ''
+				endTime: '',
+				deliverySn: ''
 			}
 		},
 		mounted() {
 			this.postAdminQueryOrderList();
 		},
 		methods: {
-			tableRowStyle(row,index){
-				
-			},
 			enlarge() {},
 			lijifahuodata(row) {
 				this.dialogVisibleake = true;
@@ -260,9 +258,6 @@
 					query: {
 						id: row.orderId,
 						data: row
-						// name: row.userName,
-						// payTypeName: row.payTypeName,
-						// statusName: row.statusName
 					}
 				})
 			},
@@ -317,7 +312,7 @@
 							});
 						}
 					});
-				});
+				}).catch(err=>{});
 			},
 			// 页码
 			handleSizeChange(val) {
@@ -375,20 +370,51 @@
 									});
 								}
 							});
-						});
+						}).catch(err=>{});
 					}
 				});
 
 			},
+			copy(){
+				document.execCommand("Copy");
+				if(document.execCommand("Copy")){
+					this.$message({
+						showClose: true,
+						message: '复制成功',
+						type: 'success'
+					});
+				} else {
+					this.$message({
+						showClose: true,
+						message: '复制失败',
+						type: 'error'
+					});
+				}
+				
+			},
 			// 查看物流
 			chakanwuliu(row) {
+				this.$axios.get('admin/order/adminQueryOrderInfo?orderId=' + row.orderId).then((res) => {
+					if(res.status == 200){
+						let data = res.data;
+						if(data.code == 200){
+							this.deliverySn = data.data.orderInfo.deliverySn;
+						} else {
+							this.$message({
+								showClose: true,
+								message: data.msg,
+								type: 'error'
+							});
+						}
+					} else {
+						this.$message({
+							showClose: true,
+							message: res.data.msg,
+							type: 'error'
+						});
+					}
+				});
 				this.dialogVisibleakechakanwuliu = true;
-				console.log(row);
-			},
-			// 时间关闭
-			logTimeChange(val) {
-				console.log(val);
-				console.log(this.time);
 			},
 			// 查询按钮
 			orderChaxun() {

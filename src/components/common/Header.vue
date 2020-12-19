@@ -7,39 +7,35 @@
 				</div>
 				商盟
 			</div>
-			<div class="fl">
+			<div class="collapse" @click="collapseChage">
+			    <i v-if="!collapse" class="el-icon-s-fold"></i>
+			    <i v-else class="el-icon-s-unfold"></i>
+			</div>
+			<div class="fl" @click="tabqiehuang">
 				<div v-show="this.qiyeID != 0" class="page-top" @click="indexBtn">
-					<i class="iconfont icon-shouye1"></i>
+					<i class="iconfont add icon-shouye1"></i>
 					首页
 				</div>
 				<div class="page-top" @click="dataCenter">
-					<i class="iconfont icon-shouye1"></i>
+					<i class="iconfont add icon-shouye1"></i>
 					数据中心
 				</div>
 				<div class="page-top" @click="marketingBtn">
-					<i class="iconfont icon-yingxiao"></i>
+					<i class="iconfont add icon-yingxiao"></i>
 					营销中心
 				</div>
 				<div class="page-top">
-					<i class="iconfont icon-shouye1"></i>
+					<i class="iconfont add icon-shouye1"></i>
 					产品中心
 				</div>
 			</div>
 
 			<div class="header-right">
 				<div class="header-user-con">
-					<!-- 消息中心 -->
-					<div class="btn-bell">
-						<el-tooltip effect="dark" :content="message ? `有${message}条未读消息` : `消息中心`" placement="bottom">
-							<router-link to="/tabs">
-								<i class="iconfontssda iconfont icon-laba1"></i>
-							</router-link>
-						</el-tooltip>
-						<span class="btn-bell-badge" v-if="message">{{ message }}</span>
-					</div>
 					<!-- 用户头像 -->
+					<span style="font-size: 18px;">欢迎您 </span>
 					<div class="user-avator">
-						<img src="../../assets/img/img.jpg" />
+						<el-avatar :size="40" :src="circleUrl"></el-avatar>
 					</div>
 					<!-- 用户名下拉菜单 -->
 					<el-dropdown class="user-name" trigger="click">
@@ -56,6 +52,15 @@
 							</el-dropdown-item>
 						</el-dropdown-menu>
 					</el-dropdown>
+					<!-- 消息中心 -->
+					<div class="btn-bell">
+						<el-tooltip effect="dark" :content="message ? `有${message}条未读消息` : `消息中心`" placement="bottom">
+							<router-link to="/tabs">
+								<i class="iconfontssda iconfont icon-laba1"></i>
+							</router-link>
+						</el-tooltip>
+						<span class="btn-bell-badge" v-if="message">{{ message }}</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -87,12 +92,13 @@
 	export default {
 		data() {
 			return {
-				collapse: false,
+				collapse: true,
 				fullscreen: false,
 				name: '',
 				message: 1,
 				qiyeID: '',
 				dialogVisibpassword: false,
+				circleUrl: '',
 				password: {
 					xinpass: '',
 					quedingpass: ''
@@ -113,6 +119,15 @@
 		},
 		computed: {
 			username() {
+				var aaas = /^(https):\/\/.+$/;
+				var avatarUrl = localStorage.getItem('avatar');
+				if(avatarUrl){
+					if(aaas.test(localStorage.getItem('avatar'))){
+						this.circleUrl = localStorage.getItem('avatar');
+					} else {
+						this.circleUrl = localStorage.getItem('imgUrl') + localStorage.getItem('avatar');
+					}
+				}
 				this.qiyeID = localStorage.getItem('loginData');
 				let username = localStorage.getItem('ms_username');
 				return username ? username : this.name;
@@ -128,6 +143,7 @@
 			// 退出登录
 			tuichulogin() {
 				localStorage.removeItem('ms_username');
+				localStorage.removeItem('token');
 				this.$router.push('/login');
 			},
 			// 首页
@@ -153,10 +169,10 @@
 				});
 			},
 			// 侧边栏折叠
-			// collapseChage() {
-			//     this.collapse = !this.collapse;
-			//     bus.$emit('collapse', this.collapse);
-			// },
+			collapseChage() {
+			    this.collapse = !this.collapse;
+			    bus.$emit('collapse', this.collapse);
+			},
 			// 全屏事件
 			handleFullScreen() {
 				let element = document.documentElement;
@@ -183,15 +199,29 @@
 					}
 				}
 				this.fullscreen = !this.fullscreen;
+			},
+			tabqiehuang(){
+				var tab = document.getElementsByClassName('page-top');
+				var tabllist = document.getElementsByClassName('add');
+				for(var i=0; i<tab.length; i++){
+					tab[i].id = i;
+					tab[i].onclick = function(){
+						for(var j = 0; j<tabllist.length; j++){
+							tab[j].classList.remove('active');
+							tabllist[j].classList.remove('active');
+						}
+						tab[this.id].classList.add('active');
+						tabllist[this.id].classList.add('active');
+					}
+				}
 			}
 		},
 		mounted() {
-			/*
 			// 侧边栏折叠
-			if (document.body.clientWidth < 1500) {
-			    // this.collapseChage();
+			if (document.body.clientWidth > 1500) {
+			    this.collapseChage();
 			}
-			*/
+			
 		}
 	};
 </script>
@@ -215,7 +245,11 @@
 		cursor: pointer;
 		line-height: 70px;
 	}
-
+	.collapse{
+		width: 30px;
+		float: left;
+		line-height: 70px;
+	}
 	.collapse-btn .img {
 		background: #fff;
 		width: 50px;
@@ -235,10 +269,13 @@
 		float: left;
 		width: 190px;
 		line-height: 71px;
-		/* margin-left: 30px; */
 		text-align: center;
 		font-size: 16px;
 		cursor: pointer;
+	}
+	.header .page-top.active{
+		background-color: #FFFFFF;
+		color: #4985F0;
 	}
 
 	.header .page-top .icon {
@@ -262,7 +299,10 @@
 		margin-right: 5px;
 		font-size: 24px;
 	}
-
+	.btn-bell{
+		margin-left: 20px;
+		margin-right: 20px;
+	}
 	.btn-bell,
 	.btn-fullscreen {
 		position: relative;
@@ -298,7 +338,7 @@
 		margin-left: 20px;
 	}
 
-	.user-avator img {
+	.user-avator .el-avatar {
 		display: block;
 		width: 40px;
 		height: 40px;

@@ -24,14 +24,6 @@ import 'view-design/dist/styles/iview.css';
 Vue.use(ViewUI);
 
 Vue.config.productionTip = false;
-
-import VideoPlayer from 'vue-video-player'
-require('video.js/dist/video-js.css')
-require('vue-video-player/src/custom-theme.css')
-
-Vue.use(VideoPlayer)
-
-// Vue.use(VSchart)
 Vue.use(ElementUI, {
     size: 'small'
 });

@@ -135,6 +135,9 @@
 				status: ''
 			}
 		},
+		watch:{
+			$route:'getGoodsDetailList'
+		},
 		mounted() {
 			this.getGoodsDetailList();
 		},
@@ -213,7 +216,6 @@
 							} else {
 								this.goodsDetailList.fileUrl == ''
 							}
-							
 							this.goodsDetailList.shoppName = goodsDetail.name;
 							this.goodsDetailList.time = goodsDetail.makeTime;
 							this.goodsDetailList.shoppkucun = goodsDetail.stock;
@@ -221,7 +223,6 @@
 							this.goodsDetailList.price = goodsDetail.price / 100 + '元';
 							this.goodsDetailList.peisong = goodsDetail.logisticsIds;
 							var aaa = [];
-							
 							goodsDetail.logisticsIds.split(',').forEach(function(val, index){
 								if(val == 1){
 									aaa.push('可自提');
@@ -333,8 +334,9 @@
 		height: auto;
 	}
 	.dsadsadsa .dsad img{
-		display: block;
-		/* float: left; */
+		display: inline-block;
+		float: left;
+		margin-left: 10px;
 		width: 200px;
 	}
 </style>

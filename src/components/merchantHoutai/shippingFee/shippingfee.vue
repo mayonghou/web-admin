@@ -146,7 +146,8 @@ export default {
                         });
                     }
                 });
-            });
+            }).catch(err => {
+			});
         },
         getOrderDeliveryFee() {
             this.$axios.get('admin/order/deliveryFee/detail/' + localStorage.getItem('loginData')).then((res) => {
@@ -182,8 +183,9 @@ export default {
 
 <style>
 .shippingfee {
-    width: 1200px;
-    margin: 0 auto;
+    width: 100%;
+    padding: 20px;
+	box-sizing: border-box;
 }
 .shippingfee-top {
     width: 100%;

@@ -232,7 +232,8 @@
 							});
 						}
 					})
-				})
+				}).catch((err) => {
+				});
 			},
 
 
@@ -303,5 +304,8 @@
 	}
 	.aihdin i{
 		margin-top: 20px;
+	}
+	.officialwebsite .el-form-item__label{
+		text-align: right;
 	}
 </style>

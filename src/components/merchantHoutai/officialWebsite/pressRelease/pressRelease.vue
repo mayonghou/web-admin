@@ -124,7 +124,6 @@ export default {
 					let data = res.data;
 					var dataLsit = [];
 					var aaas = /^(https):\/\/ /;
-					console.log(data.data.news);
 					 data.data.news.forEach(function(val, index) {
 						 dataLsit[index] = val;
 						 if(aaas.test(val.albumPics[0].split(',')[0])){

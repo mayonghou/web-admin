@@ -68,6 +68,7 @@
 			// 查询优惠券列表
 			getconpoudetail() {
 				var data = this.$route.query.data;
+				// var data = localStorage.getItem('couponData');
 				this.couponId = data.couponId;
 				
 				var date = new Date(data.startTime);

@@ -451,6 +451,7 @@
 		top: 70px;
 		bottom: 0;
 		overflow-y: scroll;
+		background-color: #FCFBFC;
 	}
 
 	.sidebar::-webkit-scrollbar {

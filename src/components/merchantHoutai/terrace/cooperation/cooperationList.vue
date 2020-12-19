@@ -31,7 +31,7 @@
 			</div>
 		</div>
 		<!-- 表格 -->
-		<el-table :data="tableData" style="width: 100%;">
+		<el-table :data="tableData" border style="width: 100%;">
 			<el-table-column prop="name" label="企业名称" align="center">
 			</el-table-column>
 			<el-table-column prop="legal" label="法人姓名" align="center">
@@ -57,19 +57,19 @@
 					<i class="iconfont icon-quanping"></i>
 				</el-tooltip>
 			</div>
-			<el-table :data="hezuosqtable" style="width: 100%; margin: 0 auto; background: #F5F9F1;">
-				<el-table-column prop="name" label="企业名称" width="150">
+			<el-table :data="hezuosqtable" border style="width: 100%; background: #F5F9F1;">
+				<el-table-column prop="name" label="企业名称" width="250" align="center">
+				</el-table-column>
+				<el-table-column prop="legal" label="法人姓名" align="center">
+				</el-table-column>
+				<el-table-column prop="serverPhone" label="手机号码" width="" align="center">
+				</el-table-column>
+				<el-table-column prop="industry" label="所属行业" align="center">
+				</el-table-column>
+				<el-table-column prop="status" label="申请类型" align="center">
 					<template slot-scope="scope">
-						<el-link class="el-link" style="color: #2494D2;" @click="qiyetioazuan(scope.row)" :underline="false">{{scope.row.name}}</el-link>
+						<label>{{scope.row.status == 0?'申请合作':'解除合作'}}</label>
 					</template>
-				</el-table-column>
-				<el-table-column prop="registerAddress" label="法人姓名">
-				</el-table-column>
-				<el-table-column prop="serverPhone" label="手机号码" width="">
-				</el-table-column>
-				<el-table-column prop="industry" label="所属行业">
-				</el-table-column>
-				<el-table-column prop="leixing" label="申请类型">
 				</el-table-column>
 				<el-table-column label="操作" width="200" align="center">
 					<template slot-scope="scope">
@@ -94,11 +94,8 @@
 				<el-input v-model="valueDialog" class="dasdasd" placeholder="搜索企业、法人"></el-input>
 				<el-button class="el-icon-search" @click="searchBtn" type="text">搜索企业</el-button>
 			</div>
-			<el-table :data="tinajiaqiye" v-show="this.tinajiaqiye != ''" style="width: 100%; margin: 0 auto; background: #F5F9F1;">
+			<el-table :data="tinajiaqiye" v-show="this.tinajiaqiye != ''" border style="width: 100%; background: #F5F9F1;">
 				<el-table-column prop="name" label="企业名称" align="center">
-					<template slot-scope="scope">
-						<el-link class="el-link" style="color: #2494D2;" @click="qiyetioazuan(scope.row)" :underline="false">{{scope.row.name}}</el-link>
-					</template>
 				</el-table-column>
 				<el-table-column prop="legal" label="法人姓名" align="center">
 				</el-table-column>
@@ -119,13 +116,13 @@
 			<div class="recommend" v-if="this.recommend != ''">
 				<div style="font-size: 20px; font-weight: bold;">平台推荐:</div>
 				<el-row>
-					<el-col :span="6" v-for="item in 6" :key="item">
+					<el-col :span="6" v-for="(item,index) in this.recommend" :key="index">
 						<div class="grid-content bg-purple">
 							<div class="recommend-detail">
-								<img class="logo" src="../../../../assets/img/img.jpg" />
-								<span class="companyName">贵州万疆烽火有限公司</span>
+								<img class="logo" :src="item.logoUrl" />
+								<span class="companyName">{{item.name}}</span>
 							</div>
-							<el-button class="recommendBtn">申请合作</el-button>
+							<el-button @click="recommendHezuo(item)" class="recommendBtn">申请合作</el-button>
 						</div>
 					</el-col>
 				</el-row>
@@ -165,44 +162,26 @@
 		},
 		mounted() {
 			this.TeamworkList();
-			// this.cooperationList();
 		},
 		methods: {
-			// 点击企业名称查看也想请
-			qiyetioazuan(row) {
-				var id = localStorage.getItem('loginData');
-				if(row.id != id){
-					this.$router.push({
-						path: './lookcompany',
-						query: {
-							id: row.id
-						}
-					});
-				} else if(row.id == id){
-					this.$router.push({
-						path: './editDatetl',
-						query: {
-							id: row.id
-						}
-					});
-				}
-				this.dialogVisibleCooperation = false;
-			},
 			// 合作申请 弹框
 			cooperation() {
 				let companyId = localStorage.getItem('loginData');
 				this.$axios.get('admin/company/apply/list?companyId=' + companyId).then((res) => {
-					console.log(res);
 					if (res.status == 200) {
 						var data = res.data;
-						console.log(data);
 						if (data.code == 200) {
 							var list = [];
 							data.data.forEach(function(val, index){
-								list[index] = val.company;
+								list[index] = val;
+								list[index].legal = val.company.legal;
+								list[index].name = val.company.name;
+								list[index].industry = val.company.industry;
+								list[index].serverPhone = val.company.serverPhone;
+								list[index].serverPhone = val.company.serverPhone;
+								list[index].status = val.status;
 							});
 							this.hezuosqtable = list;
-							console.log(this.hezuosqtable);
 						} else {
 							this.$message({
 								showClose: true,
@@ -220,30 +199,6 @@
 				});
 				this.dialogVisibleCooperation = true;
 			},
-			/*cooperationList() {
-				let companyId = localStorage.getItem('loginData');
-				this.$axios.get('admin/company/apply/list?companyId=' + companyId).then((res) => {
-					if (res.status == 200) {
-						var data = res.data;
-						if (data.code == 200) {
-							this.hezuosqtable = data.data;
-							this.valueNum = data.data.length;
-						} else {
-							this.$message({
-								showClose: true,
-								message: data.msg,
-								type: 'error'
-							});
-						}
-					} else {
-						this.$message({
-							showClose: true,
-							message: data.msg,
-							type: 'error'
-						});
-					}
-				});
-			},*/
 			// 同意申请
 			tongyi(row) {
 				this.$confirm('是否确定与【' + row.name + '】公司进行合作?', '温馨提示', {
@@ -267,8 +222,8 @@
 									message: data.msg,
 									type: 'success'
 								});
-								this.cooperationList();
 								this.TeamworkList();
+								this.cooperation();
 							} else {
 								this.$message({
 									showClose: true,
@@ -310,7 +265,7 @@
 									type: 'success'
 								});
 								this.TeamworkList();
-								this.cooperationList();
+								this.cooperation();
 							} else {
 								this.$message({
 									showClose: true,
@@ -358,7 +313,18 @@
 								hezuoqiye[index].businessType = businessText;
 							});
 							this.tinajiaqiye = hezuoqiye;
-							this.recommend = data.data.recommend;
+							this.recommend
+							let recommendList = [];
+							var https = /^(https):\/\/.+$/;
+							data.data.recommend.forEach(function(val, index){
+								recommendList[index] = val;
+								if(https.test(val.logoUrl)){
+									recommendList[index].logoUrl = val.logoUrl;
+								} else {
+									recommendList[index].logoUrl =localStorage.getItem('imgUrl') + val.logoUrl;
+								}
+							});
+							this.recommend = recommendList;
 						} else {
 							this.$message({
 								showClose: true,
@@ -402,7 +368,7 @@
 									message: data.msg,
 									type: 'success'
 								});
-								this.cooperationList();
+								this.dialogVisibleAddCooper = false;
 							} else {
 								this.$message({
 									showClose: true,
@@ -419,7 +385,48 @@
 						}
 					});
 				}).catch((res) => {
-					console.log(res);
+				});
+			},
+			// 平台推荐的企业进行合作
+			recommendHezuo(item){
+				this.$confirm('是否确定申请与【' + item.name + '】公司进行合作?', '温馨提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					const loading = this.$loading({
+						lock: true,
+						text: '申请中...',
+						spinner: 'el-icon-loading',
+						background: 'rgba(0, 0, 0, 0.7)'
+					});
+					this.$axios.get('admin/company/apply/info?companyId=' + localStorage.getItem('loginData') + '&flag='+true + '&partnerId='+ item.id).then((res) => {
+						loading.close();
+						if (res.status == 200) {
+							var data = res.data;
+							if (data.code == 200) {
+								this.$message({
+									showClose: true,
+									message: data.msg,
+									type: 'success'
+								});
+								this.dialogVisibleAddCooper = false;
+							} else {
+								this.$message({
+									showClose: true,
+									message: data.msg,
+									type: 'error'
+								});
+							}
+						} else {
+							this.$message({
+								showClose: true,
+								message: data.msg,
+								type: 'error'
+							});
+						}
+					});
+				}).catch((res) => {
 				});
 			},
 			// 全屏事件
@@ -483,7 +490,6 @@
 						}
 					});
 				}).catch((err) => {
-					console.log(err);
 				});
 			},
 			// 查询按钮

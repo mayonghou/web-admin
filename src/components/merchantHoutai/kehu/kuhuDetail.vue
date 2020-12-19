@@ -63,9 +63,12 @@ export default {
             }
         };
     },
+	watch:{
+		$route:'getDetailData'
+	},
     mounted() {
-        this.getDetailData();
-    },
+        this.getDetailData(); 
+	},
     methods: {
         returnKehu() {
             this.$router
@@ -83,9 +86,10 @@ export default {
                 this.fullscreenLoading = false;
                 if (res.status == 200) {
                     var data = res.data;
+					console.log(data.data);
                     if (data.code == 200) {
 						let zhengzhe = /^(https):/
-						let ddd = zhengzhe.test(data.data.avatar);
+						// let ddd = zhengzhe.test(data.data.avatar);
 						if(zhengzhe.test(data.data.avatar)){
 							this.kehuDetaildata.kehuAvater = data.data.avatar;
 						} else {

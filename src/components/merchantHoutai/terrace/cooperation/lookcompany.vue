@@ -1,8 +1,7 @@
 <template>
 	<div class="enterprise">
 		<div class="add_from">
-			<div style="width: 1200px; clear: both; margin-top: 30px;">
-				<!-- <el-button @click="editDetail" class="edit">编辑</el-button> -->
+			<div style="width: 100%; clear: both; margin-top: 30px;">
 			</div>
 			<el-form ref="addform" :model="addform">
 				<div class="add_Top">
@@ -22,7 +21,7 @@
 				</el-form-item>
 				<el-form-item label="营业执照:" prop="licenseUrl" :label-width="formLabelWidth">
 					<img v-if="addform.licenseUrl" :src="addform.licenseUrl" class="avatar uploadImg">
-					<el-button type="text" @click="examineZZ">查看大图</el-button>
+					<el-button v-if="addform.licenseUrl" type="text" @click="examineZZ">查看大图</el-button>
 				</el-form-item>
 				<el-form-item label="所属行业:" :label-width="formLabelWidth">
 					<el-input class="formWidth form" v-model="addform.industry" placeholder="请选择" disabled>
@@ -50,7 +49,7 @@
 				</el-form-item>
 				<el-form-item label="企业背景图:" prop="backgroundImage" :label-width="formLabelWidth">
 					<img v-if="addform.backgroundImage" :src="addform.backgroundImage" class="avatar uploadImg">
-					<el-button type="text" @click="examineBG">查看大图</el-button>
+					<el-button v-if="addform.backgroundImage" type="text" @click="examineBG">查看大图</el-button>
 					<label class="text">（企业名片、背景展示用图）</label>
 				</el-form-item>
 				<el-form-item label="企业logo:" prop="logoUrl" :label-width="formLabelWidth">
@@ -67,12 +66,12 @@
 				</el-form-item>
 				<el-form-item label="身份证图片:" prop="frontImage" :label-width="formLabelWidth">
 					<img v-if="addform.frontImage" :src="addform.frontImage" class="avatar uploadImg">
-					<el-button @click="frontImage" type="text">查看大图</el-button>
+					<el-button v-if="addform.frontImage" @click="frontImage" type="text">查看大图</el-button>
 				</el-form-item>
 				<!-- 身份证反面 -->
 				<el-form-item label="" prop="backImage" :label-width="formLabelWidth">
 					<img v-if="addform.backImage" :src="addform.backImage" class="avatar uploadImg">
-					<el-button @click="backImage" type="text">查看大图</el-button>
+					<el-button v-if="addform.backImage" @click="backImage" type="text">查看大图</el-button>
 				</el-form-item>
 				<div class="add_Top">企业账号信息</div>
 				<el-form-item label="账号类型:" prop="bankType" :label-width="formLabelWidth">
@@ -114,15 +113,14 @@
 	export default {
 		data() {
 			return {
-				action: '#',
 				formLabelWidth: '220px',
 				qyID: '',
 				fileList: '',
 				dialogVisiblebg: false,
 				dialogVisiblezz: false,
 				dialogVisiblogo: false,
-				dialogVisibbackImage: false,
-				dialogVisibfrontImage: false,
+				dialogVisibbackImage: false, 
+				dialogVisibfrontImage:false,
 				qyname: '',
 				time: '',
 				addform: {
@@ -161,10 +159,20 @@
 			this.editDatetl();
 		},
 		methods: {
-			frontImage() {
+			editDetail() {
+				this.$router.push({
+					path: './editEnterprise',
+					query: {
+						id: this.qyID
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			frontImage(){
 				this.dialogVisibfrontImage = true;
 			},
-			backImage() {
+			backImage(){
 				this.dialogVisibbackImage = true;
 			},
 			// 查看背景大图
@@ -179,7 +187,7 @@
 				var imageZZUrl = this.addform.licenseUrl;
 				this.imageZZUrl = imageZZUrl;
 			},
-			examineqiyeLogo() {
+			examineqiyeLogo(){
 				this.dialogVisiblogo = true;
 			},
 			returnIndex() {
@@ -191,45 +199,64 @@
 			},
 			// 查询企业信息
 			editDatetl() {
-				var id = this.$route.query.id;
-				this.$axios.get('admin/company/info/' + id).then((res) => {
-					if (res.status == 200) {
-						var data = res.data;
-						this.data = data.data;
-						if (data.code == 200) {
-							this.addform = data.data;
-							this.qyname = this.addform.name;
-							var date = new Date(data.data.time);
-							var GS_time = date.getFullYear() + '-' + (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() +
-								1) + '-' + date.getDate();
-							this.time = GS_time;
-							this.addform.backgroundImage = localStorage.getItem('imgUrl') + this.addform.backgroundImage;
-							this.addform.licenseUrl = localStorage.getItem('imgUrl') + this.addform.licenseUrl;
-							this.addform.logoUrl = localStorage.getItem('imgUrl') + this.addform.logoUrl;
-							this.addform.frontImage = localStorage.getItem('imgUrl') + data.data.frontImage;
-							this.addform.backImage = localStorage.getItem('imgUrl') + data.data.backImage;
-							this.addform.bankType = data.data.bankType == 0 ? '对私' : '对公';
-							this.addform.registerMoney = data.data.registerMoney / 100;
-							switch (data.data.businessType) {
-								case 0:
-									this.addform.businessType = '企业单位';
-									break;
-								case 1:
-									this.addform.businessType = '事业单位';
-									break;
-								case 2:
-									this.addform.businessType = '社会团体';
-									break;
-								case 3:
-									this.addform.businessType = '个体经营';
-									break;
-								case 4:
-									this.addform.businessType = '个体经营';
-									break;
+					var id = this.$route.query.id;
+					this.$axios.get('admin/company/info/' + loginData).then((res) => {
+						if (res.status == 200) {
+							var data = res.data;
+							if (data.code == 200) {
+								this.addform = data.data;
+								this.qyname = this.addform.name;
+								this.qyID = data.data.id;
+								var date = new Date(data.data.time);
+								var GS_time = date.getFullYear() + '-' + (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() +1) + '-' + date.getDate();
+								this.time = GS_time;
+								if(data.data.backgroundImage != ''){
+									this.addform.backgroundImage = localStorage.getItem('imgUrl') + data.data.backgroundImage;
+								}
+								if(data.data.licenseUrl != ''){
+									this.addform.licenseUrl = localStorage.getItem('imgUrl') + data.data.licenseUrl;
+								}
+								if(data.data.logoUrl != ''){
+									this.addform.logoUrl = localStorage.getItem('imgUrl') + data.data.logoUrl;
+								}
+								if(data.data.frontImage != ''){
+									this.addform.frontImage = localStorage.getItem('imgUrl') + data.data.frontImage;
+								}
+								if(data.data.backImage != ''){
+									this.addform.backImage = localStorage.getItem('imgUrl') + data.data.backImage;
+								}
+								this.addform.bankType = data.data.bankType == 0? '对私' : '对公';
+								this.addform.registerMoney = data.data.registerMoney / 1000000;
+								switch(data.data.businessType){
+									case 0:
+										this.addform.businessType = '企业单位';
+										break;
+									case 1:
+										this.addform.businessType = '事业单位';
+										break;
+									case 2:
+										this.addform.businessType = '社会团体';
+										break;
+									case 3:
+										this.addform.businessType = '个体经营';
+										break;
+									case 4:
+										this.addform.businessType = '个体经营';
+										break;
+								}
+								localStorage.setItem('industryId', this.addform.industryId);
+								localStorage.setItem('name', this.addform.legal);
+								localStorage.setItem('companyName', this.addform.name);
+							} else {
+								this.$message({
+									showClose: true,
+									message: data.msg,
+									type: 'error'
+								});
+								this.$router.push({
+									path: '/login'
+								});
 							}
-							localStorage.setItem('industryId', this.addform.industryId);
-							localStorage.setItem('name', this.addform.legal);
-							localStorage.setItem('companyName', this.addform.name);
 						} else {
 							this.$message({
 								showClose: true,
@@ -238,19 +265,9 @@
 							});
 							this.$router.push({
 								path: '/login'
-							});
+							})
 						}
-					} else {
-						this.$message({
-							showClose: true,
-							message: data.msg,
-							type: 'error'
-						});
-						this.$router.push({
-							path: '/login'
-						})
-					}
-				})
+					})
 			},
 
 			//查询行业
@@ -265,8 +282,9 @@
 
 	.add_from .edit {
 		float: right;
-		width: 66px;
-		height: 22px;
+		width: 70px;
+		height: 30px;
+		font-size: 14px;
 		margin-top: -30px;
 		line-height: 5px;
 		color: #fff;
@@ -289,19 +307,18 @@
 	}
 
 	.GS_rz {
-		margin-left: 260px;
+		margin-left: 30%;
 		color: #109955;
 	}
 
 	.GS_time {
 		float: right;
-		margin-right: 300px;
+		margin-right: 30px;
 		color: #109955;
 	}
 
 	.add_Top {
-		width: 1200px;
-		margin: 0 auto;
+		width: 100%;
 		height: 45px;
 		background: #FAFBFA;
 		margin-top: 30px;
@@ -312,8 +329,9 @@
 	}
 
 	.add_from {
-		width: 1200px;
-		margin: 0 auto;
+		width: 100%;
+		box-sizing: border-box;
+		padding: 20px;
 	}
 
 	.add_from .el-form-item {
@@ -324,7 +342,9 @@
 	.el-input {
 		width: 194px;
 	}
-
+	.add_from .el-form-item__label{
+		text-align: right;
+	}
 	.formWidth.form .el-input__inner {
 		width: 210px;
 		border-top: 0px;
@@ -351,8 +371,7 @@
 	}
 
 	.enterprise .uploadImg {
-		width: 100px;
-		height: 50px;
+		width: 250px;
 	}
 
 	.addBut {

@@ -21,6 +21,7 @@
 					<el-upload
 						class="avatar-uploader"
 						:action="action"
+						accept="image/*"
 						list-type="picture-card"
 						:show-file-list="false"
 						:on-change="licenseUpload"
@@ -87,6 +88,7 @@
 					<el-upload
 						class="avatar-uploader"
 						:action="action"
+						accept="image/*"
 						list-type="picture-card"
 						:on-change="backgroundUpload"
 						:auto-upload="true"
@@ -103,6 +105,7 @@
 					<el-upload
 					  class="avatar-uploader"
 					  :action="action"
+					  accept="image/*"
 					  list-type="picture-card"
 					  :on-change="logoUpload"
 					  :auto-upload="true"
@@ -128,6 +131,7 @@
 						list-type="picture-card"
 						:on-change="frontIUpload"
 						:auto-upload="true"
+						accept="image/*"
 						:show-file-list="false"
 						:on-success="frontImageSuccess"
 						ref="upload"
@@ -144,6 +148,7 @@
 						list-type="picture-card"
 						:on-change="backUpload"
 						:auto-upload="true"
+						accept="image/*"
 						:show-file-list="false"
 						:on-success="backImageSuccess"
 						ref="upload"
@@ -180,7 +185,6 @@
 </template>
 
 <script>
-	// import Function from './enterpriseAdmin/function.vue';
 	import address from '../../../api/address.json'
 	import { regionData } from 'element-china-area-data'
 	export default {
@@ -190,7 +194,7 @@
 				action:localStorage.getItem('actionUrl'),
 				qyname: '',
 				formLabelWidth: '220px',
-				addressOptions: regionData,
+				addressOptions: address,
 				time: '',
 				formData: {
 					name: '',

@@ -24,52 +24,17 @@
 					</div>
 				</div>
 			</div>
-			<div class="datacomparison">
-				<div class="data">
-					<div class="datatitle">代言企业销售额 TOP10商品</div>
-					<div class="shopping">
-						<div class="shoppingText">
-							<span class="shoppNameDD">三只松鼠</span>
-							<span class="shoppprogress">
-								<el-progress class="pro" :percentage="50" :show-text="false"></el-progress>
-							</span>
-						</div>
-						<div class="shoppingText">
-							<span class="shoppNameDD"></span>
-							<span class="shoppprogress">
-								<div class="shoppHengxiang">
-									<span>0万</span>
-									<span>50万</span>
-									<span>100万及以上</span>
-								</div>
-							</span>
-						</div>
-					</div>
+			
+			<div class="hengxiangcount">
+				<div class="shppingCount">
+					<h1 style="color: #264A77;">代言企业销售额 TOP10商品</h1>
+					<div id="myChart" :style="{width: '100%', height: '500px',}"></div>
 				</div>
-				<div class="data comparisonTwo">
-					<div class="datatitle daiyanData">双方企业代言数据对比</div>
-					<div class="company-text">
-						<span>我公司</span>
-						<span>对方公司</span>
-					</div>
-					<div class="companycompar">
-						<div class="companyLeft">
-							<div style="width: 100%;">
-								<span class="display shuliang">1000</span>
-								<span class="display changdu">
-									<el-progress class="pro" color="#00A8B3" :percentage="50" :show-text="false"></el-progress>
-								</span>
-							</div>
-						</div>
-						<div class="companyCenter" style="">购买用户</div>
-						<div class="companyRight">
-							<div style="width: 100%;">
-								<span class="right-text progressR">
-									<el-progress class="pro" color="#4D6FB7" :percentage="50" :show-text="false"></el-progress>
-								</span>
-								<span class="right-text shuzhiR">1000</span>
-							</div>
-						</div>
+				<div class="companyCount">
+					<h1 style="color: #264A77;">双方企业代言数据对比</h1>
+					<div class="companyduibi">
+						<div id="mycompanyduibi" :style="{width: '55%', height: '500px',}"></div>
+						<div id="duifangcompanyduibi" :style="{width: '49%', height: '500px',}"></div>
 					</div>
 				</div>
 			</div>
@@ -80,31 +45,31 @@
 		<el-dialog
 			title="关联优惠券"
 			:visible.sync="dialogVisible"
-			width="60%"
+			width="80%"
 		>
 			<div class="dialog-top">
 				<div class="search">
 					<el-input class="searchInput" v-model="orderSn" placeholder="请输入订单编号">
 						<i slot="prefix" class="el-input__icon el-icon-search"></i>
 					</el-input>
-					<el-button class="btn" type="text">搜索</el-button>
+					<el-button @click="seachBen" class="btn" type="text">搜索</el-button>
 				</div>
 			</div>
-			<el-table :data="tableData" style="width: 100%; margin: 0 auto; background: #F5F9F1;">
+			<el-table :data="tableData" border style="width: 100%;background: #F5F9F1;">
 				<el-table-column type="index" label="序号" align="center">
 				</el-table-column>
-				<el-table-column prop="" label="订单编号" align="center">
+				<el-table-column prop="orderSn" label="订单编号" align="center">
 				</el-table-column>
-				<el-table-column prop="" label="客户名" align="center">
+				<el-table-column prop="userName" label="客户名" align="center">
 				</el-table-column>
-				<el-table-column prop="" label="订单金额" align="center">
+				<el-table-column prop="payAmount" label="订单金额" align="center">
 					<template slot-scope="scope">
-						<label>{{scope.row.aa / 100 }}</label>
+						<label>￥{{scope.row.payAmount / 100 }}</label>
 					</template>
 				</el-table-column>
-				<el-table-column prop="time" label="来源客户" align="center">
+				<el-table-column prop="sourceUserName" label="来源客服" align="center">
 				</el-table-column>
-				<el-table-column prop="time" label="创建时间" align="center">
+				<el-table-column prop="createTime" label="创建时间" align="center">
 				</el-table-column>
 				<el-table-column label="操作" width="100" align="center">
 					<template slot-scope="scope">
@@ -136,21 +101,172 @@
 				dialogVisible: false,
 				page: 1,
 				limit: 10,
-				counts: this.counts || 1,
+				counts: this.counts,
 				tableData: [],
 				orderSn: '',
-				
 				orderCount: '',
 				totalSales: '',
 				userCount: '',
 				viewCount: '',
-				companyName: ''
+				companyName: '',
+				tp10Label: [],
+				tp10Value: []
 			}
+			
 		},
 		mounted() {
 			this.queryCompanyData();
+			this.drawLine();
+			this.companyDuuibi();
+			this.duifabngcompanyDuuibi();
 		},
 		methods: {
+			drawLine() {
+				// 基于准备好的dom，初始化echarts实例
+				let myChart = this.$echarts.init(document.getElementById('myChart'))
+				// 绘制图表
+				myChart.setOption({
+					title: {
+						text: '',
+					},
+					tooltip: {},
+					xAxis: {
+						type: 'value',
+						show: true,
+						axisLine:{
+							show: true,
+						},
+						splitLine:{
+							show: false
+						},
+						axisTick: {
+						    show:false //轴坐标点消失
+						},
+					},
+					yAxis: {
+						// type: 'category',
+						axisLine:{
+							show: false, //轴 线
+						},
+						splitLine:{
+							show: false, // 轴
+						},
+						axisTick: {
+						    show:false //坐标点消失
+						},
+						// data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子","衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+						data: this.tp10Label
+					},
+					series: [{
+						name: '销量',
+						color: '#0095D8',
+						type: 'bar',
+						barWidth : 10,
+						 itemStyle: {
+							normal: {
+							    barBorderRadius: 7
+							}
+						},
+						// data: [5, 20, 36, 10, 10, 20,30,40,50,60,90,70,]
+						data: this.tp10Value
+					}],
+				});
+			},
+			companyDuuibi(){
+				// 基于准备好的dom，初始化echarts实例
+				let companyDatas = this.$echarts.init(document.getElementById('mycompanyduibi'))
+				// 绘制图表
+				companyDatas.setOption({
+					title: {
+						text: '我公司',
+					},
+					tooltip: {},
+					xAxis: {
+						show: false,
+					},
+					yAxis: [
+					{
+						position:'right',
+						show: true, // 轴线 的显示隐藏
+						axisLine:{
+							show: false, //轴 线
+						},
+						splitLine:{
+							show: false, // 图内 轴线 消失
+						},
+						axisTick: {
+						    show:false //坐标点消失
+						},
+						data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子","衬衫"]
+					}],
+					grid: {
+						bottom:0,
+						right: 0,
+					    containLabel: true
+					},
+					series: [{
+						name: '',
+						color: '#0095D8',
+						type: 'bar',
+						barWidth : 10,
+						itemStyle: {
+							normal: {
+							    barBorderRadius: 7,
+							}
+						},
+						data: [-5, -20, -36, -10, -10, -20,-30]
+					}],
+					
+				});
+			},
+			duifabngcompanyDuuibi(){
+				// 基于准备好的dom，初始化echarts实例
+				let duifangcompanyDatas = this.$echarts.init(document.getElementById('duifangcompanyduibi'))
+				// 绘制图表
+				duifangcompanyDatas.setOption({
+					title: {
+						text: '对方公司',
+						right: 0,
+					},
+					tooltip: {},
+					xAxis: {
+						show: false,
+					},
+					grid: {  
+					    left: '-7%',  
+						bottom:0,
+					    containLabel: true
+					},
+					yAxis: [
+					{
+						show: false, // 轴线 的显示隐藏
+						axisLine:{
+							show: false, //轴 线
+						},
+						splitLine:{
+							show: false, // 图内 轴线 消失
+						},
+						axisTick: {
+						    show:false //坐标点消失
+						},
+						data: ["衬衫", "", "雪纺", "裤子", "高跟", "袜子","衬衫"]
+					}],
+					series: [{
+						name: '',
+						color: '#4D6FB7',
+						type: 'bar',
+						barWidth : 10,
+						itemStyle: {
+							normal: {
+							    barBorderRadius: 7,
+							}
+						},
+						data: [5, 20, 36, 10, 10, 20,30]
+					}],
+					
+				});
+			},
+			
 			lookOrderlist(){
 				this.dialogVisible = true;
 				this.getOrder();
@@ -165,8 +281,8 @@
 					if(res.status == 200){
 						var data = res.data;
 						if(data.code == 200){
-							this.tableData = data.dataList;
-							console.log(data);
+							this.tableData = data.data.dataList;
+							this.counts = data.data.totalCount;
 						} else {
 							this.$message({
 								showClose: true,
@@ -187,9 +303,11 @@
 				this.$router.push({
 					path: './orderDetail',
 					query: {
-						id: row.id
+						id: row.orderId,
+						data: row
 					}
 				});
+				this.dialogVisible = false;
 			},
 			handleSizeChange(val){
 				this.limit = val;
@@ -199,19 +317,23 @@
 				this.page = val;
 				this.getOrder();
 			},
+			seachBen(){
+				this.page = 1;
+				this.getOrder();
+			},
 			queryCompanyData(){
 				var id = this.$route.query.id
 				this.$axios.get('admin/company/queryCompanyData?partnerCompanyId='+id).then((res) => {
 					if (res.status == 200) {
 						var data = res.data;
 						if (data.code == 200) {
-							var ddd = data.data.partnerCompany;
+							var ddd = data.data.currentCompany;
 							this.companyName = localStorage.getItem('companyName');
 							this.orderCount = ddd.orderCount;
 							this.totalSales = ddd.totalSales;
 							this.userCount = ddd.userCount;
 							this.viewCount = ddd.viewCount;
-							console.log(this.orderCount);
+							console.log(ddd);
 						} else {
 							this.$message({
 								showClose: true,
@@ -398,17 +520,41 @@
 		height: 45px;
 		line-height: 45px;
 		background-color: #FAFFE0;
+		text-align: center;
 	}
 	.searchInput{
-		width: 90%;
+		width: 85%;
 	}
 	.search .btn{
 		color: #010101;
 		font-size: 14px;
 		display: inline-block;
+		margin-left: 10px;
 	}
-
-
-
+	.hengxiangcount{
+		display: flex;
+		justify-content: space-between;
+		padding-top: 30px;
+	}
+	.hengxiangcount .shppingCount{
+		width: 50%;
+	}
+	.hengxiangcount .companyCount{
+		width: 50%;
+		text-align: center;
+	}
+	.companyCount .companyduibi{
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+	}
+	.lookduibiList .el-table__row .tab_oragel{
+		width: 70px;
+		height: 30px;
+		font-size: 14px;
+		padding: 0;
+		background-color: #2450D2;
+		color: #FFFFFF;
+	}
 
 </style>

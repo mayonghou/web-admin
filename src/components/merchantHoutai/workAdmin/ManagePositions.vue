@@ -7,7 +7,7 @@
 			<el-button @click="del_positionAll" class="button tab_del">全部删除</el-button>
 		</div>
 		<!-- 表格 -->
-		<el-table :data="tableData" style="100%;" @selection-change="postionChange">
+		<el-table :data="tableData" border style="100%;" @selection-change="postionChange">
 			<el-table-column type="selection" align="center">
 			</el-table-column>
 			<el-table-column prop="index" type="index" label="序号" align="center">

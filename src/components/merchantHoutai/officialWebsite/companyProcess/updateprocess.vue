@@ -102,7 +102,6 @@ export default {
         proSuccess(response, file, fileLsit) {
             if(response.code == 200){
 				var list = this.addproduct.processlist[this.addproduct.processlist.length -1 ];
-				console.log(list);
 				list.processImg = localStorage.getItem('imgUrl') +  response.data;
 				list.url = response.data;
 			} else {
@@ -155,6 +154,7 @@ export default {
 								});
 							}
 						});
+					}).catch(err => {
 					});
 				}
 			});

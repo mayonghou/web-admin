@@ -24,9 +24,9 @@
 				<div class="jbxx fl">基本信息：</div>
 				<el-button class="returnOrd" @click="returnOrder">返回</el-button>
 				<el-button class="returnOrd" v-if="this.status == 5 && this.status == 3 && this.status == 4" @click="delorderSn">删除订单</el-button>
-				<el-button class="lijifahuo" v-if="this.status == 1 && this.groupDTO != null && this.groupDTO.status == 2" @click="atOnceDelivery">立即发货</el-button>
+				<el-button class="lijifahuo" v-if="this.status == 1 && this.groupDTO != null && this.groupDTO.status == 2 && this.selfRaisingMethod != '到店消费' && this.selfRaisingMethod != '自提带走'" @click="atOnceDelivery">立即发货</el-button>
 				<el-button class="lijifahuo" v-if="this.status == 1 && this.groupDTO == null && this.selfRaisingMethod != '到店消费' && this.selfRaisingMethod != '自提带走'" @click="atOnceDelivery">立即发货</el-button>
-				<el-button class="lijifahuo" v-show="this.status == 2" @click="lookLogistics">查看物流</el-button>
+				<el-button class="lijifahuo" v-show="this.status == 2 && this.selfRaisingMethod == '物流配送'" @click="lookLogistics">查看物流</el-button>
 			</div>
 			<ul class="detailUl">
 				<li class="detailli width">
@@ -39,7 +39,7 @@
 				</li>
 				<li class="detailli width">
 					<div class="detail width">订单金额</div>
-					<div class="detail active" v-model="payAmount">￥{{payAmount / 100}}</div>
+					<div class="detail active">￥{{this.payAmount / 100}}</div>
 				</li>
 				<li class="detailli width">
 					<div class="detail ">客服名</div>
@@ -142,7 +142,7 @@
 				</li>
 				<li class="detailli shouhuo">
 					<div class="detail">配送费</div>
-					<div class="detail active" v-model="peisongfei">￥{{peisongfei}}</div>
+					<div class="detail active">￥{{this.peisongfei / 100}}</div>
 				</li>
 				<li class="detailli shouhuo">
 					<div class="detail">优惠券</div>
@@ -156,11 +156,11 @@
 				</li>
 				<li class="detailli shouhuo">
 					<div class="detail">订单总金额</div>
-					<div class="detail red active" v-model="orderCountmeney">￥{{orderCountmeney}}</div>
+					<div class="detail red active">￥{{this.orderCountmeney / 100}}</div>
 				</li>
 				<li class="detailli shouhuo">
 					<div class="detail">应付款金额</div>
-					<div class="detail red active" v-model="yingfumenay">￥{{yingfumenay}}</div>
+					<div class="detail red active">￥{{this.yingfumenay / 100}}</div>
 				</li>
 			</ul>
 		</div>
@@ -424,11 +424,9 @@
 							let tableListData = data.data.orderInfo;
 							this.userName = tableListData.memberName;
 							this.orderSn = tableListData.orderSn;
-							this.payAmount = tableListData.payAmount;
+							this.payAmount = tableListData.totalAmount;
 							this.selfRaisingMethod = tableListData.selfRaisingMethod;
 							this.consumerService = tableListData.consumerService;
-							
-							console.log(tableListData.pickupMethod);
 							if(tableListData.pickupMethod == 0){
 								if(tableListData.selfRaisingMethod == 0) {
 									this.selfRaisingMethod = '自提带走';
@@ -492,8 +490,7 @@
 								list[index] = val;
 								list[index].productPic = localStorage.getItem('imgUrl') + val.productPic;
 								list[index].attr = val.productAttr;
-								// subTotal = val.subTotal || val.productQuantity * (val.realAmount - val.realAmount);
-								subTotal = val.productQuantity * (val.price - val.realAmount);
+								subTotal = val.subTotal;
 								youhuijuan = val.realAmount;
 								shuliang = val.productQuantity;
 							});
@@ -501,15 +498,14 @@
 							this.countPrice = subTotal;
 							this.youhuijuan = youhuijuan;
 							this.hedongyouhui = youhuijuan;
-							
 							// 费用信息
 							this.shoppCount = this.countPrice; // 商品合计
 							this.shoppCount = subTotal;
-							// this.peisongfei =  ;// 配送费
+							this.peisongfei = tableListData.freightAmount;// 配送费
 							this.youhuijuan = youhuijuan; //优惠券
 							this.hedongyouhui = youhuijuan; // 活动价格
-							this.orderCountmeney = subTotal * shuliang / 100;// 订单总金额
-							this.yingfumenay = this.orderCountmeney - this.hedongyouhui - this.youhuijuan; //应付款
+							this.orderCountmeney = tableListData.totalAmount;// 订单总金额
+							this.yingfumenay = tableListData.payAmount; //应付款
 						} else {
 							this.$message({
 								showClose: true,

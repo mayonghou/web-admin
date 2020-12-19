@@ -817,7 +817,7 @@
 		justify-content: space-around;
 	}
 	.situationRanking .SR-Left .left-bottom .bottom {
-		width: 40%;
+		width: 49%;
 	}
 	.SR-Left .left-bottom .bottom-left .box-card{
 		padding: 40px;

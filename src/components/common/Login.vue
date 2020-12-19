@@ -59,10 +59,10 @@
 						_this.$axios.get('admin/system/login?account=' + _this.param.username + '&password=' + _this.param.password)
 							.then(function(res) {
 								loading.close();
-								console.log(res);
 								if (res.status == 200) {
 									var data = res.data;
 									if (data.code == 200) {
+										localStorage.getItem('avatar',data.data.avatar);
 										localStorage.setItem('loginData', data.data.companyId);
 										localStorage.setItem('sjid', data.data.id);
 										localStorage.setItem('token', data.data.token);

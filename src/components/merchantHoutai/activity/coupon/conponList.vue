@@ -83,6 +83,7 @@
 		methods: {
 			// 查看详情
 			lookdetail(row) {
+				
 				this.$router.push({
 					path: './detailCoupon',
 					query: {

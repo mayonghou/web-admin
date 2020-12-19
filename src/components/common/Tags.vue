@@ -72,12 +72,19 @@
                         path: route.fullPath,
                         name: route.matched[1].components.default.name
                     })
+					// for(var i = 0; i<this.tagsList.length; i++){
+					// 	for(var j = i+1; j<this.tagsList.length;j++){
+					// 		if(this.tagsList[i] == this.tagsList[j]){
+					// 			this.tagsList.splice(j, j-1);
+					// 			j--;
+					// 		}
+					// 	}
+					// }
                 }
                 bus.$emit('tags', this.tagsList);
             },
             handleTags(command){
                 command === 'other' ? this.closeOther() : this.closeAll();
-				console.log(command);
             }
         },
         computed: {

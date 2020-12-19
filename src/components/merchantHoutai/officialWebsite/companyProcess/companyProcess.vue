@@ -69,10 +69,8 @@ export default {
 						dataLsit[index].time = time1;
 						if(aaas.test(val.detail[0].url)){
 							sdas = val.detail[0].url;
-							console.log('true',sdas);
 						} else {
 							sdas = localStorage.getItem('imgUrl') + val.detail[0].url;
-							console.log('false',sdas);
 						}
 						dataLsit[index].detailUrl = sdas;
 						dataLsit[index].detailcontent = val.detail[0].content;
@@ -118,6 +116,7 @@ export default {
 						});
 					}
 				});
+			}).catch(err => {
 			});
 		},
         addprocessdd(){

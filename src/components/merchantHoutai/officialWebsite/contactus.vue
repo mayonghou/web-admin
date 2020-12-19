@@ -125,7 +125,6 @@
 						background: 'rgba(0, 0, 0, 0.7)'
 					});
 					this.$axios.post('api/partner/add/company/contact', datalist).then((res) => {
-						console.log(res);
 						loading.close();
 						if(res.status == 200){
 							var data = res.data;
@@ -151,7 +150,7 @@
 						}
 						
 					});
-				});
+				}).catch(err=>{});
 			},
 		}
 	}

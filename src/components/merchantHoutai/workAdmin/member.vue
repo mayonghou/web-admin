@@ -27,7 +27,7 @@
 			<el-button @click="del_All" class="tab_del button">全部删除</el-button>
 		</div>
 		<!-- 表格 -->
-		<el-table :data="tableData" style="width: 100%;" @selection-change="handleSelectionChange">
+		<el-table :data="tableData" border style="width: 100%;" @selection-change="handleSelectionChange">
 			<el-table-column type="selection" width="80" align="center">
 			</el-table-column>
 			<el-table-column prop="name" label="姓名" align="center">
@@ -40,7 +40,7 @@
 			</el-table-column>
 			<el-table-column prop="time" label="添加时间" align="center">
 			</el-table-column>
-			<el-table-column label="操作" width="400" align="center">
+			<el-table-column label="操作" width="410" align="center">
 				<template slot-scope="scope">
 					<el-button @click="setupStaff(scope.row)" v-if="scope.row.service == false" class="kefubutton">设为客服</el-button>
 					<el-button @click="quxiaokufu(scope.row)" v-if="scope.row.service == true" class="kefufalse">取消客服</el-button>
@@ -68,6 +68,7 @@
 					<el-upload
 						class="avatar-uploader"
 						:action="action"
+						accept="image/*"
 						list-type="picture-card"
 						:on-change="changeUpload"
 						:auto-upload="false"
@@ -122,6 +123,7 @@
 						list-type="picture-card"
 						:on-change="changeUpload"
 						:auto-upload="false"
+						accept="image/*"
 						:on-success="updateHeadSuccess"
 						:show-file-list="false"
 						ref="uploadupdata">
@@ -173,6 +175,7 @@
 						:action="action"
 						list-type="picture-card"
 						:auto-upload="false"
+						accept="image/*"
 						:on-change="changeUpload"
 						:show-file-list="false"
 						:on-success="exchangeSuccess"
@@ -246,7 +249,7 @@
 					}
 				}
 			}; 
-			// 验证
+			// 邮箱验证
 			const validateEmil = (rule, value, callback) => {
 				if (value === "") {
 					callback(new Error("请输入邮箱"));
@@ -320,7 +323,6 @@
 						{required: true, validator: validatePhone, trigger: "blur" },
 						{ required: true, message: '电话不能为空', trigger: 'blur' },
 						{min: 11, max: 11, message: '电话号码有11位',trigger: "blur" },
-						{ type:'number', message: '电话只能是数字',trigger: "blur" }
 					],
 					WeChat: [{
 						required: true,

@@ -149,13 +149,6 @@
 					this.uopdateproduct.image = localStorage.getItem('imgUrl') + response.data;
 					this.ShowNone = true;
 					this.dialogVisible = false;
-				} else if(response.code == 500){
-					this.$message({
-						showClose: true,
-						message: "图片上传失败",
-						type: 'error'
-					});
-					this.imgUrl = '';
 				} else {
 					this.$message({
 						showClose: true,
@@ -229,7 +222,7 @@
 								}
 							})
 							
-						});
+						}).catch(err=>{});
 					}
 				});
 			}
