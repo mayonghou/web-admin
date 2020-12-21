@@ -4,7 +4,7 @@
 		<!-- 导航 -->
 		<div class="button" @click="tabqiuehuan">
 			<div class="but active">商城数据</div>
-			<div class="but ">招聘数据</div>
+			<div @click="zhaopiData" class="but ">招聘数据</div>
 			<div class="but">房源数据</div>
 		</div>
 
@@ -12,31 +12,31 @@
 		<div class="shoppingmall tab-list active">
 			<!-- 头部总数 -->
 			<div class="shoppingmall-top">
-				<div class="top-text top-sale">
-					<img class="img" src="../../../../assets/img/md-account_balance_wallet.svg" />
+				<div class="top-text">
+					<img class="img" src="../../../../assets/img/dataCenter/jiaoyi.png" />
 					<div class="top-countNum">
-						<div class="countNum-top">￥123156</div>
+						<div class="countNum-top">￥{{this.shangcheng.saleTotal}}</div>
 						<div class="countNum-bottom">今日销售总额</div>
 					</div>
 				</div>
-				<div class="top-text top-order">
-					<img class="img" src="../../../../assets/img/fasfa-user.svg" />
+				<div class="top-text">
+					<img class="img" src="../../../../assets/img/dataCenter/jiaoyi.png" />
 					<div class="top-countNum">
-						<div class="countNum-top">4522213</div>
+						<div class="countNum-top">{{this.shangcheng .orderTotal}}</div>
 						<div class="countNum-bottom">今日订单量</div>
 					</div>
 				</div>
-				<div class="top-text top-market">
-					<img class="img" src="../../../../assets/img/md-comment.svg" />
+				<div class="top-text">
+					<img class="img" src="../../../../assets/img/dataCenter/chuhuo.png" />
 					<div class="top-countNum">
-						<div class="countNum-top">123156</div>
+						<div class="countNum-top">{{this.shangcheng.sendGoodsTotal}}</div>
 						<div class="countNum-bottom">今日出货量</div>
 					</div>
 				</div>
 				<div class="top-text top-browse">
-					<img class="img" src="../../../../assets/img/md-visibilityCopy.svg" />
+					<img class="img" src="../../../../assets/img/dataCenter/liulan.png" />
 					<div class="top-countNum">
-						<div class="countNum-top">123156</div>
+						<div class="countNum-top">{{this.shangcheng.viewTotal}}</div>
 						<div class="countNum-bottom">今日浏览量</div>
 					</div>
 				</div>
@@ -47,25 +47,25 @@
 				<div class="kehuCount">
 					<el-card class="box-card">
 						<div slot="header" class="kehu-card">
-							<div>客户统计</div>
+							<div style="color: #2D353E; font-size: 22px;">客户统计</div>
 							<div>单位（个）</div>
 						</div>
 						<div class="text item">
 							<div>
-								<div style="font-size: 28px;">0</div>
-								<div style="font-size: 8px;">今日新增</div>
+								<div style="font-size: 36px;">{{this.shoppCountsData.toDayAdd}}</div>
+								<div style="font-size: 18px;">今日新增</div>
 							</div>
 							<div>
-								<div style="font-size: 28px;">112</div>
-								<div style="font-size: 8px;">昨日新增</div>
+								<div style="font-size: 36px;">{{this.shoppCountsData.yesDayAdd}}</div>
+								<div style="font-size: 18px;">昨日新增</div>
 							</div>
 							<div>
-								<div style="font-size: 28px;">312</div>
-								<div style="font-size: 8px;">本月新增</div>
+								<div style="font-size: 36px;">{{this.shoppCountsData.monthAdd}}</div>
+								<div style="font-size: 18px;">本月新增</div>
 							</div>
 							<div>
-								<div style="font-size: 28px;">4312</div>
-								<div style="font-size: 8px;">今日新增</div>
+								<div style="font-size: 36px;">{{this.shoppCountsData.total}}</div>
+								<div style="font-size: 18px;">客户总数</div>
 							</div>
 						</div>
 					</el-card>
@@ -74,25 +74,25 @@
 				<div class="shoppingCount">
 					<el-card class="box-card">
 						<div slot="header" class="kehu-card">
-							<div>商品统计</div>
+							<div style="color: #2D353E; font-size: 22px;">商品统计</div>
 							<div>单位（件）</div>
 						</div>
 						<div class="text item">
 							<div>
-								<div style="font-size: 28px;">4564566</div>
-								<div style="font-size: 8px;">商品总数</div>
+								<div style="font-size: 36px;">{{this.goodsCountsData.total}}</div>
+								<div style="font-size: 18px;">商品总数</div>
 							</div>
 							<div>
-								<div style="font-size: 28px;">112</div>
-								<div style="font-size: 8px;">代言企业</div>
+								<div style="font-size: 36px;">{{this.goodsCountsData.endorsement}}</div>
+								<div style="font-size: 18px;">代言企业</div>
 							</div>
 							<div>
-								<div style="font-size: 28px;">312</div>
-								<div style="font-size: 8px;">今日上架</div>
+								<div style="font-size: 36px;">{{this.goodsCountsData.toDayUp}}</div>
+								<div style="font-size: 18px;">今日上架</div>
 							</div>
 							<div>
-								<div style="font-size: 28px;">4312</div>
-								<div style="font-size: 8px;">今日下架</div>
+								<div style="font-size: 36px;">{{this.goodsCountsData.toDayDn}}</div>
+								<div style="font-size: 18px;">今日下架</div>
 							</div>
 						</div>
 					</el-card>
@@ -111,23 +111,23 @@
 								<div class="text item">
 									<div class="text-item">
 										<div style="color: #101010; font-size: 13px;">待支付订单：</div>
-										<div style="color:#55CA7D;">0</div>
+										<div style="color:#55CA7D;">{{this.orderCountssituation.noPayCount}}</div>
 									</div>
 									<div class="text-item">
 										<div style="color: #101010; font-size: 13px;">待发货订单：</div>
-										<div style="color:#55CA7D;">10</div>
+										<div style="color:#55CA7D;">{{this.orderCountssituation.noSendCount}}</div>
 									</div>
 									<div class="text-item">
 										<div style="color: #101010; font-size: 13px;">待收货订单：</div>
-										<div style="color:#55CA7D;">100</div>
+										<div style="color:#55CA7D;">{{this.orderCountssituation.noReceiveCount}}</div>
 									</div>
 									<div class="text-item">
 										<div style="color: #101010; font-size: 13px;">已成交订单数：</div>
-										<div style="color:#55CA7D;">156</div>
+										<div style="color:#55CA7D;">{{this.orderCountssituation.successCount}}</div>
 									</div>
 									<div class="text-item">
 										<div style="color: #101010; font-size: 13px;">交易失败：</div>
-										<div style="color:#55CA7D;">541665</div>
+										<div style="color:#55CA7D;">{{this.orderCountssituation.failCount}}</div>
 									</div>
 								</div>
 							</el-card>
@@ -140,23 +140,23 @@
 								<div class="text item">
 									<div class="text-item">
 										<div style="color: #101010; font-size: 13px;">待审核商品：</div>
-										<div style="color:#55CA7D;">0</div>
+										<div style="color:#55CA7D;">{{this.goodsCountssituation.noVerifyCount}}</div>
 									</div>
 									<div class="text-item">
 										<div style="color: #101010; font-size: 13px;">库存警告商品：</div>
-										<div style="color:#55CA7D;">10</div>
+										<div style="color:#55CA7D;">{{this.goodsCountssituation.stockWarnCount}}</div>
 									</div>
 									<div class="text-item">
 										<div style="color: #101010; font-size: 13px;">上架商品：</div>
-										<div style="color:#55CA7D;">100</div>
+										<div style="color:#55CA7D;">{{this.goodsCountssituation.upCount}}</div>
 									</div>
 									<div class="text-item">
 										<div style="color: #101010; font-size: 13px;">下架商品：</div>
-										<div style="color:#55CA7D;">156</div>
+										<div style="color:#55CA7D;">{{this.goodsCountssituation.dnCount}}</div>
 									</div>
 									<div class="text-item">
 										<div style="color: #101010; font-size: 13px;">已售商品数量：</div>
-										<div style="color:#55CA7D;">541665</div>
+										<div style="color:#55CA7D;">{{this.goodsCountssituation.saleCount}}</div>
 									</div>
 								</div>
 							</el-card>
@@ -169,15 +169,15 @@
 								<div class="text item">
 									<div class="text-item">
 										<div style="color: #101010;">潜在客户：</div>
-										<div style="color:#55CA7D;">0</div>
+										<div style="color:#55CA7D;">{{this.ConsumerCountssituation.potentialCount}}</div>
 									</div>
 									<div class="text-item">
-										<div style="color: #101010;">客户数量：</div>
-										<div style="color:#55CA7D;">10</div>
+										<div style="color: #101010;">客服数量：</div>
+										<div style="color:#55CA7D;">{{this.ConsumerCountssituation.serviceCount}}</div>
 									</div>
 									<div class="text-item">
 										<div style="color: #101010;">今日活跃：</div>
-										<div style="color:#55CA7D;">156</div>
+										<div style="color:#55CA7D;">{{this.ConsumerCountssituation.todayActiveCount}}</div>
 									</div>
 									<div class="text-item">
 									</div>
@@ -190,18 +190,20 @@
 					<div class="left-bottom">
 						<div class="bottom bottom-left">
 							<el-card class="box-card">
-								<div class="text">今日转换率</div>
-								<div class="baifengbi">85%</div>
-								<el-progress :show-text="false" :stroke-width="20" :percentage="percentagezhuanghuan"></el-progress>
+								<div class="text">
+									<span>今日转换率</span>
+								</div>
+								<div class="baifengbi">{{this.conversionRate}}%</div>
+								<el-progress :show-text="false" :stroke-width="20" :percentage="conversionRate"></el-progress>
 							</el-card>
 						</div>
 						<div class="bottom bottom-right">
 							<el-card class="box-card">
-								<div class="box-text" style="margin-right: 60px;">
+								<div class="box-text" style="margin-right: 100px;  padding:0 20px;">
 									<div class="text">复购率</div>
-									<div class="baifengbi">25%</div>
+									<div class="baifengbi">{{this.repeatRate}}%</div>
 								</div>
-								<el-progress type="circle" :show-text="false" color="#34C758" stroke-linecap="square" :stroke-width="20" :percentage="percentagefugouy"></el-progress>
+								<el-progress type="circle" style="margin-left: 80px;" :show-text="false" color="#34C758" stroke-linecap="square" :stroke-width="20" :percentage="repeatRate"></el-progress>
 							</el-card>
 						</div>
 					</div>
@@ -213,11 +215,11 @@
 							<img width="20" height="20" src="../../../../assets/img/antOutline-riseCopy.svg" />
 							<span style="font-size: 16px; font-weight: bolder;margin-left: 5px;">销售额排名(元)</span>
 						</div>
-						<div v-for="o in 10" :key="o" class="text item">
-							<div :class="'index'+ o" class="index">{{o}}</div>
+						<div v-for="(item,index) in this.productList" :key="index" class="text item">
+							<div :class="'index'+ (index + 1)" class="index">{{index + 1}}</div>
 							<div class="sole">
-								<div>销售人员{{o}}号</div>
-								<div>1546</div>
+								<div>{{item.name}}</div>
+								<div>{{item.value / 100}}</div>
 							</div>
 						</div>
 					</el-card>
@@ -229,53 +231,65 @@
 				<div class="orderMarket">
 					<!-- 订单统计 -->
 					<div class="ordermeter">
-						<div class="meter">
-							<label class="meterspan">七天</label>
-							<label class="meterspan">一月</label>
-							<label class="meterspan">一年</label>
-							<el-date-picker
-								v-model="value1"
-								type="date"
-								placeholder="选择日期">
-							</el-date-picker>
-						</div>
-						<div id="orderChart" ref="orders" :style="{width: '750px', height: '300px',}"></div>
+						<el-card>
+							<div class="meter">
+								<label @click="statTimeType1" class="meterspan">七天</label>
+								<label @click="statTimeType2" class="meterspan">一月</label>
+								<label @click="statTimeType3" class="meterspan">一年</label>
+								<el-date-picker
+									v-model="value1"
+									type="date"
+									placeholder="选择日期"
+									value-format="yyyy-MM-dd"
+									@change="changeTime"
+									>
+								</el-date-picker>
+							</div>
+							<div id="orderChart" ref="orders" :style="{width: '850px', height: '300px',}"></div>
+						</el-card>
 					</div>
 					<!-- 销售统计 -->
 					<div class="Marketmeter">
+						<el-card>
 						<div class="meter">
-							<label class="meterspan">七天</label>
-							<label class="meterspan">一月</label>
-							<label class="meterspan">一年</label>
+							<label @click="timeType1" class="meterspan">七天</label>
+							<label @click="timeType2" class="meterspan">一月</label>
+							<label @click="timeType3" class="meterspan">一年</label>
 							<el-date-picker
 								v-model="value2"
 								type="date"
-								placeholder="选择日期">
+								placeholder="选择日期"
+								value-format="yyyy-MM-dd"
+								@change="changeTime2"
+								>
 							</el-date-picker>
 						</div>
-						<div id="marketChart" :style="{width: '750px', height: '300px',}"></div>
+						<div id="marketChart" :style="{width: '850px', height: '300px',}"></div>
+						</el-card>
 					</div>
 				</div>
 				<!-- 前十订单 -->
 				<div class="orderforefront">
-					<div class="order-top-a">
-						<img width="16" src="../../../../assets/img/antOutline-riseCopy.svg" />
-						订单量前十的商品
-					</div>
-					<ul class="orderUl">
-						<li class="orderLi" v-for="i in 10" :key="i">
-							<div :class="'orderIndex'+ i" class="orderIndex">{{i}}</div>
-							<div class="orderText">
-								<div class="shoppName">三只松鼠</div>
-								<div class="orderAmount">
-									<div class="progress">
-										<div class="progress-data"></div>
+					<el-card>
+						<div class="order-top-a">
+							<img width="16" src="../../../../assets/img/antOutline-riseCopy.svg" />
+							订单量前十的商品
+						</div>
+						<ul class="orderUl">
+							<li class="orderLi" v-for="(item,i) in this.orderList" :key="i">
+								<div :class="'orderIndex'+ (i+1)" class="orderIndex">{{i+1}}</div>
+								<div class="orderText">
+									<div class="shoppName">{{item.name}}</div>
+									<div class="orderAmount">
+										<div class="progress">
+											<el-progress :show-text="false" :percentage="item.value"></el-progress>
+										</div>
+										<div class="commit">{{item.value}}</div>
 									</div>
-									<div class="commit">15651563135</div>
 								</div>
-							</div>
-						</li>
-					</ul>
+							</li>
+						</ul>
+					</el-card>
 				</div>
 			</div>
 		</div>
@@ -321,7 +335,7 @@
 					      placeholder="选择月">
 					    </el-date-picker>
 				</div>
-				<div id="positionEcharts" :style="{width: '1200px', height: '300px',}"></div>
+				<div id="positionEcharts"  :style="{width: '1578px', height: '300px',}"></div>
 			</div>
 			<!-- 招聘简历的平台数据 -->
 			<div class="resumeData">
@@ -334,14 +348,14 @@
 						     :value="item.value">
 						   </el-option>
 					</el-select>
-					<div id="resumeDataPie" :style="{width:'590px',height:'300px',}"></div>
+					<div id="resumeDataPie" class="resumeDataPie" :style="{width:'590px',height:'300px',}"></div>
 				</div>
 				<div class="echartstable">
 					<el-table :data="tableData">
 						<el-table-column prop="" type="index" label="排名" align="center">
-							<template slot-scope="scope">
+							<!-- <template slot-scope="scope">
 								<div class="">{{scope.row.index}}</div>
-							</template>
+							</template> -->
 						</el-table-column>
 						<el-table-column prop="gongzuo" label="工作经验" align="center"></el-table-column>
 						<el-table-column prop="baifen" label="占比%" width="300" align="center">
@@ -408,8 +422,8 @@
 		data() {
 			return {
 				activeIndex: "1",
-				percentagezhuanghuan: 85,
-				percentagefugouy: 25,
+				// percentagezhuanghuan: this.conversionRate,
+				// percentagefugouy: 25,
 				value1: '',
 				value2: '',
 				selectName: '',
@@ -435,60 +449,373 @@
 				    value: '选项3',
 				    label: '蚵仔煎'
 				}],
+				shoppCountsData: {}, // 数据中心商城数据客户统计
+				goodsCountsData: {}, // 数据中心商场数据商品统计
+				goodsCountssituation: {}, //数据中心商城数据 商品情况
+				orderCountssituation: {}, //数据中心商城数据 订单情况
+				ConsumerCountssituation: {}, //数据中心商城数据 客户情况
+				conversionRate: this.conversionRate, //转化率
+				repeatRate: this.repeatRate, //复购率
+				productList:[] ,// 销售额排名
+				orderList: [],
+				statTimeType: 3,
+				statTimeTypes: 3,
+				shangcheng: {},
 			}
 		},
+		mounted() {
+			this.orderEcharts();
+			this.marketEcharts();
+			// this.positionEchartData();
+			// this.resumeJobPie();
+			this.housingechartpar();
+			this.getAdminConsumerDataStat();
+			this.getAdminProductDataStat();
+			this.getAdminDataCenterOrder();
+			this.getAdminDataCenterConsumer();
+			this.getAdminDataCenterPageMiddle();
+			this.getQueryPageHeaderData();
+			this.getAdminDataCenterProduct();
+		},
 		methods: {
+			// 数据中心商城数据客户统计
+			getAdminConsumerDataStat(){
+				this.$axios.get('admin/mall/dataCenter/getAdminConsumerDataStat').then((res) => {
+					if(res.status == 200){
+						var data = res.data;
+						if(data.code == 200){
+							this.shoppCountsData = data.data;
+						} else {
+							this.$message({
+								showClose: true,
+								message: data.msg,
+								type: 'error'
+							});
+						}
+					} else {
+						this.$message({
+							showClose: true,
+							message: res.data.msg,
+							type: 'error'
+						});
+					}
+				});
+			},
+			// 数据中心商场数据商品统计
+			getAdminProductDataStat(){
+				this.$axios.get('admin/mall/dataCenter/getAdminProductDataStat').then((res) => {
+					if(res.status == 200){
+						var data = res.data;
+						if(data.code == 200){
+							this.goodsCountsData = data.data;
+						} else {
+							this.$message({
+								showClose: true,
+								message: data.msg,
+								type: 'error'
+							});
+						}
+					} else {
+						this.$message({
+							showClose: true,
+							message: res.data.msg,
+							type: 'error'
+						});
+					}
+				});
+			},
+			// 数据中心商城数据 商品情况
+			getAdminDataCenterProduct(){
+				this.$axios.get('admin/mall/dataCenter/getAdminDataCenterProduct').then((res) => {
+					if(res.status == 200){
+						var data = res.data;
+						if(data.code == 200){
+							this.goodsCountssituation = data.data;
+						} else {
+							this.$message({
+								showClose: true,
+								message: data.msg,
+								type: 'error'
+							});
+						}
+					} else {
+						this.$message({
+							showClose: true,
+							message: res.data.msg,
+							type: 'error'
+						});
+					}
+				});
+			},
+			// 数据中心商城数据 订单情况
+			getAdminDataCenterOrder(){
+				this.$axios.get('admin/mall/dataCenter/getAdminDataCenterOrder').then((res) => {
+					if(res.status == 200){
+						var data = res.data;
+						if(data.code == 200){
+							this.orderCountssituation = data.data;
+						} else {
+							this.$message({
+								showClose: true,
+								message: data.msg,
+								type: 'error'
+							});
+						}
+					} else {
+						this.$message({
+							showClose: true,
+							message: res.data.msg,
+							type: 'error'
+						});
+					}
+				});
+			},
+			// 数据中心商城数据 客户情况
+			getAdminDataCenterConsumer(){
+				this.$axios.get('admin/mall/dataCenter/getAdminDataCenterConsumer').then((res) => {
+					if(res.status == 200){
+						var data = res.data;
+						if(data.code == 200){
+							this.ConsumerCountssituation = data.data;
+						} else {
+							this.$message({
+								showClose: true,
+								message: data.msg,
+								type: 'error'
+							});
+						}
+					} else {
+						this.$message({
+							showClose: true,
+							message: res.data.msg,
+							type: 'error'
+						});
+					}
+				});
+			},
+			// 转化率，复购率，top排行 销售额排行 订单量排行
+			getAdminDataCenterPageMiddle(){
+				this.$axios.get('admin/mall/dataCenter/getAdminDataCenterPageMiddle').then((res) => {
+					if(res.status == 200){
+						var data = res.data;
+						if(data.code == 200){
+							this.conversionRate = parseInt(data.data.conversionRate);
+							this.repeatRate = parseInt(data.data.repeatRate);
+							this.productList = data.data.productList;
+							this.orderList = data.data.orderList;
+						} else {
+							this.$message({
+								showClose: true,
+								message: data.msg,
+								type: 'error'
+							});
+						}
+					} else {
+						this.$message({
+							showClose: true,
+							message: res.data.msg,
+							type: 'error'
+						});
+					}
+				});
+			},
+			// 数据中心 、商城数据
+			getQueryPageHeaderData(){
+				this.$axios.get('admin/mall/queryPageHeaderData').then((res) => {
+					if(res.status == 200){
+						let data = res.data;
+						if(data.code ==  200){
+							this.shangcheng = data.data;
+							this.shangcheng.saleTotal = data.data.saleTotal / 100;
+						} else {
+							this.$message({
+								showClose: true,
+								message: data.msg,
+								type: 'error'
+							});
+						}
+					} else {
+						this.$message({
+							showClose: true,
+							message: res.data.msg,
+							type: 'error'
+						});
+					}
+				});
+			},
+			
 			handleSelect(key, keyPath) {
 				// console.log(key, keyPath);
 			},
+			
+			statTimeType1(){
+				this.statTimeType = 0;
+				this.orderEcharts();
+			},
+			statTimeType2(){
+				this.statTimeType = 1;
+				this.orderEcharts();
+			},
+			statTimeType3(){
+				this.statTimeType = 2;
+				this.orderEcharts();
+			},
+			changeTime(value){
+				this.value1 = value;
+				this.statTimeType = 3;
+				this.orderEcharts();
+			},
 			// 订单统计
 			orderEcharts(){
-				// 基于准备好的dom，初始化echarts实例
-				this.orderC = document.getElementById('orderChart');
-				let order = this.$echarts.init(this.orderC);
-				// 绘制图表
-				order.setOption({
-					title: {
-						text: '订单统计',
-					},
-					tooltip: {},
-					xAxis: {
-						data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子","衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-					},
-					yAxis: {},
-					series: [{
-						name: '销量',
-						type: 'line',
-						color: '#f6d393',
-						data: [5, 20, 36, 10, 10, 20,30,40,50,60,90,70]
-					}],
-					
+				let data = {
+					statTimeType: parseInt(this.statTimeType),
+					statDate: this.value1,
+					statType: 0
+				};
+				this.$axios.post('admin/mall/dataCenter/getOrderTimeline', data).then((res) => {
+					if(res.status == 200){
+						let datas = res.data;
+						if(datas.code == 200){
+							var name = [];
+							var value = [];
+							datas.data.forEach(function(val,index){
+								name[index] = val.name;
+								value[index] = val.value;
+							})
+							// 基于准备好的dom，初始化echarts实例
+							this.orderC = document.getElementById('orderChart');
+							let order = this.$echarts.init(this.orderC);
+							// 绘制图表
+							order.setOption({
+								title: {
+									text: '订单统计',
+								},
+								tooltip: {},
+								xAxis: {
+									// data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子","衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+									data: name
+								},
+								grid: {
+								    left: '0%',
+									right: '0%',
+									bottom:0,
+								    containLabel: true
+								},
+								yAxis: {},
+								series: [{
+									
+									name: '销量',
+									type: 'line',
+									color: '#f6d393',
+									// data: [5, 20, 36, 10, 10, 20,30,40,50,60,90,70]
+									data: value
+								}],
+								
+							});
+						} else {
+							this.$message({
+								showClose: true,
+								message: data.msg,
+								type: 'error'
+							});
+						}
+					} else {
+						this.$message({
+							showClose: true,
+							message: res.data.msg,
+							type: 'error'
+						});
+					}
 				});
+			},
+			
+			
+			timeType1(){
+				this.statTimeTypes = 0;
+				this.marketEcharts();
+			},
+			timeType2(){
+				this.statTimeTypes = 1;
+				this.marketEcharts();
+			},
+			timeType3(){
+				this.statTimeTypes = 2;
+				this.marketEcharts();
+			},
+			changeTime2(value){
+				this.value2 = value;
+				this.statTimeTypes = 3;
+				this.marketEcharts();
 			},
 			// 销售统计
 			marketEcharts(){
-				// 基于准备好的dom，初始化echarts实例
-				this.mark = document.getElementById('marketChart');
-				let market = this.$echarts.init(this.mark);
-				// 绘制图表
-				market.setOption({
-					title: {
-						text: '销售统计',
-					},
-					tooltip: {},
-					xAxis: {
-						data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子","衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-					},
-					yAxis: {},
-					series: [{
-						name: '销量',
-						type: 'line',
-						color: '#f6d393',
-						data: [5, 20, 36, 10, 10, 20,30,40,50,60,90,70]
-					}],
-					
+				let datac = {
+					statTimeType: parseInt(this.statTimeTypes),
+					statDate: this.value2,
+					statType: 1
+				}
+				this.$axios.post('admin/mall/dataCenter/getOrderTimeline',datac).then((res) => {
+					if(res.status == 200){
+						let data = res.data;
+						if(data.code == 200){
+							var names = [];
+							var values = [];
+							data.data.forEach(function(val, index){
+								names[index] = val.name;
+								values[index] = val.value;
+							})
+							// 基于准备好的dom，初始化echarts实例
+							let mark = document.getElementById('marketChart');
+							let market = this.$echarts.init(mark);
+							// 绘制图表
+							market.setOption({
+								title: {
+									text: '销售统计',
+								},
+								tooltip: {},
+								xAxis: {
+									// data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子","衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+									data: names
+								},
+								yAxis: {},
+								grid: {
+								    left: '0%',
+									right: '0%',
+									bottom:0,
+								    containLabel: true
+								},
+								series: [{
+									name: '销量',
+									type: 'line',
+									color: '#f6d393',
+									// data: [5, 20, 36, 10, 10, 20,30,40,50,60,90,70],
+									data: values
+								}],
+								
+							});
+						} else {
+							this.$message({
+								showClose: true,
+								message: data.msg,
+								type: 'error'
+							});
+						}
+					} else {
+						this.$message({
+							showClose: true,
+							message: res.data.msg,
+							type: 'error'
+						});
+					}
 				});
 			},
+		
+			// 招聘数据
+			zhaopiData(){
+				this.positionEchartData();
+				this.resumeJobPie();
+			},
+		
 			// 在招职位浏览量及沟通量统计
 			positionEchartData(){
 				this.posEchart = document.getElementById('positionEcharts');
@@ -499,13 +826,13 @@
 					},
 					tooltip: {},
 					grid: {
-					        top: '15%',
-					        right: '10%',
-					        left: '10%',
-					        bottom: '12%'
-					    },
+						top: '15%',
+						right: '0%',
+						left: '0%',
+						bottom: '12%'
+					},
 					legend: {
-						 x: '900',            //水平方向的位置'left'，'center'，'right'        
+						 x: '1400',            //水平方向的位置'left'，'center'，'right'        
 						 y: '50',
 						 width:0,               //组件的宽和高
 						 height:0,
@@ -640,13 +967,6 @@
 				}
 			},
 		},
-		mounted() {
-			this.orderEcharts();
-			this.marketEcharts();
-			this.positionEchartData();
-			this.resumeJobPie();
-			this.housingechartpar();
-		},
 	}
 </script>
 
@@ -683,57 +1003,47 @@
 	}
 
 	.shoppingmall {
-		margin-top: 20px;
+		/* margin-top: 20px; */
 	}
 	.shoppingmall-top {
+		padding: 20px;
 		display: flex;
-		justify-content: space-around;
+		justify-content: space-between;
 		align-content: space-around;
 	}
 
 	.shoppingmall-top .top-text {
-		width: 270px;
-		height: 90px;
+		width: 24%;
+		height: 180px;
 		border-radius: 4px 0px 0px 4px;
 		display: flex;
-		justify-content: space-around;
+		justify-content: space-between;
 		align-items: center;
-	}
-
-	.shoppingmall-top .top-text.top-sale {
-		background-color: #36CFCA;
+		position: relative;
 	}
 
 	.shoppingmall-top .img {
-		margin-left: 20px;
+		width: 100%;
+		height: 100%;
 	}
 
 	.shoppingmall-top .top-countNum {
 		display: flex;
 		flex-direction: column;
+		position: absolute;
+		right: 80px;
 		color: #fff;
-	}
-
-	.top-countNum .countNum-top {
-		font-size: 28px;
-	}
-
-	.top-countNum .countNum-bottom {
 		text-align: right;
 	}
 
-	.top-order {
-		background-color: #FFC439;
+	.top-countNum .countNum-top {
+		font-size: 36px;
 	}
 
-	.top-market {
-		background-color: #FD4D4F;
+	.top-countNum .countNum-bottom {
+		font-size: 22px;
 	}
 
-	.top-browse {
-		background-color: #42A7FF;
-	}
-	
 	.kehuShoppCount {
 		display: flex;
 		justify-content: space-between;
@@ -744,8 +1054,8 @@
 		width: 49%;
 	}
 	.kehuShoppCount .el-card__header {
-		height: 40px;
-		line-height: 10px;
+		height: 50px;
+		line-height: 15px;
 		background-color: #F6F6F7;
 		font-size: 14px;
 		font-weight: bold;
@@ -768,7 +1078,7 @@
 	}
 	.situationRanking .SR-Left {
 		width: 70%;
-		height: 320px;
+		height: 500px;
 		display: flex;
 		flex-direction: column;
 	}
@@ -801,7 +1111,7 @@
 		display: flex;
 		padding: 0;
 		justify-content: space-between;
-		border-bottom: 1px solid #c5c5c5;
+		border-bottom: 1px solid #F7F7F7;
 		padding-left: 5px;
 		padding-right: 5px;
 		height: 37px;
@@ -823,22 +1133,27 @@
 		padding: 40px;
 	}
 	.SR-Left .left-bottom .bottom-left .text{
-		font-size: 18px;
+		font-size: 22px;
 		color: #AEAEB2;
+		display: flex;
+		justify-content: space-between;
 	}
 	.SR-Left .left-bottom .bottom-left .baifengbi{
-		font-size: 28px;
+		font-size: 48px;
+		color: #1890FF;
 	}
 	.situationRanking .SR-Left .left-bottom .bottom-right {
+		width: 49%;
 		display: flex;
 		justify-content: space-between;
 	}
 	.left-bottom .bottom-right .box-text .text{
-		font-size: 18px;
+		font-size: 22px;
 		color: #AEAEB2;
 	}
 	.left-bottom .bottom-right .box-text .baifengbi{
-		font-size: 24px;
+		font-size: 48px;
+		color: #34C758;
 	}
 	.left-bottom .bottom-right .el-card__body{
 		display: flex;
@@ -884,10 +1199,12 @@
 	.shoppingmall .orderCount{
 		display: flex;
 		justify-content: space-between;
+		padding: 20px;
 	}
 	.shoppingmall .orderCount .orderMarket{
 		width: 60%;
 		display: flex;
+		/* margin-top: 80px; */
 		flex-direction: column;
 	}
 	.shoppingmall .orderCount .orderMarket .ordermeter{
@@ -896,8 +1213,8 @@
 	}
 	.orderCount .orderMarket .ordermeter .meter{
 		position: absolute;
-		right: 0;
-		top: 0px;
+		right: 0px;
+		top: 17px;
 		z-index: 1;
 	}
 	.meter .meterspan{
@@ -914,16 +1231,18 @@
 	.shoppingmall .orderCount .orderMarket .Marketmeter{
 		width: 100%;
 		position: relative;
+		margin-top: 40px;
 	}
 	.orderCount .orderMarket .meter{
 		position: absolute;
-		right: 0;
-		top: 0px;
+		right: 0px;
+		top: 17px;
 		z-index: 1;
 	}
 	.shoppingmall .orderCount .orderforefront{
 		width: 40%;
-		padding: 20px;
+		padding-left: 20px;
+		/* margin-top: 80px; */
 	}
 	.orderforefront .order-top-a{
 		border-bottom: 1px solid #E5E5EA;
@@ -934,7 +1253,7 @@
 	.orderforefront .orderLi{
 		list-style: none;
 		display: flex;
-		line-height: 40px;
+		line-height: 65px;
 		justify-content: space-between;
 		align-items: center;
 	}
@@ -972,8 +1291,6 @@
 	.orderText .orderAmount .progress{
 		width: 200px;
 		height: 7px;
-		background-color: #F2F2F7;
-		border-radius: 50px;
 	}
 	.orderAmount .progress .progress-data{
 		width: 100px;
@@ -983,6 +1300,7 @@
 	}
 	.orderAmount .commit{
 		width: 100px;
+		margin-left: 10px;
 	}
 
 
@@ -990,10 +1308,11 @@
 	.recruitment{
 		width: 100%;
 		padding: 20px;
+		box-sizing: border-box;
 	}
 	.recruitment-top{
-		height: 200px;
 		width: 100%;
+		height: 200px;
 		border: 1px solid #EEEEEE;
 	}
 	.recruitment-top .indicator{
@@ -1017,9 +1336,9 @@
 		color: #101010;
 	}
 	.recrutment-echarts{
-		margin-top: 50px;
-		width: 100%;
 		position: relative;
+		width: 100%;
+		margin-top: 50px;
 	}
 	.recrutment-echarts .echarts-select .select{
 		position: absolute;
@@ -1036,13 +1355,14 @@
 		display: flex;
 		justify-content: space-between;
 		margin-top: 50px;
+		width: 100%;
 	}
-	
 	.resumeData .echartsPie{
 		width: 50%;
 		height: 300px;
 		position: relative;
 	}
+	
 	.resumeData .echartsPie .pie-select{
 		position: absolute;
 		top: 30px;

@@ -313,7 +313,6 @@
 	.elCard-time .timeCount{
 		position: absolute;
 		right: 100px;
-		/* top: 80px; */
 		z-index: 1;
 	}
 	.timeLine1 .el-timeline-item__node{
