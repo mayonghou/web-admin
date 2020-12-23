@@ -8,22 +8,22 @@
 			<div class="swDetail-top-b">
 				<div class="banner">
 					<el-carousel height="240px">
-						<el-carousel-item v-for="item in dataImg" :key="item.index">
-							<img width="100%" height="100%" :src="item.img" />
+						<el-carousel-item v-for="(item,index) in this.imgUrl" :key="item.index">
+							<img width="100%" height="100%" :src="item" />
 						</el-carousel-item>
 					</el-carousel>
 				</div>
 				<div class="personaDdetails">
 					<div class="persona">
-						<el-avatar :size="65">头像</el-avatar>
+						<el-avatar :size="65" :src="this.avatar"></el-avatar>
 						<div class="personaXinxi">
-							<span style="font-size: 20px;">高成林</span>
+							<span style="font-size: 30px;font-weight: bolder;">{{this.name}}</span>
 							<div class="zhiweijinyang">
-								<span>ui设计师</span>
-								<span style="margin-left: 15px;">2-3年经验</span>
+								<span>{{this.basicInfo.sidelineTypeName}}</span>
+								<span style="margin-left: 15px;">{{this.basicInfo.workExperiences}}经验</span>
 							</div>
 							<div class="pingfen">
-								<span >1938人找过他</span>
+								<span><span style="font-size: 14px; color: #FF8400;">{{this.detailInfo.countOrder}}人</span>找过他</span>
 								<el-rate
 								 style="margin-left: 10px;"
 								  v-model="value"
@@ -31,19 +31,21 @@
 								  text-color="#ff9900"
 								  score-template="{value}">
 								</el-rate>	
-								<span>按时完成率100%</span>
+								<span>按时完成率<span style="color: #409EFF;">{{}}%</span></span>
 							</div>
 						</div>
 					</div>
 					<div class="persona-b">
-						<i class="el-icon-phone"></i>
+						<i  style="color: #FF8400;" class="el-icon-phone-outline"></i>
 						<span>联系方式</span>
-						<span style="margin-left: 20px;">138********</span>
+						<span style="margin-left: 20px;">{{this.basicInfo.phoneNumber}}</span>
 						<i style="cursor: pointer;" @click="" class="el-icon-view"></i>
 					</div>
 					<div class="price">
 						<span class="span">指导价：</span>
-						<span class="span" style="color: #FF0000;">200￥/张</span>
+						<span class="span" style="color: #FF0000;">{{this.basicInfo.sysRecommendPrice}}￥/张</span>
+					</div>
+					<div class="price">
 						<el-button @click="xiaOrder" class="priceOrder">立即下单</el-button>
 					</div>
 				</div>
@@ -54,25 +56,29 @@
 				<div class="workdirection">
 					<div style="font-size: 20px;">作品方向</div>
 					<div class="tag">
-						<span v-for="item in dataspan" :key="item.index">{{item.text}}</span>
+						<span v-for="(item,index) in dataspan" :key="index">{{item}}</span>
 					</div>
 				</div>
 				<div class="Self-introduction">
 					<div style="font-size: 20px;">个人介绍</div>
 					<div class="Self-introduction-img">
-						<img width="206" height="206" src="../../../../assets/img/img.jpg" />
-						<img width="206" height="206" src="../../../../assets/img/img.jpg" />
+						<!-- <img width="206" height="206" src="../../../../assets/img/img.jpg" />
+						<img width="206" height="206" src="../../../../assets/img/img.jpg" /> -->
 					</div>
 					<p class="text">
-						李蕾，国内顶级谈话节目主持人，被媒体评价为“电视精灵”。20年媒体从业经历，15年电视主持经验，李蕾多次获奖：上海传媒人奖、中国广播电视金话筒提名奖、2010媒体新锐人物奖......
+						{{this.detailInfo.introduction}}
 					</p>
 				</div>
 				<div class="workpane">
 					<div style="font-size: 20px;">个人及作品方格</div>
 					<ul class="workpaneUL">
-						<li class="workpaneLI" v-for="item in checkData" :key="item.index">
+						<!-- <li class="workpaneLI" v-for="item in checkData" :key="item.index">
 							<span class="shouhangsoujin">{{item.index}}.</span>
 							<span>{{item.text}}</span>
+						</li> -->
+						<li class="workpaneLI">
+							<!-- <span class="shouhangsoujin">{{item.index}}.</span> -->
+							<span>{{this.detailInfo.styleDescription}}</span>
 						</li>
 					</ul>
 				</div>
@@ -86,13 +92,14 @@
 					</div>
 				</div>
 				<ul class="wordlist-ul">
-					<li class="wordlist-li" v-for="item in 3" :key="item">
+					<li class="wordlist-li" v-for="item in this.dataworks" :key="item.id">
 						<div class="li-left">
-							<video class="video" src="../../../../assets/a.mp4" controls="controls"></video>
+							<video class="video" :src="item.video" controls="controls"></video>
+							<img class="video" :src="item.video" />
 						</div>
 						<div class="li-right">
-							<div>宇宙与自然</div>
-							<div style="font-size: 12px; margin-top: 25px;">搭配绿色与宇宙色色调，采用等比例切割布局</div>
+							<div>{{item.name}}</div>
+							<div style="font-size: 12px; margin-top: 25px;">{{item.description}}</div>
 						</div>
 					</li>
 				</ul>
@@ -164,52 +171,11 @@
 		name: 'swifthorseDetail',
 		data() {
 			return{
-				dataImg:[
-					{
-						index: 1,
-						img: require('../../../../assets/img/img.jpg')
-					},{
-						index: 2,
-						img: require('../../../../assets/img/img.jpg')
-					},{
-						index: 3,
-						img: require('../../../../assets/img/img.jpg')
-					},
-				],
-				checkData:[
-					{
-						index: 1,
-						text:'声音优化：分解发声练声步骤，教你正确的发声技巧，让呼吸、鸡肉与骨骼完美配合，发出吸引力的好声音。'
-					}, {
-						index: 2,
-						text:'说话表达：将各种说话表达技能与日常的工作、生活结合；面试、升职、加薪、表白...让表达更清楚、更有说服力。'
-					}, {
-						index: 3,
-						text:'形象示范：李蕾老师真人出镜，帮助你纠正错误的口型、动作，理解发声原理。'
-					}, {
-						index: 4,
-						text:'有效使用：总结学习要点，每堂课学会一个声音表达技巧，实用有效。'
-					}
-				],
 				value:5,
 				formLabelWidth: '130px',
 				dialogVisibleake: false,
 				fullscreen: '',
-				dataspan: [
-					{
-						index: 1,
-						text: '美食餐饮'
-					}, {
-						index: 2,
-						text: '雅致家居'
-					}, {
-						index: 3,
-						text: '酷炫动画'
-					}, {
-						index: 4,
-						text: '海报手绘'
-					},
-				],
+				dataspan: [],
 				order:{
 					orderEequire: '',
 					orderTextList: [{
@@ -238,10 +204,16 @@
 					]
 				},
 				index: 0,
+				imgUrl:[],
+				avatarUrl: '',
+				name: '',
+				basicInfo: {},
+				detailInfo: {},
+				dataworks: []
 			}
 		},
 		mounted() {
-
+			this.getProfile();
 		},
 		methods: {
 			xiaOrder(){
@@ -253,6 +225,65 @@
 			addclick(){
 				
 			},
+			getProfile(){
+				let id = this.$route.query.id;
+				this.$axios.post('admin/sideline/personal/get_profile/'+id).then((res) => {
+					if(res.status == 200){
+						let data = res.data;
+						if(data.code == 200){
+							let dataLists = data.data;
+							this.basicInfo = dataLists.basicInfo;
+							this.detailInfo = dataLists.detailInfo;
+							let dataworks = [];
+							var https = /^https:\/\/.+$/;
+							dataLists.works.forEach(function(val,index){
+								dataworks[index] = val;
+								if(https.test(val.content)){
+									dataworks[index].video = val.content;
+								} else {
+									dataworks[index].video = localStorage.getItem('imgUrl') + val.content;
+								}
+								if(https.test(val.cover)){
+									dataworks[index].imgCover = val.cover;
+								} else {
+									dataworks[index].imgCover = localStorage.getItem('imgUrl') + val.cover;
+								}
+							});
+							this.dataworks = dataworks;
+							this.dataspan =dataLists.detailInfo.worksTabs.split(';');
+							
+							var imgUrls =[];
+							if(https.test(dataLists.basicInfo.avatar)){
+								this.avatarUrl = dataLists.basicInfo.avatar;
+							} else {
+								this.avatarUrl = localStorage.getItem('imgUrl') + dataLists.basicInfo.avatar;
+							}
+							this.dataLists =dataLists.basicInfo.workExperiences;
+							this.name = dataLists.basicInfo.userName;
+							dataLists.detailInfo.worksPictures.split(';').forEach(function(val,index){
+								if(https.test(val)){
+									imgUrls[index] =val;
+								} else {
+									imgUrls[index] = localStorage.getItem('imgUrl') + val;
+								}
+							});
+							this.imgUrl = imgUrls;
+						} else {
+							this.$message({
+								showClose: true,
+								message: data.msg,
+								type: 'error'
+							});
+						}
+					} else {
+						this.$message({
+							showClose: true,
+							message: data.msg,
+							type: 'error'
+						});
+					}
+				});
+			}
 		}
 	}
 </script>
@@ -278,7 +309,7 @@
 		flex-direction: row;
 	}
 	.swDetail-top-b .banner {
-		width: 40%;
+		width: 30%;
 		height: 240px;
 	}
 	.el-carousel__indicator .el-carousel__button{
@@ -289,9 +320,8 @@
 		background-color: #000000;
 	}
 	.swDetail-top-b .personaDdetails {
-		width: 50%;
-		margin-top: 10px;
-		margin-left: 10px;
+		width: 60%;
+		margin-left: 50px;
 	}
 	.swDetail-top-b .personaDdetails .persona{
 		display: flex;
@@ -305,38 +335,45 @@
 	.personaXinxi .pingfen{
 		display: flex;
 		justify-content: space-between;
-		color: #8F8E94;
+		color: ##333333;
 		font-size: 12px;
 	}
+	.zhiweijinyang{
+		font-size: 22px;
+		color: #999999;
+	}
 	.persona-b{
-		margin-top: 40px;
-		font-size: 14px;
+		margin-top: 20px;
+		font-size: 20px;
+		margin-left: 88px;
 	}
 	.persona-b i{
 		color: #1FB054;
 		margin-right: 10px;
 	}
 	.price{
-		margin-top: 60px;
+		margin-left: 88px;
 	}
 	.price .span{
 		font-size: 20px;
 	}
 	.price .priceOrder{
 		font-size: 16px;
-		margin-left: 32px;
-		background-color: #E87B17;
+		background-color: #298377;
 		color: #fff;
-		width: 150px;
+		width: 135px;
 		height: 45px;
+		border-radius: 4px;
 	}
 	.worksData{
 		display: flex;
 		justify-content: space-between;
 		margin-top: 30px;
+		
 	}
 	.worksData .wordcheck{
-		width: 68%;
+		width: 60%;
+		padding: 20px 10px;
 		background-color: #FFFFFF;
 	}
 	.wordcheck .workdirection .tag{
@@ -352,11 +389,16 @@
 		color: #FF8D00;
 		margin-left: 25px;
 		margin-top: 10px;
+		border-radius: 4px;
 	}
 	.Self-introduction-img{
 		display: flex;
-		justify-content: space-around;
+		align-items:  flex-start;
 		margin-top: 10px;
+		margin-left: 50px;
+	}
+	.Self-introduction-img img {
+		margin-left: 10px;
 	}
 	.Self-introduction{
 		margin-top: 10px;
@@ -379,6 +421,7 @@
 	}
 	.worksData .wordlist{
 		width: 30%;
+		background-color: #FFFFFF;
 		padding: 10px;
 	}
 	.wordlist .wordlist-top{

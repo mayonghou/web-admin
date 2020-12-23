@@ -478,6 +478,11 @@
 			this.getAdminDataCenterProduct();
 		},
 		methods: {
+			// 招聘数据
+			zhaopiData(){
+				this.positionEchartData();
+				this.resumeJobPie();
+			},
 			// 数据中心商城数据客户统计
 			getAdminConsumerDataStat(){
 				this.$axios.get('admin/mall/dataCenter/getAdminConsumerDataStat').then((res) => {
@@ -810,11 +815,6 @@
 				});
 			},
 		
-			// 招聘数据
-			zhaopiData(){
-				this.positionEchartData();
-				this.resumeJobPie();
-			},
 		
 			// 在招职位浏览量及沟通量统计
 			positionEchartData(){

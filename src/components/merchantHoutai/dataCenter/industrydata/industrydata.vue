@@ -166,7 +166,7 @@
 								},
 								series: [{
 									name: '销量',
-									color: '#7dde91',
+									color: '#358DFF',
 									type: 'bar',
 									barWidth : 12,
 									itemStyle: {
@@ -179,7 +179,7 @@
 								},{
 									name: '销量',
 									type: 'line',
-									color: '#f6d393',
+									color: '#00EAFF',
 									data: value
 								}],
 								

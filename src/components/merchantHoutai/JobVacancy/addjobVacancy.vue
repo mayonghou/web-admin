@@ -98,37 +98,37 @@
 				optionpay: [
 					{
 						id: 0,
-						name: '1000以上'
+						name: '1000以下'
 					}, {
 						id: 1,
-						name: '2000以上'
+						name: '1001-2000'
 					}, {
 						id: 2,
-						name: '3000以上'
+						name: '2001-4000'
 					}, {
 						id: 3,
-						name: '4000以上'
+						name: '4001-6000'
 					}, {
 						id: 4,
-						name: '5000以上'
+						name: '6001-8000'
 					}, {
 						id: 5,
-						name: '6000以上'
+						name: '8001-10000'
 					}, {
 						id: 6,
-						name: '7000以上'
+						name: '10001-13000'
 					}, {
 						id: 7,
-						name: '8000以上'
+						name: '13001-15000'
 					}, {
 						id: 9,
-						name: '10000以上'
+						name: '15001-18000'
 					}, {
 						id: 10,
-						name: '15000以上'
+						name: '18001-21000'
 					}, {
 						id: 11,
-						name: '20000以上'
+						name: '21001-25000'
 					}, {
 						id: 12,
 						name: '25000以上'
@@ -151,28 +151,31 @@
 						name: '不限',
 					}, {
 						id: 1,
-						name: '博士',
+						name: '小学',
 					}, {
 						id: 2,
-						name: '硕士',
+						name: '初中',
 					}, {
 						id: 3,
-						name: '研究生'
+						name: '中专'
 					}, {
 						id: 4,
-						name: '本科'
-					}, {
-						id: 5,
-						name: '专科'
-					}, {
-						id: 6,
 						name: '高中'
 					}, {
+						id: 5,
+						name: '技校'
+					}, {
+						id: 6,
+						name: '大专'
+					}, {
 						id: 7,
-						name: '初中'
+						name: '本科'
 					}, {
 						id: 8,
-						name: '小学'
+						name: '硕士'
+					}, {
+						id: 9,
+						name: '博士'
 					}],
 					ageList: [{
 						id: 0,
@@ -402,7 +405,7 @@
 			addjobdata() {
 				this.$refs.addjob.validate((valid) => {
 					if (valid) {
-						this.$confirm('是否确定发布为【' + this.jobdataName + '】的商机?', '温馨提示', {
+						this.$confirm('是否确定发布为【' + this.jobdataName + '】的招聘?', '温馨提示', {
 							confirmButtonText: '确定',
 							cancelButtonText: '取消',
 							type: 'warning'

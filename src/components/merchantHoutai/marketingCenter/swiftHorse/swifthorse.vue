@@ -1,429 +1,361 @@
 <template>
 	<div class="swifthorse" id="swifthorse">
 		<div class="swifthorse-top">
-			<div class="myOrder">
-				<el-button class="myorderBtn" type="text">我的订单</el-button>
-			</div>
-			<div class="swifthorse-top-b">
-				<div class="swifthorseShuxian"></div>
-				<div class="swifthorseTitle">
-					<span class="swifthorseT">共享千里马</span>
-					<span class="fuTitle">您想要的人才这儿都有</span>
-				</div>
-				<div class="swifthorseTwo">
-					<span>1. 商品图不好看？来这儿找找专业的平面设计，你就是下一个伯乐。</span>
-					<span>2. 不会视频剪辑？视频制作大神等你来淘。</span>
-				</div>
-			</div>
 		</div>
-		
-		<!--  -->
 		<div class="swifthorse-body">
-			<el-card class="elcard">
-				<div class="tabqiehuan" @click="tabMake">
-					<div class="tabDiv active">图片制作</div>
-					<div class="tabDiv">视频制作</div>
-					<div class="tabDiv">文案策划</div>
-				</div>
-			</el-card>
-			<div class="body-bod-top">
-				<el-dropdown >
-					 <span class="el-dropdown-link"	style="color: #B3B3B3;">
-					    综合<i class="el-icon-arrow-down el-icon--right"></i>
+			<div class="body-top" ref="tabtext">
+				<el-link :underline="false" v-for="item in this.dataType" :key="item.id" :class="item.id==1?'active':''"  @click="ellint(item)" ref="tablist" class="top-text">{{item.name}}</el-link>
+			</div>
+			<div class="body-text">
+				<!-- <el-dropdown style="font-size: 14px;" @command="headldropdown">
+					<span class="el-dropdown-link">
+						<span>{{this.name == '' ? '综合' : this.name}}</span><i class="el-icon-arrow-down el-icon--right"></i>
 					</span>
-					<el-dropdown-menu slot="dropdown" style="color: #B3B3B3;">
-					    <el-dropdown-item>黄金糕</el-dropdown-item>
-					    <el-dropdown-item>狮子头</el-dropdown-item>
-						<el-dropdown-item>螺蛳粉</el-dropdown-item>
+					<el-dropdown-menu slot="dropdown">
+						<el-dropdown-item command="图片制作">图片制作</el-dropdown-item>
+						<el-dropdown-item command="视频制作">视频制作</el-dropdown-item>
+						<el-dropdown-item command="文案策划">文案策划</el-dropdown-item>
 					</el-dropdown-menu>
-				</el-dropdown>
-				<div>经验</div>
-				<div>点击量</div>
+				</el-dropdown> -->
+				<div class="experience" @click="zhonghe">
+					<span class="experience-text">综合</span>
+					<span class="experience-shangxia">
+						<!-- <i class="el-icon-arrow-up"></i> -->
+						<i class="el-icon-arrow-down"></i>
+					</span>
+				</div>
+				<div class="experience">
+					<span class="experience-text" @click="jignyang">经验</span>
+					<span class="experience-shangxia">
+						<i class="el-icon-arrow-up" @click="jingyangshengxu"></i>
+						<i class="el-icon-arrow-down" @click="jingyangsjiangxu"></i>
+					</span>
+				</div>
+				<div class="experience">
+					<span class="experience-text" @click="dijiliang">点击量</span>
+					<span class="experience-shangxia">
+						<i class="el-icon-arrow-up" @click="dijiliangshengxu"></i>
+						<i class="el-icon-arrow-down" @click="dijiliangjiangxu"></i>
+					</span>
+				</div>
 			</div>
 			
-			<div class="body-div tab-make active">
-				<el-row>
-					<el-col class="pluralistic" :span="8" v-for="item in 6" :key="item">
-						<div class="pluralistic-li grid-content bg-purple">
-							<div class="ImgMess" :class="'ImgMess' + item">
-								<div class="imgLeft">
-									<el-carousel height="130px">
-									      <el-carousel-item v-for="item in dataimg" :key="item.index">
-									        <img width="100%" height="100%" :src="item.imgUrl" />
-									      </el-carousel-item>
-									    </el-carousel>
-								</div>
-								<div class="messright">
-									<div class="avaterData">
-										<div>
-											<i class="iconfont icon-nan iconnan"></i>
-											<el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-										</div>
-										 <div style="margin-left: 30px;">
-											 <div>高成林</div>
-											 <div>185*********</div>
-										 </div>
-									</div>
-									<div class="zhiweiingyan">
-										<span>UI设计师</span>
-										<span>2-3年经验</span>
-									</div>
-									<div style="margin-top: 20px;">
-										<span>指导价：</span>
-										<span style="color: #FF0000;font-size: 16px;">200￥/张</span>
+			<div class="body-list">
+				<!-- 图片制作 -->
+				<div class="tab-list">
+					<el-row :gutter="20">
+						<el-col :span="6" class="el-colss" v-for="(item,index) in this.jianzhidataList" :key="index">
+							<div class="grid-content bg-purple">
+								<img class="img" :src="item.work" />
+								<div class="massage">
+									<el-avatar :size="size" :src="item.avatar"></el-avatar>
+									<div class="massagetext">
+										<h3>{{item.userName}}</h3>
+										<span>{{item.phoneNumber}}</span>
 									</div>
 								</div>
-							</div>
-							<div class="zhaota">
-								<el-button @click="zhaotaData" class="zhaotaBtn">找他</el-button>
-							</div>
-						</div>
-					</el-col>
-				</el-row>
-				 <el-pagination
-				      @size-change="handleSizeChange"
-				      @current-change="handleCurrentChange"
-				      :current-page="page"
-				      :page-sizes="[6, 12, 18, 24]"
-				      :page-size="6"
-				      layout="total, sizes, prev, pager, next, jumper"
-				      :total="counts">
-				  </el-pagination>
-			</div>
-			<div class="body-div tab-make">
-				<el-row>
-					<el-col class="pluralistic" :span="8" v-for="item in 6" :key="item">
-						<div class="pluralistic-li grid-content bg-purple">
-							<div class="ImgMess" :class="'ImgMess' + item">
-								<div class="imgLeft">
-									<el-carousel height="130px">
-									      <el-carousel-item v-for="item in dataimg" :key="item.index">
-									        <img width="100%" height="100%" :src="item.imgUrl" />
-									      </el-carousel-item>
-									    </el-carousel>
+								<div class="positionsName">
+									<div class="positions">{{item.sidelineTypeName}}</div>
+									<div class="positionjingyang">{{item.workExperiences}}</div>
 								</div>
-								<div class="messright">
-									<div class="avaterData">
-										<div>
-											<i class="iconfont icon-nan iconnan"></i>
-											<el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-										</div>
-										 <div style="margin-left: 30px;">
-											 <div>高成林</div>
-											 <div>185*********</div>
-										 </div>
-									</div>
-									<div class="zhiweiingyan">
-										<span>视频剪辑师</span>
-										<span>2-3年经验</span>
-									</div>
-									<div style="margin-top: 20px;">
-										<span>指导价：</span>
-										<span style="color: #FF0000;font-size: 16px;">200￥/张</span>
-									</div>
+								<div class="zhidaojiaPrice">
+									<span class="zhidao">指导价：</span>
+									<span class="price">￥{{item.sysRecommendPrice / 100}}</span>
 								</div>
+								<el-button @click="zhaotabtn(item)" class="zhaota"> 找TA </el-button>
 							</div>
-							<div class="zhaota">
-								<el-button class="zhaotaBtn">找他</el-button>
-							</div>
-						</div>
-					</el-col>
-				</el-row>
-				 <el-pagination
-				      @size-change="handleSizeChange"
-				      @current-change="handleCurrentChange"
-				      :current-page="page"
-				      :page-sizes="[6, 12, 18, 24]"
-				      :page-size="6"
-				      layout="total, sizes, prev, pager, next, jumper"
-				      :total="counts">
-				  </el-pagination>
-			</div>
-			<div class="body-div tab-make">
-				<el-row>
-					<el-col class="pluralistic" :span="8" v-for="item in 6" :key="item">
-						<div class="pluralistic-li grid-content bg-purple">
-							<div class="ImgMess" :class="'ImgMess' + item">
-								<div class="imgLeft">
-									<el-carousel height="130px">
-									      <el-carousel-item v-for="item in dataimg" :key="item.index">
-									        <img width="100%" height="100%" :src="item.imgUrl" />
-									      </el-carousel-item>
-									    </el-carousel>
-								</div>
-								<div class="messright">
-									<div class="avaterData">
-										<div>
-											<i class="iconfont icon-nan iconnan"></i>
-											<el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-										</div>
-										 <div style="margin-left: 30px;">
-											 <div>高成林</div>
-											 <div>185*********</div>
-										 </div>
-									</div>
-									<div class="zhiweiingyan">
-										<span>文案大神</span>
-										<span>2-3年经验</span>
-									</div>
-									<div style="margin-top: 20px;">
-										<span>指导价：</span>
-										<span style="color: #FF0000;font-size: 16px;">200￥/张</span>
-									</div>
-								</div>
-							</div>
-							<div class="zhaota">
-								<el-button class="zhaotaBtn">找他</el-button>
-							</div>
-						</div>
-					</el-col>
-				</el-row>
-				 <el-pagination
-				      @size-change="handleSizeChange"
-				      @current-change="handleCurrentChange"
-				      :current-page="page"
-				      :page-sizes="[6, 12, 18, 24]"
-				      :page-size="6"
-				      layout="total, sizes, prev, pager, next, jumper"
-				      :total="counts">
-				  </el-pagination>
+						</el-col>
+					</el-row>
+					<el-pagination
+						class="el-pagination"
+						@size-change="handleSizeChange"
+						@current-change="handleCurrentChange"
+						:current-page="page"
+						:page-sizes="[12, 24, 36, 48]"
+						:page-size="limit"
+						layout="total, sizes, prev, pager, next, jumper"
+						:total="counts">
+					</el-pagination>
+				</div>
 			</div>
 		</div>
-	
 	</div>
 </template>
 
 <script>
-	export default{
-		name: '',
-		data(){
-			return{
-				dataimg:[
-					{
-						index: 1,
-						imgUrl: require('../../../../assets/img/img.jpg')
-					}, {
-						index: 2,
-						imgUrl: require('../../../../assets/img/img.jpg')
-					}, {
-						index: 3,
-						imgUrl: require('../../../../assets/img/img.jpg')
-					},
-				],
+	export default {
+		name: 'swifthorse',
+		data() {
+			return {
+				src: require('../../../../assets/img/img.jpg'),
+				name: '',
+				size: 70,
 				page: 1,
-				limit: 6,
-				counts: this.counts || 1,
+				limit: 12,
+				counts: 10,
+				dataType: [],
+				typeid: 1,
+				jianzhidataList: [],
+				countVisitedOrder: 0,
+				ExperiencesLevelOrder: 0,
 			}
 		},
 		mounted() {
-			
+			this.getListSidelineType();
+			this.getListSidelineUser();
 		},
-		methods:{
-			tabMake(){
-				var tabDiv = document.getElementsByClassName('tabDiv');
-				var tabMaked= document.getElementsByClassName('tab-make');
-				for(var i = 0; i<tabDiv.length; i++){
-					tabDiv[i].id = i;
-					tabDiv[i].onclick = function(){
-						for(var j=0;j<tabMaked.length;j++){
-							tabDiv[j].classList.remove('active');
-							tabMaked[j].classList.remove('active');
-						}
-						tabDiv[this.id].classList.add('active');
-						tabMaked[this.id].classList.add('active');
+		methods: {
+			zhaotabtn(item){
+				this.$router.push({
+					path: './swifthorseDetail',
+					query:{
+						id: item.userId
 					}
-				}
+				});
 			},
+			zhonghe(){
+				this.countVisitedOrder = 0;
+				this.ExperiencesLevelOrder = 0;
+				this.getListSidelineUser();
+			},
+			jignyang(){
+				this.ExperiencesLevelOrder = 0;
+				this.getListSidelineUser();
+			},
+			jingyangshengxu(){
+				this.ExperiencesLevelOrder = 1;
+				this.getListSidelineUser();
+			},
+			jingyangsjiangxu(){
+				this.ExperiencesLevelOrder = 2;
+				this.getListSidelineUser();
+			},
+			dijiliang(){
+				this.countVisitedOrder = 0;
+				this.getListSidelineUser();
+			},
+			dijiliangjiangxu(){
+				this.countVisitedOrder = 2;
+				this.getListSidelineUser();
+			},
+			dijiliangshengxu(){
+				this.countVisitedOrder = 1;
+				this.getListSidelineUser();
+			},
+			ellint(item){
+				let tab = document.getElementsByClassName('top-text');
+				var id = item.id;
+				this.typeid = id;
+				this.getListSidelineUser();
+				this.dataType.forEach(function(val,index) {
+					if(id == val.id){
+						tab[index].classList.add('active');
+					} else {
+						tab[index].classList.remove('active');
+					}
+				});
+			},
+			// 查询头部类型 如图片制作
+			getListSidelineType(){
+				this.$axios.get('admin/sideline/list_sideline_type').then((res) => {
+					if(res.status == 200){
+						var data = res.data;
+						if(data.code == 200){
+							this.dataType = data.data;
+						} else {
+							this.$message({
+								showClose: true,
+								message: data.msg,
+								type: 'error'
+							});
+						}
+					} else {
+						this.$message({
+							showClose: true,
+							message: data.msg,
+							type: 'error'
+						});
+					}
+				});
+			},
+			// 商家兼职用户列表
+			getListSidelineUser(){
+				let datalist = {
+					countVisitedOrder: this.countVisitedOrder,
+					limit: this.limit,
+					management: false,
+					page: this.page,
+					sidelineType: this.typeid,
+					workExperiencesLevelOrder: this.ExperiencesLevelOrder
+				}
+				this.$axios.post('admin/sideline/management/list_sideline_user', datalist).then((res) => {
+					if(res.status == 200){
+						let data = res.data;
+						if(data.code == 200){
+							let dataList = [];
+							var aaas = /^(https):\/\/.+$/;
+							data.list.forEach(function(val,index){
+								dataList[index] = val;
+								if(aaas.test(val.avatar)){
+									dataList[index].avatar = val.avatar;
+								} else {
+									dataList[index].avatar = localStorage.getItem('imgUrl');
+								}
+								if(aaas.test(val.works[0])){
+									dataList[index].work = val.works[0];
+								} else {
+									dataList[index].work = localStorage.getItem('imgUrl') + val.works[0];
+								}
+								
+							});
+							this.jianzhidataList = dataList;
+							this.counts = data.total;
+						} else {
+							this.$message({
+								showClose: true,
+								message: data.msg,
+								type: 'error'
+							});
+						}
+					} else {
+						this.$message({
+							showClose: true,
+							message: data.msg,
+							type: 'error'
+						});
+					}
+				});
+			},
+			
 			handleSizeChange(val){
 				this.limit = val;
+				this.getListSidelineUser();
 			},
 			handleCurrentChange(val){
 				this.page = val;
+				this.getListSidelineUser();
 			},
-			zhaotaData(){
-				this.$router.push({
-					path: './swifthorseDetail'
-				});
-			},
+			headldropdown(command) {
+				this.name = command;
+			}
 		}
 	}
 </script>
 
-<style>
-	.swifthorse{
+<style scoped>
+	
+	.swifthorse {
+		width: 100%;
 		box-sizing: border-box;
-		color: #101010;
-		background-color: #F5F7FC;
+		background-color: #F1F2F7;
 	}
-	.swifthorse-top{
+	.swifthorse-top {
+		width: 100%;
+		height: 144px;
+		background: #0000FF;
 	}
-	.swifthorse-top .myOrder{
-		text-align: right;
+	.swifthorse-body {
+		width: 100%;
+		margin-top: 20px;
+		background-color: #FFFFFF;
+		padding: 0 30px;
 	}
-	.swifthorse-top .myOrder .myorderBtn{
-		color: #FF8D00;
-		font-size: 16px;
-	}
-	.swifthorse-top .swifthorse-top-b{
-		background-color: #3A9DF4;
-		color: #fff;
+	.swifthorse-body .body-top {
 		width: 100%;
 		height: 100px;
 		display: flex;
-		flex-direction: row;
+		justify-content: center;
+		align-items: center;
 	}
-	.swifthorse-top .swifthorse-top-b .swifthorseShuxian{
-		width: 60px;
-		height: 20px;
-		border-right: 2px solid #313AC3;
-		border-left: 2px solid #313AC3;
-		margin-left: 36px;
-		margin-top: 4.3%;
+	.swifthorse-body .body-top .top-text {
+		font-size: 24px;
+		margin-left: 10%;
+
 	}
-	.swifthorse-top .swifthorse-top-b .swifthorseTitle{
-		display: flex;
-		margin-left: 80px;
-		flex-direction: column;
+	.swifthorse-body .body-top .top-text:nth-child(1) {
+		margin-left: 0;
 	}
-	.swifthorse-top .swifthorse-top-b .swifthorseTitle .swifthorseT{
-		font-size: 20px;
+	.swifthorse-body .body-top .top-text.active {
+		color: #2971FF;
+		border-bottom: 2px solid #2971FF;
 	}
-	.swifthorse-top .swifthorse-top-b .swifthorseTitle .fuTitle{
-		margin-left: 40px;
-	}
-	.swifthorse-top .swifthorse-top-b .swifthorseTwo{
-		display: flex;
-		width: 280px;
-		height: 75px;
-		flex-direction: column;
-		margin-top: 20px;
-		margin-left: 50px;
-	}
-	
-	.swifthorse-body{
+	.body-text {
 		width: 100%;
-	}
-	.swifthorse-body .elcard{
-		width: 80%;
-		height: 72px;
-		margin: 0 auto;
-		margin-top: 10px;
-	}
-	.swifthorse-body .elcard .tabqiehuan{
-		display: flex;
-		justify-content: space-around;
-		height: 100%;
-	}
-	.elcard .tabqiehuan .tabDiv{
-			width: 150px;
-			height: 50px;
-			font-size: 20px;
-			text-align: center;
-			cursor: pointer;
-	}
-	.elcard .tabqiehuan .tabDiv.active{
-		color: #FF8D00;
-		border-bottom: 2px solid #FF8D00;
-	}
-	.body-bod-top{
-		width: 250px;
-		height: 40px;
-		background-color: #FFFFFF;
-		margin-top: 10px;
-		margin-left: 50px;
 		line-height: 40px;
 		display: flex;
-		padding-right: 10px;
-		padding-left: 10px;
-		justify-content: space-around;
-		font-size: 14px;
-		color: #B3B3B3;
-	}
-	.body-div{
-		margin-top: 35px;
-		padding:0 100px 0 100px;
-	}
-	.pluralistic-li{
-		/* margin-top: 50px; */
-	}
-	.pluralistic-li .ImgMess{
-		display: flex;
-		width: 90%;
-		justify-content: space-around;
 		align-items: center;
-		margin-top: 50px;
 	}
-	.pluralistic-li .ImgMess1{
-		margin-top: 0;
+	.el-dropdown-link {
+		color: #666666;
 	}
-	.pluralistic-li .ImgMess2{
-		margin-top: 0;
-	}
-	.pluralistic-li .ImgMess3{
-		margin-top: 0;
-	}
-	.pluralistic-li .ImgMess .imgLeft{
-		width: 170px;
-		height: 130px;
-	}
-	.pluralistic-li .ImgMess .imgLeft .el-carousel__button{
-		width: 8px;
-		height: 8px;
-		background-color: #000000;
-		border-radius: 50%;
-		
-	}
-	.pluralistic-li .ImgMess .messright{
-		width: 150px;
-		height: 130px;
+	.experience{
 		display: flex;
-		flex-direction: column;
-		align-items: auto;
-		justify-content: center;
+		align-items: center;
 		margin-left: 20px;
 	}
-	.messright .avaterData{
-		display: flex;
-		justify-content: space-between;
-		position: relative;
-	}
-	.messright .avaterData .iconnan{
-		position: absolute;
-		left: 28px;
-		top: -15px;
-		font-size: 24px;
-		color: #3A9DF4;
-	}
-	.messright .zhiweiingyan{
-		display: flex;
-		justify-content: space-between;
-		margin-top: 20px;	
-	}
-	.pluralistic-li .zhaota{
-		width: 80%;
-		text-align: center;
-	}
-	.pluralistic-li .zhaota .zhaotaBtn{
-		width: 163px;
-		height: 30px;
-		line-height: 30px;
-		background-color: #FF8D00;
-		padding: 0;
-		color: #FFFFFF;
-		border-radius: 10px;
-		margin-top: 20px;
+	.experience-text{
 		font-size: 14px;
+		cursor: pointer;
 	}
-
-	.el-pagination{
-		text-align: center;
-		margin-top: 10px;
-	}
-
-	.tab-make{
-		display: none;
-	}
-	.tab-make.active{
+	.experience-shangxia i{
 		display: block;
+		cursor: pointer;
+		font-size: 12px;
+		margin-left: 5px;
+	}
+	.tab-list .img{
+		width: 100%;
+		height: 240px;
+	}
+	.massage{
+		display: flex;
+		align-items: center;
+		padding-left: 10px;
+	}
+	.massagetext{
+		margin-left: 20px;
+		line-height: 30px;
+	}
+	.positionsName{
+		color: #333333;
+		font-size: 20px;
+		display: flex;
+		align-items: center;
+		line-height: 40px;
+		font-weight: bold;
+		padding-left: 10px;
+	}
+	.positionjingyang{
+		margin-left: 30px;
+	}
+	.zhidaojiaPrice{
+		font-size: 22px;
+		font-family: Microsoft YaHei Regular;
+		font-weight: bold;
+		line-height: 40px;
+		padding-left: 10px;
+	}
+	.zhidaojiaPrice .price{
+		color: #ff0000;
+	}
+	.zhaota{
+		width: 100%;
+		height: 54px;
+		background: #298377;
+		font-size: 22px;
+		color: #FFFFFF;
+		padding: 0;
+		margin: 0;
+	}
+	.grid-content{
+		border: 1px solid #CCCCCC;
+	}
+	.el-colss{
+		margin-top: 20px;
+	}
+	.el-pagination{
+		padding-top: 20px;
+		width: 100%;
+		text-align: center;
 	}
 </style>

@@ -17,7 +17,7 @@
 						<p style="margin-top: 5px;">2、不会视频剪辑？视频制作大神 等你来淘。</p>
 					</div>
 				</div>
-				<el-button class="left-bottom">进入共享千里马</el-button>
+				<el-button @click="qianlilma" class="left-bottom">进入共享千里马</el-button>
 			</div>
 			<div class="body-center">
 				<div class="center-top">
@@ -44,6 +44,21 @@
 								daskdajsfklpajsmflkadsmfl;ds'kfdolps;fkdlms;fk,dsl;gk,dfl;gkdffgjdisdnsajkdhnaiksudhnaiosudhasiodjsa;diosajdisadj ansiodnas sajdioasnd sandiosandas iosadjnaklsd asd asjkldnasd saocnvxsjkfhdwjs sauxidhw8qijdfahjnsidouahs8ubncijsaxhudsn'
 							</div>
 						</li>
+							<li class="center-li clearfix">
+								<div class="cneter-li-top">
+									<div class="dianTitle">
+										<div class="li-dian"></div>
+										<div class="title">408促销小标提</div>
+									</div>
+									<div class="yuanjingIcon">
+										<i class="el-icon-view"></i>
+										<span>564526次浏览</span>
+									</div>
+								</div>
+								<div class="li-body">
+									daskdajsfklpajsmflkadsmfl;ds'kfdolps;fkdlms;fk,dsl;gk,dfl;gkdffgjdisdnsajkdhnaiksudhnaiosudhasiodjsa;diosajdisadj ansiodnas sajdioasnd sandiosandas iosadjnaklsd asd asjkldnasd saocnvxsjkfhdwjs sauxidhw8qijdfahjnsidouahs8ubncijsaxhudsn'
+								</div>
+							</li>
 						<li class="center-li clearfix">
 							<div class="cneter-li-top">
 								<div class="dianTitle">
@@ -79,7 +94,85 @@
 			</div>
 			<div class="body-right">
 				<div class="right-top">
-					<div class="right-top-ddd"></div>
+					<div class="right-top-ddd">
+						<div class="activitydd"></div>
+						<div class="activitytext">活动通知</div>
+					</div>
+					<div class="right-top-gengduo">更多 >></div>
+				</div>
+				<div class="body-right-body">
+					<ul class="right-body-ul">
+						<li class="right-body-li">
+							<div class="body-li-activityName">
+								<span class="activityTitle">218促销活动</span>
+								<span class="activityTime">12分钟</span>
+							</div>
+							<div class="activityTexts">
+								sakdol;askjm;dloaskjml;dkasl;fkjl;dsafjdklsfgj;dkls;fgjd顶顶顶顶顶阿萨的不i卡舒服哦就ask的u带送到火箭发射考虑；大发生了巨大死哦打死哦大宋i打死哦到静安寺哦大家阿松iid；静安寺哦对；静安寺都阿斯哦；打死哦带上打死哦篇顶顶顶顶顶顶顶顶顶顶顶顶顶顶sklgjdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+							</div>
+						</li>
+						<li class="right-body-li">
+							<div class="body-li-activityName">
+								<span class="activityTitle">218促销活动</span>
+								<span class="activityTime">12分钟</span>
+							</div>
+							<div class="activityTexts">
+								sakdol;askjm;dloaskjml;dkasl;fkjl;dsafjdklsfgj;dkls;fgjd顶顶顶顶顶阿萨的不i卡舒服哦就ask的u带送到火箭发射考虑；大发生了巨大死哦打死哦大宋i打死哦到静安寺哦大家阿松iid；静安寺哦对；静安寺都阿斯哦；打死哦带上打死哦篇顶顶顶顶顶顶顶顶顶顶顶顶顶顶sklgjdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+							</div>
+						</li>
+						<li class="right-body-li">
+							<div class="body-li-activityName">
+								<span class="activityTitle">218促销活动</span>
+								<span class="activityTime">12分钟</span>
+							</div>
+							<div class="activityTexts">
+								sakdol;askjm;dloaskjml;dkasl;fkjl;dsafjdklsfgj;dkls;fgjd顶顶顶顶顶阿萨的不i卡舒服哦就ask的u带送到火箭发射考虑；大发生了巨大死哦打死哦大宋i打死哦到静安寺哦大家阿松iid；静安寺哦对；静安寺都阿斯哦；打死哦带上打死哦篇顶顶顶顶顶顶顶顶顶顶顶顶顶顶sklgjdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+							</div>
+						</li>
+						<li class="right-body-li">
+							<div class="body-li-activityName">
+								<span class="activityTitle">218促销活动</span>
+								<span class="activityTime">12分钟</span>
+							</div>
+							<div class="activityTexts">
+								sakdol;askjm;dloaskjml;dkasl;fkjl;dsafjdklsfgj;dkls;fgjd顶顶顶顶顶阿萨的不i卡舒服哦就ask的u带送到火箭发射考虑；大发生了巨大死哦打死哦大宋i打死哦到静安寺哦大家阿松iid；静安寺哦对；静安寺都阿斯哦；打死哦带上打死哦篇顶顶顶顶顶顶顶顶顶顶顶顶顶顶sklgjdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+							</div>
+						</li>
+						<li class="right-body-li">
+							<div class="body-li-activityName">
+								<span class="activityTitle">218促销活动</span>
+								<span class="activityTime">12分钟</span>
+							</div>
+							<div class="activityTexts">
+								sakdol;askjm;dloaskjml;dkasl;fkjl;dsafjdklsfgj;dkls;fgjd顶顶顶顶顶阿萨的不i卡舒服哦就ask的u带送到火箭发射考虑；大发生了巨大死哦打死哦大宋i打死哦到静安寺哦大家阿松iid；静安寺哦对；静安寺都阿斯哦；打死哦带上打死哦篇顶顶顶顶顶顶顶顶顶顶顶顶顶顶sklgjdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- 营销资源库 -->
+		<div class="marketing-repository">
+			<div class="repository-top">
+				<div class="repository"></div>
+				<div class="repository-text">营销资源库</div>
+			</div>
+			<div class="repository-body">
+				<div @click="tabqiehuan" class="repository-body-top">
+					<div class="repository-tab tab-active">视频·课程</div>
+					<div class="repository-tab">设计图·图片</div>
+					<div class="repository-tab">资料·文档</div>
+				</div>
+				<div class="repository-body-table">
+					<div class="body-table-text tab-active">
+						<markrtingVideo></markrtingVideo>
+					</div>
+					<div class="body-table-text">
+						<markrtingImg></markrtingImg>
+					</div>
+					<div class="body-table-text">
+						<markrtingwendang></markrtingwendang>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -87,9 +180,46 @@
 </template>
 
 <script>
+	import markrtingVideo from './marketing-video.vue'
+	import markrtingImg from './marketing-img.vue'
+	import markrtingwendang from './marketing-wendang.vue'
 	export default{
-		data(){},
+		name: 'marketing',
+		components:{
+			markrtingVideo,
+			markrtingImg,
+			markrtingwendang
+		},
+		data(){
+			return{}
+		},
+		mounted() {
+			
+		},
 		methods:{
+			
+			// swifthorse  进入千里马
+			qianlilma(){
+				this.$router.push({
+					path:'./swifthorse'
+				});
+			},
+			// tab切换
+			tabqiehuan(){
+				var tabType = document.getElementsByClassName('repository-tab');
+				var tablist = document.getElementsByClassName('body-table-text');
+				for(var i = 0; i< tabType.length; i++){
+					tabType[i].id = i;
+					tabType[i].onclick = function(){
+						for(var j = 0; j < tablist.length; j++){
+							tabType[j].classList.remove('tab-active');
+							tablist[j].classList.remove('tab-active');
+						}
+						tabType[this.id].classList.add('tab-active');
+						tablist[this.id].classList.add('tab-active');
+					}
+				}
+			},
 		}
 	}
 </script>
@@ -209,7 +339,8 @@
 		padding-top: 20px;
 	}
 	.center-body .center-ul{
-		height: 100%;
+		height: 250px;
+		width: 100%;
 		overflow: hidden;
 	}
 	.center-ul .center-li{
@@ -270,10 +401,118 @@
 	
 	.body-right .right-top{
 		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding:10px 20px;
+		border-bottom: 1px solid #F4F4F4;
+	}
+	.body-right .right-top .right-top-ddd {
+		display: flex;
+		flex-wrap: row;
+		align-items: center;
+	}
+	.body-right .right-top .right-top-ddd .activitydd{
+		width: 6px;
+		height: 25px;
+		border-radius: 10px;
+		background-image: linear-gradient(#4760FF,#0DCCFF);
+	}
+	.body-right .right-top .right-top-ddd .activitytext{
+		margin-left: 10px;
+		font-size: 24px;
+	}
+	.body-right .right-top .right-top-gengduo{
+		color: #2971FF;
+		font-size: 16px;
+		cursor: pointer;
+	}
+	
+	.body-right .body-right-body{
+		padding: 20px;
+	}
+	.body-right-body .right-body-ul{
+		height: 250px;
+		overflow: hidden;
+	}
+	.body-right-body .right-body-ul .right-body-li{
+		list-style: none;
+		padding-top: 20px;
+	}
+	.body-right-body .right-body-ul .right-body-li:nth-child(1){
+		padding-top: 0;
+	}
+	.right-body-ul .right-body-li .body-li-activityName{
+		display: flex;
+		justify-content: space-between;
+	}
+	.right-body-ul .right-body-li .body-li-activityName .activityTitle{
+		font-size: 16px;
+		font-weight: bold;
+	}
+	.right-body-ul .right-body-li .body-li-activityName .activityTime{
+		font-size: 14px;
+		color: #999999;
+	}
+	.right-body-ul .right-body-li .activityTexts{
+		height: 40px;
+		width: 100%;
+		line-height: 20px;
+		overflow: hidden;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		display: -webkit-box;
+		font-size: 14px;
+	}
+	
+	.marketing-repository{
+		width: 100%;
+		margin-top: 20px;
+	}
+	.marketing-repository .repository-top{
+		display: flex;
 		flex-wrap: nowrap;
+		align-items: center;
 	}
-	.body-right .right-top .right-top-ddd{
-		
+	.marketing-repository .repository-top .repository{
+		width: 6px;
+		height: 25px;
+		background-image: linear-gradient(#4760FF, #0DCCFF);
+		border-radius: 10px;
 	}
-
+	.marketing-repository .repository-top .repository-text{
+		font-size: 24px;
+		margin-left: 10px;
+		font-family: Regular;
+	}
+	.marketing-repository .repository-body{
+		width: 100%;
+		margin-top: 10px;
+		background-color: #FFFFFF;
+	}
+	.marketing-repository .repository-body .repository-body-top{
+		width: 100%;
+		height: 100px;
+		border-bottom: 1px solid #F4F4F4;
+		display: flex;
+		align-items: center;
+	}
+	.repository-tab{
+		font-size: 24px;
+		margin-left: 150px;
+		cursor: pointer;
+	}
+	.repository-tab.tab-active{
+		color: #2971FF;
+		border-bottom:2px solid #2971FF;
+	}
+	
+	.repository-body-table{
+		width: 100%;
+	}
+	.body-table-text{
+		display: none;
+	}
+	.body-table-text.tab-active{
+		display: block;
+	}
 </style>

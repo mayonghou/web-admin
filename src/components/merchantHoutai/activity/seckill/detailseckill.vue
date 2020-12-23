@@ -66,6 +66,7 @@
 			},
 			getSeckillList(){
 				var data = this.$route.query.data;
+				console.log(data);
 				this.productId = data.productId;
 				this.detailseckill.title = data.title;
 				this.detailseckill.goods = data.productName;
