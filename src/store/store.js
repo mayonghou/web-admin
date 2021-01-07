@@ -1,4 +1,3 @@
-
 import Vue from 'vue';
 import Vuex from 'vuex';
 Vue.use(Vuex)
@@ -10,7 +9,7 @@ Vue.use(Vuex)
 // /*
 const store = new Vuex.Store({
     state: {
-        Vuxorderlistbdata : '',
+        Vuxorderlistbdata: '',
     },
     getters: {
         doneTodos: state => {
@@ -18,7 +17,7 @@ const store = new Vuex.Store({
         }
     },
     mutations: {
-        doneTodosData(state,parametera){
+        doneTodosData(state, parametera) {
             return state.Vuxorderlistbdata = parametera;
         }
     },
@@ -40,4 +39,4 @@ const store = new Vuex.Store({
       }
   })
 */
-export default store ;
+export default store;

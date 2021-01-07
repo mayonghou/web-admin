@@ -2,7 +2,6 @@
     <div class="enterprise" id="addEnterprise">
         <!-- <div class="add_Top">添加企业</div> -->
         <div class="add_from">
-            <!-- <el-form ref="addform" :model="addform" :label-width="formLabelWidth" :rules="rules"> -->
             <el-form ref="addform" :model="addform" :label-width="formLabelWidth">
                 <div class="add_Top">企业信息</div>
 
@@ -18,7 +17,12 @@
                     <el-input class="formWidth" v-model="addform.creditCode" placeholder="请输入"></el-input>
                 </el-form-item>
 
-                <el-form-item label="营业执照:" prop="license" accept="image/*" :label-width="formLabelWidth">
+                <el-form-item
+                    label="营业执照:"
+                    prop="license"
+                    accept="image/*"
+                    :label-width="formLabelWidth"
+                >
                     <el-upload
                         class="avatar-uploader"
                         :action="action"
@@ -36,35 +40,63 @@
 
                 <el-form-item label="所属行业:" prop="industry" :label-width="formLabelWidth">
                     <el-select class="formWidth" v-model="addform.industry" placeholder="请选择">
-                        <el-option v-for="item in optionsas" :key="item.id" :label="item.name" :value="item.id"> </el-option>
+                        <el-option
+                            v-for="item in optionsas"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id"
+                        ></el-option>
                     </el-select>
                 </el-form-item>
 
                 <el-form-item label="企业类型:" prop="typeqiyeleixin" :label-width="formLabelWidth">
                     <el-select class="formWidth" v-model="addform.typeqiyeleixin">
-                        <el-option v-for="item in optionsqylx" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+                        <el-option
+                            v-for="item in optionsqylx"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value"
+                        ></el-option>
                     </el-select>
                 </el-form-item>
 
                 <el-form-item label="注册地址:" prop="register" :label-width="formLabelWidth">
-                    <el-cascader class="formWidth" v-model="addform.register" :options="options" @change="handleChange"></el-cascader>
+                    <el-cascader
+                        class="formWidth"
+                        v-model="addform.register"
+                        :options="options"
+                        @change="handleChange"
+                    ></el-cascader>
                     <label style="margin-left: 20px">详细地址：</label>
-                    <el-input class="formWidth address" v-model="addform.registeraddress" placeholder="请输入"></el-input>
+                    <el-input
+                        class="formWidth address"
+                        v-model="addform.registeraddress"
+                        placeholder="请输入"
+                    ></el-input>
                 </el-form-item>
 
                 <el-form-item label="经营地址:" prop="manageAddress" :label-width="formLabelWidth">
-                    <el-cascader class="formWidth" v-model="addform.manageAddress" :options="options" @change="handleChange"></el-cascader>
+                    <el-cascader
+                        class="formWidth"
+                        v-model="addform.manageAddress"
+                        :options="options"
+                        @change="handleChange"
+                    ></el-cascader>
                     <label style="margin-left: 20px">详细地址：</label>
-                    <el-input class="formWidth address" v-model="addform.manageaddressed" placeholder="请输入"></el-input>
+                    <el-input
+                        class="formWidth address"
+                        v-model="addform.manageaddressed"
+                        placeholder="请输入"
+                    ></el-input>
                 </el-form-item>
 
                 <el-form-item label="注册资本:" prop="capital" :label-width="formLabelWidth">
-                    <el-input class="formWidth" v-model.number="addform.capital" placeholder="请输入"></el-input
-                    ><label style="margin-left: 20px">万</label>
+                    <el-input class="formWidth" v-model.number="addform.capital" placeholder="请输入"></el-input>
+                    <label style="margin-left: 20px">万</label>
                 </el-form-item>
 
                 <el-form-item label="成立日期:" prop="setupTime" :label-width="formLabelWidth">
-                    <el-date-picker v-model="addform.setupTime" type="date" placeholder="选择日期"> </el-date-picker>
+                    <el-date-picker v-model="addform.setupTime" type="date" placeholder="选择日期"></el-date-picker>
                 </el-form-item>
 
                 <el-form-item label="企业背景图:" prop="backdrop" :label-width="formLabelWidth">
@@ -162,13 +194,27 @@
                 <div class="add_Top">企业账户信息</div>
                 <el-form-item label="账号类型:" prop="zhanhaolx" :label-width="formLabelWidth">
                     <el-select class="formWidth" v-model="addform.zhanhaolx" placeholder="请选择账号类型">
-                        <el-option v-for="item in optionsa" :key="item.valuea" :label="item.labela" :value="item.valuea"></el-option>
+                        <el-option
+                            v-for="item in optionsa"
+                            :key="item.valuea"
+                            :label="item.labela"
+                            :value="item.valuea"
+                        ></el-option>
                     </el-select>
                 </el-form-item>
 
                 <el-form-item label="开户银行:" prop="kaihuyinhan" :label-width="formLabelWidth">
-                    <el-select class="formWidth" v-model="addform.kaihuyinhan" placeholder="请选择账号类型">
-                        <el-option v-for="item in optionsb" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    <el-select
+                        class="formWidth"
+                        v-model="addform.kaihuyinhan"
+                        placeholder="请选择账号类型"
+                    >
+                        <el-option
+                            v-for="item in optionsb"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value"
+                        ></el-option>
                     </el-select>
                 </el-form-item>
 
@@ -199,32 +245,32 @@ export default {
             formLabelWidth: '220px',
             // fileList:'',
             addform: {
-                qiyeName: '',             // 企业名称
-                qiyeJiancheng: '',        // 企业简称
-                license: '',              // 营业执照
-                industry: '',             // 所属行业
-                typeqiyeleixin: '',       // 企业类型
-                creditCode: '',           // 社会统一信用代码
-                register: [],             // 注册地址
-                registeraddress: '',      // 注册地址输入部分
-                manageAddress: [],        // 经营地址
-                manageaddressed: '',      // 经营地址输入部分
-                capital: '',              // 注册资本
-                setupTime: '',            // 成立日期
-                backdrop: '',             // 企业背景图
-                backlogo:'',              // 企业LOGO
-                legalPerson: '',          // 法人姓名
-                legalPersona: '',         // 身份证号
-                papersImage: '',          // 身份证正面图
-                papersImages: '',         // 身份证反面图
-                cellphone: '',            // 手机号码
-                zhanhaolx: '',            // 账号类型
-                kaihuyinhan:'',           // 开户银行
-                kaihuwang: '',            // 开户网点
-                shoukuanzh: '',           // 收款账号
-                province:'',              // 省
-                city:'',                  // 市
-                region:'',                // 区
+                qiyeName: '', // 企业名称
+                qiyeJiancheng: '', // 企业简称
+                license: '', // 营业执照
+                industry: '', // 所属行业
+                typeqiyeleixin: '', // 企业类型
+                creditCode: '', // 社会统一信用代码
+                register: [], // 注册地址
+                registeraddress: '', // 注册地址输入部分
+                manageAddress: [], // 经营地址
+                manageaddressed: '', // 经营地址输入部分
+                capital: '', // 注册资本
+                setupTime: '', // 成立日期
+                backdrop: '', // 企业背景图
+                backlogo: '', // 企业LOGO
+                legalPerson: '', // 法人姓名
+                legalPersona: '', // 身份证号
+                papersImage: '', // 身份证正面图
+                papersImages: '', // 身份证反面图
+                cellphone: '', // 手机号码
+                zhanhaolx: '', // 账号类型
+                kaihuyinhan: '', // 开户银行
+                kaihuwang: '', // 开户网点
+                shoukuanzh: '', // 收款账号
+                province: '', // 省
+                city: '', // 市
+                region: '' // 区
             },
             // 注册地址
             options: [
@@ -331,8 +377,8 @@ export default {
                     value: '3',
                     label: '其他'
                 }
-            ],
-        }
+            ]
+        };
     },
     methods: {
         // 删除图片
@@ -344,71 +390,86 @@ export default {
         },
         // 营业执照图片上传成功的回掉
         licenseSuccessa(response, file, fileList) {
-            this.addform.license = response.data
+            this.addform.license = response.data;
         },
         // 企业背景图上传成功的回掉
         backdropSuccess(response, file, fileList) {
-            this.addform.backdrop = response.data
+            this.addform.backdrop = response.data;
         },
         // 企业LOGO图片上传成功的回掉
         backlogoSuccess(response, file, fileList) {
-            this.addform.backlogo = response.data
+            this.addform.backlogo = response.data;
         },
         // 身份证正面图片上传成功的回掉
         licenseSuccessb(response, file, fileList) {
-            this.addform.papersImage = response.data
+            this.addform.papersImage = response.data;
         },
         // 身份证反面图片上传成功的回掉
         licenseSuccessc(response, file, fileList) {
-            this.addform.papersImages = response.data
+            this.addform.papersImages = response.data;
         },
 
         handleChange() {},
         // 添加时回调
         addButton() {
             var addformObj = new Object();
-            addformObj.name = this.addform.qiyeName ,                    // 企业名称
-            addformObj.remark = this.addform.qiyeJiancheng ,             // 企业简称
-            addformObj.code = this.addform.creditCode ,                  // 社会统一信用代码
-            addformObj.licenseUrl = this.addform.license ,               // 营业执照 
-            addformObj.industry = this.addform.industry ,                // 所属行业
-            addformObj.industryId = localStorage.getItem('industryId') , // 行业ID
-            addformObj.businessType = this.addform.typeqiyeleixin ,      // 企业类型
-            addformObj.id = localStorage.getItem('loginData') ,          // 企业ID
-            addformObj.registerAddress = this.addform.register ,         // 注册地址
-            addformObj.address = this.addform.manageAddress ,            // 经营地址
-            addformObj.registerMoney = this.addform.capital ,            // 注册资本
-            addformObj.registerTime = this.addform.setupTime ,           // 成立日期
-            addformObj.backgroundImage = this.addform.backdrop ,         // 企业背景图
-            addformObj.logoUrl = this.addform.backlogo ,                 // 企业LOGO
-            addformObj.legal = this.addform.legalPerson ,                // 法人姓名
-            addformObj.identityId = this.addform.legalPersona ,          // 身份证号
-            // 身份证图片
-            // 上传图片
-            addformObj.serverPhone = this.addform.cellphone ,            // 手机号码
-            addformObj.bankType = this.addform.zhanhaolx ,               // 账户类型
-            addformObj.depositBank = this.addform.kaihuyinhan ,          // 开户银行
-            addformObj.branch = this.addform.kaihuwang ,                 // 开户网点
-            addformObj.bankNumber = this.addform.shoukuanzh ,            // 收款账号
-            addformObj.province = this.addform.register[0],              // 省
-            addformObj.city = this.addform.register[1],                  // 市
-            addformObj.region = this.addform.register[2],                // 区
-            this.$axios.post('admin/company/add',addformObj).then((res)=>{
-                this.$message({
-                    showClose: true,
-                    message: res.data.msg,
-                    type: 'error'
-                });
-            }).catch((error)=>{
-                
-            })
+            (addformObj.name = this.addform.qiyeName), // 企业名称
+                (addformObj.remark = this.addform.qiyeJiancheng), // 企业简称
+                (addformObj.code = this.addform.creditCode), // 社会统一信用代码
+                (addformObj.licenseUrl = this.addform.license), // 营业执照
+                (addformObj.industry = this.addform.industry), // 所属行业
+                (addformObj.industryId = this.addform.industry), // 行业ID
+                (addformObj.businessType = this.addform.typeqiyeleixin), // 企业类型
+                (addformObj.id = localStorage.getItem('loginData')), // 企业ID
+                (addformObj.registerAddress = this.addform.register), // 注册地址
+                (addformObj.address = this.addform.manageAddress), // 经营地址
+                (addformObj.registerMoney = this.addform.capital), // 注册资本
+                (addformObj.registerTime = this.addform.setupTime), // 成立日期
+                (addformObj.backgroundImage = this.addform.backdrop), // 企业背景图
+                (addformObj.logoUrl = this.addform.backlogo), // 企业LOGO
+                (addformObj.legal = this.addform.legalPerson), // 法人姓名
+                (addformObj.identityId = this.addform.legalPersona), // 身份证号
+                // 身份证图片
+                // 上传图片
+                (addformObj.serverPhone = this.addform.cellphone), // 手机号码
+                (addformObj.bankType = this.addform.zhanhaolx), // 账户类型
+                (addformObj.depositBank = this.addform.kaihuyinhan), // 开户银行
+                (addformObj.branch = this.addform.kaihuwang), // 开户网点
+                (addformObj.bankNumber = this.addform.shoukuanzh), // 收款账号
+                (addformObj.province = this.addform.register[0]), // 省
+                (addformObj.city = this.addform.register[1]), // 市
+                (addformObj.region = this.addform.register[2]), // 区
+                this.$axios
+                    .post('admin/company/add', addformObj)
+                    .then((res) => {
+                        if (res.status == 200) {
+                            this.$message({
+                                showClose: true,
+                                message: res.data.msg,
+                                type: 'success'
+                            });
+                        } else {
+                            this.$message({
+                                showClose: true,
+                                message: res.data.msg,
+                                type: 'error'
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            this.$router.push({
+                path: './index',
+                query: {}
+            });
         },
         // 取消
-        ReturnToEnterpriseList(){
+        ReturnToEnterpriseList() {
             this.$router.push({
-                path:'./index',
-                query:{
-                    DataHttp:'',
+                path: './index',
+                query: {
+                    DataHttp: ''
                 }
             });
         }
@@ -420,21 +481,21 @@ export default {
     mounted() {
         // 行业类型
         this.$axios
-		.get('admin/industry/list')
-		.then(res => {
-			if (res.status == 200) {
-				if (res.data.code == 200) {
-					for (let i in res.data.data) {
-						this.optionsas = res.data.data;
-					}
-				}
-			}
-		})
-		.catch(err => {
-			console.log(res.status);
-		})
+            .get('admin/industry/list')
+            .then((res) => {
+                if (res.status == 200) {
+                    if (res.data.code == 200) {
+                        for (let i in res.data.data) {
+                            this.optionsas = res.data.data;
+                        }
+                    }
+                }
+            })
+            .catch((err) => {
+                console.log(res.status);
+            });
     }
-}
+};
 </script>
 
 <style>

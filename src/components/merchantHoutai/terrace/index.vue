@@ -8,54 +8,67 @@
     >
         <!-- 头部企业查询 -->
         <div class="terracr_top">
-            <div class="top_text"><label>企业查询</label></div>
+            <div class="top_text">
+                <label>企业查询</label>
+            </div>
             <div class="top_search clear">
-                <div class="search">
-                    <el-input v-model="inputName" placeholder="输入企业、法人名称"></el-input>
-                </div>
-                <div class="search search02">
-                    <el-select v-model="value" placeholder="全部行业">
-                        <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id"> </el-option>
-                    </el-select>
-                </div>
-                <div class="top_time">
-                    <i style="font-size: 22px;color: #2494D2;padding-right: 38px;" class="el-icon-date"></i>
-                    <el-date-picker
-                        prefix-icon="md-date_range"
-                        value-format="yyyy-MM-dd"
-                        v-model="time"
-                        type="daterange"
-                        start-placeholder="开始日期"
-                        end-placeholder="结束日期"
-                    >
-                    </el-date-picker>
-                    <el-button type="primary" @click="queryQY" class="button">查询</el-button>
-                </div>
+                <el-input class="asdas" v-model="inputName" placeholder="输入企业、法人名称"></el-input>
+                <el-select class="asdas" v-model="value" placeholder="全部行业">
+                    <el-option
+                        v-for="item in options"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id"
+                    ></el-option>
+                </el-select>
+
+                <el-date-picker
+                    class="asdas"
+                    value-format="yyyy-MM-dd"
+                    v-model="time"
+                    type="daterange"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                ></el-date-picker>
+                <el-button type="primary" @click="queryQY" class="button">查询</el-button>
             </div>
         </div>
         <!-- 删除和添加企业 -->
         <div class="add_Del">
+            <el-button @click="del_All" class="tab_delss button">全部删除</el-button>
             <router-link to="addEnterprise">
                 <el-button @click="add_enterprise" class="button add_qiye">添加企业</el-button>
             </router-link>
-            <el-button @click="del_All" class="tab_del button">全部删除</el-button>
         </div>
         <!-- 表格 -->
-        <el-table :data="tableData" style="width: 1200px; margin: 0 auto;">
-            <el-table-column type="selection" width=""></el-table-column>
-            <el-table-column prop="name" label="企业名称"></el-table-column>
-            <el-table-column prop="legal" label="法人姓名"></el-table-column>
-            <el-table-column prop="serverPhone" label="管理员账号"></el-table-column>
-            <el-table-column prop="industry" label="所属行业"></el-table-column>
-            <el-table-column prop="industry" label="团队成员"></el-table-column>
-            <!-- <el-table-column prop="time" label="企业类型"></el-table-column> -->
-            <el-table-column prop="time" label="入驻时间"></el-table-column>
+        <el-table :data="tableData" border style="width: 100%;">
+            <el-table-column type="selection" width align="center"></el-table-column>
+            <el-table-column prop="name" label="企业名称" align="center"></el-table-column>
+            <el-table-column prop="legal" label="法人姓名" align="center"></el-table-column>
+            <el-table-column prop="account" label="管理员账号" align="center"></el-table-column>
+            <el-table-column prop="industry" label="所属行业" align="center"></el-table-column>
+            <el-table-column prop="teams" label="团队成员" align="center">
+                <template slot-scope="scope">
+                    <el-link :underline="false" @click="JumpRoute">{{scope.row.teams}}人</el-link>
+                </template>
+            </el-table-column>
+            <el-table-column prop="time" label="入驻时间" align="center"></el-table-column>
             <el-table-column label="操作" width="350" align="center">
                 <template slot-scope="scope">
-                    <el-button type="primary" class="tab_gl tab_button02">密码重置</el-button>
-                    <el-button @click="admin(scope.row)" type="text" class="tab_gl tab_button" size="small">管理</el-button>
-                    <el-button @click="edit_enterprise(scope.row)" type="text" class="tab_bj tab_button" size="small">编辑</el-button>
-                    <el-button @click="del_enterprise(scope.row)" type="text" class="tab_del tab_button" size="small">删除</el-button>
+                    <el-button type="primary" class="tab_button index-btn">密码重置</el-button>
+                    <el-button
+                        @click="admin(scope.row)"
+                        type="text"
+                        class="tab_gl tab_button"
+                        size="small"
+                    >管理</el-button>
+                    <el-button @click="edit_enterprise(scope.row)" class="tab_bj tab_button">编辑</el-button>
+                    <el-button
+                        @click="del_enterprise(scope.row)"
+                        type="text"
+                        class="tab_del tab_button"
+                        size="small"
+                    >删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -69,8 +82,7 @@
             :page-size="10"
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
-        >
-        </el-pagination>
+        ></el-pagination>
     </div>
 </template>
 
@@ -97,24 +109,23 @@ export default {
         this.getIndustryList();
         this.getTerraceList();
     },
-    created(){
-    },
+    created() {},
     methods: {
         // /*
         // 添加企业按钮
         add_enterprise() {
             this.$router
                 .push({
-                    path: '../addEnterprise'
+                    path: './addEnterprise'
                 })
-                .catch(err => {
-                    console.log(err);
+                .catch((err) => {
+                    // console.log(err);
                 });
         },
         // 删除所有钮
         del_All() {
             let id = this.qiyeID;
-            this.$axios.get('admin/company/delete?ids=' + id).then(res => {
+            this.$axios.get('admin/company/delete?ids=' + id).then((res) => {
                 if (res.status == 200) {
                     var data = res.data;
                     if (data.code == 200) {
@@ -129,7 +140,7 @@ export default {
         // 删除一个
         del_enterprise(row) {
             let id = row.id;
-            this.$axios.get('admin/company/delete?ids=' + id).then(res => {
+            this.$axios.get('admin/company/delete?ids=' + id).then((res) => {
                 console.log(res);
                 if (res.status == 200) {
                     var data = res.data;
@@ -144,23 +155,14 @@ export default {
         },
         // 管理
         admin(row) {
-            this.$router
-                .push({
-                    path: './enterpriseAdmin'
-                })
-                .catch(err => {
-                    console.log(err);
-                });
+            this.$router.push({
+                path: './businessmanage'
+            });
         },
         edit_enterprise(row) {
-            var id = row.id;
-            this.$router
-                .push({
-                    path: './editDatetl'
-                })
-                .catch(err => {
-                    console.log(err);
-                });
+            this.$router.push({
+                path: './editerinfor'
+            });
         },
         // 页码
         handleSizeChange(val) {
@@ -180,7 +182,7 @@ export default {
         getIndustryList() {
             this.$axios
                 .get('admin/industry/list')
-                .then(res => {
+                .then((res) => {
                     if (res.status == 200) {
                         var data = res.data;
                         if (data.code == 200) {
@@ -200,7 +202,7 @@ export default {
                         });
                     }
                 })
-                .catch(error => {});
+                .catch((error) => {});
         },
         // 查询企业
         getTerraceList() {
@@ -212,20 +214,30 @@ export default {
                 limit: this.limit,
                 name: this.inputName
             };
-            this.$axios.post('admin/company/list', datalist).then(res => {
+            this.$axios.post('admin/company/common/list', datalist).then((res) => {
                 this.fullscreenLoading = false;
                 if (res.status == 200) {
-                    var data = res.data;
-                    console.log(data);
+                    let data = res.data;
                     if (data.code == 200) {
-                        this.tableData = data.data;
-                        var qiyeID = [];
-                        this.tableData.forEach(function(val, index) {
-                            qiyeID[index] = val.id;
+                        let Data = data.data;
+                        let DataList = [];
+                        Data.forEach(function (val, index) {
+                            DataList[index] = val;
+                            DataList[index].account = val.account;
+                            DataList[index].name = val.company.name;
+                            DataList[index].legal = val.company.legal;
+                            DataList[index].industry = val.company.industry;
+                            DataList[index].teams = val.teams.length;
+                            var date = new Date(val.company.time);
+                            var time1 =
+                                date.getFullYear() +
+                                '-' +
+                                (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                                '-' +
+                                date.getDate();
+                            DataList[index].time = time1;
                         });
-                        this.qiyeID = qiyeID;
-                        localStorage.setItem('qyid', this.qiyeID);
-                        this.counts = this.tableData.length;
+                        this.tableData = DataList;
                     } else {
                         this.$message({
                             showClose: true,
@@ -241,8 +253,9 @@ export default {
                     });
                 }
             });
-        }
-        // */
+        },
+        // teams
+        JumpRoute() {}
     }
 };
 </script>

@@ -147,13 +147,18 @@
 				this.getSeckillList();
 			},
 			// 时间戳转换
-			templateTime(){
-				var date = new Date(this.time[0]);
-				var startTime = date.getTime(date);
-				var date1 = new Date(this.time[1]);
-				var endTime = date1.getTime(date1);
-				this.timeStart = startTime;
-				this.timeEnd = endTime;
+			templateTime(value){
+				if(value != null){
+					var date = new Date(value[0]);
+					var startTime = date.getTime(date);
+					var date1 = new Date(value[1]);
+					var endTime = date1.getTime(date1);
+					this.timeStart = startTime;
+					this.timeEnd = endTime;
+				} else {
+					this.timeStart = '';
+					this.timeEnd = '';
+				}
 			},
 			// 查询秒杀列表
 			getSeckillList(){
@@ -180,7 +185,7 @@
 								datetime2 = val.endTime;
 								var date = new Date(datetime1);
 								var time1 = date.getFullYear() + '-' + (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() +
-									1) + '-' + date.getDate() + ' '; //+ date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+									1) + '-' + date.getDate(); //+ date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
 					
 								var date1 = new Date(datetime2);
 								var time2 = date1.getFullYear() + '-' + (date1.getMonth() + 1 < 10 ? '0' + (date1.getMonth() + 1) : date1.getMonth() +

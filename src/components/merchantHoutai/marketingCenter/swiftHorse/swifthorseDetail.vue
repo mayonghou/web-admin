@@ -8,22 +8,22 @@
 			<div class="swDetail-top-b">
 				<div class="banner">
 					<el-carousel height="240px">
-						<el-carousel-item v-for="(item,index) in this.imgUrl" :key="item.index">
+						<el-carousel-item v-for="(item,index) in this.imgUrl" :key="index">
 							<img width="100%" height="100%" :src="item" />
 						</el-carousel-item>
 					</el-carousel>
 				</div>
 				<div class="personaDdetails">
 					<div class="persona">
-						<el-avatar :size="65" :src="this.avatar"></el-avatar>
+						<el-avatar :size="65" :src="this.avatarUrl"></el-avatar>
 						<div class="personaXinxi">
 							<span style="font-size: 30px;font-weight: bolder;">{{this.name}}</span>
 							<div class="zhiweijinyang">
-								<span>{{this.basicInfo.sidelineTypeName}}</span>
-								<span style="margin-left: 15px;">{{this.basicInfo.workExperiences}}经验</span>
+								<span>{{this.basicInfos.sidelineTypeName}}</span>
+								<span style="margin-left: 15px;">{{this.basicInfos.workExperiences}}经验</span>
 							</div>
 							<div class="pingfen">
-								<span><span style="font-size: 14px; color: #FF8400;">{{this.detailInfo.countOrder}}人</span>找过他</span>
+								<span><span style="font-size: 14px; color: #FF8400;">{{this.detailInfos.countOrder}}人</span>找过他</span>
 								<el-rate
 								 style="margin-left: 10px;"
 								  v-model="value"
@@ -38,15 +38,15 @@
 					<div class="persona-b">
 						<i  style="color: #FF8400;" class="el-icon-phone-outline"></i>
 						<span>联系方式</span>
-						<span style="margin-left: 20px;">{{this.basicInfo.phoneNumber}}</span>
-						<i style="cursor: pointer;" @click="" class="el-icon-view"></i>
+						<span style="margin-left: 20px;">{{this.basicInfos.phoneNumber}}</span>
+						<i style="cursor: pointer;"  class="el-icon-view"></i>
 					</div>
 					<div class="price">
 						<span class="span">指导价：</span>
-						<span class="span" style="color: #FF0000;">{{this.basicInfo.sysRecommendPrice}}￥/张</span>
+						<span class="span" style="color: #FF0000;">{{this.basicInfos.sysRecommendPrice}}￥/张</span>
 					</div>
 					<div class="price">
-						<el-button @click="xiaOrder" class="priceOrder">立即下单</el-button>
+						<el-button @click="xiaOrder()" class="priceOrder">立即下单</el-button>
 					</div>
 				</div>
 			</div>
@@ -66,7 +66,7 @@
 						<img width="206" height="206" src="../../../../assets/img/img.jpg" /> -->
 					</div>
 					<p class="text">
-						{{this.detailInfo.introduction}}
+						{{this.detailInfos.introduction}}
 					</p>
 				</div>
 				<div class="workpane">
@@ -78,7 +78,7 @@
 						</li> -->
 						<li class="workpaneLI">
 							<!-- <span class="shouhangsoujin">{{item.index}}.</span> -->
-							<span>{{this.detailInfo.styleDescription}}</span>
+							<span>{{this.detailInfos.styleDescription}}</span>
 						</li>
 					</ul>
 				</div>
@@ -95,7 +95,7 @@
 					<li class="wordlist-li" v-for="item in this.dataworks" :key="item.id">
 						<div class="li-left">
 							<video class="video" :src="item.video" controls="controls"></video>
-							<img class="video" :src="item.video" />
+							<!-- <img class="video" :src="item.video" /> -->
 						</div>
 						<div class="li-right">
 							<div>{{item.name}}</div>
@@ -107,7 +107,7 @@
 		</div>
 	
 	
-	<el-dialog title="设置订单" :visible.sync="dialogVisibleake" width="50%">
+	<el-dialog title="设置订单" :visible.sync="dialogVisibleake" width="40%">
 		<div class="iconEnlorder" @click="enlarge">
 			<el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
 				<i class="iconfont icon-quanping"></i>
@@ -115,49 +115,41 @@
 		</div>
 		<el-form :model="order" :rules="rules" ref="lijifahuo">
 			<el-form-item label="输入订单要求:" prop="orderEequire" :label-width="formLabelWidth">
-				<el-input class="elInpiut" v-model="order.orderEequire" type="textarea" maxlength="300" show-word-limit></el-input>
+				<el-input class="elInpiut" v-model="order.orderEequire" type="textarea" maxlength="300" show-word-limit placeholder="请输入订单要求"></el-input>
 			</el-form-item>
 			<el-form-item  prop="orderTextList"  label="设置订单内容:" :label-width="formLabelWidth" required>
-				  <el-col :span="8">
-						<el-form-item type="data"  prop="orderText" >
-							<el-select  v-model="order.orderText" style="width: 100px">
-								<el-option label="图片" value="0"></el-option>
-								<el-option label="视频" value="1"></el-option>
-								<el-option label="文档" value="2"></el-option>
-							</el-select>
-						</el-form-item>
-				    </el-col>
-				    <el-col :span="8">
-						<el-form-item label="数量:" prop="orderNumber" >
-							<el-input v-model="order.orderNumber" style="width: 100px;"></el-input>
-						</el-form-item>
-					 </el-col>
-					 <el-col :span="8">
-						<el-button type="text" class="delete  el-icon-remove-outline" style="color: #FF0000;">删除</el-button>
-					  </el-col>
+				<el-form-item type="data" v-for="(item,index) in this.order.orderTextList" :key="index">
+					<el-select  v-model="item.sidelineType">
+						<el-option v-for="val in item.dataTypeList" :key="val.id" :label="val.name" :value="val.id"></el-option>
+					</el-select>
+					<label style="margin-left: 20px;">数量：</label>
+					<el-input v-model.number="item.totalNum" style="width: 100px;"></el-input>
+					<el-button type="text" @click="delorderTextList(item)" class="delete  el-icon-remove-outline" style="color: #FF0000;margin-left: 30px;">删除</el-button>
+				</el-form-item>
+				<el-button type="text" @click="addclick" class="addorder el-icon-circle-plus-outline">添加</el-button>
 			</el-form-item>
-			<el-form-item :label-width="formLabelWidth">
-				<el-button type="text" @click="addclick" class="addorder el-icon-circle-plus-outline"> 添加</el-button>
-			</el-form-item>
-			<el-form-item label="设置订单时间:"  :label-width="formLabelWidth" required>
-				    <el-col :span="8">
-						  <el-form-item prop="date1">
-							<el-date-picker type="date" placeholder="选择日期" v-model="order.date1" style="width:150px;"></el-date-picker>
-						  </el-form-item>
-				    </el-col>
-				    <el-col class="line" :span="2">-</el-col>
-				    <el-col :span="8">
-						  <el-form-item prop="date2">
-							<el-date-picker type="date" placeholder="选择日期" v-model="order.date2" style="width:150px;"></el-date-picker>
-						  </el-form-item>
-				    </el-col>
+			<el-form-item label="设置订单时间:" prop="dataValue"  :label-width="formLabelWidth">
+				     <el-date-picker
+						class="el-date-picker"
+						v-model="order.dataValue"
+						type="daterange"
+						range-separator="-"
+						start-placeholder="开始日期"
+						end-placeholder="结束日期"
+						value-format="yyyy-MM-dd"
+						@change="timeValue"
+					>
+					</el-date-picker>
 			</el-form-item>
 			<el-form-item label="约定成交价格:" prop="orderPrice" :label-width="formLabelWidth">
-				<el-input v-model="order.orderPrice" class="inputPrice"></el-input>参考价格仅提供参考，最终价格由你和设计师约定价格
+				<el-input v-model.number="order.orderPrice" class="inputPrice" placeholder="请输入约定价格"></el-input>
+				<div>
+					<i class="el-icon-warning-outline" style="color: #D61F21;"></i>参考价格仅提供参考，最终价格由你和设计师约定价格
+				</div>
 			</el-form-item>
 		</el-form>
 		<div class="dialog-footer">
-			<el-button class="submitOrder">提交订单</el-button>
+			<el-button @click="OrderSubmit" class="submitOrder">提交订单</el-button>
 		</div>
 	</el-dialog>
 	
@@ -167,6 +159,8 @@
 </template>
 
 <script>
+	
+	
 	export default {
 		name: 'swifthorseDetail',
 		data() {
@@ -179,43 +173,131 @@
 				order:{
 					orderEequire: '',
 					orderTextList: [{
-						orderText: '',
-						orderNumber: '',
+						sidelineType: '',
+						totalNum: '',
+						dataTypeList: this.dataTypeLists,
+						sysRecommendPrice: this.sysRecommendPrices,
+						actualPrice: this.sysRecommendPrices,
 					}],
-					date1: '',
-					date2: '',
+					dataValue: [],
 					orderPrice: '',
 				},
 				rules:{
 					orderEequire:[
 						{required: true, message: '请输入订单内容', trigger: 'blur' }
 					],
-					orderText:[
-						{type: 'data',required: true, message: '请选择订单内容', trigger: 'blur' }
+					orderTextList:[
+						{required: true, message: '请选择订单sss', trigger: 'blur' }
 					],
-					 date1: [
-						{ type: 'date', required: true, message: '请选择日期', trigger: 'blur' }
-					],
-					date2: [
-						{ type: 'date', required: true, message: '请选择日期', trigger: 'blur' }
+					dataValue: [
+						{ required: true, message: '请选择日期', trigger: 'blur' }
 					],
 					orderPrice:[
-						{ required: true, message: '请输入约定价格', trigger: 'blur' }
+						{ required: true, message: '请输入约定价格', trigger: 'blur' },
+						{ type:'number', message: '请输入数字',trigger: 'blur'}
 					]
 				},
 				index: 0,
 				imgUrl:[],
 				avatarUrl: '',
 				name: '',
-				basicInfo: {},
-				detailInfo: {},
-				dataworks: []
+				basicInfos: {},
+				detailInfos: {},
+				dataworks: [],
+				dataTypeLists: [],
+				startTime: '',
+				endTime: '',
+				sidelineUserId: '',
+				sysRecommendPrices: ''
 			}
 		},
 		mounted() {
 			this.getProfile();
+			this.getListSidelineType();
 		},
 		methods: {
+			timeValue(value){
+				if(value != null){
+					let datatime = new Date(value[0]);
+					this.startTime = datatime.getTime(datatime);
+					let datatime1 = new Date(value[1]);
+					this.endTime = datatime1.getTime(datatime1);
+				} else {
+					this.startTime = '',
+					this.endTime = ''
+				}
+				
+			},
+			OrderSubmit(){
+				this.$refs.lijifahuo.validate((valid) => {
+					if(valid){
+						let datalistsss = {
+							actualTotalPrice: this.order.orderPrice * 100,
+							startTime:　this.startTime,
+							endTime: this.endTime,
+							taskList: this.order.orderTextList,
+							sidelineUserId: this.sidelineUserId,
+							industryId: parseInt(localStorage.getItem('industryId')),
+							requirements: this.order.orderEequire
+						};
+						this.$axios.post('admin/sideline/order/create', datalistsss).then((res) => {
+							if(res.status == 200){
+								let data = res.data;
+								if(data.code == 200){
+									this.$message({
+										showClose: true,
+										message: data.msg,
+										type: 'success'
+									});
+									this.dialogVisibleake = false;
+									this.$router.push({
+										path:'./orderConfirm',
+										query: {
+											data: data.data.id
+										}
+									});
+								} else {
+									this.$message({
+										showClose: true,
+										message: data.msg,
+										type: 'error'
+									});
+								}
+							} else {
+								this.$message({
+									showClose: true,
+									message: data.msg,
+									type: 'error'
+								});
+							}
+						});
+					}
+				});
+				
+			},
+			getListSidelineType(){
+				this.$axios.get('admin/sideline/list_sideline_type').then((res) => {
+					if(res.status == 200){
+						var data = res.data;
+						if(data.code == 200){
+							this.$set(this.order.orderTextList[0],'dataTypeList',data.data)
+							this.dataTypeLists = data.data;
+						} else {
+							this.$message({
+								showClose: true,
+								message: data.msg,
+								type: 'error'
+							});
+						}
+					} else {
+						this.$message({
+							showClose: true,
+							message: data.msg,
+							type: 'error'
+						});
+					}
+				});
+			},
 			xiaOrder(){
 				this.dialogVisibleake = true;
 			},
@@ -223,7 +305,20 @@
 				
 			},
 			addclick(){
-				
+				this.getListSidelineType(); 
+				this.order.orderTextList.push({
+					sidelineType: '',
+					totalNum: '',
+					sysRecommendPrice: this.sysRecommendPrices,
+					dataTypeList: this.dataTypeLists,
+					actualPrice: this.sysRecommendPrices,
+				});
+			},
+			delorderTextList(item){
+				var index = this.order.orderTextList.indexOf(item);
+				if(index != -1){
+					this.order.orderTextList.splice(index, 1)
+				}
 			},
 			getProfile(){
 				let id = this.$route.query.id;
@@ -232,10 +327,14 @@
 						let data = res.data;
 						if(data.code == 200){
 							let dataLists = data.data;
-							this.basicInfo = dataLists.basicInfo;
-							this.detailInfo = dataLists.detailInfo;
+							this.basicInfos = data.data.basicInfo;
+							this.detailInfos = data.data.detailInfo;
+							this.$set(this.order.orderTextList[0],'sysRecommendPrice',data.data.basicInfo.sysRecommendPrice)
+							this.$set(this.order.orderTextList[0],'actualPrice',data.data.basicInfo.sysRecommendPrice)
+							this.sysRecommendPrices = data.data.basicInfo.sysRecommendPrice;
 							let dataworks = [];
 							var https = /^https:\/\/.+$/;
+							this.sidelineUserId = dataLists.works[0].sidelineUserId;
 							dataLists.works.forEach(function(val,index){
 								dataworks[index] = val;
 								if(https.test(val.content)){
@@ -253,11 +352,11 @@
 							this.dataspan =dataLists.detailInfo.worksTabs.split(';');
 							
 							var imgUrls =[];
-							if(https.test(dataLists.basicInfo.avatar)){
-								this.avatarUrl = dataLists.basicInfo.avatar;
-							} else {
-								this.avatarUrl = localStorage.getItem('imgUrl') + dataLists.basicInfo.avatar;
-							}
+							// if(https.test(dataLists.basicInfo.avatar)){
+							// 	this.avatarUrl = dataLists.basicInfo.avatar;
+							// } else {
+							// 	this.avatarUrl = localStorage.getItem('imgUrl') + dataLists.basicInfo.avatar;
+							// }
 							this.dataLists =dataLists.basicInfo.workExperiences;
 							this.name = dataLists.basicInfo.userName;
 							dataLists.detailInfo.worksPictures.split(';').forEach(function(val,index){
@@ -317,7 +416,6 @@
 		height: 10px;
 		border-radius: 50%;
 		margin-top: 10px;
-		background-color: #000000;
 	}
 	.swDetail-top-b .personaDdetails {
 		width: 60%;
@@ -335,7 +433,7 @@
 	.personaXinxi .pingfen{
 		display: flex;
 		justify-content: space-between;
-		color: ##333333;
+		color: #333333;
 		font-size: 12px;
 	}
 	.zhiweijinyang{
@@ -466,6 +564,7 @@
 		right: 30px;
 	}
 	.elInpiut{
+		width: 80%;
 		height: 100px;
 	}
 	.el-textarea__inner{
@@ -483,19 +582,28 @@
 	}
 	.addorder{
 		font-size: 20px;
+		margin-left: 27%;
 	}
 	.inputPrice{
-		width: 150px;
+		width: 80%;
 	}
 	.dialog-footer{
 		width: 100%;
 		text-align: center;
 	}
 	.dialog-footer .submitOrder{
-		width: 100px;
-		height: 30px;
-		background-color: #FF8D00;
+		width: 300px;
+		height: 60px;
+		background-color: #4985F0;
 		color: #fff;
 		margin: 0 auto;
+		padding: 0;
+		font-size: 24px;
+	}
+	.el-date-editor--daterange.el-input__inner{
+		width: 80%;
+	}
+	.el-dialog__header{
+		background-color: #F0F0F0;
 	}
 </style>

@@ -1,230 +1,212 @@
 /* index */
 .clear {
-    clear: both;
+	clear: both;
 }
 
 .terraceIndex {
-    padding: 10px;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 20px;
 }
 
 .terracr_top {
-    width: 1200px;
-    height: 114px;
-    margin: 0 auto;
-    background-color: #FAFBFA;
+	width: 100%;
+	height: 114px;
+	background-color: #FAFBFA;
+	padding-left: 10px;
+}
+
+.asdas {
+	margin-left: 10px;
 }
 
 .top_text {
-    padding: 10px 20px;
-    font-size: 14px;
+	padding-top: 20px;
+	font-size: 14px;
+	padding-left: 10px;
 }
 
-.top_search {
-    padding: 10px 20px;
-    font-size: 12px;
-    margin-top: -8px;
-}
 
 .top_search .search {
-    width: 200px;
-    height: 30px;
-    float: left;
-    color: #A4A4A4;
+	width: 200px;
+	height: 30px;
+	float: left;
+	color: #A4A4A4;
 }
 
 .terraceIndex .top_time {
-    float: left;
-    margin-left: 38px;
-    margin-top: 0px;
+	float: left;
+	/* margin-left: 38px; */
+	margin-top: 0px;
 }
 
-.top_time .button {
-    width: 151px;
-    height: 30px;
-    background-color: #2450D2;
-    margin-left: 50px;
-    border-radius: 8px;
-}
 
 .terraceIndex .add_Del {
-    width: 1200px;
-    margin: 0 auto;
-    margin-top: 10px;
-    margin-bottom: 50px;
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	text-align: right;
 }
 
 .add_Del .button {
-    float: right;
-    width: 107px;
-    height: 30px;
-    font-size: 14px;
-    color: #fff;
-    border-radius: 10px;
-    margin-right: 5px;
+	width: 107px;
+	height: 30px;
+	font-size: 14px;
+	color: #fff;
+	border-radius: 20px;
+	margin-right: 5px;
+	padding: 0;
 }
 
 .add_Del .add_qiye {
-    background: #2482D2;
+	background: #2482D2;
 }
 
 .terraceIndex .tab_gl {
-    background: #FF8D00;
+	outline: 0;
+	border: 0;
+	background-image: linear-gradient(to right, #00E2A7, #1AA97B);
+}
+
+.terraceIndex .tab_delss {
+	background-color: #E2232E;
 }
 
 .terraceIndex .tab_del {
-    background: #FF0000;
+	outline: 0;
+	border: 0;
+	background-image: linear-gradient(to right, #FF887C, #FF6060);
 }
 
 .terraceIndex .tab_bj {
-    background: #109955;
+	outline: 0;
+	border: 0;
+	background-image: linear-gradient(to right, #0DCCFF, #4760FF);
 }
 
-.terraceIndex .tab_button {
-    width: 66px;
-    height: 22px;
-    font-size: 14px;
-    line-height: 5px;
-    text-align: center;
-    color: #FFFFFF;
-    border-radius: 10px;
-}
-.search02{
-    margin-left: 15px;
-}
-.terraceIndex .tab_button02{
-    background-color: #42A7FF;
-    height: 22px;
-    font-size: 14px;
-    line-height: 5px;
-    text-align: center;
-    border-radius: 10px;
+.terraceIndex .el-table .tab_button {
+	width: auto;
+	height: 22px;
+	font-size: 14px;
+	line-height: 5px;
+	text-align: center;
+	color: #FFFFFF;
+	border-radius: 10px;
+	padding: 3px 10px;
 }
 
-.address{
-		margin-left: 5px;
-	}
-	.add_Top {
-		width: 1200px;
-		margin: 0 auto;
-		height: 45px;
-		background: #FAFBFA;
-		margin-top: 10px;
-		margin-bottom: 50px;
-		line-height: 45px;
-		font-size: 14px;
-		padding-left: 20px;
-	}
+.el-table .index-btn.tab_button {
+	outline: 0;
+	border: 0;
+	background-image: linear-gradient(to right, #FD644F, #FFA200);
+}
 
-	.add_from {
-		width: 1200px;
-		margin: 0 auto;
-		margin-top: 30px;
-	}
+.search02 {
+	margin-left: 15px;
+}
 
-	.add_from .el-form-item {
-		padding-left: 25%;
-		padding-top: 0px;
-	}
+.address {
+	margin-left: 5px;
+}
 
-	.el-input {
-		width: 194px;
-	}
+.add_Top {
+	width: 100%;
+	margin: 0 auto;
+	height: 45px;
+	background: #FAFBFA;
+	margin-top: 10px;
+	margin-bottom: 50px;
+	line-height: 45px;
+	font-size: 14px;
+	padding-left: 20px;
+}
 
-	.formWidth .el-input__inner {
-		width: 194px;
-		border-top: 0px;
-		border-left: 0px;
-		border-right: 0px;
-		border-radius: 0px;
-		border-bottom: 1px solid #C1C1C1;
-	}
+.add_from {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 20px;
+}
 
-	.el-form-item__label {
-		text-align: left;
-	}
+.add_from .el-form-item {
+	padding-left: 25%;
+	padding-top: 0px;
+}
 
-	.el-button {
-		margin-left: 10px;
-	}
+.el-input {
+	width: 194px;
+}
 
-	.text {
-		font-size: 12px;
-		color: #A4A4A4;
-	}
-	.addEnterprise{
-		margin-left: 42%;
-	}
+.formWidth .el-input__inner {
+	width: 194px;
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	border-radius: 0px;
+	border-bottom: 1px solid #C1C1C1;
+}
 
-	.addEnterprise .addBut {
-		width: 90px;
-		height: 30px;
-		line-height: 15px;
-		background: #2482D2;
-		color: #fff;
-		border-radius: 8px;
-    }
-    
-    /* addEnterprise */
-    .address{
-		margin-left: 5px;
-	}
-	.add_Top {
-		width: 1200px;
-		margin: 0 auto;
-		height: 45px;
-		background: #FAFBFA;
-		margin-top: 10px;
-		margin-bottom: 50px;
-		line-height: 45px;
-		font-size: 14px;
-		padding-left: 20px;
-	}
+.el-form-item__label {
+	text-align: left;
+}
 
-	.add_from {
-		width: 1200px;
-		margin: 0 auto;
-		margin-top: 30px;
-	}
+.el-button {
+	margin-left: 10px;
+}
 
-	.add_from .el-form-item {
-		padding-left: 25%;
-		padding-top: 0px;
-	}
+.text {
+	font-size: 12px;
+	color: #A4A4A4;
+}
 
-	.el-input {
-		width: 194px;
-	}
+.addEnterprise {
+	margin-left: 42%;
+}
 
-	.formWidth .el-input__inner {
-		width: 194px;
-		border-top: 0px;
-		border-left: 0px;
-		border-right: 0px;
-		border-radius: 0px;
-		border-bottom: 1px solid #C1C1C1;
-	}
+/* addEnterprise */
+.address {
+	margin-left: 5px;
+}
 
-	.el-form-item__label {
-		text-align: left;
-	}
+.add_from .el-form-item {
+	padding-left: 25%;
+	padding-top: 0px;
+}
 
-	.el-button {
-		margin-left: 10px;
-	}
+.el-input {
+	width: 194px;
+}
 
-	.text {
-		font-size: 12px;
-		color: #A4A4A4;
-	}
-	.addEnterprise{
-		margin-left: 42%;
-	}
+.formWidth .el-input__inner {
+	width: 194px;
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	border-radius: 0px;
+	border-bottom: 1px solid #C1C1C1;
+}
 
-	.addEnterprise .addBut {
-		width: 90px;
-		height: 30px;
-		line-height: 15px;
-		background: #2482D2;
-		color: #fff;
-		border-radius: 8px;
-	}
+.el-form-item__label {
+	text-align: left;
+}
+
+.el-button {
+	margin-left: 10px;
+}
+
+.text {
+	font-size: 12px;
+	color: #A4A4A4;
+}
+
+.addEnterprise {
+	margin-left: 42%;
+}
+
+.addEnterprise .addBut {
+	width: 90px;
+	height: 30px;
+	line-height: 15px;
+	background: #2482D2;
+	color: #fff;
+	border-radius: 8px;
+}

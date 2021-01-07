@@ -143,9 +143,11 @@
 							this.dataList = data.data;
 							var name = [];
 							var value = [];
+							var value1 = [];
 							data.data.forEach(function(val,index){
 								name[index] = val.name;
-								value[index] = val.value
+								value[index] = val.value;
+								// value1[index] = val.value + 2;
 							});
 							// 绘制图表
 							myChart.setOption({

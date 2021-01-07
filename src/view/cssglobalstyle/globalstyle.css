@@ -10,3 +10,12 @@
 .el-range-editor--small.el-input__inner {
     margin-right: 10px !important;
 }
+.table_css_xiaoyuer {
+    box-sizing: border-box;
+    padding: 20px;
+}
+.top-compo{
+    box-sizing: border-box;
+    padding: 0 20px;
+    margin-top: 20px;
+}
