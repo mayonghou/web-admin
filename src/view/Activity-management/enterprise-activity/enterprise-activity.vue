@@ -1,11 +1,21 @@
 <template>
-<!-- 企业活动管理 -->
+    <!-- 企业活动管理 -->
     <div class="table_css_xiaoyuer">
         <div class="top-compo">
             <Row style="width: 100%">
                 <Col span="12">
-                    <Input v-model="value01" placeholder="输入房源名称..." clearable style="width: 200px; margin-right: 10px" />
-                    <Input v-model="value02" placeholder="输入发布企业..." clearable style="width: 200px; margin-right: 10px" />
+                    <Input
+                        v-model="value01"
+                        placeholder="输入房源名称..."
+                        clearable
+                        style="width: 200px; margin-right: 10px"
+                    />
+                    <Input
+                        v-model="value02"
+                        placeholder="输入发布企业..."
+                        clearable
+                        style="width: 200px; margin-right: 10px"
+                    />
                     <el-date-picker
                         v-model="value2"
                         type="daterange"
@@ -16,14 +26,17 @@
                         end-placeholder="结束日期"
                         :picker-options="pickerOptions"
                         @change="fgetLocalTime"
-                    >
-                    </el-date-picker>
-                    <Button @click="GetDataAjax" type="primary" style="padding-left: 40px; padding-right: 40px">查询</Button>
+                    ></el-date-picker>
+                    <Button
+                        @click="GetDataAjax"
+                        type="primary"
+                        style="padding-left: 40px; padding-right: 40px"
+                    >查询</Button>
                 </Col>
             </Row>
         </div>
         <!-- 表格 -->
-        <tablea v-if="Datar14 != ''" :pageid="pageid" :Datar14='Datar14'></tablea>
+        <tablea v-if="Datar14 != ''" :pageid="pageid" :Datar14="Datar14" :statusCode="statusCode"></tablea>
         <!-- 分页 -->
         <el-pagination
             class="pagintion"
@@ -31,11 +44,10 @@
             @current-change="handleCurrentChange"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40]"
-            :page-size="20"
+            :page-size="10"
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
-        >
-        </el-pagination>
+        ></el-pagination>
     </div>
 </template>
 
@@ -51,33 +63,33 @@ export default {
                 {
                     type: 'selection',
                     width: 60,
-                    align: 'center',
+                    align: 'center'
                 },
                 {
                     title: '序号',
                     slot: 'dataTanle',
                     width: 65,
-                    align: 'center',
+                    align: 'center'
                 },
                 {
                     title: '活动标题',
                     key: 'col1',
-                    align: 'center',
+                    align: 'center'
                 },
                 {
                     title: '发布企业',
                     key: 'col2',
-                    align: 'center',
+                    align: 'center'
                 },
                 {
                     title: '发布人',
                     key: 'col3',
-                    align: 'center',
+                    align: 'center'
                 },
                 {
                     title: '活动时间',
                     key: 'col4',
-                    align: 'center',
+                    align: 'center'
                 },
                 {
                     title: '操作',
@@ -91,12 +103,11 @@ export default {
                     col2: '小鱼儿',
                     col3: '化妆DGDF套装',
                     col4: '播放中',
-                    col5: '2020.20.20',
+                    col5: '2020.20.20'
                 }
             ],
-
             page: 1,
-            limit: 20,
+            limit: 10,
             counts: this.counts || 1,
             // value2: ['2016-01-01', '2016-02-15'],
             value01: '',
@@ -135,18 +146,31 @@ export default {
                 ]
             },
             value1: '',
-            value2: ''
+            value2: '',
+            statusCode: ''
         };
+    },
+    watch: {
+        Datar14: {
+            handler(newdata, oldata) {
+                this.Datar14 = newdata;
+            },
+            deep: true,
+            immediate: true
+        }
     },
     methods: {
         // 分页
         handleSizeChange(val) {
             this.limit = val;
+            this.GetDataAjax();
         },
         handleCurrentChange(val) {
             this.page = val;
+            this.GetDataAjax();
         },
-        fgetLocalTime() {//将时间转换成时间撮
+        //将时间转换成时间撮
+        fgetLocalTime() {
             let date = new Date(this.value2[0]);
             let start = date.getTime(date);
             this.start = start;
@@ -154,26 +178,95 @@ export default {
             let end = date1.getTime(date1);
             this.end = end;
         },
-        GetDataAjax(){
+        GetDataAjax() {
             let url = 'admin/company/activity/sys/company/list';
             let data = {
-                "activityTitleLike": this.value01,
-                "companyNameLike": this.value02,
-                "limit": this.limit,
-                "page": this.page,
-                "status": 1,
-                "timeEnd": this.end,
-                "timeStart": this.start
-            }
-            this.$axios.post(url,data).then((res) => {
-                var AjaxData14 = res.data.list;
-                this.$nextTick(() => {
-                    this.Datar14 = AjaxData14;
+                activityTitleLike: this.value01,
+                companyNameLike: this.value02,
+                limit: this.limit,
+                page: this.page,
+                status: 1,
+                timeEnd: this.end,
+                timeStart: this.start
+            };
+            this.$axios
+                .post(url, data)
+                .then((res) => {
+                    const statusCode = res.data.code;
+                    this.statusCode = statusCode;
+                    var AjaxData = res.data.list;
+                    this.counts = res.data.total;
+                    var DataAjax14 = [];
+                    AjaxData.forEach(function (val, index) {
+                        DataAjax14[index] = val;
+                        DataAjax14[index].dataTanle = val.order;
+                        DataAjax14[index].col1 = val.title;
+                        DataAjax14[index].col2 = val.companyName;
+                        DataAjax14[index].col3 = val.createByUser;
+                        var date = new Date(val.createTime);
+                        var time1 =
+                            date.getFullYear() +
+                            '-' +
+                            (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                            '-' +
+                            date.getDate();
+                        DataAjax14[index].col4 = time1;
+                    });
+                    this.$nextTick(() => {
+                        this.Datar14 = DataAjax14;
+                    });
                 })
-            });
+                .catch((err) => {
+                    this.$nextTick(() => {
+                        this.Datar14 = [{ name: '暂无数据！' }];
+                    });
+                });
+        },
+        // 删除
+        deleteLuckFlash(acId, ntype, statu) {
+            const url = 'admin/company/activity/all/update_status';
+            const data = {
+                activityId: acId,
+                activityType: ntype,
+                newStatus: statu
+            };
+            this.$axios
+                .put(url, data)
+                .then((res) => {
+                    if (res.status == 200) {
+                        const data = res.data;
+                        if (data.code == 200) {
+                            alert(data.msg);
+                            this.GetDataAjax();
+                        } else {
+                            alert(data.msg);
+                            this.GetDataAjax();
+                        }
+                    }
+                })
+                .catch((err) => {});
+        },
+        // 批量删除
+        BatchDeleteForcoup(id, activ) {
+            const url = 'admin/company/activity/all/batch_remove?activityType=' + activ;
+            this.$axios
+                .post(url, id)
+                .then((res) => {
+                    if (res.status == 200) {
+                        const dataert = res.data;
+                        if (dataert.cpde == 200) {
+                            alert(dataert.msg);
+                            this.GetDataAjax();
+                        } else {
+                            alert(dataert.msg);
+                            this.GetDataAjax();
+                        }
+                    }
+                })
+                .catch((err) => {});
         }
     },
-    mounted(){
+    mounted() {
         this.GetDataAjax();
     },
     components: {

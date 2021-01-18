@@ -8,7 +8,7 @@
 			<div class="swDetail-top-b">
 				<div class="banner">
 					<el-carousel height="240px">
-						<el-carousel-item v-for="(item,index) in this.imgUrl" :key="index">
+						<el-carousel-item v-for="(item,index) in this.imgUrl" :key="item.index">
 							<img width="100%" height="100%" :src="item" />
 						</el-carousel-item>
 					</el-carousel>
@@ -39,7 +39,7 @@
 						<i  style="color: #FF8400;" class="el-icon-phone-outline"></i>
 						<span>联系方式</span>
 						<span style="margin-left: 20px;">{{this.basicInfos.phoneNumber}}</span>
-						<i style="cursor: pointer;"  class="el-icon-view"></i>
+						<i style="cursor: pointer;" @click="" class="el-icon-view"></i>
 					</div>
 					<div class="price">
 						<span class="span">指导价：</span>
@@ -120,7 +120,7 @@
 			<el-form-item  prop="orderTextList"  label="设置订单内容:" :label-width="formLabelWidth" required>
 				<el-form-item type="data" v-for="(item,index) in this.order.orderTextList" :key="index">
 					<el-select  v-model="item.sidelineType">
-						<el-option v-for="val in item.dataTypeList" :key="val.id" :label="val.name" :value="val.id"></el-option>
+						<el-option v-for="(val,i) in item.dataTypeList" :key="val.id" :label="val.name" :value="val.id"></el-option>
 					</el-select>
 					<label style="margin-left: 20px;">数量：</label>
 					<el-input v-model.number="item.totalNum" style="width: 100px;"></el-input>
@@ -433,7 +433,7 @@
 	.personaXinxi .pingfen{
 		display: flex;
 		justify-content: space-between;
-		color: #333333;
+		color: ##333333;
 		font-size: 12px;
 	}
 	.zhiweijinyang{
@@ -564,7 +564,7 @@
 		right: 30px;
 	}
 	.elInpiut{
-		width: 80%;
+		width: 465px;
 		height: 100px;
 	}
 	.el-textarea__inner{
@@ -585,7 +585,7 @@
 		margin-left: 27%;
 	}
 	.inputPrice{
-		width: 80%;
+		width: 465px;
 	}
 	.dialog-footer{
 		width: 100%;
@@ -601,7 +601,7 @@
 		font-size: 24px;
 	}
 	.el-date-editor--daterange.el-input__inner{
-		width: 80%;
+		width: 465px;
 	}
 	.el-dialog__header{
 		background-color: #F0F0F0;

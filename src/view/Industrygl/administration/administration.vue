@@ -1,16 +1,26 @@
 <template>
-<!-- 行业中的管理 -->
+    <!-- 行业中的管理 -->
     <div class="table_css_xiaoyuer">
         <div class="top-compo">
             <Row style="width: 100%">
                 <Col span="12">
-                    <Input v-model="value01" placeholder="输入房源名称..." clearable style="width: 200px; margin-right: 10px" />
+                    <Input
+                        v-model="value01"
+                        placeholder="输入房源名称..."
+                        clearable
+                        style="width: 200px; margin-right: 10px"
+                    />
                     <Button type="primary" style="padding-left: 40px; padding-right: 40px">查询</Button>
                 </Col>
             </Row>
         </div>
         <!-- 表格 -->
-        <tablea :pageid="pageid"  @adminiDataB='glDatafromchild'></tablea>
+        <tablea
+            v-if="Datar21 != ''"
+            :pageid="pageid"
+            :Datar21="Datar21"
+            @adminiDataB="glDatafromchild"
+        ></tablea>
         <!-- 分页 -->
         <el-pagination
             class="pagintion"
@@ -18,36 +28,35 @@
             @current-change="handleCurrentChange"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40]"
-            :page-size="20"
+            :page-size="limit"
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
-        >
-        </el-pagination>
+        ></el-pagination>
         <!-- 弹窗 -->
         <div>
             <Modal
-            v-model="modal2model"
-            title="修改职位"
-            @on-ok="ok"
-            @on-cancel="cancel"
-            @click="modal2model = true"
+                v-model="modal2model"
+                title="修改职位"
+                @on-ok="ok"
+                @on-cancel="cancel"
+                @click="modal2model = true"
             >
-              <p class="PClass-model">
-                <span>职位全称</span>
-                <span>UI设计师</span>
-              </p>
-              <p class="PClass-model">
-                <span>职位全称</span>
-                <span>UI设计师</span>
-              </p>
-              <p class="PClass-model">
-                <span>职位全称</span>
-                <span>UI设计师</span>
-              </p>
-              <p class="PClass-model">
-                <span>职位全称</span>
-                <span>UI设计师</span>
-              </p>
+                <p class="PClass-model">
+                    <span>职位全称</span>
+                    <span>UI设计师</span>
+                </p>
+                <p class="PClass-model">
+                    <span>职位全称</span>
+                    <span>UI设计师</span>
+                </p>
+                <p class="PClass-model">
+                    <span>职位全称</span>
+                    <span>UI设计师</span>
+                </p>
+                <p class="PClass-model">
+                    <span>职位全称</span>
+                    <span>UI设计师</span>
+                </p>
             </Modal>
         </div>
     </div>
@@ -58,6 +67,7 @@ import tablea from '../../conponents/table/tablea/tablea.vue';
 export default {
     data() {
         return {
+            Datar21: '',
             // 数据发散
             pageid: [
                 { pageid: 21 },
@@ -70,7 +80,8 @@ export default {
                     title: '序号',
                     slot: 'dataTanle',
                     width: 75,
-                    align: 'center'
+                    align: 'center',
+                    type: 'index'
                 },
                 {
                     title: '职位名称',
@@ -85,14 +96,13 @@ export default {
                 },
                 {
                     dataTanle: '1',
-                    col1: '万江烽火',
+                    col1: '万江烽火'
                 }
             ],
 
             page: 1,
-            limit: 20,
-            counts: this.counts || 1,
-            // value2: ['2016-01-01', '2016-02-15'],
+            limit: 10,
+            counts: this.counts,
             value01: '',
             value03: '',
             // 时间段选择
@@ -128,60 +138,83 @@ export default {
                 ]
             },
             value1: '',
-            modal2model: false,
+            modal2model: false
         };
+    },
+    mounted() {
+        this.RestHttpsData();
+    },
+    components: {
+        tablea
     },
     methods: {
         // 分页
         handleSizeChange(val) {
             this.limit = val;
+            this.RestHttpsData();
         },
         handleCurrentChange(val) {
             this.page = val;
+            this.RestHttpsData();
         },
-        glDatafromchild(){//弹窗
-          this.modal2model = !this.modal2model;
+        //弹窗
+        glDatafromchild() {
+            this.modal2model = !this.modal2model;
         },
-        ok () {//弹窗
+        ok() {
             this.$Message.info('你点击了确定');
         },
-        cancel () {
+        cancel() {
             this.$Message.info('你点击了取消');
+        },
+        // $ajax
+        RestHttpsData() {
+            const url = 'admin/job/manage/getPositionList/' + this.$route.query.id;
+            this.$axios
+                .get(url)
+                .then((res) => {
+                    if (res.status == 200) {
+                        if (res.data.code == 200) {
+                            const dataAjax = res.data.data;
+                            const newDataAjax = [];
+                            dataAjax.forEach((val, index) => {
+                                newDataAjax[index] = val;
+                                newDataAjax[index].col1 = val.jobName;
+                            });
+                            this.Datar21 = dataAjax;
+                        }
+                    }
+                })
+                .catch((err) => {});
         }
-    },
-    mounted(){
-
-    },
-    components: {
-        tablea
-    },
+    }
 };
 </script>
 
 <style scope>
-  .table_css_xiaoyuer {
+.table_css_xiaoyuer {
     box-sizing: border-box;
     padding: 20px;
-  }
-  .top-compo {
+}
+.top-compo {
     box-sizing: border-box;
     padding: 0 20px;
     margin-top: 20px;
-  }
-  .PClass-model{
+}
+.PClass-model {
     box-sizing: border-box;
     display: flex;
     justify-content: center;
-  }
-  .PClass-model span{
+}
+.PClass-model span {
     text-align: center;
     padding: 10px 20px;
-  }
-  .PClass-model span:nth-child(1){
+}
+.PClass-model span:nth-child(1) {
     font-weight: 600;
-  }
-  .PClass-model span:nth-child(2){
+}
+.PClass-model span:nth-child(2) {
     padding: 10px 25px;
-    border-bottom: #C1C1C1 solid 1px;
-  }
+    border-bottom: #c1c1c1 solid 1px;
+}
 </style>

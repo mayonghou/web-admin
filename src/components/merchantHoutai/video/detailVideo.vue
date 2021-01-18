@@ -4,7 +4,7 @@
 		<div class="videoTop"><label>视频信息</label></div>
 		<el-form :model="detailvideoData" ref="detailvideoData">
 			<el-form-item label="封面: " prop="coverUrl" :label-width="labelWidth">
-				<img width="100" height="100" :src="this.detailvideoData.coverUrl" />
+				<img width="100" height="100" v-model="detailvideoData.coverUrl" :src="this.detailvideoData.coverUrl" />
 			</el-form-item>
 			<el-form-item label="视频: " prop="contentUrl" :label-width="labelWidth">
 				<video

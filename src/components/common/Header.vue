@@ -1,106 +1,116 @@
 <template>
-    <div>
-        <div class="header">
-            <div class="logo">
-                <div class="collapse-btn">
-                    <img class="img" src="../../assets/logo.png" alt />
-                </div>商盟
-            </div>
-            <div class="collapse" @click="collapseChage">
-                <i v-if="!collapse" class="el-icon-s-fold"></i>
-                <i v-else class="el-icon-s-unfold"></i>
-            </div>
-            <!-- @click="tabqiehuang" -->
-            <div class="fl">
-                <div v-show="this.qiyeID != 0" class="page-top" @click="indexBtn">
-                    <i class="iconfont add icon-shouye1"></i>
-                    首页
-                </div>
-                <div class="page-top" @click="dataCenter">
-                    <i class="iconfont add icon-shouye1"></i>
-                    数据中心
-                </div>
-                <div class="page-top" @click="marketingBtn">
-                    <i class="iconfont add icon-yingxiao"></i>
-                    营销中心
-                </div>
-                <div class="page-top" @click="ProductCenter">
-                    <i class="iconfont add icon-shouye1"></i>
-                    产品中心
-                </div>
-            </div>
-
-            <div class="header-right">
-                <div class="header-user-con">
-                    <!-- 用户头像 -->
-                    <span style="font-size: 18px;">欢迎您</span>
-                    <div class="user-avator">
-                        <el-avatar :size="40" :src="circleUrl"></el-avatar>
-                    </div>
-                    <!-- 用户名下拉菜单 -->
-                    <el-dropdown class="user-name" trigger="click">
-                        <span class="el-dropdown-link">
-                            {{ username }}
-                            <i class="el-icon-caret-bottom"></i>
-                        </span>
-                        <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item divided command="cancel">
-                                <label @click="updatePassword" class="UPpassword">修改密码</label>
-                            </el-dropdown-item>
-                            <el-dropdown-item divided command="loginout">
-                                <el-button type="text" @click="tuichulogin">退出登录</el-button>
-                            </el-dropdown-item>
-                        </el-dropdown-menu>
-                    </el-dropdown>
-                    <!-- 消息中心 -->
-                    <div class="btn-bell">
-                        <el-tooltip
-                            effect="dark"
-                            :content="message ? `有${message}条未读消息` : `消息中心`"
-                            placement="bottom"
-                        >
-                            <router-link to="/messagelist">
-                                <i class="iconfontssda iconfont icon-laba1"></i>
-                            </router-link>
-                        </el-tooltip>
-                        <span class="btn-bell-badge" v-if="message">{{ message }}</span>
-                    </div>
-                </div>
-            </div>
+  <div>
+    <div class="header">
+      <div class="logo">
+        <div class="collapse-btn">
+          <img class="img"
+               src="../../assets/logo.png"
+               alt />
         </div>
-        <el-dialog title="修改密码" :visible.sync="dialogVisibpassword" width="50%">
-            <div class="iconEnlorder" @click="enlarge">
-                <el-tooltip effect="dark" :content="fullscreen ? `取消全屏` : `全屏`" placement="bottom">
-                    <i class="iconfont icon-quanping"></i>
-                </el-tooltip>
+        商盟
+      </div>
+      <div class="collapse"
+           @click="collapseChage">
+        <i v-if="!collapse"
+           class="el-icon-s-fold"></i>
+        <i v-else
+           class="el-icon-s-unfold"></i>
+      </div>
+      <div class="fl">
+        <ul class="topDataBox">
+          <li v-for="item in navData"
+              :key="item.index"
+              @click="routerbtn(item)">
+            <div v-show="item.index != 0 || qiyeID != 0">
+              <span><img :src="item.imgUrl"
+                     alt=""> </span>
+              <span>{{ item.name }} </span>
             </div>
-            <el-form :model="password" :rules="rules" ref="password">
-                <el-form-item label="新密码:" prop="xinpass" label-width="35%">
-                    <el-input
-                        class="inputddd"
-                        v-model="password.xinpass"
-                        onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"
-                        type="password"
-                        placeholder="请输入新密码"
-                    ></el-input>
-                </el-form-item>
-                <el-form-item label="确定密码:" prop="quedingpass" label-width="35%">
-                    <el-input
-                        class="inputddd"
-                        v-model="password.quedingpass"
-                        onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"
-                        type="password"
-                        placeholder="请确认密码"
-                    ></el-input>
-                </el-form-item>
-            </el-form>
-            <div class="xinpasswo">
-                <el-button class="Btn">保存</el-button>
-            </div>
-        </el-dialog>
+          </li>
+        </ul>
+      </div>
+      <div class="header-right">
+        <div class="header-user-con">
+          <!-- 用户头像 -->
+          <span style="font-size: 18px;">欢迎您</span>
+          <div class="user-avator">
+            <el-avatar :size="40"
+                       :src="circleUrl"></el-avatar>
+          </div>
+          <!-- 用户名下拉菜单 -->
+          <el-dropdown class="user-name"
+                       trigger="click">
+            <span class="el-dropdown-link">
+              {{ username }}
+              <i class="el-icon-caret-bottom"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item divided
+                                command="cancel">
+                <label @click="updatePassword"
+                       class="UPpassword">修改密码</label>
+              </el-dropdown-item>
+              <el-dropdown-item divided
+                                command="loginout">
+                <el-button type="text"
+                           @click="tuichulogin">退出登录</el-button>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <!-- 消息中心 -->
+          <div class="btn-bell">
+            <el-tooltip effect="dark"
+                        :content="message ? `有${message}条未读消息` : `消息中心`"
+                        placement="bottom">
+              <router-link to="/tabs">
+                <i class="iconfontssda iconfont icon-laba1"></i>
+              </router-link>
+            </el-tooltip>
+            <span class="btn-bell-badge"
+                  v-if="message">{{ message }}</span>
+          </div>
+        </div>
+      </div>
     </div>
+    <el-dialog title="修改密码"
+               :visible.sync="dialogVisibpassword"
+               width="50%">
+      <div class="iconEnlorder"
+           @click="enlarge">
+        <el-tooltip effect="dark"
+                    :content="fullscreen ? `取消全屏` : `全屏`"
+                    placement="bottom">
+          <i class="iconfont icon-quanping"></i>
+        </el-tooltip>
+      </div>
+      <el-form :model="password"
+               :rules="rules"
+               ref="password">
+        <el-form-item label="新密码:"
+                      prop="xinpass"
+                      label-width="35%">
+          <el-input class="inputddd"
+                    v-model="password.xinpass"
+                    onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"
+                    type="password"
+                    placeholder="请输入新密码"></el-input>
+        </el-form-item>
+        <el-form-item label="确定密码:"
+                      prop="quedingpass"
+                      label-width="35%">
+          <el-input class="inputddd"
+                    v-model="password.quedingpass"
+                    onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"
+                    type="password"
+                    placeholder="请确认密码"></el-input>
+        </el-form-item>
+      </el-form>
+      <div class="xinpasswo">
+        <el-button class="Btn">保存</el-button>
+      </div>
+    </el-dialog>
+  </div>
 </template>
-
 <script>
 import bus from './bus.js';
 import axios from 'axios';
@@ -118,6 +128,30 @@ export default {
                 xinpass: '',
                 quedingpass: ''
             },
+            navData: [
+                {
+                    index: '0',
+                    name: '首页'
+                },
+                {
+                    index: '1',
+                    imgUrl: require('../../assets/img/top/topChanpin(2).png'),
+                    imgurl2: require('../../assets/img/top/topChanpin(2).jpg'),
+                    name: '数据中心'
+                },
+                {
+                    index: '2',
+                    imgUrl: require('../../assets/img/top/topChanpin(3).png'),
+                    imgurl2: require('../../assets/img/top/topChanpin(3).jpg'),
+                    name: '营销中心'
+                },
+                {
+                    index: '3',
+                    imgUrl: require('../../assets/img/top/topChanpin(1).png'),
+                    imgurl2: require('../../assets/img/top/topChanpin(1).jpg'),
+                    name: '产品中心'
+                }
+            ],
             rules: {
                 xinpass: [
                     {
@@ -153,30 +187,7 @@ export default {
         }
     },
     mounted() {
-        this.$nextTick(() => {
-            var tab = document.getElementsByClassName('page-top');
-            console.log('jadfsipofjadkpsfjadksljf', tab);
-            var tabllist = document.getElementsByClassName('add');
-            for (var i = 0; i < tab.length; i++) {
-                tab[i].id = i;
-                // tab[i].onclick = function () {
-                //     for (var j = 0; j < tabllist.length; j++) {
-                //         tab[j].classList.remove('active');
-                //         tabllist[j].classList.remove('active');
-                //     }
-                //     tab[this.id].classList.add('active');
-                //     tabllist[this.id].classList.add('active');
-                // };
-                tab[i].addEventListener('click', function () {
-                    for (var j = 0; j < tabllist.length; j++) {
-                        tab[j].classList.remove('active');
-                        tabllist[j].classList.remove('active');
-                    }
-                    tab[this.id].classList.add('active');
-                    tabllist[this.id].classList.add('active');
-                });
-            }
-        });
+        this.qiyeID = localStorage.getItem('loginData');
     },
     methods: {
         // 用户名下拉菜单选择事件
@@ -190,63 +201,56 @@ export default {
             localStorage.removeItem('token');
             this.$router.push('/login');
         },
-        // ============================
-        // 首页
-        indexBtn() {
-            this.$router
-                .push({
-                    path: './indexshouye'
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        },
-        // 数据中心
-        dataCenter() {
-            if (this.qiyeID == 0) {
+        routerbtn(item) {
+            if (item.index == 0 && this.qiyeID != 0) {
                 this.$router
                     .push({
-                        path: './dataCenterindex'
+                        path: './indexshouye'
                     })
                     .catch((err) => {
                         console.log(err);
                     });
-            } else {
-                this.$router
-                    .push({
-                        path: './dataCenterindex',
-                        path: './datacenter'
-                    })
-                    .catch((err) => {
-                        console.log(err);
+            } else if (item.index == 1) {
+                if (this.qiyeID == 0) {
+                    this.$router
+                        .push({
+                            path: './dataCenterindex'
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
+                } else {
+                    this.$router
+                        .push({
+                            path: './dataCenterindex',
+                            path: './datacenter'
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
+                }
+            } else if (item.index == 2) {
+                if (this.qiyeID == 0) {
+                    this.$router.push({
+                        path: './marketingindex'
                     });
-            }
-        },
-        // 营销中心
-        marketingBtn() {
-            if (this.qiyeID == 0) {
-                this.$router.push({
-                    path: './marketingindex'
-                });
+                } else {
+                    this.$router.push({
+                        path: './marketing'
+                    });
+                }
             } else {
-                this.$router.push({
-                    path: './marketing'
-                });
+                if (this.qiyeID == 0) {
+                    this.$router.push({
+                        path: './productindex'
+                    });
+                } else {
+                    this.$router.push({
+                        path: './'
+                    });
+                }
             }
         },
-        //产品中心
-        ProductCenter() {
-            if (this.qiyeID == 0) {
-                this.$router.push({
-                    path: './productindex'
-                });
-            } else {
-                this.$router.push({
-                    path: './product'
-                });
-            }
-        },
-        // =======================
         // 侧边栏折叠
         collapseChage() {
             this.collapse = !this.collapse;
@@ -278,32 +282,6 @@ export default {
                 }
             }
             this.fullscreen = !this.fullscreen;
-        },
-        tabqiehuang() {
-            this.$nextTick(() => {
-                var tab = document.getElementsByClassName('page-top');
-                console.log(tab);
-                var tabllist = document.getElementsByClassName('add');
-                for (var i = 0; i < tab.length; i++) {
-                    tab[i].id = i;
-                    // tab[i].onclick = function () {
-                    //     for (var j = 0; j < tabllist.length; j++) {
-                    //         tab[j].classList.remove('active');
-                    //         tabllist[j].classList.remove('active');
-                    //     }
-                    //     tab[this.id].classList.add('active');
-                    //     tabllist[this.id].classList.add('active');
-                    // };
-                    tab[i].addEventListener('click', function () {
-                        for (var j = 0; j < tabllist.length; j++) {
-                            tab[j].classList.remove('active');
-                            tabllist[j].classList.remove('active');
-                        }
-                        tab[this.id].classList.add('active');
-                        tabllist[this.id].classList.add('active');
-                    });
-                }
-            });
         }
     },
     mounted() {
@@ -315,6 +293,38 @@ export default {
 };
 </script>
 <style>
+.topDataBox {
+    display: flex;
+    align-items: center;
+}
+
+.topDataBox li {
+    height: 70px;
+    text-align: center;
+    line-height: 70px;
+    list-style: none;
+    cursor: pointer;
+}
+.topDataBox li div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+}
+.topDataBox li span:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2px;
+}
+.topDataBox li span:nth-child(2) {
+    line-height: 70px;
+}
+.topDataBox li span:first-child img {
+    display: inline-block;
+    width: 70%;
+    height: auto;
+}
 .fl {
     float: left;
 }
@@ -330,15 +340,17 @@ export default {
 
 .collapse-btn {
     float: left;
-    padding: 0 21px;
+    padding: 0 15px;
     cursor: pointer;
     line-height: 70px;
 }
+
 .collapse {
     width: 30px;
     float: left;
     line-height: 70px;
 }
+
 .collapse-btn .img {
     background: #fff;
     width: 50px;
@@ -349,7 +361,7 @@ export default {
 
 .header .logo {
     float: left;
-    width: 220px;
+    width: 195px;
     line-height: 70px;
     text-align: center;
 }
@@ -362,6 +374,7 @@ export default {
     font-size: 16px;
     cursor: pointer;
 }
+
 .header .page-top.active {
     background-color: #ffffff;
     color: #4985f0;
@@ -388,10 +401,12 @@ export default {
     margin-right: 5px;
     font-size: 24px;
 }
+
 .btn-bell {
     margin-left: 20px;
     margin-right: 20px;
 }
+
 .btn-bell,
 .btn-fullscreen {
     position: relative;
@@ -445,7 +460,6 @@ export default {
 
 .iconfontssda {
     font-size: 20px;
-    color: #ffffff;
     font-weight: 1000px;
 }
 

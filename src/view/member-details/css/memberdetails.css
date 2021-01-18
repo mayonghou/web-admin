@@ -1,42 +1,57 @@
-.memberdetailsRoot{
-    width:100%;
+.memberdetailsRoot {
+    width: 100%;
     height: 100%;
     box-sizing: border-box;
     padding-bottom: 50px;
 }
-.memberdetailsRoot-middle{
-    width: 1200px;
+
+.memberdetailsRoot-middle {
+    width: 100%;
     height: auto;
     margin: 0 auto;
     padding: 20px 0px;
     box-sizing: border-box;
 }
-.see-member{
+
+.see-member {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    padding: 0 25%;
+    padding: 0 15%;
     padding-top: 60px;
 }
-.Viewmemberinformation-fa{
+
+.Viewmemberinformation-fa {
     overflow: hidden;
     margin-top: 40px;
 }
-.Viewmemberinformation-fa .Viewmemberinformation{
-    width: 25%;
+
+.Viewmemberinformation-fa .Viewmemberinformation {
+    width: 200px;
+    box-sizing: border-box;
+    padding-left: 40px;
     display: inline-block;
 }
-.Viewmemberinformation-fa .Viewmemberinformation-p{
+
+.Viewmemberinformation-fa .Viewmemberinformation-p {
     width: 75%;
     display: inline-block;
 }
-.return-button{
+
+.return-button {
     display: flex;
     text-align: center;
     justify-content: center;
     margin-top: 58px;
 }
-.return-button button{
-    width:153px;
-    height:33px;
+
+.return-button button {
+    width: 153px;
+    height: 33px;
+}
+
+.h4Class {
+    padding-left: 40px;
+    box-sizing: border-box;
+    font-weight: 600;
 }

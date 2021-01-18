@@ -1,0 +1,154 @@
+.rootClassdertyxiaoyuer {
+    padding: 20px 0;
+    box-sizing: border-box;
+}
+
+.xiaoyuerClassxiaoyuer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.xiaoyuerLeftxiaoyuer {
+    display: flex;
+    flex-grow: 1;
+}
+
+.letimgspanxiaoyuer {
+    display: inline-block;
+    width: 120px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.leftcountClassxiaoyuer {
+    display: inline-block;
+    padding-right: 30px;
+}
+
+.middleClassxiaoyuer {
+    box-sizing: border-box;
+    padding-left: 15px;
+    display: inline-block;
+    border-left: #ff8d00 solid 1px;
+}
+
+.ClassPclassdfxiaoyuer {
+    width: 100%;
+    height: auto;
+}
+
+.rightClassxiaoyuer {
+    width: 200px;
+    height: auto;
+    text-align: right;
+}
+
+.nameClassxiaoyuer {
+    font-size: 16px;
+    font-weight: 600;
+    padding-right: 10px;
+}
+
+.ClassPclassxiaoyuer {
+    width: 100%;
+    padding: 10px 0px;
+}
+
+.imgCladdssxiaoyuer {
+    width: 90px;
+    height: 90px;
+    background-color: aqua;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rightClasssDivxsxiaoyuer {
+    display: flex;
+    flex-direction: row;
+    width: 40%;
+}
+
+.teshuClassxiaoyuer {
+    font-weight: 600;
+}
+
+.colorClassxiaoyuer {
+    padding-top: 0;
+    font-weight: 600;
+}
+
+.coundfClsaaxiaoyuer {
+    padding: 5px 20px;
+}
+
+.paddiongsetxiaoyuer {
+    padding: 0px 8px;
+}
+
+.redCLassfontsizexiaoyuer {
+    color: red;
+    font-size: 20px;
+}
+
+.teskClassstylexiaoyuer {
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #ff8d00;
+}
+
+.sgengyuTimeClassxiaoyuer {
+    padding-left: 60px;
+    color: #ff8d00;
+}
+
+.decondClassRowxiaoyuer {
+    padding: 40px 20px 20px 20px;
+}
+
+.decondClassRowcdxiaoyuer {
+    padding: 0px 20px 20px 20px;
+}
+
+.btnClassxiaoyuerxiaoyuer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0px;
+}
+
+.btnClassxiaoyuerxiaoyuer button {
+    padding: 0px 36px;
+}
+
+.yishangchClassxiaoyuer {
+    padding-left: 10px;
+    color: #2450D2;
+}
+
+.baifenbiClassxiaoyuer {
+    display: inline-block;
+    width: 100px;
+}
+
+.baifenbiClassxiaoyuer .divClassxiaoyuerxiaoyuer {
+    height: 22px;
+    display: flex;
+    align-items: center;
+}
+
+.baifenbiClassxiaoyuer .divClassxiaoyuerxiaoyuer .sonClassDicvxiaoyuer {
+    width: 80%;
+    background-color: #FF8D00;
+    color: #fff;
+    font-size: 1px;
+    height: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}

@@ -3,29 +3,41 @@
 		<div class="marktingvideo-top">
 			<div class="videoClass">
 				<div class="shipinClass">文档分类</div>
-				<div v-for="item in this.fileClass" :key="item.id">
-					<div class="classwendang" :class="item.id == 1?'active':''" @click="fileclick(item)">
-						<img class="img" src="../../../assets/img/img.jpg" />
-						<div class="className">{{item.name}}</div>
-					</div>
+				<div class="class">
+					<img class="img" src="../../../assets/img/img.jpg" />
+					<div class="className">合同模板</div>
+				</div>
+				<div class="class">
+					<img class="img" src="../../../assets/img/img.jpg" />
+					<div class="className">企业管理</div>
+				</div>
+				<div class="class">
+					<img class="img" src="../../../assets/img/img.jpg" />
+					<div class="className">宣传文案</div>
 				</div>
 			</div>
 			<div class="videoList">
 				<div class="xialaList">
-					<div class="bbbb" @click="quanbufile">
-						<div>全部</div>
-						<div class="bbbv">
-							<i class="vvv el-icon-arrow-down"></i>
-						</div>
+					<div class="bbbb">
+						<el-dropdown class="el-dropdown" @command="handleCommand">
+						  <span class="el-dropdown-link">
+						    <span class="link-font">{{this.commandName != '' ? this.commandName: '全部' }}</span><i class="el-icon-arrow-down el-icon--right"></i>
+						  </span>
+						  <el-dropdown-menu slot="dropdown">
+						    <el-dropdown-item command="1">合同模板</el-dropdown-item>
+						    <el-dropdown-item command="2">企业管理</el-dropdown-item>
+						    <el-dropdown-item command="3">宣传文案</el-dropdown-item>
+						  </el-dropdown-menu>
+						</el-dropdown>
 					</div>
-					<div class="bbbb" @click="dianzhangFile">
+					<div class="bbbb">
 						<div>点赞</div>
 						<div class="bbbv">
 							<i class="vvv el-icon-arrow-up"></i>
 							<i class="vvv el-icon-arrow-down"></i>
 						</div>
 					</div>
-					<div class="bbbb" @click="liulangFile">
+					<div class="bbbb">
 						<div>浏览量</div>
 						<div class="bbbv">
 							<i class="vvv el-icon-arrow-up"></i>
@@ -35,15 +47,15 @@
 				</div>
 				<div class="listVideo">
 					<el-row>
-						<el-col :span="6" v-for="item in this.fileList" :key="item.id">
+						<el-col :span="6" v-for="index in 12" :key="index">
 								<div class="grid-content bg-purple">
-									<img class="video" :src="item.fileurl" />
-									<div class="videoTitle">{{item.fileName}}</div>
+									<img class="video" src="../../../assets/img/img.jpg" />
+									<div class="videoTitle">fdsjkfbnjk放到数据库备份能看见但是不能发几款就卡死的还不能击垮是你的的那就开始ODHNJKLNSAJ看</div>
 									<div class="video-bottom">
-										<span>{{item.browse}}次浏览</span>
+										<span>193000000次播放</span>
 										<span>
 											<i class="iconfont icon-icon_good"></i>
-											<span>{{item.zan}}</span>
+											<span>1000</span>
 										</span>
 									</div>
 								</div>
@@ -55,7 +67,7 @@
 						@current-change="handleCurrentChange"
 						:current-page="page"
 						class="paginationss"
-						:page-sizes="[12, 24, 36, 48]"
+						:page-sizes="[10, 20, 30, 40]"
 						:page-size="limit"
 						layout="total, sizes, prev, pager, next, jumper"
 						:total="counts">
@@ -74,114 +86,30 @@
 				commandName: '',
 				page: 1,
 				limit: 12,
-				counts: this.counts,
-				fileClass:[],
-				dianzhangNum: false,
-				liuliangNum: false,
-				fileList: []
+				counts: 50
 			}
 		},
 		mounted() {
-			this.getFileType();
+			
 		},
 		methods:{
-			getFileType(){
-				this.$axios.get('admin/admin/market/file/type/selectAllMarketFileType?page=1').then((res) => {
-					if(res.status == 200){
-						let data = res.data;
-						if(data.code == 200){
-							this.fileClass = data.data.data;
-							this.typeName = data.data.data[0].name;
-							this.getFileList();
-						} else {
-							this.$message({
-							showClose: true,
-							message: data.msg,
-							type: 'error'
-						});
-						}
-					} else {
-						this.$message({
-							showClose: true,
-							message: data.msg,
-							type: 'error'
-						});
-					}
-				});
-			},
-			fileclick(item){
-				this.typeName = item.name;
-				this.getFileList();
-				var id = item.id;
-				let tab = document.getElementsByClassName('classwendang');
-				this.fileClass.forEach(function(val,index){
-					if(id == val.id){
-						tab[index].classList.add('active');
-					} else {
-						tab[index].classList.remove('active');
-					}
-				});
-			},
-			quanbufile(){
-				this.dianzhangNum = false;
-				this.liuliangNum = false;
-				this.getFileList();
-			},
-			dianzhangFile(){
-				this.dianzhangNum = true;
-				this.liuliangNum = false;
-				this.getFileList();
-			},
-			liulangFile(){
-				this.dianzhangNum = false;
-				this.liuliangNum = true;
-				this.getFileList();
-			},
 			handleSizeChange(val){
 				this.limit = val;
-				this.getFileList();
 			},
 			handleCurrentChange(val){
 				this.page = val;
-				this.getFileList();
-			},
-			getFileList(){
-				let datas = '?page='+this.page+'&limit='+this.limit+'&type='+this.typeName+'&zan='+this.dianzhangNum+'&play='+this.liuliangNum;
-				this.$axios.get('admin/admin/market/file/selectAllMarketFile'+datas).then((res) => {
-					if(res.status == 200){
-						let data = res.data;
-						if(data.code == 200){
-							var https = /^https:\/\/+$/;
-							var cList = [];
-							data.data.data.forEach(function(val,index){
-								cList[index] = val;
-								if(https.test(val.filePic)){
-									cList[index].fileurl = val.filePic;
-								} else {
-									cList[index].fileurl =localStorage.getItem('imgUrl')+ val.filePic;
-								}
-							});
-							this.fileList = cList;
-							this.counts = data.data.total;
-						} else {
-							this.$message({
-							showClose: true,
-							message: data.msg,
-							type: 'error'
-						});
-						}
-					} else {
-						this.$message({
-							showClose: true,
-							message: data.msg,
-							type: 'error'
-						});
-					}
-				});
-
 			},
 			
-		
+			
+			handleCommand(command){
+				if(command == 1 ){
+					this.commandName = '合同模板';
+				} else if(command == 2) {
+					this.commandName = '企业管理';
+				} else if(command == 3) {
+					this.commandName = '宣传文案';
+				}
+			}
 		}
 	}
 </script>
@@ -209,22 +137,18 @@
 		padding: 10px 20px;
 		padding-bottom: 0;
 	}
-	.videoClass .classwendang{
+	.videoClass .class{
 		padding: 0 20%;
 		font-size: 20px;
 		display: flex;
 		align-items: center;
 		margin-top: 50px;
-		cursor: pointer;
 	}
-	.videoClass .classwendang.active{
-		color: #2971FF;
-	}
-	.videoClass .classwendang .img{
+	.videoClass .class .img{
 		width: 30px;
 		height: 30px;
 	}
-	.videoClass .classwendang .className{
+	.videoClass .class .className{
 		margin-left: 20px;
 	}
 	
@@ -243,7 +167,6 @@
 		display: flex;
 		align-items: center;
 		color: #666666;
-		cursor: pointer;
 	}
 	.bbbv .vvv{
 		display: block;

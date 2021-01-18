@@ -28,3 +28,7 @@ export const messages = {
         }
     }
 }
+
+function name() {
+
+}

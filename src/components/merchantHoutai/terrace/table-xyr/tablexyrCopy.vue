@@ -5,7 +5,25 @@
             <Button type="primary" class="returnBtn" @click="returnRouter">返回</Button>
         </div>
         <div class="navTop">
-            <tempnent></tempnent>
+            <Row>
+                <Col span="12">
+                    <Input
+                        v-model="value"
+                        placeholder="请输入企业、法人名称..."
+                        style="width: 200px;margin-right:20px"
+                    />
+                    <el-date-picker
+                        v-model="value2"
+                        type="daterange"
+                        range-separator="——"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期"
+                        value-format="yyyy-MM-dd HH:mm:ss"
+                        @change="fgetLocalTime"
+                    ></el-date-picker>
+                    <Button type="primary" class="bTnClass" @click="btnData">查询</Button>
+                </Col>
+            </Row>
         </div>
         <Table border :columns="columnsData1" :data="DataList1"></Table>
         <div>
@@ -25,29 +43,35 @@
 </template>
 
 <script>
-import tempnent from './components/tempnent.vue';
 export default {
     data() {
         return {
+            value: '',
+            value2: [],
+            beginTime: '',
+            endTime: '',
+            page: 1,
+            limit: 10,
+            counts: this.counts,
             columnsData1: [
                 {
                     title: '企业名称',
-                    key: 'cole1',
+                    key: 'name',
                     align: 'center'
                 },
                 {
                     title: '法人姓名',
-                    key: 'cole2',
+                    key: 'legal',
                     align: 'center'
                 },
                 {
                     title: '手机号码',
-                    key: 'cole3',
+                    key: 'serverPhone',
                     align: 'center'
                 },
                 {
                     title: '达成合作时间',
-                    key: 'cole4',
+                    key: 'time',
                     align: 'center'
                 },
                 {
@@ -71,7 +95,10 @@ export default {
                                     on: {
                                         click: () => {
                                             this.$router.push({
-                                                path: './viewdata'
+                                                path: './viewdata',
+                                                query: {
+                                                    id: params.row.company.id
+                                                }
                                             });
                                         }
                                     }
@@ -103,20 +130,19 @@ export default {
             ],
             DataList1: [
                 {
-                    cole1: 'John Brown',
-                    cole2: 18,
-                    cole3: 'New York No. 1 Lake Park',
-                    cole4: 18
+                    name: '',
+                    legal: 18,
+                    serverPhone: '',
+                    time: 18
                 }
-            ],
-            page: 1,
-            limit: 10,
-            counts: 0
+            ]
         };
     },
-    components: {
-        tempnent
+    created() {},
+    mounted() {
+        this.requestData();
     },
+    components: {},
     methods: {
         returnRouter() {
             this.$router.push({
@@ -126,9 +152,66 @@ export default {
         // 页码
         handleSizeChange(val) {
             this.limit = val;
+            this.requestData();
         },
         handleCurrentChange(val) {
             this.page = val;
+            this.requestData();
+        },
+        btnData() {},
+        fgetLocalTime(value) {
+            //时间段选择
+            if (value != null) {
+                let date = new Date(value[0]);
+                let beginTime = date.getTime(date);
+                this.beginTime = beginTime;
+                let date1 = new Date(value[1]);
+                let endTime = date1.getTime(date1);
+                this.endTime = endTime;
+            } else {
+                this.beginTime = '';
+                this.endTime = '';
+            }
+        },
+        // $ajax
+        requestData() {
+            const url =
+                'admin/company/teamwork/list?beginTime=' +
+                this.beginTime +
+                '&endTime=' +
+                this.endTime +
+                '&companyId=' +
+                this.$route.query.id +
+                '&name=' +
+                this.value +
+                '&page=' +
+                this.page +
+                '&limit=' +
+                this.limit;
+            this.$axios
+                .get(url)
+                .then((res) => {
+                    if (res.status == 200 && res.data.code == 200) {
+                        this.counts = res.data.totalCount;
+                        let newDatw = [];
+                        res.data.data.forEach((val, index) => {
+                            newDatw[index] = val;
+                            newDatw[index].name = val.company.name;
+                            newDatw[index].legal = val.company.legal;
+                            newDatw[index].serverPhone = val.company.serverPhone;
+                            let date = new Date(val.time);
+                            let time1 =
+                                date.getFullYear() +
+                                '-' +
+                                (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                                '-' +
+                                date.getDate();
+                            newDatw[index].time = time1;
+                        });
+                        this.DataList1 = newDatw;
+                    }
+                })
+                .catch((err) => {});
         }
     }
 };

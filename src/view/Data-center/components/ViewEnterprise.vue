@@ -1,39 +1,38 @@
 <template>
-    <div class="rootClass">
-        <div class="select">
-            <div class="navtitle">查看行业</div>
-            <div class="navcount" @click="selcectFun">
-                <div class="navcounta">
-                    <span>{{ this.titlsclick }}</span>
-                    <span ref="iSif" class="spanIcon">
-                        <Icon type="ios-arrow-down" class="icon" />
-                    </span>
-                </div>
-                <transition name="fade">
-                    <ul v-if="iShow">
-                        <li
-                            v-for="(item, index) in listData"
-                            :key="index"
-                            @click="selectfunction(item)"
-                        >{{ item.title }}</li>
-                    </ul>
-                </transition>
-            </div>
+  <div class="rootClass">
+    <div class="select">
+      <div class="navtitle">查看行业</div>
+      <div class="navcount"
+           @click="selcectFun">
+        <div class="navcounta">
+          <span>{{ this.titlsclick }}</span>
+          <span ref="iSif"
+                class="spanIcon">
+            <Icon type="ios-arrow-down"
+                  class="icon" />
+          </span>
         </div>
-        <div>
-            <Row>
-                <Col span="12">
-                    <DatePicker
-                        :value="TimeData"
-                        format="yyyy年MM月dd日"
-                        type="date"
-                        placeholder="Select date"
-                        style="width: 200px"
-                    ></DatePicker>
-                </Col>
-            </Row>
-        </div>
+        <transition name="fade">
+          <ul v-if="iShow">
+            <li v-for="(item, index) in listData"
+                :key="index"
+                @click="selectfunction(item)">{{ item.title }}</li>
+          </ul>
+        </transition>
+      </div>
     </div>
+    <div>
+      <Row>
+        <Col span="12">
+        <DatePicker :value="TimeData"
+                    format="yyyy年MM月dd日"
+                    type="date"
+                    placeholder="Select date"
+                    style="width: 200px"></DatePicker>
+        </Col>
+      </Row>
+    </div>
+  </div>
 </template>
 <script>
 export default {

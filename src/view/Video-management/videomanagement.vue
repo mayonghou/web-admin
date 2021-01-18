@@ -1,11 +1,21 @@
 <template>
-<!-- 视频列表 -->
+    <!-- 视频列表 -->
     <div class="table_css_xiaoyuer">
         <div class="top-compo">
             <Row style="width: 100%">
                 <Col span="12">
-                    <Input v-model="value01" placeholder="输入视频名称..." clearable style="width: 200px; margin-right: 10px" />
-                    <Input v-model="value02" placeholder="输入发布企业..." clearable style="width: 200px; margin-right: 10px" />
+                    <Input
+                        v-model="value01"
+                        placeholder="输入视频名称..."
+                        clearable
+                        style="width: 200px; margin-right: 10px"
+                    />
+                    <Input
+                        v-model="value02"
+                        placeholder="输入发布企业..."
+                        clearable
+                        style="width: 200px; margin-right: 10px"
+                    />
                     <el-date-picker
                         v-model="value2"
                         type="daterange"
@@ -16,17 +26,28 @@
                         end-placeholder="结束日期"
                         :picker-options="pickerOptions"
                         @change="fgetLocalTime"
+                    ></el-date-picker>
+                    <Select
+                        v-model="model2"
+                        style="width:150px; margin-right:10px;"
+                        placeholder="视频状态不限"
                     >
-                    </el-date-picker>
-                    <Select v-model="model2" style="width:150px; margin-right:10px;" placeholder="视频状态不限">
-                        <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        <Option
+                            v-for="item in cityList2"
+                            :value="item.value"
+                            :key="item.value"
+                        >{{ item.label }}</Option>
                     </Select>
-                    <Button @click="CouponDataQuery" type="primary" style="padding-left: 40px; padding-right: 40px">查询</Button>
+                    <Button
+                        @click="CouponDataQuery"
+                        type="primary"
+                        style="padding-left: 40px; padding-right: 40px"
+                    >查询</Button>
                 </Col>
             </Row>
         </div>
         <!-- 表格 -->
-        <tablea v-if="Datar5 != ''" :pageid="pageid" :Datar5='Datar5'></tablea>
+        <tablea v-if="Datar5 != ''" :pageid="pageid" :Datar5="Datar5" :statusCode="statusCode"></tablea>
         <!-- 分页 -->
         <el-pagination
             class="pagintion"
@@ -34,11 +55,10 @@
             @current-change="handleCurrentChange"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40]"
-            :page-size="20"
+            :page-size="limit"
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
-        >
-        </el-pagination>
+        ></el-pagination>
     </div>
 </template>
 
@@ -47,7 +67,7 @@ import tablea from '../conponents/table/tablea/tablea.vue';
 export default {
     data() {
         return {
-            Datar5:'',
+            Datar5: [],
             // 数据发散
             pageid: [
                 { pageid: 5 },
@@ -98,14 +118,12 @@ export default {
                     col2: '小鱼儿',
                     col3: '化妆DGDF套装',
                     col4: '播放中',
-                    col5: '2020.20.20',
+                    col5: '2020.20.20'
                 }
             ],
-
             page: 1,
-            limit: 20,
-            counts: this.counts || 1,
-            // value2: ['2016-01-01', '2016-02-15'],
+            limit: 10,
+            counts: this.counts,
             value01: '',
             value02: '',
             value03: '',
@@ -153,19 +171,37 @@ export default {
                 ]
             },
             value1: '',
-            value2: ''
+            value2: '',
+            statusCode: ''
         };
+    },
+    watch: {
+        Datar5: {
+            handler(newdata, oldata) {
+                this.Datar5 = newdata;
+            },
+            deep: true,
+            immediate: true
+        }
+    },
+    mounted() {
+        this.CouponDataQuery();
+    },
+    components: {
+        tablea
     },
     methods: {
         // 分页
         handleSizeChange(val) {
             this.limit = val;
+            this.CouponDataQuery();
         },
         handleCurrentChange(val) {
             this.page = val;
+            this.CouponDataQuery();
         },
-        //
-        fgetLocalTime() {//将时间转换成时间撮
+        //将时间转换成时间撮
+        fgetLocalTime() {
             let date = new Date(this.value2[0]);
             let start = date.getTime(date);
             this.start = start;
@@ -173,32 +209,100 @@ export default {
             let end = date1.getTime(date1);
             this.end = end;
         },
-        CouponDataQuery(){//查询
+        //查询
+        CouponDataQuery() {
             var url = 'admin/company/video/sys/list';
             var data = {
-                "companyNameLike": this.value02,
-                "limit": this.limit,
-                "page": this.page,
-                "status": this.model2,
-                "timeEnd": this.end,
-                "timeStart": this.start,
-                "titleLike": this.value01,
-            }
-            this.$axios.post(url,data).then((res)=>{
-                var AjaxData5 = res.data.list;
-                this.$nextTick(() => {
-                    this.Datar5 = AjaxData5;
+                companyNameLike: this.value02,
+                limit: this.limit,
+                page: this.page,
+                status: this.model2,
+                timeEnd: this.end,
+                timeStart: this.start,
+                titleLike: this.value01
+            };
+            this.$axios
+                .post(url, data)
+                .then((res) => {
+                    var AjaxData = res.data.list;
+                    this.counts = res.data.total;
+                    const statusCode = res.data.code;
+                    this.statusCode = statusCode;
+                    var DataAjax5 = [];
+                    AjaxData.forEach(function (val, index) {
+                        DataAjax5[index] = val;
+                        DataAjax5[index].dataTanle = val.title;
+                        DataAjax5[index].col1 = val.companyName;
+                        DataAjax5[index].col2 = val.publisher;
+                        if (val.productInfo != null) {
+                            DataAjax5[index].col3 = val.productInfo.name; //关联商品名称
+                        }
+                        if (val.status == 2) {
+                            DataAjax5[index].col4 = '上架';
+                        } else if (val.status == 3) {
+                            DataAjax5[index].col4 = '下架';
+                        }
+                        var date = new Date(val.publishAtTime);
+                        var time1 =
+                            date.getFullYear() +
+                            '-' +
+                            (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                            '-' +
+                            date.getDate();
+                        DataAjax5[index].col5 = time1;
+                    });
+                    this.$nextTick(() => {
+                        this.Datar5 = DataAjax5;
+                    });
                 })
-            }).catch(()=>{
-
-            })
+                .catch(() => {
+                    this.$nextTick(() => {
+                        this.Datar5 = [{ name: '暂无数据！' }];
+                    });
+                });
         },
-    },
-    mounted(){
-        this.CouponDataQuery()
-    },
-    components: {
-        tablea
+        // 删除与下架
+        DeletDataforVideo(spId, status) {
+            const url = 'admin/company/video/update_status';
+            const data = {
+                id: spId,
+                newStatus: status
+            };
+            this.$axios
+                .post(url, data)
+                .then((res) => {
+                    if (res.status == 200) {
+                        const data = res.data;
+                        if (data.status == 200) {
+                            alert(data.msg);
+                            this.CouponDataQuery();
+                        } else {
+                            alert(data.msg);
+                            this.CouponDataQuery();
+                        }
+                    }
+                })
+                .catch((err) => {});
+        },
+        // 批量删除
+        BatchDeleteForvideo(id) {
+            const url = 'admin/company/video/batch_remove';
+            this.$axios
+                .post(url, id)
+                .then((res) => {
+                    if (res.status == 200) {
+                        const dataert = res.data;
+                        if (dataert.cpde == 200) {
+                            alert(dataert.msg);
+                            this.CouponDataQuery();
+                        } else {
+                            alert(dataert.msg);
+                            this.CouponDataQuery();
+                        }
+                    }
+                })
+                .catch((err) => {});
+        }
     }
 };
 </script>

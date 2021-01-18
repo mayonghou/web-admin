@@ -1,28 +1,27 @@
 <template>
     <div class="login-wrap">
         <div class="ms-login">
-            <div class="ms-title">
-                <div>欢迎使用</div>
-                <div>当地购综合管理平台</div>
-            </div>
+            <div class="ms-title">商盟平台管理系统V1.0</div>
             <el-form :model="param" ref="login" label-width="0px" class="ms-content">
                 <el-form-item prop="username">
-                    <el-input class="loginInput" v-model="param.username" placeholder="请输入管理员账号"></el-input>
+                    <el-input v-model="param.username" placeholder="请输入管理员账号">
+                        <el-button slot="prepend" icon="el-icon-s-custom"></el-button>
+                    </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
                     <el-input
-                        class="loginInput"
                         type="password"
                         placeholder="请输入密码"
                         v-model="param.password"
                         @keyup.enter.native="submitForm()"
-                    ></el-input>
+                    >
+                        <el-button slot="prepend" icon="el-icon-lx-lock"></el-button>
+                    </el-input>
                 </el-form-item>
-                <!-- <div class="login-btn"> -->
-                <!-- <el-button type="primary" @click="submitForm">登录</el-button> -->
-                <!-- </div> -->
+                <div class="login-btn">
+                    <el-button type="primary" @click="submitForm">登录</el-button>
+                </div>
             </el-form>
-            <el-button class="loginData" @click="submitForm">立即登录</el-button>
         </div>
     </div>
 </template>
@@ -63,7 +62,7 @@ export default {
                         background: 'rgba(0, 0, 0, 0.7)'
                     });
                     _this.$axios
-                        .get('admin/system/login?account=' + _this.param.username + '&password=' + _this.param.password)
+                        .get('admin/system/login?account=' + _this.param.username + '&password=' + _this.$md5(_this.param.password))
                         .then(function (res) {
                             loading.close();
                             if (res.status == 200) {
@@ -78,7 +77,7 @@ export default {
                                         _this.$router.push('/dataCenterindex');
                                         _this.$message.success('登录成功');
                                     } else {
-                                        _this.$router.push('./indexshouye');
+                                        _this.$router.push('/indexshouye');
                                         _this.$message.success('登录成功');
                                     }
                                 }
@@ -95,26 +94,33 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .login-wrap {
     position: relative;
-    text-align: center;
     width: 100%;
     height: 100%;
-    background: url(../../assets/loginImg.png);
-    background-size: 100% 100%;
+    /* background-image: url(../../assets/img/login-bg.jpg); */
+    background-size: 100%;
+    background: -webkit-linear-gradient(#09bbfe, #5a42ec); /* Safari 5.1 - 6 */
+    background: -o-linear-gradient(#09bbfe, #5a42ec); /* Opera 11.1 - 12*/
+    background: -moz-linear-gradient(#09bbfe, #5a42ec); /* Firefox 3.6 - 15*/
+    background: linear-gradient(#09bbfe, #5a42ec); /* 标准的语法 */
 }
 
 .ms-title {
-    font-size: 44px;
-    color: #3a62d7;
+    width: 100%;
+    line-height: 50px;
+    text-align: center;
+    font-size: 20px;
+    color: #000;
+    border-bottom: 1px solid #ddd;
 }
 
 .ms-login {
     position: absolute;
-    left: 70%;
-    top: 45%;
-    text-align: left;
+    left: 50%;
+    top: 50%;
+    width: 350px;
     margin: -190px 0 0 -175px;
     border-radius: 5px;
     background: rgba(255, 255, 255, 0.3);
@@ -122,29 +128,21 @@ export default {
 }
 
 .ms-content {
-    padding: 30px 0;
+    padding: 30px 30px;
 }
-.ms-content .loginInput .el-input__inner {
-    border-radius: 50px;
-    width: 447px;
-    height: 51px;
-    font-size: 20px;
-    padding: 0 30px;
-    font-family: Adobe Heiti Std R;
-}
-.loginData {
-    width: 447px;
-    height: 51px;
-    border-radius: 50px;
+
+.login-btn .el-button {
+    width: 290px;
+    margin: 0 auto;
     text-align: center;
-    background-image: linear-gradient(#5a42ec, #09bbfe);
-    color: #fff;
-    font-size: 24px;
-    padding: 0;
 }
-.loginData::after {
-    color: #fff;
+
+.login-btn .el-button button {
+    width: 100%;
+    height: 36px;
+    margin-bottom: 10px;
 }
+
 .login-tips {
     font-size: 12px;
     line-height: 30px;
