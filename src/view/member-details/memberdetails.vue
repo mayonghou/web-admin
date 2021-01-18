@@ -2,9 +2,15 @@
     <div class="memberdetailsRoot">
         <!-- 查看会员信息 -->
         <div class="memberdetailsRoot-middle">
-            <h4 style="background-color: #fafbfa; padding: 10px">{{ this.StaticData[0] }}</h4>
+            <h4 class="h4Class">{{ this.StaticData[0] }}</h4>
             <div class="see-member">
-                <Form :model="formLeft" label-position="left" :label-width="150" :label-colon="true" :disabled="true">
+                <Form
+                    :model="formLeft"
+                    label-position="left"
+                    :label-width="150"
+                    :label-colon="true"
+                    :disabled="true"
+                >
                     <FormItem label="头像">
                         <Avatar :src="this.formLeft.input1" icon="ios-person" size="100" />
                     </FormItem>
@@ -30,10 +36,11 @@
             </div>
             <div class="Viewmemberinformation-fa">
                 <h4 class="Viewmemberinformation">{{ this.StaticData[1] }}</h4>
-                <p class="Viewmemberinformation-p">{{ this.formLeft.input10 }}</p>   <!-- 绑定企业信息 -->
+                <p class="Viewmemberinformation-p">{{ this.formLeft.input10 }}</p>
+                <!-- 绑定企业信息 -->
             </div>
             <div class="return-button">
-                <Button type="primary" @click="returnmembership"> {{ this.StaticData[2] }} </Button>
+                <Button type="primary" @click="returnmembership">{{ this.StaticData[2] }}</Button>
             </div>
         </div>
     </div>
@@ -45,23 +52,23 @@ export default {
         return {
             StaticData: ['查看会员信息', '绑定企业信息', '返回'],
             formLeft: {
-                input1: '',       // img Src
-                input2: '',       // 手机号码
-                input3: '',       // 昵称
-                input5: '',       // 真是姓名
-                input6: '',       // 性别
-                input8: '',       // 微信
-                input9: '',       // 邮件
-                input10: '',      // 绑定企业信息
+                input1: '',
+                input2: '',
+                input3: '',
+                input5: '',
+                input6: '',
+                input8: '',
+                input9: '',
+                input10: ''
             },
-            queryData:'',
+            queryData: ''
         };
     },
-    methods:{
-        returnmembership:function(){
+    methods: {
+        returnmembership: function () {
             this.$router.push({
-                path:'./membership',
-            })
+                path: './membership'
+            });
         }
     },
     mounted() {
@@ -69,13 +76,13 @@ export default {
         this.formLeft.input1 = this.queryData.avatar;
         var imgUrl = /^(https):\/\/.+$/;
         var imgUrlverification = imgUrl.test(this.formLeft.input1);
-        if(imgUrlverification == true){
+        if (imgUrlverification == true) {
             this.formLeft.input1 = this.queryData.avatar;
-        }else if(imgUrlverification == false){
+        } else if (imgUrlverification == false) {
             var Emptycontainer = this.formLeft.input1;
-            this.formLeft.input1 = 'https://images.chengdecanyin.com'+Emptycontainer ;
+            this.formLeft.input1 = 'https://images.chengdecanyin.com' + Emptycontainer;
         }
-        this.formLeft.input1
+        this.formLeft.input1;
         this.formLeft.input2 = this.queryData.phoneNumber;
         this.formLeft.input3 = this.queryData.nickname;
         this.formLeft.input5 = this.queryData.name;

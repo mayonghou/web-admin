@@ -14,9 +14,10 @@
                 <template v-if="item.subs">
                     <el-submenu :index="item.index" :key="item.index">
                         <template slot="title">
-                            <!-- <i :class="item.icon"></i> -->
-                            <img class="imgIcon" width="13" height="13" :src="item.icon" />
-                            <span style="margin-left: 10px;" slot="title">{{ item.title }}</span>
+                            <div @click="xioayuerfnx(item)">
+                                <img class="imgIcon" width="13" height="13" :src="item.icon" />
+                                <span style="margin-left: 10px;" slot="title">{{ item.title }}</span>
+                            </div>
                         </template>
                         <template v-for="subItem in item.subs">
                             <el-submenu
@@ -32,6 +33,7 @@
                                 >{{ threeItem.title }}</el-menu-item>
                             </el-submenu>
                             <el-menu-item
+                                @click="SendData(subItem)"
                                 v-else
                                 :index="subItem.index"
                                 :key="subItem.index"
@@ -42,7 +44,7 @@
                 <template v-else>
                     <el-menu-item :index="item.index" :key="item.index">
                         <i :class="item.icon"></i>
-                        <span slot="title">{{ item.title }}asdasdsa</span>
+                        <span slot="title">{{ item.title }}</span>
                     </el-menu-item>
                 </template>
             </template>
@@ -51,18 +53,19 @@
 </template>
 
 <script>
-import bus from '../common/bus';
+import bus from './bus.js';
 export default {
     data() {
         return {
             collapse: false,
-            items: []
+            items: [],
+            xyrMsg: '',
+            subsData: ''
         };
     },
     computed: {
         onRoutes() {
             return this.$route.path.replace('/', '');
-            console.log(this.$route.path);
         }
     },
     created() {
@@ -76,6 +79,14 @@ export default {
         this.loginData();
     },
     methods: {
+        xioayuerfnx(item) {
+            this.xyrMsg = item;
+            bus.$emit('xiaoyuerfn', this.xyrMsg);
+        },
+        SendData(subs) {
+            this.subsData = subs;
+            bus.$emit('xiaoyuerFunction', this.subsData);
+        },
         loginData() {
             var loginData = localStorage.getItem('loginData');
             var items = [];
@@ -91,16 +102,6 @@ export default {
                                 index: 'index',
                                 title: '企业列表'
                             }
-                            /*
-							{
-								index: 'workadmin',
-								title: '团队管理'
-							},
-							{
-								index: 'cooperationGl',
-								title: '企业合作管理'
-							}
-							*/
                         ]
                     },
                     {
@@ -251,24 +252,13 @@ export default {
                             }
                         ]
                     },
-                    // {
-                    //     icon: require('../../assets/img/icon/qiye.png'),
-                    //     index: 'coupon-gl',
-                    //     title: '优惠券管理',
-                    //     subs: [
-                    //         {
-                    //             index: 'couponindex',
-                    //             title: '优惠券管理index'
-                    //         }
-                    //     ]
-                    // },
                     {
                         icon: require('../../assets/img/icon/qiye.png'),
-                        index: 'vocation',
+                        index: 'Industry',
                         title: '行业管理',
                         subs: [
                             {
-                                index: 'vocationList',
+                                index: 'Industry',
                                 title: '行业列表'
                             }
                         ]
@@ -294,6 +284,10 @@ export default {
                                 title: '人员管理'
                             },
                             {
+                                index: 'Orderment',
+                                title: '订单管理'
+                            },
+                            {
                                 index: 'PersonnelSet',
                                 title: '人员管理设置'
                             }
@@ -306,7 +300,7 @@ export default {
                         subs: [
                             {
                                 index: 'expandfunction',
-                                title: '平台公告管理index'
+                                title: '平台公告管理列表'
                             }
                         ]
                     }
@@ -355,10 +349,6 @@ export default {
                             {
                                 index: 'order',
                                 title: '订单列表'
-                            },
-                            {
-                                index: 'salesreturn',
-                                title: '退货申请处理'
                             }
                         ]
                     },
@@ -390,23 +380,6 @@ export default {
                             }
                         ]
                     },
-                    // 财务管理
-                    {
-                        icon: require('../../assets/img/icon/caiwu.png'),
-                        index: 'finance',
-                        title: '财务管理',
-                        subs: [
-                            {
-                                index: 'finance',
-                                title: '财务列表'
-                            },
-                            {
-                                index: 'moneyNumber',
-                                title: '提现记录'
-                            }
-                        ]
-                    },
-                    // 租房管理
                     {
                         icon: require('../../assets/img/icon/zufangyuechifangzixianxing.png'),
                         index: 'renting',

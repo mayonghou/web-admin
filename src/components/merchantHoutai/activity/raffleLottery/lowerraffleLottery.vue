@@ -1,15 +1,10 @@
 <template>
     <div id="activityList" class="activityList">
         <div class="activit-top">
-            <div class="activit-label">
-                <label>抽奖活动查询</label>
-            </div>
+            <div class="activit-label"><label>抽奖活动查询</label></div>
             <div class="activit-search">
                 <el-input class="activit-S" v-model="activitSeach" placeholder="请输入活动关键字"></el-input>
-                <i
-                    style="font-size: 22px; color: #2494d2; margin-left: 20px; margin-right: 20px"
-                    class="el-icon-date"
-                ></i>
+                <i style="font-size: 22px; color: #2494d2; margin-left: 20px; margin-right: 20px" class="el-icon-date"></i>
                 <el-date-picker
                     prefix-icon="md-date_range"
                     v-model="time"
@@ -18,34 +13,31 @@
                     end-placeholder="结束日期"
                     value-format="yyyy-MM-dd"
                     @change="templateTime"
-                ></el-date-picker>
+                >
+                </el-date-picker>
                 <el-button @click="activitQuery" class="query">查询</el-button>
             </div>
         </div>
-        <div class="activit-add">
-            <el-button @click="activitdelAll" class="delbtn">全部删除</el-button>
-        </div>
+       <div class="activit-add">
+       	<el-button @click="activitdelAll" class="delbtn">全部删除</el-button>
+       </div>
         <el-table :data="tableData" border style="width: 100%;" @selection-change="activitydsdsId">
-            <el-table-column type="selection" width align="center"></el-table-column>
-            <el-table-column type prop="order" label="序号" width align="center"></el-table-column>
-            <el-table-column prop="title" label="活动标题" align="center" width></el-table-column>
-            <el-table-column prop="publisher" label="发布人" align="center" width></el-table-column>
-            <el-table-column prop="chanceNumPerDay" label="每日抽奖的机会" align="center" width></el-table-column>
-            <el-table-column prop="winRate" label="总中奖概率" align="center" width>
+            <el-table-column type="selection" width="" align="center"> </el-table-column>
+            <el-table-column type="" prop="order" label="序号" width="" align="center"> </el-table-column>
+            <el-table-column prop="title" label="活动标题" align="center" width=""> </el-table-column>
+            <el-table-column prop="publisher" label="发布人" align="center" width=""> </el-table-column>
+            <el-table-column prop="chanceNumPerDay" label="每日抽奖的机会" align="center" width=""> </el-table-column>
+            <el-table-column prop="winRate" label="总中奖概率" align="center" width="">
                 <template slot-scope="scope">
-                    <label style>{{ scope.row.winRate}}%</label>
+                    <label style="">{{ scope.row.winRate}}%</label>
                 </template>
             </el-table-column>
             <el-table-column prop="num" label="活动奖品" align="center">
                 <template slot-scope="scope">
-                    <el-button
-                        type="text"
-                        @click="shoppfffff(scope.row)"
-                        style="color: #2494d2"
-                    >{{ scope.row.num }}个</el-button>
+                    <el-button type="text" @click="shoppfffff(scope.row)" style="color: #2494d2">{{ scope.row.num }}个</el-button>
                 </template>
             </el-table-column>
-            <el-table-column prop="time" label="发布时间" width="180" align="center"></el-table-column>
+            <el-table-column prop="time" label="发布时间" width="180" align="center"> </el-table-column>
             <el-table-column label="操作" width="250" align="center">
                 <template slot-scope="scope">
                     <el-button @click="cxfabuchoujiang(scope.row)" class="chongxinfabu">重新发布</el-button>
@@ -62,7 +54,8 @@
             :page-size="limit"
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
-        ></el-pagination>
+        >
+        </el-pagination>
         <el-dialog title="抽奖商品列表" :visible.sync="dialogVisiblerLeweraffLery" width="80%">
             <div class="iconEnlorder" @click="enlarge">
                 <el-tooltip effect="dark" :content="fullscreen ? `取消全屏` : `全屏`" placement="bottom">
@@ -74,8 +67,8 @@
                 <el-table-column prop="prizeName" label="奖项名称" align="center"></el-table-column>
                 <el-table-column prop="prizeLevel" label="奖项等级" align="center"></el-table-column>
                 <el-table-column prop="prizeNum" label="奖品发行数量" align="center"></el-table-column>
-                <el-table-column prop="prizeType" label="奖品类型" align="center"></el-table-column>
-                <el-table-column prop="couponType" label="优惠券类型" align="center"></el-table-column>
+                <el-table-column prop="prizeType" label="奖品类型" align="center"> </el-table-column>
+                <el-table-column prop="couponType" label="优惠券类型" align="center"> </el-table-column>
                 <el-table-column prop="prizeCountLeft" label="奖品剩余数量" align="center"></el-table-column>
             </el-table>
             <el-pagination
@@ -87,7 +80,8 @@
                 :page-size="shoppLimit"
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="shoppcounts"
-            ></el-pagination>
+            >
+            </el-pagination>
         </el-dialog>
     </div>
 </template>
@@ -111,7 +105,7 @@ export default {
             shoppLimit: 10,
             shoppcounts: this.shoppcounts || 1,
             dialogVisiblerLeweraffLery: false,
-            activityid: ''
+			activityid: ''
         };
     },
 
@@ -119,63 +113,64 @@ export default {
         this.getLotteryList();
     },
     methods: {
-        activitydsdsId(val) {
-            this.activityid = val;
-        },
-        activitdelAll() {
-            var name = [];
-            var id = [];
-            this.activityid.forEach(function (val, index) {
-                name[index] = val.title;
-                id[index] = val.id;
-            });
-            if (this.activityid == '') {
-                return this.$message({
-                    showClose: true,
-                    message: '请选择要删除的抽奖活动',
-                    type: 'error'
-                });
-            } else {
-                this.$confirm('是否确定将的限时抢够活动【' + name + '】-删除?', '温馨提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    const loading = this.$loading({
-                        lock: true,
-                        text: '批量删除中...',
-                        spinner: 'el-icon-loading',
-                        background: 'rgba(0, 0, 0, 0.7)'
-                    });
-                    this.$axios.post('admin/company/activity/all/batch_remove?activityType=3', id).then((res) => {
-                        loading.close();
-                        if (res.status == 200) {
-                            var data = res.data;
-                            if (data.code == 200) {
-                                this.$message({
-                                    showClose: true,
-                                    message: data.msg,
-                                    type: 'success'
-                                });
-                                this.getLotteryList();
-                            } else {
-                                this.$message({
-                                    showClose: true,
-                                    message: data.msg,
-                                    type: 'error'
-                                });
-                            }
-                        } else {
-                            this.$message({
-                                showClose: true,
-                                message: data.msg,
-                                type: 'error'
-                            });
-                        }
-                    });
-                });
-            }
-        },
+		activitydsdsId(val){
+			this.activityid = val;
+		},
+		activitdelAll(){
+			var name = [];
+			var id = [];
+			this.activityid.forEach(function(val, index) {
+				name[index] = val.title;
+				id[index] = val.id;
+			});
+			if (this.activityid == '') {
+				return this.$message({
+					showClose: true,
+					message: '请选择要删除的抽奖活动',
+					type: 'error'
+				});
+			} else {
+				this.$confirm('是否确定将的限时抢够活动【' + name + '】-删除?', '温馨提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+			
+					const loading = this.$loading({
+						lock: true,
+						text: '批量删除中...',
+						spinner: 'el-icon-loading',
+						background: 'rgba(0, 0, 0, 0.7)'
+					});
+					this.$axios.post('admin/company/activity/all/batch_remove?activityType=3', id).then((res) => {
+						loading.close();
+						if (res.status == 200) {
+							var data = res.data;
+							if (data.code == 200) {
+								this.$message({
+									showClose: true,
+									message: data.msg,
+									type: 'success'
+								});
+								this.getLotteryList();
+							} else {
+								this.$message({
+									showClose: true,
+									message: data.msg,
+									type: 'error'
+								});
+							}
+						} else {
+							this.$message({
+								showClose: true,
+								message: data.msg,
+								type: 'error'
+							});
+						}
+					});
+				});
+			}
+		},
         // 查看活动奖品
         shoppfffff(row) {
             this.dialogVisiblerLeweraffLery = true;
@@ -197,17 +192,17 @@ export default {
         },
         // 时间戳
         templateTime(value) {
-            if (value != null) {
-                var date = new Date(value[0]);
-                var start = date.getTime(date);
-                this.startTime = start;
-                var date1 = new Date(value[1]);
-                var end = date1.getTime(date1);
-                this.endTime = end;
-            } else {
-                this.startTime = '';
-                this.endTime = '';
-            }
+           if(value != null){
+			   var date = new Date(value[0]);
+			   var start = date.getTime(date);
+			   this.startTime = start;
+			   var date1 = new Date(value[1]);
+			   var end = date1.getTime(date1);
+			   this.endTime = end;
+		   } else {
+			   this.startTime = '';
+			   this.endTime = '';
+		   }
         },
         // 活动查询
         activitQuery() {
@@ -225,7 +220,7 @@ export default {
         },
         // 删除活动
         xiajiaActivitdel(row) {
-            this.$confirm('是否确定将【' + row.title + '】发布的抽奖活动删除?', '温馨提示', {
+          this.$confirm('是否确定将【' + row.title + '】发布的抽奖活动删除?', '温馨提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
@@ -237,9 +232,9 @@ export default {
                     background: 'rgba(0, 0, 0, 0.7)'
                 });
                 let data = {
-                    activityId: row.id,
-                    activityType: 3,
-                    newStatus: 3
+                  activityId: row.id,
+                  activityType: 3,
+                  newStatus: 3
                 };
                 this.$axios.put('admin/company/activity/all/update_status', data).then((res) => {
                     loading.close();
@@ -371,27 +366,28 @@ export default {
     border-radius: 8px;
     margin-left: 20px;
 }
-.activityList .activit-add {
-    width: 100%;
-    height: 50px;
-    line-height: 50px;
-    text-align: right;
+.activityList .activit-add{
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	text-align: right;
 }
-.activit-add .delbtn {
-    width: 104px;
-    height: 30px;
-    background-color: #ff0000;
-    color: #fff;
-    padding: 0;
-    font-size: 14px;
-    border-radius: 8px;
+.activit-add .delbtn{
+	width: 104px;
+	height: 30px;
+	background-color: #FF0000;
+	color: #fff;
+	padding: 0;
+	font-size: 14px;
+	border-radius: 8px;
 }
+
 
 .el-table .chongxinfabu {
     width: 70px;
     height: 30px;
-    line-height: 30px;
-    font-size: 14px;
+	line-height: 30px;
+	font-size: 14px;
     padding: 0;
     background-color: #109955;
     color: #fff;

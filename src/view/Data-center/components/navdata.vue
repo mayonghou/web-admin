@@ -47,7 +47,6 @@ export default {
                             siblings[j].className = '';
                         }
                     }
-                    // /*
                     if (i == 0) {
                         this.$router.push({
                             path: './dataCenterindex'
@@ -68,7 +67,6 @@ export default {
                             path: './housedata'
                         });
                     }
-                    // */
                 });
             }
             this.$emit('changeBtn', 123);

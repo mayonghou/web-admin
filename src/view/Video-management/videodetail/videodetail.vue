@@ -1,5 +1,5 @@
 <template>
-    <div class="table_css_xiaoyuer">
+    <div class="table_css_xiaoyuer" id="table_css_xiaoyuer">
         <h4 class="ckspxq_tile">视频信息</h4>
         <div class="Commodity-details">
             <Form :model="formLeft" label-position="right" :label-width="150" :label-colon="true" :disabled="true" >
@@ -12,9 +12,9 @@
                 <FormItem label="视频标题名称" class="marginTop02"> <!--title-->
                     <p class="marginleft">{{ this.formLeft.title }}</p>
                 </FormItem>
-                <FormItem label="视频关联商品" class="marginTop02">
+                <FormItem label="视频关联商品" class="marginTop02" v-if=" this.formLeft.productInfo!=null">
                     <p class="marginleft"><!--productInfo=>name-->
-                        <span> {{ this.formLeft.productInfo.name }}</span>
+                        <span> {{ this.formLeft.productInfo==null?'': this.formLeft.productInfo.name}}</span>
                     </p>
                 </FormItem>
             </Form>
@@ -28,6 +28,7 @@
 
 <script>
     export default {
+        name: 'table_css_xiaoyuer',
         data(){
             return{
                 formLeft: {
@@ -47,6 +48,7 @@
         },
         mounted(){
             let videoInfor = this.$route.query.data;
+            console.log(videoInfor);
             let regularData = /^(https):\/\/.+$/;
             let regularDa = regularData.test(videoInfor.coverUrl);
             this.formLeft = videoInfor;
@@ -57,6 +59,7 @@
                 this.formLeft.coverUrl = localStorage.getItem('imgUrl') + videoInfor.coverUrl;
                 this.formLeft.contentUrl = localStorage.getItem('imgUrl') + videoInfor.contentUrl;
             }
+            console.log(this.formLeft);
         }
     }
 </script>
