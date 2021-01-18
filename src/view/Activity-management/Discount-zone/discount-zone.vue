@@ -1,21 +1,11 @@
 <template>
-    <!-- 折扣专区 -->
+<!-- 折扣专区 -->
     <div class="table_css_xiaoyuer">
         <div class="top-compo">
             <Row style="width: 100%">
                 <Col span="12">
-                    <Input
-                        v-model="value01"
-                        placeholder="输入活动标题..."
-                        clearable
-                        style="width: 200px; margin-right: 10px"
-                    />
-                    <Input
-                        v-model="value02"
-                        placeholder="输入发布企业..."
-                        clearable
-                        style="width: 200px; margin-right: 10px"
-                    />
+                    <Input v-model="value01" placeholder="输入活动标题..." clearable style="width: 200px; margin-right: 10px" />
+                    <Input v-model="value02" placeholder="输入发布企业..." clearable style="width: 200px; margin-right: 10px" />
                     <el-date-picker
                         v-model="value2"
                         type="daterange"
@@ -26,28 +16,17 @@
                         end-placeholder="结束日期"
                         :picker-options="pickerOptions"
                         @change="fgetLocalTime"
-                    ></el-date-picker>
-                    <Select
-                        v-model="model1"
-                        style="width:150px; margin-right:10px;"
-                        placeholder="全部订单状态"
                     >
-                        <Option
-                            v-for="item in cityList"
-                            :value="item.value"
-                            :key="item.value"
-                        >{{ item.label }}</Option>
+                    </el-date-picker>
+                    <Select v-model="model1" style="width:150px; margin-right:10px;" placeholder="全部订单状态">
+                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
-                    <Button
-                        @click="GetDataAjax"
-                        type="primary"
-                        style="padding-left: 40px; padding-right: 40px"
-                    >查询</Button>
+                    <Button @click="GetDataAjax" type="primary" style="padding-left: 40px; padding-right: 40px">查询</Button>
                 </Col>
             </Row>
         </div>
         <!-- 表格 -->
-        <tablea v-if="Datar10 != ''" :pageid="pageid" :Datar10="Datar10" :statusCode="statusCode"></tablea>
+        <tablea v-if="Datar10 != ''" :pageid="pageid" :Datar10='Datar10'></tablea>
         <!-- 分页 -->
         <el-pagination
             class="pagintion"
@@ -55,10 +34,11 @@
             @current-change="handleCurrentChange"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40]"
-            :page-size="limit"
+            :page-size="20"
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
-        ></el-pagination>
+        >
+        </el-pagination>
     </div>
 </template>
 
@@ -67,7 +47,8 @@ import tablea from '../../conponents/table/tablea/tablea.vue';
 export default {
     data() {
         return {
-            Datar10: '',
+            Datar10:'',
+            // 数据发散
             pageid: [
                 { pageid: 10 },
                 {
@@ -79,7 +60,7 @@ export default {
                     title: '序号',
                     slot: 'dataTanle',
                     align: 'center',
-                    width: 65
+                    width: 65,
                 },
                 {
                     title: '活动标题',
@@ -99,12 +80,14 @@ export default {
                 {
                     title: '折扣',
                     key: 'col4',
-                    align: 'center'
+                    align: 'center',
+                    width: 65,
                 },
                 {
                     title: '已售',
                     key: 'col5',
-                    align: 'center'
+                    align: 'center',
+                    width: 65,
                 },
                 {
                     title: '折扣价',
@@ -120,7 +103,7 @@ export default {
                     title: '活动时间',
                     key: 'col8',
                     align: 'center',
-                    width: 220
+                    width: 220,
                 },
                 {
                     title: '操作',
@@ -137,15 +120,17 @@ export default {
                     col5: '播放中',
                     col6: '播放中',
                     col7: '杀对方',
-                    col8: '2020.20.20'
+                    col8: '2020.20.20',
                 }
             ],
+
             page: 1,
-            limit: 10,
-            counts: this.counts,
+            limit: 20,
+            counts: this.counts || 1,
             value01: '',
             value02: '',
             value03: '',
+            // 时间段选择
             pickerOptions: {
                 shortcuts: [
                     {
@@ -179,7 +164,7 @@ export default {
             },
             value1: '',
             value2: '',
-            model1: '',
+            model1:'',
             cityList: [
                 {
                     value: '上架',
@@ -190,29 +175,19 @@ export default {
                     label: '下架'
                 }
             ],
-            statusCode: ''
         };
     },
-    watch: {
-        Datar10: {
-            handler(newdata, oldata) {
-                this.Datar10 = newdata;
-            },
-            deep: true,
-            immediate: true
-        }
-    },
     methods: {
+        // 分页
         handleSizeChange(val) {
             this.limit = val;
-            this.GetDataAjax();
         },
         handleCurrentChange(val) {
             this.page = val;
-            this.GetDataAjax();
         },
-        fgetLocalTime() {
-            //将时间转换成时间撮
+
+        //
+        fgetLocalTime() {//将时间转换成时间撮
             let date = new Date(this.value2[0]);
             let start = date.getTime(date);
             this.start = start;
@@ -221,105 +196,29 @@ export default {
             this.end = end;
         },
         //  $Ajax
-        GetDataAjax() {
-            var url = 'admin/admin/discount/getDiscountList?system=true';
+        GetDataAjax(){
+            // /*
+            var url = 'admin/admin/discount/getDiscountList';
             var data = {
-                activityTitleLike: this.value01,
-                limit: this.limit,
-                page: this.page,
-                status: 1,
-                timeEnd: this.end,
-                timeStart: this.start
-            };
-            this.$axios
-                .post(url, data)
-                .then((res) => {
-                    var AjaxData = res.data.data;
-                    this.counts = res.data.total;
-                    const statusCode = res.data.code;
-                    this.statusCode = statusCode;
-                    var DataAjax10 = [];
-                    AjaxData.forEach(function (val, index) {
-                        DataAjax10[index] = val;
-                        DataAjax10[index].dataTanle = val.order;
-                        DataAjax10[index].col1 = val.activityTitle;
-                        DataAjax10[index].col2 = val.companyName;
-                        DataAjax10[index].col3 = val.publishUser;
-                        DataAjax10[index].col4 = val.discount;
-                        DataAjax10[index].col5 = val.countSale;
-                        DataAjax10[index].col6 = val.activityPrice / 100;
-                        DataAjax10[index].col7 = val.productId;
-                        var date = new Date(val.startTime);
-                        var time1 =
-                            date.getFullYear() +
-                            '-' +
-                            (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-                            '-' +
-                            date.getDate();
-                        var date1 = new Date(val.endTime);
-                        var time2 =
-                            date1.getFullYear() +
-                            '-' +
-                            (date1.getMonth() + 1 < 10 ? '0' + (date1.getMonth() + 1) : date1.getMonth() + 1) +
-                            '-' +
-                            date1.getDate();
-                        DataAjax10[index].col8 = time1 + '——' + time2;
-                    });
-                    this.$nextTick(() => {
-                        this.Datar10 = DataAjax10;
-                    });
+                "activityTitleLike": this.value01,
+                "limit": this.limit,
+                "page": this.page,
+                "status": 1,
+                "timeEnd": this.end,
+                "timeStart": this.start,
+            }
+            this.$axios.post(url,data).then((res)=>{
+                var AjaxData10 = res.data.data;
+                this.$nextTick(() => {
+                    this.Datar10 = AjaxData10;
                 })
-                .catch((err) => {
-                    this.$nextTick(() => {
-                        this.Datar10 = [{ name: '暂无数据！' }];
-                    });
-                });
-        },
-        // 删除
-        deleDataFodiscount(acId, ntype, statu) {
-            const url = 'admin/company/activity/all/update_status';
-            const data = {
-                activityId: acId,
-                activityType: ntype,
-                newStatus: statu
-            };
-            this.$axios
-                .put(url, data)
-                .then((res) => {
-                    if (res.status == 200) {
-                        const data = res.data;
-                        if (data.code == 200) {
-                            alert(data.msg);
-                            this.GetDataAjax();
-                        } else {
-                            alert(data.msg);
-                            this.GetDataAjax();
-                        }
-                    }
-                })
-                .catch((err) => {});
-        },
-        // 批量删除
-        BatchDeleteForcoup(id, activ) {
-            const url = 'admin/company/activity/all/batch_remove?activityType=' + activ;
-            this.$axios
-                .post(url, id)
-                .then((res) => {
-                    if (res.status == 200) {
-                        const dataert = res.data;
-                        if (dataert.cpde == 200) {
-                            alert(dataert.msg);
-                            this.GetDataAjax();
-                        } else {
-                            alert(dataert.msg);
-                            this.GetDataAjax();
-                        }
-                    }
-                })
-                .catch((err) => {});
+            }).catch((err)=>{
+
+            })
+            // */
         }
     },
-    mounted() {
+    mounted(){
         this.GetDataAjax();
     },
     components: {

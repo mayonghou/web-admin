@@ -1,21 +1,11 @@
 <template>
-    <!-- <h1>优惠券管理</h1> -->
+<!-- <h1>优惠券管理</h1> -->
     <div class="table_css_xiaoyuer">
         <div class="top-compo">
             <Row style="width: 100%">
                 <Col span="12">
-                    <Input
-                        v-model="value01"
-                        placeholder="输入活动主题..."
-                        clearable
-                        style="width: 200px; margin-right: 10px"
-                    />
-                    <Input
-                        v-model="value02"
-                        placeholder="输入发布企业..."
-                        clearable
-                        style="width: 200px; margin-right: 10px"
-                    />
+                    <Input v-model="value01" placeholder="输入活动主题..." clearable style="width: 200px; margin-right: 10px" />
+                    <Input v-model="value02" placeholder="输入发布企业..." clearable style="width: 200px; margin-right: 10px" />
                     <el-date-picker
                         v-model="value2"
                         type="datetimerange"
@@ -24,17 +14,14 @@
                         end-placeholder="结束日期"
                         value-format="yyyy-MM-dd HH:mm:ss"
                         @change="fgetLocalTime"
-                    ></el-date-picker>
-                    <Button
-                        type="primary"
-                        style="padding-left: 40px; padding-right: 40px"
-                        @click="CouponDataQuery"
-                    >查询</Button>
+                    >
+                    </el-date-picker>
+                    <Button type="primary" style="padding-left: 40px; padding-right: 40px" @click="CouponDataQuery">查询</Button>
                 </Col>
             </Row>
         </div>
         <!-- 表格 -->
-        <tablea v-if="Datar7 != ''" :pageid="pageid" :Datar7="Datar7" :statusCode="statusCode"></tablea>
+        <tablea v-if="Datar7 != ''" :pageid="pageid" :Datar7='Datar7'></tablea>
         <!-- 分页 -->
         <el-pagination
             class="pagintion"
@@ -42,10 +29,11 @@
             @current-change="handleCurrentChange"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40]"
-            :page-size="limit"
+            :page-size="20"
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
-        ></el-pagination>
+        >
+        </el-pagination>
     </div>
 </template>
 
@@ -54,9 +42,9 @@ import tablea from '../../conponents/table/tablea/tablea.vue';
 export default {
     data() {
         return {
-            Datar7: '',
-            start: '',
-            end: '',
+            Datar7:'',
+            start:'',
+            end:'',
             // 数据发散
             pageid: [
                 { pageid: 7 },
@@ -69,7 +57,7 @@ export default {
                     title: '序号',
                     slot: 'dataTanle',
                     align: 'center',
-                    width: 65
+                    width: 65,
                 },
                 {
                     title: '活动标题',
@@ -85,19 +73,19 @@ export default {
                     title: '发布人',
                     key: 'col3',
                     align: 'center',
-                    width: 80
+                    width: 80,
                 },
                 {
                     title: '已领取',
                     key: 'col4',
                     align: 'center',
-                    width: 80
+                    width: 80,
                 },
                 {
                     title: '已使用',
                     key: 'col5',
                     align: 'center',
-                    width: 80
+                    width: 80,
                 },
                 {
                     title: '关联优惠券',
@@ -124,12 +112,13 @@ export default {
                     col4: '播放中',
                     col5: '播放中',
                     col6: '播放中',
-                    col7: '2020.20.20'
+                    col7: '2020.20.20',
                 }
             ],
+
             page: 1,
-            limit: 10,
-            counts: 0,
+            limit: 20,
+            counts: this.counts || 1,
             // value2: ['2016-01-01', '2016-02-15'],
             value01: '',
             value02: '',
@@ -167,31 +156,19 @@ export default {
                 ]
             },
             value1: '',
-            value2: '',
-            statusCode: ''
+            value2: ''
         };
-    },
-    watch: {
-        Datar7: {
-            handler(newdata, oldata) {
-                this.Datar7 = newdata;
-            },
-            deep: true,
-            immediate: true
-        }
     },
     methods: {
         // 分页
         handleSizeChange(val) {
             this.limit = val;
-            this.CouponDataQuery();
         },
         handleCurrentChange(val) {
             this.page = val;
-            this.CouponDataQuery();
         },
-        //将时间转换成时间撮
-        fgetLocalTime() {
+        //
+        fgetLocalTime() {//将时间转换成时间撮
             let date = new Date(this.value2[0]);
             let start = date.getTime(date);
             this.start = start;
@@ -199,116 +176,40 @@ export default {
             let end = date1.getTime(date1);
             this.end = end;
         },
-        //查询List
-        CouponDataQuery() {
+        CouponDataQuery(){//查询
             var url = 'admin/company/activity/sys/coupon/list';
             var data = {
-                activityTitleLike: this.value01,
-                companyNameLike: this.value02,
-                limit: this.limit,
-                page: this.page,
-                status: 1,
-                timeEnd: this.end || null,
-                timeStart: this.start || null
-            };
-            this.$axios
-                .post(url, data)
-                .then((res) => {
-                    if (res.status == 200 && res.data.code == 200) {
-                        const statusCode = res.data.code;
-                        this.statusCode = statusCode;
-                        var Datar = res.data.list;
-                        this.counts = res.data.total;
-                        var DataAjax7 = [];
-                        Datar.forEach(function (val, index) {
-                            DataAjax7[index] = val;
-                            DataAjax7[index].dataTanle = val.order;
-                            DataAjax7[index].col1 = val.activityTitle;
-                            DataAjax7[index].col2 = val.companyName;
-                            DataAjax7[index].col3 = val.publisher;
-                            DataAjax7[index].col4 = val.countReceived;
-                            DataAjax7[index].col5 = val.countUsed;
-                            DataAjax7[index].col6 = val.couponName;
-                            var date = new Date(val.startTime);
-                            var time1 =
-                                date.getFullYear() +
-                                '-' +
-                                (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-                                '-' +
-                                date.getDate();
-                            var date1 = new Date(val.endTime);
-                            var time2 =
-                                date1.getFullYear() +
-                                '-' +
-                                (date1.getMonth() + 1 < 10 ? '0' + (date1.getMonth() + 1) : date1.getMonth() + 1) +
-                                '-' +
-                                date1.getDate();
-                            DataAjax7[index].col7 = time1 + '——' + time2;
-                        });
-                        this.$nextTick(() => {
-                            this.Datar7 = DataAjax7;
-                        });
-                    } else {
-                        alert(res.data.msg);
-                    }
-                })
-                .catch(() => {
+                "activityTitleLike": this.value01,
+                "companyNameLike": this.value02,
+                "limit": this.limit,
+                "page": this.page,
+                "status": 1,
+                "timeEnd": this.end || null,
+                "timeStart": this.start || null,
+            }
+            this.$axios.post(url,data).then((res)=>{
+                if(res.status == 200 && res.data.code == 200){
+                    var Datar = res.data.list;
                     this.$nextTick(() => {
-                        this.Datar7 = [{ name: '暂无数据！' }];
-                    });
-                });
+                        this.Datar7 = Datar;
+                    })
+                }else{
+                    alert(res.data.msg)
+                }
+            }).catch(()=>{
+
+            })
         },
-        // 删除
-        deleDataForcoup(acId, ntype, statu) {
-            const url = 'admin/company/activity/all/update_status';
-            const data = {
-                activityId: acId,
-                activityType: ntype,
-                newStatus: statu
-            };
-            this.$axios
-                .put(url, data)
-                .then((res) => {
-                    if (res.status == 200) {
-                        const data = res.data;
-                        if (data.code == 200) {
-                            alert(data.msg);
-                            this.CouponDataQuery();
-                        } else {
-                            alert(data.msg);
-                            this.CouponDataQuery();
-                        }
-                    }
-                })
-                .catch((err) => {});
-        },
-        // 批量删除
-        BatchDeleteForcoup(id, activ) {
-            const url = 'admin/company/activity/all/batch_remove?activityType=' + activ;
-            this.$axios
-                .post(url, id)
-                .then((res) => {
-                    if (res.status == 200) {
-                        const dataert = res.data;
-                        if (dataert.cpde == 200) {
-                            alert(dataert.msg);
-                            this.CouponDataQuery();
-                        } else {
-                            alert(dataert.msg);
-                            this.CouponDataQuery();
-                        }
-                    }
-                })
-                .catch((err) => {});
-        }
     },
-    mounted() {},
-    created() {
+    mounted(){
+
+    },
+    created(){
         this.CouponDataQuery();
     },
     components: {
-        tablea
-    }
+        tablea,
+    },
 };
 </script>
 

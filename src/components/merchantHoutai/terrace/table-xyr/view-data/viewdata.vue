@@ -9,19 +9,19 @@
             <ul>
                 <li>
                     <p>浏量</p>
-                    <h1>{{ this.currentCompany.viewCount }}</h1>
+                    <h1>234</h1>
                 </li>
                 <li>
                     <P>购买用户</P>
-                    <h1>{{ this.currentCompany.userCount }}</h1>
+                    <h1>657</h1>
                 </li>
                 <li>
                     <p>销售额</p>
-                    <h1>{{ this.currentCompany.totalSales }}</h1>
+                    <h1>879</h1>
                 </li>
                 <li>
                     <p>订单量</p>
-                    <h1>{{ this.currentCompany.orderCount }}</h1>
+                    <h1>34</h1>
                 </li>
             </ul>
         </div>
@@ -53,7 +53,7 @@
                 width="80%"
                 :footer-hide="true"
             >
-                <ModalTable :ModalTableData="ModalTableData"></ModalTable>
+                <ModalTable></ModalTable>
                 <!-- 分页 -->
                 <el-pagination
                     class="pagintion"
@@ -68,10 +68,11 @@
             </Modal>
         </div>
         <div class="btnClass">
-            <Button type="primary" @click="modalData1Click">查看订单</Button>
+            <Button type="primary" @click="modalData1 = true">查看订单</Button>
         </div>
     </div>
 </template>
+
 <script>
 import echarts from '../components/echarts.vue';
 import echartsb from '../components/echartsb.vue';
@@ -79,21 +80,10 @@ import ModalTable from '../components/ModalTable.vue';
 export default {
     data() {
         return {
-            currentCompany: {},
             modalData1: false,
             page: 1,
             limit: 10,
-            counts: 0,
-            ModalTableData: [
-                //ModalTable
-                // {
-                //     orderSn: '',
-                //     userName: ' ',
-                //     payAmount: '',
-                //     sourceUserName: '',
-                //     createTime: ''
-                // }
-            ]
+            counts: 0
         };
     },
     components: {
@@ -113,110 +103,33 @@ export default {
         cancel() {
             this.$Message.info('表格已隐藏');
         },
-        //查看订单
-        modalData1Click() {
-            this.modalData1 = true;
-            this.RequestDataForOrder();
-        },
         // 页码
         handleSizeChange(val) {
             this.limit = val;
-            this.RequestDataForOrder();
         },
         handleCurrentChange(val) {
             this.page = val;
-            this.RequestDataForOrder();
-        },
-        // $ajax//公司合作的数据
-        getdataList() {
-            const url = 'admin/company/queryCompanyData?partnerCompanyId=' + this.$route.query.id;
-            this.$axios.get(url).then((res) => {
-                if (res.status == 200) {
-                    let datat = res.data;
-                    if (datat.code == 200) {
-                        this.currentCompany = datat.data.currentCompany;
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: datat.msg,
-                            type: 'error'
-                        });
-                    }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: res.data.msg,
-                        type: 'error'
-                    });
-                }
-            });
-        },
-        //查看订单    ModalTable
-        RequestDataForOrder() {
-            const url = 'admin/company/adminQueryProductOrder';
-            let data = {
-                limit: this.limit,
-                page: this.page,
-                partnerCompanyId: this.$route.query.id
-            };
-            this.$axios //分页totalCount
-                .post(url, data)
-                .then((res) => {
-                    if (res.status == 200) {
-                        let data = res.data;
-                        if (data.code == 200) {
-                            let dataLsit = [];
-                            data.data.forEach((val, index) => {
-                                dataLsit[index] = val;
-                                dataLsit[index].orderSn = val.orderSn;
-                                dataLsit[index].userName = val.userName;
-                                dataLsit[index].payAmount = val.payAmount;
-                                dataLsit[index].sourceUserName = val.sourceUserName;
-                                dataLsit[index].createTime = val.createTime;
-                            });
-                            this.ModalTableData = dataLsit;
-                            this.counts = data.totalCount;
-                        } else {
-                            this.$message({
-                                showClose: true,
-                                message: data.msg,
-                                type: 'error'
-                            });
-                        }
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: res.data.msg,
-                            type: 'error'
-                        });
-                    }
-                })
-                .catch((err) => {});
         }
     },
-    mounted() {
-        this.getdataList();
-    }
+    mounted() {}
 };
 </script>
+
 <style scoped>
 .ClassTop {
     margin-top: 40px;
 }
-
 .countData {
     display: flex;
     justify-content: space-between;
     margin: 40px 0 0 0;
 }
-
 .countDataroot {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
     padding: 20px 50px;
 }
-
 .fifleTitle {
     width: 100%;
     height: 36px;
@@ -226,20 +139,17 @@ export default {
     display: flex;
     align-items: center;
 }
-
 .chapDatalist {
     width: 100%;
     height: auto;
     margin: 20px 0px;
 }
-
 .chapDatalist ul {
     width: 100%;
     height: auto;
     display: flex;
     justify-content: space-between;
 }
-
 .chapDatalist ul li {
     width: 100%;
     height: 150px;
@@ -247,53 +157,43 @@ export default {
     list-style-type: none;
     padding: 30px 30px;
 }
-
 .chapDatalist ul li:nth-child(2),
 .chapDatalist ul li:nth-child(3),
 .chapDatalist ul li:nth-child(4) {
     border-left: 0;
 }
-
 .echarpClasss {
     display: flex;
     justify-content: space-between;
     margin-top: 86px;
 }
-
 .echarpClasss div:nth-child(1) {
     width: 100%;
     min-height: 360px;
     height: auto;
 }
-
 .echarpClasss div:nth-child(2) {
     width: 100%;
     min-height: 360px;
     height: auto;
 }
-
 .title-dy {
     text-align: center;
 }
-
 .bgClass {
     padding: 20px 36px 20px 0px;
 }
-
 .BgcountClass {
     width: 100%;
     height: 100%;
 }
-
 .bgClassv {
     padding: 20px 0px 20px 36px;
 }
-
 .BgcountClassv {
     width: 100%;
     height: 100%;
 }
-
 .btnClass {
     display: flex;
     align-items: center;

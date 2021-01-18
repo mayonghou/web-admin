@@ -411,11 +411,6 @@ export default {
     padding: 20px;
 }
 
-.add_from {
-    width: 1200px;
-    margin: 0 auto;
-}
-
 .el-input {
     width: 194px;
 }

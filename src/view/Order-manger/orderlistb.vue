@@ -21,6 +21,7 @@
                         :picker-options="pickerOptions"
                         @change="fgetLocalTime"
                     ></el-date-picker>
+
                     <Select
                         v-model="model1"
                         style="width:150px; margin-right:10px;"
@@ -32,6 +33,7 @@
                             :key="item.value"
                         >{{ item.label }}</Option>
                     </Select>
+
                     <Select
                         v-model="model2"
                         style="width:150px; margin-right:10px;"
@@ -43,6 +45,7 @@
                             :key="itema.valuea"
                         >{{ itema.labela }}</Option>
                     </Select>
+
                     <Button
                         @click="CouponDataQuery"
                         type="primary"
@@ -52,7 +55,7 @@
             </Row>
         </div>
         <!-- 表格 -->
-        <tablea v-if="Datar1 != ''" :pageid="pageid" :Datar1="Datar1" :statusCode="statusCode"></tablea>
+        <tablea v-if="Datar1 != ''" :pageid="pageid" :Datar1="Datar1"></tablea>
         <!-- 分页 -->
         <el-pagination
             class="pagintion"
@@ -60,7 +63,7 @@
             @current-change="handleCurrentChange"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40]"
-            :page-size="limit"
+            :page-size="20"
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
         ></el-pagination>
@@ -151,13 +154,16 @@ export default {
                     col8: '2020-12-23'
                 }
             ],
+
             page: 1,
-            limit: 10,
-            counts: this.counts,
+            limit: 20,
+            counts: this.counts || 1,
+            // value2: ['2016-01-01', '2016-02-15'],
             value01: '',
             value02: '',
-            //订单状态
+
             cityList: [
+                //订单状态
                 {
                     value: '待付款',
                     label: '待付款'
@@ -184,6 +190,7 @@ export default {
                 }
             ],
             model1: '',
+
             cityLista: [
                 //订单类型
                 {
@@ -233,33 +240,20 @@ export default {
                 ]
             },
             value1: '',
-            value2: '',
-            statusCode: ''
+            value2: ''
+            // 传递到orderlist
         };
-    },
-    watch: {
-        Datar1: {
-            handler(newdata, oldata) {
-                this.Datar1 = newdata;
-            },
-            deep: true,
-            immediate: true
-        }
-    },
-    created() {},
-    mounted() {
-        this.CouponDataQuery();
     },
     methods: {
         //  分页
         handleSizeChange(val) {
             this.limit = val;
-            this.CouponDataQuery();
         },
         handleCurrentChange(val) {
             this.page = val;
-            this.CouponDataQuery();
+            console.log();
         },
+        //
         fgetLocalTime() {
             //将时间转换成时间撮
             let date = new Date(this.value2[0]);
@@ -269,8 +263,8 @@ export default {
             let end = date1.getTime(date1);
             this.end = end;
         },
-        //查询
         CouponDataQuery() {
+            //查询
             var url = 'admin/order/adminQueryOrderList';
             var data = {
                 limit: this.limit,
@@ -284,102 +278,19 @@ export default {
             this.$axios
                 .post(url, data)
                 .then((res) => {
-                    const statusCode = res.data.code;
-                    this.statusCode = statusCode;
-                    var AjaxData = res.data.data.dataList;
-                    this.counts = res.data.data.totalCount;
-                    var DataAjax1 = [];
-                    AjaxData.forEach(function (val, index) {
-                        DataAjax1[index] = val;
-                        DataAjax1[index].col1 = val.orderSn;
-                        DataAjax1[index].col2 = val.userName;
-                        DataAjax1[index].col3 = val.companyName;
-                        DataAjax1[index].col4 = val.orderSource;
-                        if (val.payType == 0) {
-                            val.payType = '未支付';
-                        } else if (val.payType == 1) {
-                            val.payType = '支付宝';
-                        } else if (val.payType == 2) {
-                            val.payType = '微信';
-                        }
-                        DataAjax1[index].col5 = val.payType;
-                        if (val.status == 0) {
-                            val.status = '待付款';
-                        } else if (val.status == 1) {
-                            val.status = '待发货';
-                        } else if (val.status == 2) {
-                            val.status = '已发货';
-                        } else if (val.status == 3) {
-                            val.status = '已完成';
-                        } else if (val.status == 4) {
-                            val.status = '已关闭';
-                        } else if (val.status == 5) {
-                            val.status = '无效订单';
-                        }
-                        DataAjax1[index].col6 = val.status;
-                        DataAjax1[index].col7 = val.payAmount / 100;
-                        var date = new Date(val.createTime);
-                        var time1 =
-                            date.getFullYear() +
-                            '-' +
-                            (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-                            '-' +
-                            date.getDate();
-                        DataAjax1[index].col8 = time1;
-                    });
+                    var AjaxData1 = res.data.data.dataList;
                     this.$nextTick(() => {
-                        this.Datar1 = DataAjax1;
+                        this.Datar1 = AjaxData1;
                     });
                 })
-                .catch(() => {
-                    this.$nextTick(() => {
-                        this.Datar1 = [{ name: '暂无数据！' }];
-                    });
-                });
-        },
-        // 删除
-        DaletDataForOlder(orderIdfor) {
-            const url = 'admin/order/order/delOrder?orderId=' + orderIdfor;
-            this.$axios
-                .get(url)
-                .then((res) => {
-                    if (res.status == 200) {
-                        const data = res.data;
-                        if (data.code == 200) {
-                            alert(data.msg);
-                            this.CouponDataQuery();
-                        } else {
-                            alert(data.msg);
-                            this.CouponDataQuery();
-                        }
-                    }
-                })
-                .catch((err) => {});
-        },
-        // 批量删除
-        BatchDeleteForOrder(id) {
-            alert('还木有接口');
-            /*
-            const url = 'admin/product/adminBatchDelProduct?productIds=' + id;
-            this.$axios
-                .post(url)
-                .then((res) => {
-                    if (res.status == 200) {
-                        const dataert = res.data;
-                        if (dataert.cpde == 200) {
-                            alert(dataert.msg);
-                            this.CouponDataQuery();
-                        } else {
-                            alert(dataert.msg);
-                            this.CouponDataQuery();
-                        }
-                    }
-                })
-                .catch((err) => {});
-                */
+                .catch(() => {});
         }
+    },
+    mounted() {
+        this.CouponDataQuery();
     }
 };
 </script>
+
 <style scope>
 </style>

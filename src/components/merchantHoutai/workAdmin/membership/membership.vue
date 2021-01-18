@@ -19,11 +19,11 @@
             </div>
         </div>
         <el-row class="dangerbutton">
-            <!-- <el-button type="danger" size="small">批量禁用</el-button> -->
+            <el-button type="danger" size="small">批量禁用</el-button>
         </el-row>
         <!-- 表格 -->
         <el-table :data="tableData" border style="width: 100%">
-            <!-- <el-table-column type="selection" align="center"></el-table-column> -->
+            <el-table-column type="selection" align="center"></el-table-column>
             <el-table-column prop="id" label="会员ID" align="center"></el-table-column>
             <el-table-column prop="name" label="会员名" align="center"></el-table-column>
             <el-table-column prop="phoneNumber" label="手机号码" align="center"></el-table-column>
@@ -33,16 +33,7 @@
             <el-table-column label="操作" width="210" align="center">
                 <template slot-scope="scope">
                     <el-button class="tab_gl02 tab_button" @click="memberdetails(scope.row)">查看详情</el-button>
-                    <el-button
-                        @click="del_membership(scope.row)"
-                        v-if="scope.row.status==0"
-                        class="tab_del tab_button ngcolor"
-                    >禁用</el-button>
-                    <el-button
-                        @click="del_member(scope.row)"
-                        v-if="scope.row.status==1"
-                        class="tab_button brtnClass"
-                    >启用</el-button>
+                    <el-button @click="del_membership(scope.row)" class="tab_del tab_button">禁用</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -59,6 +50,7 @@
         ></el-pagination>
     </div>
 </template>
+
 <script>
 export default {
     name: 'membership',
@@ -82,9 +74,7 @@ export default {
                 }
             ],
             model1: '',
-            resdataertRouter: '',
-            dataIder: '',
-            btnData: '禁用'
+            resdataertRouter: ''
         };
     },
     methods: {
@@ -110,7 +100,7 @@ export default {
             this.getappUser();
             this.page = 1;
         },
-        //时间搓转换
+        // 讲是时间搓转换
         getLocalTime(nS) {
             return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/, ' ');
         },
@@ -146,95 +136,6 @@ export default {
                     menberData: row
                 }
             });
-        },
-        // 禁用
-        del_membership(row) {
-            this.$confirm('是否确定禁用会员 【' + row.name + ' 】', '温馨提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                const loading = this.$loading({
-                    lock: true,
-                    text: '禁用中...',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-                });
-                const url = 'admin/user/delete/app/user?flag=' + true + '&userIds=' + row.id;
-                this.$axios
-                    .get(url)
-                    .then((res) => {
-                        loading.close();
-                        if (res.status == 200) {
-                            let data = res.data;
-                            if (data.code == 200) {
-                                this.$message({
-                                    showClose: true,
-                                    message: data.msg,
-                                    type: 'success'
-                                });
-                                this.getappUser();
-                            } else {
-                                this.$message({
-                                    showClose: true,
-                                    message: data.msg,
-                                    type: 'error'
-                                });
-                            }
-                        } else {
-                            this.$message({
-                                showClose: true,
-                                message: res.data.msg,
-                                type: 'error'
-                            });
-                        }
-                    })
-                    .catch((err) => {});
-            });
-        },
-        del_member(row) {
-            this.$confirm('是否确定启用会员 【' + row.name + ' 】', '温馨提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                const loading = this.$loading({
-                    lock: true,
-                    text: '启用中...',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-                });
-                const url = 'admin/user/delete/app/user?flag=' + false + '&userIds=' + row.id;
-                this.$axios
-                    .get(url)
-                    .then((res) => {
-                        loading.close();
-                        if (res.status == 200) {
-                            let data = res.data;
-                            if (data.code == 200) {
-                                this.$message({
-                                    showClose: true,
-                                    message: data.msg,
-                                    type: 'success'
-                                });
-                                this.getappUser();
-                            } else {
-                                this.$message({
-                                    showClose: true,
-                                    message: data.msg,
-                                    type: 'error'
-                                });
-                            }
-                        } else {
-                            this.$message({
-                                showClose: true,
-                                message: res.data.msg,
-                                type: 'error'
-                            });
-                        }
-                    })
-                    .catch((err) => {});
-            });
         }
     },
     mounted() {
@@ -242,6 +143,7 @@ export default {
     }
 };
 </script>
+
 <style>
 @import './membership.css';
 </style>
