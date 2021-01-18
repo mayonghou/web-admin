@@ -1,11 +1,27 @@
 <template>
     <div class="addActivity" id="addActivityflashSale">
-        <div class="addActivity-top"><label>填写发布的抽奖活动信息</label></div>
+        <div class="addActivity-top">
+            <label>填写发布的抽奖活动信息</label>
+        </div>
         <el-form :model="addActivitydata" :rules="rules" ref="addActivitydata">
-            <el-form-item label="活动标题:" prop="activityTitle" v-show="indextext == 0" :label-width="labelwidth">
-                <el-input class="ElinputT" placeholder="请输入活动的标题" v-model="addActivitydata.activityTitle"></el-input>
+            <el-form-item
+                label="活动标题:"
+                prop="activityTitle"
+                v-show="indextext == 0"
+                :label-width="labelwidth"
+            >
+                <el-input
+                    class="ElinputT"
+                    placeholder="请输入活动的标题"
+                    v-model="addActivitydata.activityTitle"
+                ></el-input>
             </el-form-item>
-            <el-form-item label="活动时间:" v-show="indextext == 0" prop="activityTime" :label-width="labelwidth">
+            <el-form-item
+                label="活动时间:"
+                v-show="indextext == 0"
+                prop="activityTime"
+                :label-width="labelwidth"
+            >
                 <el-date-picker
                     prefix-icon="md-date_range"
                     v-model="addActivitydata.activityTime"
@@ -14,23 +30,41 @@
                     end-placeholder="结束日期"
                     value-format="yyyy-MM-dd"
                     @change="timestamp"
-                >
-                </el-date-picker>
+                ></el-date-picker>
             </el-form-item>
-            <el-form-item label="每日抽奖的机会:" v-show="indextext == 0" prop="activityLimit" :label-width="labelwidth">
-                <el-input class="ElinputT" placeholder="输入每人每日抽奖的次数" v-model.number="addActivitydata.activityLimit"></el-input>
+            <el-form-item
+                label="每日抽奖的机会:"
+                v-show="indextext == 0"
+                prop="activityLimit"
+                :label-width="labelwidth"
+            >
+                <el-input
+                    class="ElinputT"
+                    placeholder="输入每人每日抽奖的次数"
+                    v-model.number="addActivitydata.activityLimit"
+                ></el-input>
                 <label class="zhang">次</label>
             </el-form-item>
-            <el-form-item label="总中奖概率:" v-show="indextext == 0" prop="activityProb" :label-width="labelwidth">
+            <el-form-item
+                label="总中奖概率:"
+                v-show="indextext == 0"
+                prop="activityProb"
+                :label-width="labelwidth"
+            >
                 <el-input
                     class="ElinputT"
                     placeholder="如30（每人玩100次游戏，30次获奖机会，奖品随机"
                     v-model="addActivitydata.activityProb"
-					@change="propnuum"
+                    @change="propnuum"
                 ></el-input>
                 <label class="zhang">%</label>
             </el-form-item>
-            <el-form-item label="总的中奖机会:" v-show="indextext == 0" prop="activityChance" :label-width="labelwidth">
+            <el-form-item
+                label="总的中奖机会:"
+                v-show="indextext == 0"
+                prop="activityChance"
+                :label-width="labelwidth"
+            >
                 <el-input
                     class="ElinputT"
                     placeholder="请输入中奖机会"
@@ -39,7 +73,12 @@
                 ></el-input>
                 <label class="zhang">次</label>
             </el-form-item>
-            <el-form-item label="活动规则:" v-show="indextext == 0" prop="activityRule" :label-width="labelwidth">
+            <el-form-item
+                label="活动规则:"
+                v-show="indextext == 0"
+                prop="activityRule"
+                :label-width="labelwidth"
+            >
                 <el-input
                     class="textarea"
                     type="textarea"
@@ -50,7 +89,12 @@
                 ></el-input>
             </el-form-item>
 
-            <el-form-item label="设置奖品:" v-show="indextext == 1" prop="activityjuansda" :label-width="labelwidth">
+            <el-form-item
+                label="设置奖品:"
+                v-show="indextext == 1"
+                prop="activityjuansda"
+                :label-width="labelwidth"
+            >
                 <label style="color: #a4a4a4; display: block">(数量在3-6个之间)</label>
                 <div v-for="(item, index) in addActivitydata.activityjuansda" :key="index">
                     <el-form-item
@@ -76,7 +120,11 @@
                                 trigger: 'blur'
                             }"
                         >
-                            <el-input class="ElinputT" placeholder="请输入奖项名称" v-model="item.prizeName"> </el-input>
+                            <el-input
+                                class="ElinputT"
+                                placeholder="请输入奖项名称"
+                                v-model="item.prizeName"
+                            ></el-input>
                         </el-form-item>
                         <el-form-item
                             label="发行数量:"
@@ -95,18 +143,25 @@
                                 }
                             ]"
                         >
-                            <el-input class="ElinputT" placeholder="请输入发布奖品数量" v-model.number="item.prizeNum"></el-input>
+                            <el-input
+                                class="ElinputT"
+                                placeholder="请输入发布奖品数量"
+                                v-model.number="item.prizeNum"
+                            ></el-input>
                         </el-form-item>
-                        <label @click="deljuan(item)" type="text" class="del-btn el-icon-remove-outline">删除该奖励</label>
+                        <label
+                            @click="deljuan(item)"
+                            type="text"
+                            class="del-btn el-icon-remove-outline"
+                        >删除该奖励</label>
                     </el-form-item>
                 </div>
-				<!-- v-if="this.addActivitydata.activityjuansda.length < 6" -->
+                <!-- v-if="this.addActivitydata.activityjuansda.length < 6" -->
                 <el-button
                     @click="shoppingDG"
                     class="btoun el-icon-circle-plus-outline"
-					v-if="this.addActivitydata.activityjuansda.length < 6"
-                    >添加奖奖品</el-button
-                >
+                    v-if="this.addActivitydata.activityjuansda.length < 6"
+                >添加奖奖品</el-button>
             </el-form-item>
         </el-form>
         <div class="addactivityBtn ss">
@@ -115,7 +170,7 @@
             <el-button @click="shangyibu" v-show="indextext == 1" class="buttonr">上一步</el-button>
             <el-button @click="addActivit" v-show="indextext == 1" class="buttonr mL">发布</el-button>
         </div>
-		
+
         <el-dialog title="关联优惠券" :visible.sync="dialogVisible" width="80%">
             <div class="iconEnlorder" @click="enlarge">
                 <el-tooltip effect="dark" :content="fullscreen ? `取消全屏` : `全屏`" placement="bottom">
@@ -124,28 +179,42 @@
             </div>
             <div class="goodsSeacher">
                 <el-input class="goodInputs" v-model="goodData">
-                  <i slot="prefix" class="el-input__icon el-icon-search"></i>
+                    <i slot="prefix" class="el-input__icon el-icon-search"></i>
                 </el-input>
                 <el-button @click="seacherdata" type="text" class="seacher">搜索</el-button>
             </div>
             <el-table :data="tableData" style="width: 100%;" border>
-                <el-table-column type="selection" width="" align="center"> </el-table-column>
-                <el-table-column prop="order" label="序号" width="100" align="center"> </el-table-column>
-                <el-table-column prop="name" label="优惠券名称" width="" align="center"> </el-table-column>
-                <el-table-column prop="createByUser" label="发布人" align="center"> </el-table-column>
+                <el-table-column type="selection" width align="center"></el-table-column>
+                <el-table-column prop="order" label="序号" width="100" align="center"></el-table-column>
+                <el-table-column prop="name" label="优惠券名称" width align="center"></el-table-column>
+                <el-table-column prop="createByUser" label="发布人" align="center"></el-table-column>
                 <el-table-column prop="shoppName" label="关联商品" align="center">
                     <template slot-scope="scope">
                         <label style="color: #2494d2">{{ scope.row.shoppName }}</label>
                     </template>
                 </el-table-column>
-                <el-table-column prop="tab" label="规则" align="center"> </el-table-column>
-                <el-table-column prop="countAvailable" label="库存" align="center"> </el-table-column>
+                <el-table-column prop="tab" label="规则" align="center"></el-table-column>
+                <el-table-column prop="countAvailable" label="库存" align="center"></el-table-column>
                 <el-table-column label="操作" width="250" align="center">
                     <template slot-scope="scope">
-                        <el-button @click="GLgoods(scope.row)" v-if="scope.row.id != shoppId && scope.row.bindabilityStatus == 0" class="shoppXuanzhe" size="small"
-                            >选择关联</el-button>
-                        <el-button type="text" style="color: #ff8d00" v-if="scope.row.id == shoppId" size="small">当前关联</el-button>
-                        <el-button type="text" style="color: #ff8d00" v-if="scope.row.bindabilityStatus != 0" size="small">已关联</el-button>
+                        <el-button
+                            @click="GLgoods(scope.row)"
+                            v-if="scope.row.id != shoppId && scope.row.bindabilityStatus == 0"
+                            class="shoppXuanzhe"
+                            size="small"
+                        >选择关联</el-button>
+                        <el-button
+                            type="text"
+                            style="color: #ff8d00"
+                            v-if="scope.row.id == shoppId"
+                            size="small"
+                        >当前关联</el-button>
+                        <el-button
+                            type="text"
+                            style="color: #ff8d00"
+                            v-if="scope.row.bindabilityStatus != 0"
+                            size="small"
+                        >已关联</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -158,10 +227,8 @@
                 :page-size="limit"
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="counts"
-            >
-            </el-pagination>
+            ></el-pagination>
         </el-dialog>
-		
     </div>
 </template>
 
@@ -189,7 +256,7 @@ export default {
                 activityRule: '',
                 activityjuansda: []
             },
-			id: '',
+            id: '',
             countNum: 0,
             rules: {
                 activityTitle: [
@@ -225,11 +292,13 @@ export default {
                         trigger: 'blur'
                     }
                 ],
-                activityChance:[{
-                    required: true,
-                    message: '请输入中奖的机会',
-                    trigger: 'blur'
-                }],
+                activityChance: [
+                    {
+                        required: true,
+                        message: '请输入中奖的机会',
+                        trigger: 'blur'
+                    }
+                ],
                 activityRule: [
                     {
                         required: true,
@@ -274,7 +343,7 @@ export default {
         };
     },
     mounted() {
-      this.getraffleLotterys();
+        this.getraffleLotterys();
     },
     methods: {
         // 关联优惠券弹框
@@ -306,12 +375,12 @@ export default {
         },
         // 删除奖项
         deljuan(item) {
-			var indexa = this.addActivitydata.activityjuansda.indexOf(item);
-			console.log(indexa);
-			if (indexa != -1) {
-			  this.addActivitydata.activityjuansda.splice(item, 1);
-			}
-		},
+            var indexa = this.addActivitydata.activityjuansda.indexOf(item);
+            console.log(indexa);
+            if (indexa != -1) {
+                this.addActivitydata.activityjuansda.splice(item, 1);
+            }
+        },
         // 商品搜索
         seacherdata() {
             this.page = 1;
@@ -375,16 +444,16 @@ export default {
                 }
             });
         },
-		propnuum(value){
-			console.log(value);
-			if(value > 100){
-				return this.$message({
-				  showClose: true,
-				  message: '概率范围在0-100',
-				  type: 'error'
-				});
-			}
-		},       // 取消发布
+        propnuum(value) {
+            console.log(value);
+            if (value > 100) {
+                return this.$message({
+                    showClose: true,
+                    message: '概率范围在0-100',
+                    type: 'error'
+                });
+            }
+        }, // 取消发布
         quxiaofabu() {
             this.$router.push({
                 path: './raffleLottery'
@@ -395,95 +464,96 @@ export default {
         addActivit() {
             this.$refs.addActivitydata.validate((valid) => {
                 if (valid) {
-                this.$confirm('是否确定发布抽奖活动【' + this.addActivitydata.activityTitle + '】?', '温馨提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    if(this.addActivitydata.activityjuansda.length < 3){
-                      return this.$message({
-                        showClose: true,
-                        message: '奖品不能少于三个',
-                        type: 'error'
-                      });
-                    }
-                    let data = {
-                      companyId: parseInt(localStorage.getItem('loginData')),
-                      companyName: localStorage.getItem('companyName'),
-                      industryId: parseInt(localStorage.getItem('industryId')),
-                      chanceNumPerDay: parseInt(this.addActivitydata.activityLimit),
-                      title: this.addActivitydata.activityTitle,
-                      endTime: this.endTime,
-                      maxChanceNum: parseInt(this.addActivitydata.activityChance),
-                      ruleDescription: this.addActivitydata.activityRule,
-                      startTime: this.startTime,
-                      winRate: this.addActivitydata.activityProb,
-                      prizeItemList: this.addActivitydata.activityjuansda,
-					  id: this.id
-                    };
-                    const loading = this.$loading({
-                      lock: true,
-                      text: '发布中...',
-                      spinner: 'el-icon-loading',
-                      background: 'rgba(0, 0, 0, 0.7)'
-                    });
-                    this.$axios.post('admin/company/activity/lottery/publish', data).then((res) => {
-                      loading.close();
-                      if (res.status == 200) {
-                        var data = res.data;
-                        if (data.code == 200) {
-                          this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'success',
-                          });
-                          this.$router.push({
-                            path: './raffleLottery'
-                          })
-                          this.$refs.addActivitydata.resetFields();
-                        } else {
-                          this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                          });
+                    this.$confirm('是否确定发布抽奖活动【' + this.addActivitydata.activityTitle + '】?', '温馨提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        if (this.addActivitydata.activityjuansda.length < 3) {
+                            return this.$message({
+                                showClose: true,
+                                message: '奖品不能少于三个',
+                                type: 'error'
+                            });
                         }
-                      } else {
-                        this.$message({
-                          showClose: true,
-                          message: data.msg,
-                          type: 'error'
+                        let data = {
+                            companyId: parseInt(localStorage.getItem('loginData')),
+                            companyName: localStorage.getItem('companyName'),
+                            industryId: parseInt(localStorage.getItem('industryId')),
+                            chanceNumPerDay: parseInt(this.addActivitydata.activityLimit),
+                            title: this.addActivitydata.activityTitle,
+                            endTime: this.endTime,
+                            maxChanceNum: parseInt(this.addActivitydata.activityChance),
+                            ruleDescription: this.addActivitydata.activityRule,
+                            startTime: this.startTime,
+                            winRate: this.addActivitydata.activityProb,
+                            prizeItemList: this.addActivitydata.activityjuansda,
+                            id: this.id
+                        };
+                        const loading = this.$loading({
+                            lock: true,
+                            text: '发布中...',
+                            spinner: 'el-icon-loading',
+                            background: 'rgba(0, 0, 0, 0.7)'
                         });
-                      }
+                        this.$axios.post('admin/company/activity/lottery/publish', data).then((res) => {
+                            loading.close();
+                            if (res.status == 200) {
+                                var data = res.data;
+                                if (data.code == 200) {
+                                    this.$message({
+                                        showClose: true,
+                                        message: data.msg,
+                                        type: 'success'
+                                    });
+                                    this.$router.push({
+                                        path: './raffleLottery'
+                                    });
+                                    this.$refs.addActivitydata.resetFields();
+                                } else {
+                                    this.$message({
+                                        showClose: true,
+                                        message: data.msg,
+                                        type: 'error'
+                                    });
+                                }
+                            } else {
+                                this.$message({
+                                    showClose: true,
+                                    message: data.msg,
+                                    type: 'error'
+                                });
+                            }
+                        });
                     });
-                });
                 }
             });
         },
         // 重新发布的数据
-        getraffleLotterys(){
-          var data = this.$route.query.data;
-          if(data != undefined){
-			this.id = data.id;
-			if(data.prizeItemList){
-				var dataList = [];
-				data.prizeItemList.forEach(function(val,index){
-					dataList[index] = val;
-					dataList[index].index = index+1;
-					dataList[index].name = val.productName;
-					dataList[index].prizeId = val.prizeId;
-				})
-			}
-			this.addActivitydata.activityjuansda = dataList;
-			this.addActivitydata.activityTime = data.time.split('----');
-			this.timestamp();
-			this.addActivitydata.activityTitle = data.title;
-			this.addActivitydata.activityLimit = data.chanceNumPerDay;
-			this.addActivitydata.activityProb = data.winRate;
-			this.addActivitydata.activityChance = data.maxChanceNum;
-			this.addActivitydata.activityRule = data.ruleDescription;
-          }
-        },
+        getraffleLotterys() {
+            var data = this.$route.query.data;
+            if (data != undefined) {
+                this.id = data.id;
+                if (data.prizeItemList) {
+                    var dataList = [];
+                    data.prizeItemList.forEach(function (val, index) {
+                        dataList[index] = val;
+                        dataList[index].index = index + 1;
+                        dataList[index].name = val.productName;
+                        dataList[index].prizeId = val.prizeId;
+                    });
+                }
+                this.addActivitydata.activityjuansda = dataList;
+                console.log(dataList);
+                this.addActivitydata.activityTime = data.time.split('----');
+                this.timestamp();
+                this.addActivitydata.activityTitle = data.title;
+                this.addActivitydata.activityLimit = data.chanceNumPerDay;
+                this.addActivitydata.activityProb = data.winRate;
+                this.addActivitydata.activityChance = data.maxChanceNum;
+                this.addActivitydata.activityRule = data.ruleDescription;
+            }
+        }
     }
 };
 </script>
@@ -492,7 +562,7 @@ export default {
 .addActivity {
     width: 100%;
     box-sizing: border-box;
-	padding: 20px;
+    padding: 20px;
 }
 
 .addActivity .addActivity-top {
@@ -503,8 +573,8 @@ export default {
     margin-top: 20px;
     margin-bottom: 20px;
 }
-.goodsSeacher .goodInputs .el-input__inner{
-  border: 1px solid #c1c1c1;
+.goodsSeacher .goodInputs .el-input__inner {
+    border: 1px solid #c1c1c1;
 }
 .addActivity .shoppXuanzhe {
     width: 80px;

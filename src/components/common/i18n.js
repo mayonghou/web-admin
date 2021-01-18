@@ -1,4 +1,4 @@
-export const messages = {
+const messages = {
     'zh': {
         i18n: {
             breadcrumb: '国际化产品',
@@ -27,8 +27,4 @@ export const messages = {
             value: 'documentation'
         }
     }
-}
-
-function name() {
-
 }

@@ -4,28 +4,13 @@
         <div class="top-compo">
             <Row style="width: 100%">
                 <Col span="12">
-                    <Input
-                        v-model="value01"
-                        placeholder="输入行业名称..."
-                        clearable
-                        style="width: 200px; margin-right: 10px"
-                    />
-                    <Button
-                        @click="CouponDataQuery"
-                        type="primary"
-                        style="padding-left: 40px; padding-right: 40px"
-                    >查询</Button>
+                    <Input v-model="value01" placeholder="输入行业名称..." clearable style="width: 200px; margin-right: 10px" />
+                    <Button @click="CouponDataQuery" type="primary" style="padding-left: 40px; padding-right: 40px">查询</Button>
                 </Col>
             </Row>
         </div>
         <!-- 表格 -->
-        <tablea
-            v-if="Datar17 != ''"
-            :pageid="pageid"
-            :Datar17="Datar17"
-            :statusCode="statusCode"
-            @adminiDataA="xgDatafromchild"
-        ></tablea>
+        <tablea v-if="Datar17 != ''" :pageid="pageid" :Datar17='Datar17' @adminiDataA='xgDatafromchild'></tablea>
         <!-- 分页 -->
         <el-pagination
             class="pagintion"
@@ -33,11 +18,12 @@
             @current-change="handleCurrentChange"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40]"
-            :page-size="limit"
+            :page-size="20"
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
-        ></el-pagination>
-        <!-- 弹窗 For 修改-->
+        >
+        </el-pagination>
+        <!-- 弹窗 -->
         <div>
             <Modal
                 v-model="modal1model"
@@ -45,7 +31,7 @@
                 @on-ok="ok"
                 @on-cancel="cancel"
                 @click="modal1model = true"
-            >
+                >
                 <p class="PClass-model">
                     <span>行业全称</span>
                     <span>电商</span>
@@ -64,7 +50,7 @@ import tablea from '../conponents/table/tablea/tablea.vue';
 export default {
     data() {
         return {
-            Datar17: '',
+            Datar17:'',
             // 数据发散
             pageid: [
                 { pageid: 17 },
@@ -78,7 +64,7 @@ export default {
                     slot: 'dataTanle',
                     width: 70,
                     align: 'center',
-                    type: 'index'
+                    type:'index'
                 },
                 {
                     title: '行业全称',
@@ -102,9 +88,10 @@ export default {
                     col2: '小鱼儿'
                 }
             ],
+
             page: 1,
-            limit: 10,
-            counts: this.counts,
+            limit: 20,
+            counts: this.counts || 1,
             // value2: ['2016-01-01', '2016-02-15'],
             value01: '',
             value03: '',
@@ -142,93 +129,43 @@ export default {
             },
             value1: '',
             modal1model: false,
-            statusCode: ''
         };
-    },
-    watch: {
-        Datar17: {
-            handler(newdata, oldata) {
-                this.Datar17 = newdata;
-            },
-            deep: true,
-            immediate: true
-        }
     },
     methods: {
         // 分页
         handleSizeChange(val) {
             this.limit = val;
-            this.CouponDataQuery();
         },
         handleCurrentChange(val) {
             this.page = val;
-            this.CouponDataQuery();
         },
-        //弹窗
-        xgDatafromchild() {
+        xgDatafromchild(){//弹窗
             this.modal1model = !this.modal1model;
         },
-        //弹窗
-        ok() {
+        ok () {//弹窗
             this.$Message.info('你点击了确定');
         },
-        //弹窗
-        cancel() {
+        cancel () {//弹窗
             this.$Message.info('你点击了取消');
         },
-        //查询list
-        CouponDataQuery() {
-            var url = 'admin/industry/list' + '?pag=' + this.page + '&limit=' + this.limit + '&name=' + this.value01;
-            this.$axios
-                .get(url)
-                .then((res) => {
-                    const statusCode = res.data.code;
-                    this.statusCode = statusCode;
-                    var AjaxData = res.data.data;
-                    this.counts = res.data.total;
-                    var DataAjax17 = [];
-                    AjaxData.forEach(function (val, index) {
-                        DataAjax17[index] = val;
-                        DataAjax17[index].col1 = val.name;
-                        DataAjax17[index].col2 = val.remark;
-                    });
-                    this.$nextTick(() => {
-                        this.Datar17 = DataAjax17;
-                    });
+        CouponDataQuery(){//查询
+            var url = 'admin/industry/list' +'?pag='+ this.page +'&limit='+ this.limit +'&name='+ this.value01;
+            this.$axios.get(url).then((res)=>{
+                var AjaxData17 = res.data.data;
+                this.$nextTick(() => {
+                    this.Datar17 = AjaxData17;
                 })
-                .catch(() => {
-                    this.$nextTick(() => {
-                        this.Datar17 = [{ name: '暂无数据！' }];
-                    });
-                });
+
+            }).catch(()=>{
+
+            })
         },
-        // 删除
-        deletIndustryData(id) {
-            const url = 'admin/industry/delete/' + id;
-            this.$axios
-                .get(url)
-                .then((res) => {
-                    if (res.status == 200) {
-                        const data = res.data;
-                        if (data.code == 200) {
-                            alert(data.msg);
-                            this.CouponDataQuery();
-                        } else {
-                            alert(data.msg);
-                            this.CouponDataQuery();
-                        }
-                    }
-                })
-                .catch((err) => {});
-        }
     },
-    // 添加行业
-    AddIndustryAction() {},
-    mounted() {
-        this.CouponDataQuery();
+    mounted(){
+        this.CouponDataQuery()
     },
     components: {
-        tablea
+        tablea,
     }
 };
 </script>
@@ -243,20 +180,20 @@ export default {
     padding: 0 20px;
     margin-top: 20px;
 }
-.PClass-model {
+  .PClass-model{
     box-sizing: border-box;
     display: flex;
     justify-content: center;
-}
-.PClass-model span {
+  }
+  .PClass-model span{
     text-align: center;
     padding: 10px 20px;
-}
-.PClass-model span:nth-child(1) {
+  }
+  .PClass-model span:nth-child(1){
     font-weight: 600;
-}
-.PClass-model span:nth-child(2) {
+  }
+  .PClass-model span:nth-child(2){
     padding: 10px 25px;
-    border-bottom: #c1c1c1 solid 1px;
-}
+    border-bottom: #C1C1C1 solid 1px;
+  }
 </style>

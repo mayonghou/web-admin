@@ -1,213 +1,212 @@
 /* index */
 .clear {
-    clear: both;
+	clear: both;
 }
 
 .terraceIndex {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 20px;
-    padding-bottom: 120px;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 20px;
 }
 
 .terracr_top {
-    width: 100%;
-    height: 114px;
-    background-color: #FAFBFA;
-    padding-left: 10px;
+	width: 100%;
+	height: 114px;
+	background-color: #FAFBFA;
+	padding-left: 10px;
 }
 
 .asdas {
-    margin-left: 10px;
+	margin-left: 10px;
 }
 
 .top_text {
-    padding-top: 20px;
-    font-size: 14px;
-    padding-left: 10px;
+	padding-top: 20px;
+	font-size: 14px;
+	padding-left: 10px;
 }
 
 
 .top_search .search {
-    width: 200px;
-    height: 30px;
-    float: left;
-    color: #A4A4A4;
+	width: 200px;
+	height: 30px;
+	float: left;
+	color: #A4A4A4;
 }
 
 .terraceIndex .top_time {
-    float: left;
-    /* margin-left: 38px; */
-    margin-top: 0px;
+	float: left;
+	/* margin-left: 38px; */
+	margin-top: 0px;
 }
 
 
 .terraceIndex .add_Del {
-    width: 100%;
-    height: 50px;
-    line-height: 50px;
-    text-align: right;
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	text-align: right;
 }
 
 .add_Del .button {
-    width: 107px;
-    height: 30px;
-    font-size: 14px;
-    color: #fff;
-    border-radius: 20px;
-    margin-right: 5px;
-    padding: 0;
+	width: 107px;
+	height: 30px;
+	font-size: 14px;
+	color: #fff;
+	border-radius: 20px;
+	margin-right: 5px;
+	padding: 0;
 }
 
 .add_Del .add_qiye {
-    background: #2482D2;
+	background: #2482D2;
 }
 
 .terraceIndex .tab_gl {
-    outline: 0;
-    border: 0;
-    background-image: linear-gradient(to right, #00E2A7, #1AA97B);
+	outline: 0;
+	border: 0;
+	background-image: linear-gradient(to right, #00E2A7, #1AA97B);
 }
 
 .terraceIndex .tab_delss {
-    background-color: #E2232E;
+	background-color: #E2232E;
 }
 
 .terraceIndex .tab_del {
-    outline: 0;
-    border: 0;
-    background-image: linear-gradient(to right, #FF887C, #FF6060);
+	outline: 0;
+	border: 0;
+	background-image: linear-gradient(to right, #FF887C, #FF6060);
 }
 
 .terraceIndex .tab_bj {
-    outline: 0;
-    border: 0;
-    background-image: linear-gradient(to right, #0DCCFF, #4760FF);
+	outline: 0;
+	border: 0;
+	background-image: linear-gradient(to right, #0DCCFF, #4760FF);
 }
 
 .terraceIndex .el-table .tab_button {
-    width: auto;
-    height: 22px;
-    font-size: 14px;
-    line-height: 5px;
-    text-align: center;
-    color: #FFFFFF;
-    border-radius: 10px;
-    padding: 3px 10px;
+	width: auto;
+	height: 22px;
+	font-size: 14px;
+	line-height: 5px;
+	text-align: center;
+	color: #FFFFFF;
+	border-radius: 10px;
+	padding: 3px 10px;
 }
 
 .el-table .index-btn.tab_button {
-    outline: 0;
-    border: 0;
-    background-image: linear-gradient(to right, #FD644F, #FFA200);
+	outline: 0;
+	border: 0;
+	background-image: linear-gradient(to right, #FD644F, #FFA200);
 }
 
 .search02 {
-    margin-left: 15px;
+	margin-left: 15px;
 }
 
 .address {
-    margin-left: 5px;
+	margin-left: 5px;
 }
 
 .add_Top {
-    width: 100%;
-    margin: 0 auto;
-    height: 45px;
-    background: #FAFBFA;
-    margin-top: 10px;
-    margin-bottom: 50px;
-    line-height: 45px;
-    font-size: 14px;
-    padding-left: 20px;
+	width: 100%;
+	margin: 0 auto;
+	height: 45px;
+	background: #FAFBFA;
+	margin-top: 10px;
+	margin-bottom: 50px;
+	line-height: 45px;
+	font-size: 14px;
+	padding-left: 20px;
 }
 
 .add_from {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 20px;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 20px;
 }
 
 .add_from .el-form-item {
-    padding-left: 25%;
-    padding-top: 0px;
+	padding-left: 25%;
+	padding-top: 0px;
 }
 
 .el-input {
-    width: 194px;
+	width: 194px;
 }
 
 .formWidth .el-input__inner {
-    width: 194px;
-    border-top: 0px;
-    border-left: 0px;
-    border-right: 0px;
-    border-radius: 0px;
-    border-bottom: 1px solid #C1C1C1;
+	width: 194px;
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	border-radius: 0px;
+	border-bottom: 1px solid #C1C1C1;
 }
 
 .el-form-item__label {
-    text-align: left;
+	text-align: left;
 }
 
 .el-button {
-    margin-left: 10px;
+	margin-left: 10px;
 }
 
 .text {
-    font-size: 12px;
-    color: #A4A4A4;
+	font-size: 12px;
+	color: #A4A4A4;
 }
 
 .addEnterprise {
-    margin-left: 42%;
+	margin-left: 42%;
 }
 
 /* addEnterprise */
 .address {
-    margin-left: 5px;
+	margin-left: 5px;
 }
 
 .add_from .el-form-item {
-    padding-left: 25%;
-    padding-top: 0px;
+	padding-left: 25%;
+	padding-top: 0px;
 }
 
 .el-input {
-    width: 194px;
+	width: 194px;
 }
 
 .formWidth .el-input__inner {
-    width: 194px;
-    border-top: 0px;
-    border-left: 0px;
-    border-right: 0px;
-    border-radius: 0px;
-    border-bottom: 1px solid #C1C1C1;
+	width: 194px;
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	border-radius: 0px;
+	border-bottom: 1px solid #C1C1C1;
 }
 
 .el-form-item__label {
-    text-align: left;
+	text-align: left;
 }
 
 .el-button {
-    margin-left: 10px;
+	margin-left: 10px;
 }
 
 .text {
-    font-size: 12px;
-    color: #A4A4A4;
+	font-size: 12px;
+	color: #A4A4A4;
 }
 
 .addEnterprise {
-    margin-left: 42%;
+	margin-left: 42%;
 }
 
 .addEnterprise .addBut {
-    width: 90px;
-    height: 30px;
-    line-height: 15px;
-    background: #2482D2;
-    color: #fff;
-    border-radius: 8px;
+	width: 90px;
+	height: 30px;
+	line-height: 15px;
+	background: #2482D2;
+	color: #fff;
+	border-radius: 8px;
 }

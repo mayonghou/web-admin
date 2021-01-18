@@ -1,5 +1,5 @@
 <template>
-    <!-- 商品列表 -->
+    <!-- <h1>商品列表</h1> -->
     <div class="table_css_xiaoyuer">
         <div class="top-compo">
             <Row style="width: 100%">
@@ -45,26 +45,18 @@
             </Row>
         </div>
         <!-- 表格 -->
-        <tablea
-            ref="tablea"
-            v-if="Datar0 != ''"
-            :pageid="pageid"
-            :Datar0="Datar0"
-            :statusCode="statusCode"
-        ></tablea>
+        <tablea v-if="Datar0 != ''" :pageid="pageid" :Datar0="Datar0"></tablea>
         <!-- 分页 -->
-        <div class="pageFy">
-            <el-pagination
-                class="pagintion"
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="page"
-                :page-sizes="[10, 20, 30, 40]"
-                :page-size="limit"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="counts"
-            ></el-pagination>
-        </div>
+        <el-pagination
+            class="pagintion"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="page"
+            :page-sizes="[10, 20, 30, 40]"
+            :page-size="20"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="counts"
+        ></el-pagination>
     </div>
 </template>
 
@@ -112,29 +104,7 @@ export default {
                 {
                     title: '商品封面',
                     key: 'col5',
-                    align: 'center',
-                    render: (h, params) => {
-                        return h(
-                            'div',
-                            {
-                                attrs: {
-                                    style: 'width:100%; height: auto;display:block;padding-top:15px;padding-bottom: 15px;'
-                                }
-                            },
-                            [
-                                h('img', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    attrs: {
-                                        src: params.row.col5,
-                                        style: 'width:100%; height: auto;'
-                                    }
-                                })
-                            ]
-                        );
-                    }
+                    align: 'center'
                 },
                 {
                     title: '商品状态',
@@ -150,27 +120,29 @@ export default {
                 {
                     title: '操作',
                     slot: 'action',
-                    width: 230,
+                    width: 240,
                     align: 'center'
                 },
                 {
-                    dataTanle: '',
-                    age: '',
-                    col1: '',
-                    col2: '',
-                    col3: '',
-                    col4: '',
-                    col5: '',
-                    col6: '',
-                    col7: ''
+                    dataTanle: '1',
+                    age: 18,
+                    col1: '蜀山公主',
+                    col2: '小鱼儿',
+                    col3: '大玉儿',
+                    col4: '1.5亿',
+                    col5: 'imgUrl',
+                    col6: '现货',
+                    col7: '公元元年'
                 }
             ],
+
             page: 1,
-            limit: 10,
-            counts: 0,
+            limit: 20,
+            counts: this.counts || 1,
             value2: [],
             value01: '',
             value02: '',
+
             cityList: [
                 {
                     value: '上架',
@@ -215,22 +187,8 @@ export default {
                 ]
             },
             value1: '',
-            value2: '',
-            statusCode: ''
+            value2: ''
         };
-    },
-    created() {},
-    mounted() {
-        this.getProductList();
-    },
-    watch: {
-        Datar0: {
-            handler(newdata, oldata) {
-                this.Datar0 = newdata;
-            },
-            deep: true,
-            immediate: true
-        }
     },
     methods: {
         // 分页
@@ -243,11 +201,12 @@ export default {
             this.getProductList();
         },
         query() {
-            this.page = 1;
             this.getProductList();
+            this.page = 1;
         },
-        //将时间转换成时间撮
+
         fgetLocalTime() {
+            //将时间转换成时间撮
             let date = new Date(this.value2[0]);
             let start = date.getTime(date);
             this.start = start;
@@ -255,8 +214,8 @@ export default {
             let end = date1.getTime(date1);
             this.end = end;
         },
-        //数据请求
         getProductList() {
+            //数据请求
             if (this.model1 == '下架') {
                 this.model1 = 0;
             } else if (this.model1 == '上架') {
@@ -276,108 +235,21 @@ export default {
                 .post(url, data)
                 .then((res) => {
                     if (res.status == 200 && res.statusText == 'OK') {
-                        var AjaxData = res.data.data.dataList;
+                        var AjaxData0 = res.data.data.dataList;
                         if (res.data.code == 200) {
-                            const statusCode = res.data.code;
-                            this.statusCode = statusCode;
-                            this.counts = res.data.data.totalCount;
-                            let https = /^https:\/\/.+$/;
-                            var DataAjax0 = [];
-                            AjaxData.forEach(function (val, index) {
-                                DataAjax0[index] = val;
-                                DataAjax0[index].col1 = val.name;
-                                DataAjax0[index].col2 = val.companyName;
-                                DataAjax0[index].col3 = val.userName;
-                                DataAjax0[index].col4 = val.price;
-                                if (https.test(val.pic)) {
-                                    DataAjax0[index].col5 = val.pic;
-                                } else {
-                                    DataAjax0[index].col5 = localStorage.getItem('imgUrl') + val.pic;
-                                }
-                                if (val.publishStatus == 0) {
-                                    val.publishStatus = '下架';
-                                } else if (val.publishStatus == 1) {
-                                    val.publishStatus = '上架';
-                                }
-                                DataAjax0[index].col6 = val.publishStatus;
-                                var date = new Date(val.createTime);
-                                var time1 =
-                                    date.getFullYear() +
-                                    '-' +
-                                    (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-                                    '-' +
-                                    date.getDate();
-                                DataAjax0[index].col7 = time1;
-                            });
                             this.$nextTick(() => {
-                                this.Datar0 = DataAjax0;
+                                this.Datar0 = AjaxData0;
                             });
-                        }
-                    }
-                })
-                .catch((err) => {
-                    this.$nextTick(() => {
-                        this.Datar0 = [{ name: '暂无数据！' }];
-                    });
-                });
-        },
-        // 删除单个
-        deletData(spid) {
-            const url = 'admin/product/daminDelProduct?productId=' + spid;
-            this.$axios
-                .get(url)
-                .then((res) => {
-                    if (res.status == 200) {
-                        const data = res.data;
-                        if (data.code == 200) {
-                            alert(data.msg);
-                            this.getProductList();
                         } else {
-                            alert(data.msg);
-                            this.getProductList();
-                        }
-                    }
-                })
-                .catch((err) => {});
-        },
-        // 批量删除
-        BatchDelete(id) {
-            const url = 'admin/product/adminBatchDelProduct?productIds=' + id;
-            this.$axios
-                .post(url)
-                .then((res) => {
-                    if (res.status == 200) {
-                        const dataert = res.data;
-                        if (dataert.cpde == 200) {
-                            alert(dataert.msg);
-                            this.getProductList();
-                        } else {
-                            alert(dataert.msg);
-                            this.getProductList();
-                        }
-                    }
-                })
-                .catch((err) => {});
-        },
-        // 下架
-        Goodsoffshelves(spID, status) {
-            const url = 'admin/product/adminProductPublishStaus?productId=' + spID + '&publishStaus=' + status;
-            this.$axios
-                .get(url)
-                .then((res) => {
-                    if (res.status == 200) {
-                        const data = res.data;
-                        if (data.code == 200) {
-                            alert(data.msg);
-                            this.getProductList();
-                        } else {
-                            alert(data.msg);
-                            this.getProductList();
+                            this.Datar0 = 1;
                         }
                     }
                 })
                 .catch((err) => {});
         }
+    },
+    mounted() {
+        this.getProductList();
     },
     components: {
         tablea
@@ -393,9 +265,6 @@ export default {
 .top-compo {
     box-sizing: border-box;
     padding: 0 20px;
-}
-.pageFy {
-    margin-top: -20px;
-    padding-bottom: 90px;
+    margin-top: 20px;
 }
 </style>

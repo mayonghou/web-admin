@@ -1,18 +1,30 @@
 <template>
-    <div class="titleDtata">
-        <ul class="ulData">
-            <span class="spanClass">&nbsp;</span>
-            <li class="ulliData" v-for="(item, index) in listData" :key="index">
-                <div ref="liDivf" class="liDiv">
-                    <span
-                        ref="listDa"
-                        class="titleClass"
-                        @click="routerClose(item, index)"
-                    >{{ item.title }}</span>
-                    <span ref="ishsow" class="lineClass" v-if="index != listData.length - 1">/</span>
-                </div>
+    <div class="tags" v-if="showTags">
+        <ul>
+            <li
+                class="tags-li"
+                v-for="(item,index) in tagsList"
+                :class="{'active': isActive(item.path)}"
+                :key="index"
+            >
+                <router-link :to="item.path" class="tags-li-title">{{item.title}}</router-link>
+                <span class="tags-li-icon" @click="closeTags(index)">
+                    <i class="el-icon-close"></i>
+                </span>
             </li>
         </ul>
+        <div class="tags-close-box">
+            <el-dropdown @command="handleTags">
+                <el-button size="mini" type="primary">
+                    标签选项
+                    <i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <el-dropdown-menu size="small" slot="dropdown">
+                    <el-dropdown-item command="other">关闭其他</el-dropdown-item>
+                    <el-dropdown-item command="all">关闭所有</el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
+        </div>
     </div>
 </template>
 
@@ -21,137 +33,189 @@ import bus from './bus.js';
 export default {
     data() {
         return {
-            listData: [],
-            xyrMsgTa: [],
-            oldRouData: '',
-            newRouData: ''
+            tagsList: []
         };
-    },
-    watch: {
-        $route: {
-            handler(newvalue, oldvalue) {
-                const da = {
-                    name: newvalue.fullPath,
-                    title: newvalue.meta.title
-                };
-                this.listData.push(da);
-                for (let i = 1; i < this.listData.length; i++) {
-                    for (let j = i + 1; j < this.listData.length; j++) {
-                        if (this.listData[i].title == this.listData[j].title) {
-                            this.listData.splice(j, 1);
-                            j--;
-                        }
-                    }
-                }
-                if (oldvalue != undefined && oldvalue.fullPath == this.listData[this.listData.length - 1].name) {
-                    this.listData.splice(this.listData.length - 1, 1);
-                }
-                this.$nextTick(() => {
-                    this.xiaoyuer();
-                });
-            },
-            immediate: true,
-            deep: true
-        }
-    },
-    created() {
-        const obj = { title: '', name: '', titleName: '' };
-        bus.$on('xiaoyuerfn', (xyr) => {
-            obj.title = xyr.title;
-            obj.name = xyr.name;
-            this.listData = [];
-            this.listData.unshift(obj);
-        });
-        bus.$on('xiaoyuerFunction', (dataXyr) => {
-            obj.titleName = dataXyr.title;
-            this.listData = [];
-            this.listData.unshift(obj);
-        });
-        this.$nextTick(() => {
-            this.xiaoyuer();
-        });
     },
     mounted() {},
     methods: {
-        xiaoyuer() {
-            for (let i = 0; i < this.$refs.listDa.length; i++) {
-                for (let j = 0; j < this.listData.length; j++) {
-                    if (i == j) {
-                        this.$refs.listDa[this.$refs.listDa.length - 1].classList.add('fontColor');
-                    } else if (i != j) {
-                        this.$refs.listDa[j].classList.remove('fontColor');
-                    }
+        isActive(path) {
+            return path === this.$route.fullPath;
+        },
+        // 关闭单个标签
+        closeTags(index) {
+            const delItem = this.tagsList.splice(index, 1)[0];
+            const item = this.tagsList[index] ? this.tagsList[index] : this.tagsList[index - 1];
+            if (item) {
+                delItem.path === this.$route.fullPath && this.$router.push(item.path);
+            } else {
+                if (localStorage.getItem('loginData') == 0) {
+                    this.$router.push({
+                        path: './dataCenterindex'
+                    });
+                } else {
+                    this.$router.push({
+                        path: './indexshouye'
+                    });
                 }
-                this.$refs.listDa[i].addEventListener('click', () => {
-                    for (let j = 0; j < this.listData.length; j++) {
-                        if (i == j) {
-                            this.$refs.listDa[i].classList.add('fontColor');
-                        } else if (i != j) {
-                            this.$refs.listDa[j].classList.remove('fontColor');
-                        }
-                    }
-                });
             }
         },
-        routerClose(irem, index) {
-            if (index < this.listData.length - 1 && index != 0) {
-                this.listData.splice(index, this.listData.length - index);
+        // 关闭全部标签
+        closeAll() {
+            this.tagsList = [];
+            this.$router.push('/');
+            if (localStorage.getItem('loginData') == 0) {
+                this.$router.push('/dataCenterindex');
+            } else {
+                this.$router.push('/indexshouye');
             }
-            if (this.listData.length > 0 && index != 0 && index != this.listData.length - 1) {
-                this.$nextTick(() => {
-                    this.$router.replace(irem.name);
+        },
+        // 关闭其他标签
+        closeOther() {
+            const curItem = this.tagsList.filter((item) => {
+                return item.path === this.$route.fullPath;
+            });
+            this.tagsList = curItem;
+        },
+        // 设置标签
+        setTags(route) {
+            const isExist = this.tagsList.some((item) => {
+                return item.path === route.fullPath;
+            });
+            if (route.fullPath == '/') {
+                if (localStorage.getItem('loginData') == 0) {
+                    this.$router.push({
+                        path: './dataCenterindex'
+                    });
+                } else {
+                    this.$router.push({
+                        path: './indexshouye'
+                    });
+                }
+            }
+            if (!isExist) {
+                if (this.tagsList.length >= 20) {
+                    this.tagsList.shift();
+                }
+                this.tagsList.push({
+                    title: route.meta.title,
+                    path: route.fullPath
                 });
             }
+            bus.$emit('tags', this.tagsList);
+        },
+        handleTags(command) {
+            command === 'other' ? this.closeOther() : this.closeAll();
         }
+    },
+    computed: {
+        showTags() {
+            return this.tagsList.length > 0;
+        }
+    },
+    watch: {
+        $route(newValue, oldValue) {
+            this.setTags(newValue);
+        }
+    },
+    created() {
+        this.setTags(this.$route);
+        // 监听关闭当前页面的标签页
+        bus.$on('close_current_tags', () => {
+            for (let i = 0, len = this.tagsList.length; i < len; i++) {
+                const item = this.tagsList[i];
+                if (item.path === this.$route.fullPath) {
+                    if (i < len - 1) {
+                        this.$router.push(this.tagsList[i + 1].path);
+                    } else if (i > 0) {
+                        this.$router.push(this.tagsList[i - 1].path);
+                    } else {
+                        if (localStorage.getItem('loginData') == 0) {
+                            this.$router.push({
+                                path: './dataCenterindex'
+                            });
+                        } else {
+                            this.$router.push({
+                                path: './indexshouye'
+                            });
+                        }
+                    }
+                    this.tagsList.splice(i, 1);
+                    break;
+                }
+            }
+        });
     }
 };
 </script>
 
+
 <style>
-.titleDtata {
-    width: 98%;
-    box-sizing: border-box;
-    padding: 20px;
-    position: absolute;
+.tags {
+    position: relative;
+    height: 30px;
+    overflow: hidden;
     background: #fff;
-    box-shadow: 0px 0px 10px #c1c1c1;
-    z-index: 999;
+    box-shadow: 0 5px 10px #ddd;
 }
-.ulData {
-    display: flex;
-    align-items: center;
-}
-.ulliData {
-    display: flex;
-    align-items: center;
-    height: 20px;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 5px 0px;
-}
-.liDiv {
+
+.tags ul {
+    box-sizing: border-box;
     width: 100%;
-    height: auto;
-    background-clip: red;
+    height: 100%;
 }
-.ulliData span {
-    display: inline-block;
+
+.tags-li {
+    float: left;
+    margin: 3px 5px 2px 3px;
+    border-radius: 3px;
+    font-size: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    height: 23px;
+    line-height: 23px;
+    border: 1px solid #e9eaec;
+    background: #fff;
+    padding: 0 5px 0 12px;
+    vertical-align: middle;
+    color: #666;
+    -webkit-transition: all 0.3s ease-in;
+    -moz-transition: all 0.3s ease-in;
+    transition: all 0.3s ease-in;
 }
-.spanClass {
-    display: inline-block;
-    width: 4px;
-    height: 20px;
-    border-radius: 5px;
-    margin-right: 15px;
-    background-image: linear-gradient(#0dccff, #4760ff);
+
+.tags-li:not(.active):hover {
+    background: #f8f8f8;
 }
-.lineClass {
-    display: inline-block;
-    padding: 0 8px;
-    font-size: 16px;
-    font-weight: 600;
+
+.tags-li.active {
+    color: #fff;
 }
-.fontColor {
-    color: #4985f0;
+
+.tags-li-title {
+    float: left;
+    max-width: 80px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-right: 5px;
+    color: #666;
+}
+
+.tags-li.active .tags-li-title {
+    color: #fff;
+}
+
+.tags-close-box {
+    position: absolute;
+    right: 0;
+    top: 0;
+    box-sizing: border-box;
+    padding-top: 1px;
+    text-align: center;
+    width: 110px;
+    height: 30px;
+    background: #fff;
+    box-shadow: -3px 0 15px 3px rgba(0, 0, 0, 0.1);
+    z-index: 10;
 }
 </style>

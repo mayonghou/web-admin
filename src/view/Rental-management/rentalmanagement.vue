@@ -58,7 +58,7 @@
             </Row>
         </div>
         <!-- 表格 -->
-        <tablea v-if="Datar3 != ''" :pageid="pageid" :Datar3="Datar3" :statusCode="statusCode"></tablea>
+        <tablea v-if="Datar3 != ''" :pageid="pageid" :Datar3="Datar3"></tablea>
         <!-- 分页 -->
         <el-pagination
             class="pagintion"
@@ -66,7 +66,7 @@
             @current-change="handleCurrentChange"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40]"
-            :page-size="limit"
+            :page-size="20"
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
         ></el-pagination>
@@ -144,8 +144,8 @@ export default {
             ],
 
             page: 1,
-            limit: 10,
-            counts: this.counts,
+            limit: 20,
+            counts: this.counts || 1,
             // value2: ['2016-01-01', '2016-02-15'],
             value01: '',
             value02: '',
@@ -213,34 +213,16 @@ export default {
                 ]
             },
             value1: '',
-            value2: '',
-            statusCode: ''
+            value2: ''
         };
-    },
-    watch: {
-        Datar3: {
-            handler(newdata, oldata) {
-                this.Datar3 = newdata;
-            },
-            deep: true,
-            immediate: true
-        }
-    },
-    mounted() {
-        this.CouponDataQuery();
-    },
-    components: {
-        tablea
     },
     methods: {
         // 分页
         handleSizeChange(val) {
             this.limit = val;
-            this.CouponDataQuery();
         },
         handleCurrentChange(val) {
             this.page = val;
-            this.CouponDataQuery();
         },
         //
         fgetLocalTime() {
@@ -252,8 +234,8 @@ export default {
             let end = date1.getTime(date1);
             this.end = end;
         },
-        //查询
         CouponDataQuery() {
+            //查询
             var url = 'admin/renting/manage/search';
             var data = {
                 company: this.value02,
@@ -268,102 +250,19 @@ export default {
             this.$axios
                 .post(url, data)
                 .then((res) => {
-                    var AjaxData = res.data.data.data;
-                    this.counts = res.data.data.total;
-                    const statusCode = res.data.code;
-                    this.statusCode = statusCode;
-                    var DataAjax3 = [];
-                    AjaxData.forEach(function (val, index) {
-                        DataAjax3[index] = val;
-                        DataAjax3[index].dataTanle = val.order;
-                        DataAjax3[index].col1 = val.houseTitle;
-                        DataAjax3[index].col2 = val.userCompanyDTO.company.name;
-                        DataAjax3[index].col3 = val.publisher;
-                        DataAjax3[index].col4 = val.typeName;
-                        if (val.status == 2) {
-                            val.status = '上架';
-                        } else if (val.status == 3) {
-                            val.status = '下架';
-                        }
-                        DataAjax3[index].col5 = val.status;
-                        var date = new Date(val.createTime);
-                        var time1 =
-                            date.getFullYear() +
-                            '-' +
-                            (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-                            '-' +
-                            date.getDate();
-                        DataAjax3[index].col6 = time1;
-                    });
+                    var AjaxData3 = res.data.data.data;
                     this.$nextTick(() => {
-                        this.Datar3 = DataAjax3;
+                        this.Datar3 = AjaxData3;
                     });
                 })
-                .catch(() => {
-                    this.$nextTick(() => {
-                        this.Datar3 = [{ name: '暂无数据！' }];
-                    });
-                });
-        },
-        // 删除
-        DeletrentalData(dataId) {
-            const url = 'admin/renting/manage/delete/' + dataId;
-            this.$axios
-                .get(url)
-                .then((res) => {
-                    if (res.status == 200) {
-                        const data = res.data;
-                        if (data.code == 200) {
-                            const idData = data.data;
-                            alert(idData.msg);
-                            this.CouponDataQuery();
-                        } else {
-                            const idData = data.data;
-                            alert(idData.msg);
-                            this.CouponDataQuery();
-                        }
-                    }
-                })
-                .catch((err) => {});
-        },
-        // 批量删除
-        BatchDeleteForRental(id) {
-            const url = 'admin/renting/manage/delete/bathDelete';
-            this.$axios
-                .post(url, id)
-                .then((res) => {
-                    if (res.status == 200) {
-                        const dataert = res.data;
-                        if (dataert.cpde == 200) {
-                            alert(dataert.msg);
-                            this.CouponDataQuery();
-                        } else {
-                            alert(dataert.msg);
-                            this.CouponDataQuery();
-                        }
-                    }
-                })
-                .catch((err) => {});
-        },
-        // 下架
-        Goodsoffshelvesren(spID, status) {
-            const url = 'admin/renting/manage/update/status?id=' + spID + '&status=' + status;
-            this.$axios
-                .get(url)
-                .then((res) => {
-                    if (res.status == 200) {
-                        const data = res.data;
-                        if (data.code == 200) {
-                            alert(data.msg);
-                            this.CouponDataQuery();
-                        } else {
-                            alert(data.msg);
-                            this.CouponDataQuery();
-                        }
-                    }
-                })
-                .catch((err) => {});
+                .catch(() => {});
         }
+    },
+    mounted() {
+        this.CouponDataQuery();
+    },
+    components: {
+        tablea
     }
 };
 </script>

@@ -5,7 +5,7 @@
                 <label>行业查询</label>
             </div>
             <div class="top_search">
-                <el-input v-model="value" style="width: 300px" placeholder="输入行业名称"></el-input>
+                <el-input v-model="value" placeholder="输入行业名称"></el-input>
                 <el-button class="sear_timebutton">查询</el-button>
             </div>
         </div>
@@ -15,12 +15,12 @@
             </div>
         </div>
         <!-- 表格 -->
-        <el-table :data="tableData" border style="width: 100%; background: #f5f9f1">
-            <el-table-column type="selection" align="center" width></el-table-column>
-            <el-table-column prop="date" label="序号" align="center" type="index" width="180"></el-table-column>
-            <el-table-column prop="name" label="行业全称" align="center" width="180"></el-table-column>
-            <el-table-column prop="remark" align="center" label="行业简介"></el-table-column>
-            <el-table-column label="操作" align="center">
+        <el-table :data="tableData" border style="width: 100%; background: #F5F9F1;">
+            <el-table-column type="selection" width></el-table-column>
+            <el-table-column prop="date" label="序号" width="180"></el-table-column>
+            <el-table-column prop="name" label="行业全称" width="180"></el-table-column>
+            <el-table-column prop="phone" label="行业简介"></el-table-column>
+            <el-table-column label="操作" width align="center">
                 <template slot-scope="scope">
                     <el-button class="tab_oragel button">置顶</el-button>
                     <el-button @click="zhiweiGL(scope.row)" class="tab_bule button">管理</el-button>
@@ -33,16 +33,17 @@
             class="pagintion"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :current-page="page"
-            :page-sizes="[10, 20, 30, 40]"
-            :page-size="limit"
+            :current-page="currentPage4"
+            :page-sizes="[100, 200, 300, 400]"
+            :page-size="100"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="counts"
+            :total="400"
         ></el-pagination>
+
         <!-- 添加行业 -->
         <el-dialog title="添加行业" :visible.sync="dialogVisibleVocation" width="50%">
             <div class="iconEnl" @click="enlarge">
-                <el-tooltip effect="dark" :content="fullscreen ? `取消全屏` : `全屏`" placement="bottom">
+                <el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
                     <i class="iconfont icon-quanping"></i>
                 </el-tooltip>
             </div>
@@ -69,7 +70,7 @@
         <!-- 修改行业 -->
         <el-dialog title="修改行业" :visible.sync="dialogVisibleUpdateVocation" width="50%">
             <div class="iconEnl" @click="enlarge">
-                <el-tooltip effect="dark" :content="fullscreen ? `取消全屏` : `全屏`" placement="bottom">
+                <el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
                     <i class="iconfont icon-quanping"></i>
                 </el-tooltip>
             </div>
@@ -95,15 +96,13 @@
         </el-dialog>
     </div>
 </template>
+
 <script>
 export default {
     name: 'vocationList',
     data() {
         return {
             value: '',
-            limit: 10,
-            page: 1,
-            counts: 0,
             valueDialog: '',
             time: '',
             valueNum: '1',
@@ -130,6 +129,10 @@ export default {
                     tiem: '2020-9-15'
                 }
             ],
+            currentPage1: 5,
+            currentPage2: 5,
+            currentPage3: 5,
+            currentPage4: 4,
             vocationform: {
                 vocationName: '',
                 abbreviation: ''
@@ -157,18 +160,17 @@ export default {
         };
     },
     mounted() {},
-    created() {
-        this.RequestData();
-    },
     methods: {
         // 添加行业
         addVocation() {
             this.dialogVisibleVocation = true;
         },
+
         // 修改行业
         updateVocation(row) {
             this.dialogVisibleUpdateVocation = true;
         },
+
         // 管理
         zhiweiGL() {
             this.$router
@@ -179,48 +181,21 @@ export default {
                     console.log(err);
                 });
         },
+
         // 全屏事件
         enlarge() {},
+
         // 页码
         handleSizeChange(val) {
-            this.limit = val;
-            this.RequestData();
+            console.log(`每页 ${val} 条`);
         },
         handleCurrentChange(val) {
-            this.page = val;
-            this.RequestData();
-        },
-        // $Ajax
-        RequestData() {
-            const url = 'admin/industry/list?page=' + this.page + '&limit=' + this.limit + '&name=' + this.value;
-            this.$axios
-                .get(url)
-                .then((res) => {
-                    if (res.status == 200) {
-                        let data = res.data;
-                        if (data.code == 200) {
-                            this.counts = res.data.total;
-                            this.tableData = data.data;
-                        } else {
-                            this.$message({
-                                showClose: true,
-                                message: data.msg,
-                                type: 'error'
-                            });
-                        }
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
-                    }
-                })
-                .catch((err) => {});
+            console.log(`当前页: ${val}`);
         }
     }
 };
 </script>
+
 <style scoped>
 .vocationList {
     width: 100%;
@@ -295,11 +270,9 @@ export default {
 .el-table .tab_oragel {
     background: #ff8d00;
 }
-
 .el-table .tab_bule {
     background: #2494d2;
 }
-
 .el-table .tab_green {
     background: #109955;
 }
@@ -317,24 +290,20 @@ export default {
 .el-dialog {
     position: relative;
 }
-
 .el-dialog__header {
     background-color: #f5f9f1;
     border: 1px solid #f5f9f1;
 }
-
 .iconEnl {
     top: 20px;
     font-size: 12px;
     right: 60px;
     position: absolute;
 }
-
 .dialog-footer {
     width: 100%;
     margin-left: 42%;
 }
-
 .dialog-footer .button {
     width: 151px;
     height: 30px;
@@ -348,32 +317,27 @@ export default {
     width: 100%;
     height: 80px;
 }
-
 .dialogSearch .search {
     width: 277px;
     height: 41px;
     float: left;
     margin-left: 25%;
 }
-
 .search-but {
     float: left;
     margin-left: 10px;
     color: #2450d2;
     font-size: 12px;
 }
-
 .formWidth {
     width: 194px;
 }
-
 .el-dialog .el-input__inner {
     margin-left: 20px;
     border: 0px;
     border-bottom: 1px solid #bbbbbb;
     border-radius: 0px;
 }
-
 .el-form-item__label {
     text-align: right;
 }
