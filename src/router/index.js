@@ -856,6 +856,13 @@ export default new Router({
           meta: {
             title: '提现列表'
           }
+        }, {
+          path: '/moneyNumber',
+          component: () => import('../components/merchantHoutai/finance/moneyNumber.vue'),
+          // component: Index,
+          meta: {
+            title: '提现列表'
+          }
         },
         // 招聘管理
         {

@@ -418,10 +418,6 @@ export default {
                             {
                                 index: 'finance',
                                 title: '财务列表'
-                            },
-                            {
-                                index: 'moneyNumber',
-                                title: '提现记录'
                             }
                         ]
                     },
