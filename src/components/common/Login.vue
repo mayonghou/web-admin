@@ -14,9 +14,7 @@
                         placeholder="请输入密码"
                         v-model="param.password"
                         @keyup.enter.native="submitForm()"
-                    >
-                        <el-button slot="prepend" icon="el-icon-lx-lock"></el-button>
-                    </el-input>
+                    ></el-input>
                 </el-form-item>
             </el-form>
             <el-button class="loginData" @click="submitForm">立即登录</el-button>
@@ -99,7 +97,8 @@ export default {
     text-align: center;
     width: 100%;
     height: 100%;
-    background-image: url(../../assets/img/login-bg.jpg);
+    background: url('../../assets/img/loginImg.png');
+    background-size: 100% 100%;
 }
 
 .ms-title {
