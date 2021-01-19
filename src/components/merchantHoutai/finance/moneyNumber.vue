@@ -217,7 +217,6 @@ export default {
                                 (date2.getMonth() + 1 < 10 ? '0' + (date2.getMonth() + 1) : date2.getMonth() + 1) +
                                 '-' +
                                 date2.getDate();
-                            console.log('jdsifojdsoi');
                             tabData[index].handleTime = time2;
                         });
                         this.counts = data.totalCount;

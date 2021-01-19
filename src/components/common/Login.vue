@@ -61,7 +61,6 @@ export default {
                     });
                     _this.$axios
                         .get('admin/system/login?account=' + _this.param.username + '&password=' + _this.$md5(_this.param.password))
-                        // .get('admin/system/login?account=' + _this.param.username + '&password=' + _this.$md5(_this.param.password))
                         .then(function (res) {
                             console.log(res);
                             loading.close();
@@ -103,12 +102,11 @@ export default {
     height: 100%;
     background: url(../../assets/loginImg.png);
     background-size: 100% 100%;
-    background: url(../../assets/loginImg.png);
-    background-size: 100% 100%;
 }
 
 .ms-title {
     font-size: 44px;
+    color: #3a62d7;
     color: #3a62d7;
 }
 
