@@ -161,7 +161,7 @@
             <!-- <el-divider></el-divider> -->
             <div class="heji">
                 <label>合计：</label>
-                <label class="red" v-model="countPrice">￥ {{countPrice / 100}}</label>
+                <label class="red">￥ {{this.countPrice / 100}}</label>
             </div>
 
             <div class="tabel-top jj clearfix">
@@ -170,7 +170,7 @@
             <ul class="detailUl">
                 <li class="detailli shouhuo">
                     <div class="detail">商品合计</div>
-                    <div class="detail active" v-model="shoppCount">￥{{shoppCount / 100}}</div>
+                    <div class="detail active">￥{{this.shoppCount / 100}}</div>
                 </li>
                 <li class="detailli shouhuo">
                     <div class="detail">配送费</div>
@@ -178,7 +178,7 @@
                 </li>
                 <li class="detailli shouhuo">
                     <div class="detail">优惠券</div>
-                    <div class="detail active" v-model="youhuijuan">-￥{{youhuijuan}}</div>
+                    <div class="detail active">-￥{{this.youhuijuan}}</div>
                 </li>
             </ul>
             <ul class="detailUl">
