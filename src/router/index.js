@@ -854,7 +854,7 @@ export default new Router({
           component: () => import('../components/merchantHoutai/finance/moneyNumber.vue'),
           // component: Index,
           meta: {
-            title: '财务列表'
+            title: '提现列表'
           }
         },
         // 招聘管理
