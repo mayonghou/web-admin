@@ -102,12 +102,8 @@ export default {
 }
 
 .ms-title {
-    width: 100%;
-    line-height: 50px;
-    text-align: center;
-    font-size: 20px;
-    color: #000;
-    border-bottom: 1px solid #ddd;
+    font-size: 44px;
+    color: #3a62d7;
 }
 
 .ms-login {

@@ -50,8 +50,8 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="page"
-            :page-sizes="[5, 10, 15, 20]"
-            :page-size="5"
+            :page-sizes="[10, 20, 30, 40]"
+            :page-size="limit"
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
         ></el-pagination>
@@ -147,7 +147,6 @@ export default {
                             spinner: 'el-icon-loading',
                             background: 'rgba(0, 0, 0, 0.7)'
                         });
-                        console.log(data);
                         this.$axios.post('admin/financialManagement/postWithdrawal', data).then((res) => {
                             loading.close();
                             if (res.status == 200) {
@@ -189,6 +188,77 @@ export default {
         },
         handleSizeChange(val) {
             this.limit = val;
+            this.getFinanceData();
+        },
+        queryData() {
+            this.page = 1;
+            this.getFinanceData();
+        },
+        timeData(value) {
+            if (value != null) {
+                var date = new Date(value[0]);
+                var startTime = date.getTime(date);
+                var date1 = new Date(value[1]);
+                var endTime = date1.getTime(date1);
+                this.timeStart = startTime;
+                this.timeEnd = endTime;
+            } else if (value == null) {
+                this.timeStart = '';
+                this.timeEnd = '';
+            }
+        },
+        getFinanceData() {
+            let data = {
+                companyName: '',
+                endDate: this.timeEnd || 0,
+                limit: this.limit,
+                no: this.orderSn,
+                page: this.page,
+                startDate: this.timeStart || 0
+            };
+            this.$axios.post('admin/financialManagement/orderList', data).then((res) => {
+                this.fullscreenLoading = false;
+                if (res.status == 200) {
+                    var data = res.data;
+                    if (data.code == 200) {
+                        this.tableData = data.data;
+                        let tableList = [];
+                        data.data.forEach((val, index) => {
+                            tableList[index] = val;
+                            if (val.payType == 0) {
+                                tableList[index].payTypeList = '未支付';
+                            } else if (val.payType == 1) {
+                                tableList[index].payTypeList = '支付宝';
+                            } else if (val.payType == 2) {
+                                tableList[index].payTypeList = '微信';
+                            }
+                            let date = new Date(parseInt(val.createTime));
+                            var time1 =
+                                date.getFullYear() +
+                                '-' +
+                                (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                                '-' +
+                                date.getDate();
+                            tableList[index].createTime = time1;
+                            tableList[index].totalAmount = '￥' + val.totalAmount / 100;
+                        });
+                        this.tableData = tableList;
+                        this.counts = data.totalCount;
+                    } else {
+                        this.$message({
+                            showClose: true,
+                            message: data.msg,
+                            type: 'error'
+                        });
+                    }
+                } else {
+                    this.$message({
+                        showClose: true,
+                        message: data.msg,
+                        type: 'error'
+                    });
+                }
+            });
         }
     }
 };
