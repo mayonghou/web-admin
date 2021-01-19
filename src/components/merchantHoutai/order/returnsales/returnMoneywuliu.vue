@@ -769,6 +769,7 @@ export default {
                         } else {
                             this.liuliuxinxi.voucherPic = localStorage.getItem('imgUrl') + data.data.voucherPic;
                         }
+                        console.log(data);
                     } else {
                         this.$message({
                             showClose: true,

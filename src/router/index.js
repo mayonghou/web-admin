@@ -1412,6 +1412,13 @@ export default new Router({
           }
         },
         {
+          path: '/lookText',
+          component: () => import('../components/merchantHoutai/marketingCenter/swiftHorse/myOrder/lookText.vue'),
+          meta: {
+            title: '上传文件列表'
+          }
+        },
+        {
           path: '/bumanyi',
           component: () => import('../components/merchantHoutai/marketingCenter/swiftHorse/myOrder/bumanyi.vue'),
           meta: {

@@ -342,6 +342,7 @@ export default {
                         this.orderinfo.applyTime = time1;
                         this.timeLimit = data.data.timeLimit;
                         // this.getDay(data.data.timeLimit, time1);
+                        console.log(time1);
                     } else {
                         this.$message({
                             showClose: true,

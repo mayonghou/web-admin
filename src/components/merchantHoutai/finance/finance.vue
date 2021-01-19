@@ -210,6 +210,7 @@ export default {
                             spinner: 'el-icon-loading',
                             background: 'rgba(0, 0, 0, 0.7)'
                         });
+                        console.log(data);
                         this.$axios.post('admin/financialManagement/postWithdrawal', data).then((res) => {
                             loading.close();
                             if (res.status == 200) {
