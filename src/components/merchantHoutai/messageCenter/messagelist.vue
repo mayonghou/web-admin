@@ -259,6 +259,7 @@ export default {
         // 多选框
         checkedUpload(item) {
             this.checked.push(item.messageId);
+            console.log(item);
         },
         titleBtn(item) {
             let messageList = this.$refs.messageBtn;
