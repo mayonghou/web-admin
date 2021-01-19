@@ -18,9 +18,6 @@
                         @keyup.enter.native="submitForm()"
                     ></el-input>
                 </el-form-item>
-                <!-- <div class="login-btn"> -->
-                <!-- <el-button type="primary" @click="submitForm">登录</el-button> -->
-                <!-- </div> -->
             </el-form>
             <el-button class="loginData" @click="submitForm">立即登录</el-button>
         </div>
@@ -64,7 +61,7 @@ export default {
                     });
                     _this.$axios
                         .get('admin/system/login?account=' + _this.param.username + '&password=' + _this.$md5(_this.param.password))
-                        // .get('admin/system/login?account=' + _this.param.username + '&password=' + _this.param.password)
+                        // .get('admin/system/login?account=' + _this.param.username + '&password=' + _this.$md5(_this.param.password))
                         .then(function (res) {
                             console.log(res);
                             loading.close();
@@ -82,6 +79,7 @@ export default {
                                     } else {
                                         _this.$router.push('./indexshouye');
                                         _this.$message.success('登录成功');
+                                        // _this.$message.success('登录成功');
                                     }
                                 }
                                 if (data.code != 200) {

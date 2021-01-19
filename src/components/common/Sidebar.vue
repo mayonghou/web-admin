@@ -359,6 +359,10 @@ export default {
                             {
                                 index: 'salesreturn',
                                 title: '退货申请处理'
+                            },
+                            {
+                                index: 'salesreturn',
+                                title: '退货申请处理'
                             }
                         ]
                     },

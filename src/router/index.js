@@ -703,6 +703,14 @@ export default new Router({
           }
         },
         {
+          path: '/salesreturn',
+          component: () => import('../components/merchantHoutai/order/returnsales/salesreturn.vue'),
+          // component: Index,
+          meta: {
+            title: '退货申请处理'
+          }
+        },
+        {
           path: '/returnMoney',
           component: () => import('../components/merchantHoutai/order/returnsales/returnMoney.vue'),
           // component: Index,
@@ -1402,13 +1410,6 @@ export default new Router({
           component: () => import('../components/merchantHoutai/marketingCenter/swiftHorse/myOrder/myOrderIndex.vue'),
           meta: {
             title: '我的订单'
-          }
-        },
-        {
-          path: '/lookText',
-          component: () => import('../components/merchantHoutai/marketingCenter/swiftHorse/myOrder/lookText.vue'),
-          meta: {
-            title: '上传文件列表'
           }
         },
         {
