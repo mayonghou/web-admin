@@ -72,84 +72,97 @@
 </template>
 
 <script>
-	export default{
-		name: 'orderConfirm',
-		data(){
-			return {
-				size: 50,
-				dataList: {},
-				imgUrl:[],
-				sellerAvatar: '',
-				Times:'',
-				dayDiff: '',//天数
-				goumairenavatar: '',
-			}
-		},
-		mounted() {
-			this.getDataorder();
-		},
-		methods:{
-			getDataorder(){
-				let id = this.$route.query.data;
-				this.$axios.post('admin/sideline/order/query/' + id).then((res) => {
-					if(res.status == 200){
-						let data = res.data;
-						  if(data.code == 200){
-							this.dataList = data.data;
-							let date = new Date(data.data.submitTime);
-							let date1 = new Date(data.data.endTime);
-							let time = date.getFullYear() + '-' + (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() +
-								1) + '-' + date.getDate();
-							let time1 = date1.getFullYear() + '-' + (date1.getMonth() + 1 < 10 ? '0' + (date1.getMonth() + 1) : date1.getMonth() +
-								1) + '-' + date1.getDate();
-							this.Times = time+' --- '+time1;
-							
-							var dateDiff = date1.getTime() - date.getTime();//时间差的毫秒数
-							this.dayDiff = Math.floor(dateDiff / (24 * 3600 * 1000));
-							console.log(this.dayDiff);
-							
-							var https = /^https:\/\/.+$/;
-							
-							if(https.test(localStorage.getItem('avatar'))){
-								this.goumairenavatar = localStorage.getItem('avatar');
-							} else {
-								this.goumairenavatar =localStorage.getItem('imgUrl') + localStorage.getItem('avatar');
-							}
-							
-							
-							
-							let img = [];
-							if(https.test(data.data.sellerAvatar)){
-								this.sellerAvatar = data.data.sellerAvatar;
-							} else {
-								this.sellerAvatar = localStorage.getItem('imgUrl') + data.data.sellerAvatar;
-							}
-							data.data.sellerWorksPictures.split(';').forEach(function(val,index){
-								if(https.test(val)){
-									img[index] = val;
-								} else {
-									img[index] = localStorage.getItem('imgUrl') + val;
-								}
-							});
-								this.imgUrl = img;
-						  } else {
-							  this.$message({
-							  	showClose: true,
-							  	message: data.msg,
-							  	type: 'error'
-							  });
-						  }
-					} else {
-						this.$message({
-							showClose: true,
-							message: res.data.msg,
-							type: 'error'
-						});
-					}
-				});
-			}
-		}
-	}
+export default {
+    name: 'orderConfirm',
+    data() {
+        return {
+            imgBase64: '',
+            size: 50,
+            dataList: {},
+            imgUrl: [],
+            sellerAvatar: '',
+            Times: '',
+            dayDiff: '', //天数
+            goumairenavatar: '',
+            dialogVisible: false
+        };
+    },
+    mounted() {
+        this.getDataorder();
+    },
+    methods: {
+        priceBtn() {
+            this.dialogVisible = true;
+        },
+        getDataorder() {
+            console.log('sjafikj');
+            let id = this.$route.query.data;
+            this.$axios.post('admin/sideline/order/query/' + id).then((res) => {
+                if (res.status == 200) {
+                    let data = res.data;
+                    if (data.code == 200) {
+                        this.dataList = data.data;
+                        this.imgBase64 = this.dataList.qrCodeBase64;
+                        let date = new Date(data.data.submitTime);
+                        let date1 = new Date(data.data.endTime);
+                        let time =
+                            date.getFullYear() +
+                            '-' +
+                            (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                            '-' +
+                            date.getDate();
+                        let time1 =
+                            date1.getFullYear() +
+                            '-' +
+                            (date1.getMonth() + 1 < 10 ? '0' + (date1.getMonth() + 1) : date1.getMonth() + 1) +
+                            '-' +
+                            date1.getDate();
+                        this.Times = time + ' --- ' + time1;
+
+                        var dateDiff = date1.getTime() - date.getTime(); //时间差的毫秒数
+                        this.dayDiff = Math.floor(dateDiff / (24 * 3600 * 1000));
+                        console.log(this.dayDiff);
+
+                        var https = /^https:\/\/.+$/;
+
+                        if (https.test(localStorage.getItem('avatar'))) {
+                            this.goumairenavatar = localStorage.getItem('avatar');
+                        } else {
+                            this.goumairenavatar = localStorage.getItem('imgUrl') + localStorage.getItem('avatar');
+                        }
+
+                        let img = [];
+                        if (https.test(data.data.sellerAvatar)) {
+                            this.sellerAvatar = data.data.sellerAvatar;
+                        } else {
+                            this.sellerAvatar = localStorage.getItem('imgUrl') + data.data.sellerAvatar;
+                        }
+                        data.data.sellerWorksPictures.split(';').forEach(function (val, index) {
+                            if (https.test(val)) {
+                                img[index] = val;
+                            } else {
+                                img[index] = localStorage.getItem('imgUrl') + val;
+                            }
+                        });
+                        this.imgUrl = img;
+                    } else {
+                        this.$message({
+                            showClose: true,
+                            message: data.msg,
+                            type: 'error'
+                        });
+                    }
+                } else {
+                    this.$message({
+                        showClose: true,
+                        message: res.data.msg,
+                        type: 'error'
+                    });
+                }
+            });
+        }
+    }
+};
 </script>
 
 <style>

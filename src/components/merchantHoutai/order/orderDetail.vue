@@ -184,7 +184,7 @@
             <ul class="detailUl">
                 <li class="detailli shouhuo">
                     <div class="detail">活动优惠</div>
-                    <div class="detail active" v-model="hedongyouhui">-￥{{hedongyouhui}}</div>
+                    <div class="detail active">-￥{{this.hedongyouhui}}</div>
                 </li>
                 <li class="detailli shouhuo">
                     <div class="detail">订单总金额</div>
