@@ -15,11 +15,10 @@
                         type="password"
                         placeholder="请输入密码"
                         v-model="param.password"
-                        @keyup.enter.native="submitForm()"
+                        @keyup.enter.native="submitForm(a)"
                     ></el-input>
                 </el-form-item>
             </el-form>
-            <el-button class="loginData" @click="submitForm">立即登录</el-button>
             <el-button class="loginData" @click="submitForm">立即登录</el-button>
         </div>
     </div>
@@ -100,9 +99,10 @@ export default {
 .login-wrap {
     position: relative;
     text-align: center;
-    text-align: center;
     width: 100%;
     height: 100%;
+    background: url(../../assets/loginImg.png);
+    background-size: 100% 100%;
     background: url(../../assets/loginImg.png);
     background-size: 100% 100%;
 }
@@ -114,8 +114,6 @@ export default {
 
 .ms-login {
     position: absolute;
-    position: absolute;
-
     left: 70%;
     top: 45%;
     text-align: left;
