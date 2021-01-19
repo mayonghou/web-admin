@@ -19,7 +19,7 @@
             </div>
         </div>
         <!-- 表格 -->
-        <el-table :data="tableData" border style="width: 100%; background: #F5F9F1;">
+        <el-table :data="tableData" border style="width: 100%; background: #f5f9f1">
             <el-table-column type="selection" width></el-table-column>
             <el-table-column prop="date" label="序号" width="180"></el-table-column>
             <el-table-column prop="name" label="职位名称" width="180"></el-table-column>
@@ -40,11 +40,10 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="400"
         ></el-pagination>
-
         <!-- 添加职位 -->
         <el-dialog title="添加职位" :visible.sync="dialogVisibleZhiwei" width="50%">
             <div class="iconEnlarge" @click="enlarge">
-                <el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
+                <el-tooltip effect="dark" :content="fullscreen ? `取消全屏` : `全屏`" placement="bottom">
                     <i class="iconfont icon-quanping"></i>
                 </el-tooltip>
             </div>
@@ -64,7 +63,7 @@
         <!-- 修改职位 -->
         <el-dialog title="修改职位" :visible.sync="dialogVisibleUpdatezhiwei" width="50%">
             <div class="iconEnlarge" @click="enlarge">
-                <el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
+                <el-tooltip effect="dark" :content="fullscreen ? `取消全屏` : `全屏`" placement="bottom">
                     <i class="iconfont icon-quanping"></i>
                 </el-tooltip>
             </div>
@@ -83,7 +82,6 @@
         </el-dialog>
     </div>
 </template>
-
 <script>
 export default {
     name: 'zhiweiGL',
@@ -149,7 +147,6 @@ export default {
         },
         // 全屏事件
         enlarge() {},
-
         // 页码
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
@@ -160,7 +157,6 @@ export default {
     }
 };
 </script>
-
 <style>
 .headers {
     width: 100%;
@@ -190,6 +186,7 @@ export default {
 .top_search .sear_time {
     float: left;
 }
+
 .sear_time .button {
     width: 151px;
     height: 30px;
@@ -239,9 +236,11 @@ export default {
 .el-table .tab_oragel {
     background: #ff8d00;
 }
+
 .el-table .tab_bule {
     background: #2494d2;
 }
+
 .el-table .tab_green {
     background: #109955;
 }
@@ -259,20 +258,24 @@ export default {
 .el-dialog {
     position: relative;
 }
+
 .el-dialog__header {
     background-color: #f5f9f1;
     border: 1px solid #f5f9f1;
 }
+
 .iconEnlarge {
     top: 20px;
     font-size: 12px;
     right: 60px;
     position: absolute;
 }
+
 .dialog-footer {
     width: 100%;
     margin-left: 42%;
 }
+
 .dialog-footer .button {
     width: 151px;
     height: 30px;
@@ -286,27 +289,32 @@ export default {
     width: 100%;
     height: 80px;
 }
+
 .dialogSearch .search {
     width: 277px;
     height: 41px;
     float: left;
     margin-left: 25%;
 }
+
 .search-but {
     float: left;
     margin-left: 10px;
     color: #2450d2;
     font-size: 12px;
 }
+
 .formWidth {
     width: 194px;
 }
+
 .el-dialog .el-input__inner {
     margin-left: 20px;
     border: 0px;
     border-bottom: 1px solid #bbbbbb;
     border-radius: 0px;
 }
+
 .el-form-item__label {
     width: 260px;
     text-align: right;

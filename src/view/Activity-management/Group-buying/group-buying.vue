@@ -6,7 +6,7 @@
                 <Col span="12">
                     <Input
                         v-model="value01"
-                        placeholder="输入房源名称..."
+                        placeholder="输入标题名称..."
                         clearable
                         style="width: 200px; margin-right: 10px"
                     />
@@ -25,13 +25,19 @@
                         start-placeholder="开始日期"
                         end-placeholder="结束日期"
                         :picker-options="pickerOptions"
+                        value-format="yyyy-MM-dd"
+                        @change="timeget"
                     ></el-date-picker>
-                    <Button type="primary" style="padding-left: 40px; padding-right: 40px">查询</Button>
+                    <Button
+                        type="primary"
+                        @click="queryData"
+                        style="padding-left: 40px; padding-right: 40px"
+                    >查询</Button>
                 </Col>
             </Row>
         </div>
         <!-- 表格 -->
-        <tablea :pageid="pageid"></tablea>
+        <tablea v-if="Datar8 != ''" :pageid="pageid" :Datar8="Datar8" :statusCode="statusCode"></tablea>
         <!-- 分页 -->
         <el-pagination
             class="pagintion"
@@ -39,7 +45,7 @@
             @current-change="handleCurrentChange"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40]"
-            :page-size="20"
+            :page-size="limit"
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
         ></el-pagination>
@@ -51,6 +57,7 @@ import tablea from '../../conponents/table/tablea/tablea.vue';
 export default {
     data() {
         return {
+            Datar8: '',
             // 数据发散
             pageid: [
                 { pageid: 8 },
@@ -62,7 +69,9 @@ export default {
                 {
                     title: '序号',
                     slot: 'dataTanle',
-                    width: 70
+                    type: 'index',
+                    width: 70,
+                    align: 'center'
                 },
                 {
                     title: '团购名称',
@@ -97,12 +106,13 @@ export default {
                 {
                     title: '活动时间',
                     key: 'col7',
+                    width: 220,
                     align: 'center'
                 },
                 {
                     title: '操作',
                     slot: 'action',
-                    width: 250,
+                    width: 220,
                     align: 'center'
                 },
                 {
@@ -116,10 +126,9 @@ export default {
                     col7: '2020.20.20'
                 }
             ],
-
             page: 1,
-            limit: 20,
-            counts: this.counts || 1,
+            limit: 10,
+            counts: this.counts,
             value01: '',
             value02: '',
             value03: '',
@@ -156,17 +165,162 @@ export default {
                 ]
             },
             value1: '',
-            value2: ''
+            value2: '',
+            startTime: '',
+            endTime: '',
+            statusCode: ''
         };
+    },
+    watch: {
+        Datar8: {
+            handler(newdata, oldata) {
+                this.Datar8 = newdata;
+            },
+            deep: true,
+            immediate: true
+        }
     },
     methods: {
         // 分页
         handleSizeChange(val) {
             this.limit = val;
+            this.getDatar8();
         },
         handleCurrentChange(val) {
             this.page = val;
+            this.getDatar8();
+        },
+        timeget(value) {
+            if (value != null) {
+                let start = new Date(value[0]);
+                this.startTime = start.getTime();
+                let end = new Date(value[1]);
+                this.endTime = start.getTime();
+            } else {
+                this.startTime = '';
+                this.endTime = '';
+            }
+        },
+        queryData() {
+            this.page = 1;
+            this.getDatar8();
+        },
+        // 查询
+        getDatar8() {
+            let data = {
+                activityTitleLike: this.value01,
+                companyNameLike: this.value02,
+                limit: this.limit,
+                page: this.page,
+                status: 1,
+                timeEnd: this.endTime,
+                timeStart: this.startTime
+            };
+            const url = 'admin/company/activity/sys/group/list';
+            this.$axios
+                .post(url, data)
+                .then((res) => {
+                    if (res.status == 200) {
+                        let data = res.data;
+                        if (data.code == 200) {
+                            const statusCode = res.data.code;
+                            this.statusCode = statusCode;
+                            let DataAjax8 = [];
+                            data.list.forEach((val, index) => {
+                                DataAjax8[index] = val;
+                                DataAjax8[index].col1 = val.productName;
+                                DataAjax8[index].col2 = val.companyName;
+                                DataAjax8[index].col3 = val.publisher;
+                                DataAjax8[index].col4 = val.countSale;
+                                DataAjax8[index].col5 = val.activityPrice / 100 + '￥';
+                                DataAjax8[index].col6 = val.productPrice / 100 + '￥';
+                                let startDate = new Date(val.startTime);
+                                var time1 =
+                                    startDate.getFullYear() +
+                                    '-' +
+                                    (startDate.getMonth() + 1 < 10 ? '0' + (startDate.getMonth() + 1) : startDate.getMonth() + 1) +
+                                    '-' +
+                                    startDate.getDate();
+                                var endDate = new Date(val.endTime);
+                                var time2 =
+                                    endDate.getFullYear() +
+                                    '-' +
+                                    (endDate.getMonth() + 1 < 10 ? '0' + (endDate.getMonth() + 1) : endDate.getMonth() + 1) +
+                                    '-' +
+                                    endDate.getDate();
+                                DataAjax8[index].col7 = time1 + '——' + time2;
+                            });
+                            this.counts = data.total;
+                            this.$nextTick(() => {
+                                this.Datar8 = DataAjax8;
+                            });
+                        } else {
+                            this.$message({
+                                showClose: true,
+                                message: data.msg,
+                                type: 'error'
+                            });
+                        }
+                    } else {
+                        this.$message({
+                            showClose: true,
+                            message: res.data.msg,
+                            type: 'error'
+                        });
+                    }
+                })
+                .catch((err) => {
+                    this.$nextTick(() => {
+                        this.Datar8 = [{ name: '暂无数据！' }];
+                    });
+                });
+        },
+        // 删除
+        deleDataGroupbuy(acId, ntype, statu) {
+            const url = 'admin/company/activity/all/update_status';
+            const data = {
+                activityId: acId,
+                activityType: ntype,
+                newStatus: statu
+            };
+            this.$axios
+                .put(url, data)
+                .then((res) => {
+                    if (res.status == 200) {
+                        const data = res.data;
+                        if (data.code == 200) {
+                            alert(data.msg);
+                            this.getDatar8();
+                        } else {
+                            alert(data.msg);
+                            this.getDatar8();
+                        }
+                    }
+                })
+                .catch((err) => {});
+        },
+        // 批量删除
+        BatchDeleteForcoup(id, activ) {
+            const url = 'admin/company/activity/all/batch_remove?activityType=' + activ;
+            this.$axios
+                .post(url, id)
+                .then((res) => {
+                    if (res.status == 200) {
+                        const dataert = res.data;
+                        if (dataert.cpde == 200) {
+                            alert(dataert.msg);
+                            this.CouponDataQuery();
+                        } else {
+                            alert(dataert.msg);
+                            this.CouponDataQuery();
+                        }
+                    }
+                })
+                .catch((err) => {});
         }
+    },
+    mounted() {
+        this.getDatar8();
     },
     components: {
         tablea

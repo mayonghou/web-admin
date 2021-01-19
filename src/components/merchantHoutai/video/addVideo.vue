@@ -45,7 +45,7 @@
 				<el-input class="elInput" v-model="addvideoData.title" placeholder="输入发布的视频标题"></el-input>
 			</el-form-item>
 			<el-form-item label="关联商品: " prop="cooper" :label-width="labelWidth">
-				<label style="display: block;">{{this.addvideoData.cooper}}</label>
+				<label v-model="addvideoData.cooper" style="display: block;">{{addvideoData.cooper}}</label>
 				<el-button class="el-icon-circle-plus-outline gunliang" @click="cooperShop">关联商品</el-button>
 			</el-form-item>
 		</el-form>

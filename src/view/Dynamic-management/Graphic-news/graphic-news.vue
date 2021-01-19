@@ -48,7 +48,7 @@
             </Row>
         </div>
         <!-- 表格 -->
-        <tablea v-if="Datar15 != ''" :pageid="pageid" :Datar15="Datar15"></tablea>
+        <tablea v-if="Datar15 != ''" :pageid="pageid" :Datar15="Datar15" :statusCode="statusCode"></tablea>
         <!-- 分页 -->
         <el-pagination
             class="pagintion"
@@ -56,13 +56,12 @@
             @current-change="handleCurrentChange"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40]"
-            :page-size="20"
+            :page-size="limit"
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
         ></el-pagination>
     </div>
 </template>
-
 <script>
 import tablea from '../../conponents/table/tablea/tablea.vue';
 export default {
@@ -80,7 +79,7 @@ export default {
                 {
                     title: '序号',
                     slot: 'dataTanle',
-                    width: 65,
+                    width: 70,
                     align: 'center',
                     type: 'index'
                 },
@@ -124,10 +123,10 @@ export default {
                     col5: '2020.20.20'
                 }
             ],
-
+            statusCode: '',
             page: 1,
-            limit: 20,
-            counts: this.counts || 1,
+            limit: 10,
+            counts: this.counts,
             // value2: ['2016-01-01', '2016-02-15'],
             value01: '',
             value02: '',
@@ -166,7 +165,7 @@ export default {
             },
             value1: '',
             value2: '',
-            model1: '',
+            model1: -1,
             cityList: [
                 {
                     value: '0',
@@ -179,17 +178,27 @@ export default {
             ]
         };
     },
+    watch: {
+        Datar15: {
+            handler(newdata, oldata) {
+                this.Datar15 = newdata;
+            },
+            deep: true,
+            immediate: true
+        }
+    },
     methods: {
         // 分页
         handleSizeChange(val) {
             this.limit = val;
+            this.CouponDataQuery();
         },
         handleCurrentChange(val) {
             this.page = val;
+            this.CouponDataQuery();
         },
-        //
+        //将时间转换成时间撮
         fgetLocalTime() {
-            //将时间转换成时间撮
             let date = new Date(this.value2[0]);
             let start = date.getTime(date);
             this.start = start;
@@ -197,11 +206,11 @@ export default {
             let end = date1.getTime(date1);
             this.end = end;
         },
+        //查询
         CouponDataQuery() {
-            //查询
             var url = 'admin/admin/company/selectAllDynamic';
             var data = {
-                articleType: this.model1 || -1,
+                articleType: parseInt(this.model1),
                 limit: this.limit,
                 page: this.page,
                 pushEndDate: this.end || 0,
@@ -214,15 +223,82 @@ export default {
                 .post(url, data)
                 .then((res) => {
                     if (res.status == 200 && res.data.code == 200) {
-                        var AjaxData15 = res.data.data;
+                        const statusCode = res.data.code;
+                        this.statusCode = statusCode;
+                        var AjaxData = res.data.data;
+                        this.counts = res.data.total;
+                        var DataAjax15 = [];
+                        AjaxData.forEach(function (val, index) {
+                            DataAjax15[index] = val;
+                            // DataAjax15[index].dataTanle = val.;
+                            DataAjax15[index].col1 = val.details;
+                            DataAjax15[index].col2 = val.companyName; // 发布企业
+                            DataAjax15[index].col3 = val.pushName;
+                            if (val.isOfficial == 0) {
+                                val.type = '普通动态';
+                            } else if (val.isOfficial == 1) {
+                                val.type = '官方动态';
+                            }
+                            DataAjax15[index].col4 = val.type;
+                            var date = new Date(val.pushTime);
+                            var time1 =
+                                date.getFullYear() +
+                                '-' +
+                                (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                                '-' +
+                                date.getDate();
+                            DataAjax15[index].col5 = time1;
+                        });
                         this.$nextTick(() => {
-                            this.Datar15 = AjaxData15;
+                            this.Datar15 = DataAjax15;
                         });
                     } else {
                         alert(res.data.msg);
                     }
                 })
-                .catch(() => {});
+                .catch(() => {
+                    this.$nextTick(() => {
+                        this.Datar15 = [{ name: '暂无数据！' }];
+                    });
+                });
+        },
+        // 删除
+        deletDatagraphicNews(spid) {
+            const url = 'admin/admin/company/delDynamicById?id=' + spid;
+            this.$axios
+                .get(url)
+                .then((res) => {
+                    if (res.status == 200) {
+                        const data = res.data;
+                        if (data.code == 200) {
+                            alert(data.msg);
+                            this.CouponDataQuery();
+                        } else {
+                            alert(data.msg);
+                            this.CouponDataQuery();
+                        }
+                    }
+                })
+                .catch((err) => {});
+        },
+        // 批量删除
+        BatchDeleteForcoup(id) {
+            const url = 'admin/admin/company/delete/bathDelete';
+            this.$axios
+                .post(url, id)
+                .then((res) => {
+                    if (res.status == 200) {
+                        const dataert = res.data;
+                        if (dataert.cpde == 200) {
+                            alert(dataert.msg);
+                            this.CouponDataQuery();
+                        } else {
+                            alert(dataert.msg);
+                            this.CouponDataQuery();
+                        }
+                    }
+                })
+                .catch((err) => {});
         }
     },
     mounted() {
@@ -233,12 +309,12 @@ export default {
     }
 };
 </script>
-
 <style scope>
 .table_css_xiaoyuer {
     box-sizing: border-box;
     padding: 20px;
 }
+
 .top-compo {
     box-sizing: border-box;
     padding: 0 20px;

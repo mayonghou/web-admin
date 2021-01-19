@@ -84,7 +84,7 @@
                                 <el-input class="goodinput" v-model="item.name" readonly></el-input>
                             </el-form-item>
                             <el-form-item label="单价:" label-width="120px">
-                                <label>{{item.price / 100}}</label>
+                                <el-input class="goodinput" v-model="item.price / 100" readonly></el-input>
                             </el-form-item>
                         </div>
                     </el-form-item>
@@ -206,10 +206,6 @@ export default {
             } else if (status == 7) {
                 this.$router.push({
                     path: './flashSaleDetail' //限时抢购
-                });
-            } else if (status == 8) {
-                this.$router.push({
-                    path: './messageList' //消息中心
                 });
             }
         },
@@ -365,7 +361,7 @@ export default {
 }
 .dsadsadsa .dsad img {
     display: inline-block;
-    /* float: left; */
+    float: left;
     margin-left: 10px;
     width: 200px;
 }
