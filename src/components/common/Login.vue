@@ -19,6 +19,7 @@
                     </el-input>
                 </el-form-item>
             </el-form>
+            <el-button class="loginData" @click="submitForm">立即登录</el-button>
         </div>
     </div>
 </template>
@@ -95,14 +96,10 @@ export default {
 <style scoped>
 .login-wrap {
     position: relative;
+    text-align: center;
     width: 100%;
     height: 100%;
-    /* background-image: url(../../assets/img/login-bg.jpg); */
-    background-size: 100%;
-    background: -webkit-linear-gradient(#09bbfe, #5a42ec); /* Safari 5.1 - 6 */
-    background: -o-linear-gradient(#09bbfe, #5a42ec); /* Opera 11.1 - 12*/
-    background: -moz-linear-gradient(#09bbfe, #5a42ec); /* Firefox 3.6 - 15*/
-    background: linear-gradient(#09bbfe, #5a42ec); /* 标准的语法 */
+    background-image: url(../../assets/img/login-bg.jpg);
 }
 
 .ms-title {
@@ -116,9 +113,9 @@ export default {
 
 .ms-login {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 350px;
+    left: 70%;
+    top: 45%;
+    text-align: left;
     margin: -190px 0 0 -175px;
     border-radius: 5px;
     background: rgba(255, 255, 255, 0.3);

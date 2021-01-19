@@ -22,12 +22,18 @@
             </div>
         </div>
         <div style="height: 30px;"></div>
-        <el-table :data="tableData" style="width: 1200px;margin: 0 auto;">
+        <el-table :data="tableData" style="width: 100%;" border>
             <el-table-column type="index" prop label="序号" align="center" width="80"></el-table-column>
-            <el-table-column prop label="提现金额" align="center"></el-table-column>
-            <el-table-column prop label="体现状态" align="center"></el-table-column>
-            <el-table-column prop label="申请时间" align="center"></el-table-column>
-            <el-table-column prop label="处理时间" align="center"></el-table-column>
+            <el-table-column type="seleection" prop label="序号" align="center" width="80"></el-table-column>
+            <el-table-column prop="withAccount" label="提现金额" align="center"></el-table-column>
+            <el-table-column prop="handlename" label="提现状态" align="center"></el-table-column>
+            <el-table-column prop="createTime" label="申请时间" align="center"></el-table-column>
+            <el-table-column prop="handleTime" label="处理时间" align="center"></el-table-column>
+            <el-table-column label="操作" align="center">
+                <template slot-scope="scope">
+                    <el-button @click="lookdetailmoney(scope.row)" class="lookdetail" round>查看详情</el-button>
+                </template>
+            </el-table-column>
         </el-table>
         <!-- 页码 -->
         <el-pagination
@@ -212,7 +218,6 @@ export default {
 }
 .account {
     width: 100%;
-
     height: 120px;
     background-color: #f1fafd;
     text-align: center;

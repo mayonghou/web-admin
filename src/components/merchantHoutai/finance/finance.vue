@@ -36,7 +36,7 @@
             </div>
         </div>
         <div style="height: 30px;"></div>
-        <el-table :data="tableData" style="width: 1200px;margin: 0 auto;">
+        <el-table :data="tableData" style="width: 100%;" border>
             <el-table-column type="index" prop label="序号" align="center" width="80"></el-table-column>
             <el-table-column type="selection" prop label="序号" align="center" width="80"></el-table-column>
             <el-table-column prop="orderSn" label="流水号" align="center"></el-table-column>
