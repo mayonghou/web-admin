@@ -9,28 +9,28 @@
                         <p style="font-size: 20px;">企业人数(人)</p>
                         <h1>{{this.qiyechangdu}}</h1>
                     </div>
-                    <img class="imgmmm" src="../../assets/img/img.jpg" />
+                    <img class="imgmmm" src="../../assets/img/qiyenumber.jpg" />
                 </li>
                 <li class="indextopUlLi huangshe">
                     <div>
                         <p style="font-size: 20px;">职位(个)</p>
                         <h1>{{this.zhiweiLengthsdsa}}</h1>
                     </div>
-                    <img class="imgmmm" src="../../assets/img/img.jpg" />
+                    <img class="imgmmm" src="../../assets/img/zhiwe.jpg" />
                 </li>
                 <li class="indextopUlLi redShe">
                     <div>
                         <p style="font-size: 20px;">今日订单(单)</p>
                         <h1>{{this.orderTotal}}</h1>
                     </div>
-                    <img class="imgmmm" src="../../assets/img/img.jpg" />
+                    <img class="imgmmm" src="../../assets/img/todayOrder.jpg" />
                 </li>
                 <li class="indextopUlLi lvShe">
                     <div>
                         <p style="font-size: 20px;">今日销售额(元)</p>
                         <h1>{{this.saleTotal}}</h1>
                     </div>
-                    <img class="imgmmm" src="../../assets/img/img.jpg" />
+                    <img class="imgmmm" src="../../assets/img/jinrixaiose.jpg" />
                 </li>
             </ul>
         </div>
@@ -241,6 +241,7 @@ export default {
                 if (res.status == 200) {
                     var data = res.data;
                     if (data.code == 200) {
+                        console.log(data);
                         this.dataList0 = data.data[0];
                         var https = /^https:\/\/.+$/;
                         if (https.test(data.data[0])) {

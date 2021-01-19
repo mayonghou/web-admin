@@ -141,8 +141,10 @@ export default {
     color: #fff;
     font-size: 24px;
     padding: 0;
+    padding: 0;
 }
 .loginData:hover {
+    padding: 0;
     color: #fff;
 }
 .login-tips {
