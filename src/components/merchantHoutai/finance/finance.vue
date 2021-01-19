@@ -196,21 +196,25 @@ export default {
 
 <style>
 .finance {
-    width: 1200px;
-    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    background: #fafafa;
 }
 .caiwu-top {
     width: 100%;
-    height: 230px;
-    background-color: #faffe0;
-    margin-top: 20px;
-    padding-top: 20px;
+    width: 100%;
 }
 .account {
     width: 100%;
     height: 120px;
     background-color: #f1fafd;
     text-align: center;
+    background: url('../../../assets/img/caiwu.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    padding: 40px 0;
+    padding: 40px 0;
 }
 .el-input {
     width: 200px;
