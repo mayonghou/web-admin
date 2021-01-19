@@ -1,19 +1,21 @@
 <template>
     <div class="login-wrap">
         <div class="ms-login">
-            <div class="ms-title">商盟平台管理系统V1.0</div>
+            <div class="ms-title">
+                <div>欢迎使用</div>
+                <div>当地购综合管理平台</div>
+            </div>
             <el-form :model="param" ref="login" label-width="0px" class="ms-content">
                 <el-form-item prop="username">
-                    <el-input v-model="param.username" placeholder="请输入管理员账号">
-                        <el-button slot="prepend" icon="el-icon-s-custom"></el-button>
-                    </el-input>
+                    <el-input class="loginInput" v-model="param.username" placeholder="请输入管理员账号"></el-input>
                 </el-form-item>
                 <el-form-item prop="password">
                     <el-input
+                        class="loginInput"
                         type="password"
                         placeholder="请输入密码"
                         v-model="param.password"
-                        @keyup.enter.native="submitForm()"
+                        @keyup.enter.native="submitForm(a)"
                     ></el-input>
                 </el-form-item>
             </el-form>
@@ -60,20 +62,21 @@ export default {
                     _this.$axios
                         .get('admin/system/login?account=' + _this.param.username + '&password=' + _this.$md5(_this.param.password))
                         .then(function (res) {
+                            console.log(res);
                             loading.close();
                             if (res.status == 200) {
                                 var data = res.data;
                                 if (data.code == 200) {
                                     localStorage.getItem('avatar', data.data.avatar);
                                     localStorage.setItem('loginData', data.data.companyId);
-                                    localStorage.setItem('sjid', data.data.id);
+                                    localStorage.setItem('userIds', data.data.id);
                                     localStorage.setItem('token', data.data.token);
                                     localStorage.setItem('ms_username', _this.param.username);
                                     if (data.data.companyId == 0) {
                                         _this.$router.push('/dataCenterindex');
                                         _this.$message.success('登录成功');
                                     } else {
-                                        _this.$router.push('/indexshouye');
+                                        _this.$router.push('./indexshouye');
                                         _this.$message.success('登录成功');
                                         // _this.$message.success('登录成功');
                                     }
@@ -91,7 +94,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .login-wrap {
     position: relative;
     text-align: center;
@@ -100,12 +103,11 @@ export default {
     background: url('../../assets/img/loginImg.png');
     background-size: 100% 100%;
 }
-
 .ms-title {
     font-size: 44px;
     color: #3a62d7;
+    color: #3a62d7;
 }
-
 .ms-login {
     position: absolute;
     left: 70%;
@@ -116,29 +118,37 @@ export default {
     background: rgba(255, 255, 255, 0.3);
     overflow: hidden;
 }
-
 .ms-content {
-    padding: 30px 30px;
+    padding: 30px 0;
 }
-
-.login-btn .el-button {
-    width: 290px;
-    margin: 0 auto;
+.ms-content .loginInput .el-input__inner {
+    border-radius: 50px;
+    width: 447px;
+    height: 51px;
+    font-size: 20px;
+    padding: 0 30px;
+    font-family: Adobe Heiti Std R;
+}
+.loginData {
+    width: 447px;
+    height: 51px;
+    border-radius: 50px;
     text-align: center;
+    background-image: linear-gradient(#5a42ec, #09bbfe);
+    color: #fff;
+    font-size: 24px;
+    padding: 0;
+    padding: 0;
 }
-
-.login-btn .el-button button {
-    width: 100%;
-    height: 36px;
-    margin-bottom: 10px;
+.loginData:hover {
+    padding: 0;
+    color: #fff;
 }
-
 .login-tips {
     font-size: 12px;
     line-height: 30px;
     color: #fff;
 }
-
 .el-input {
     width: 290px;
     margin: 0 auto;

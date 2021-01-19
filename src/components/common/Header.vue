@@ -1,115 +1,96 @@
 <template>
-  <div>
-    <div class="header">
-      <div class="logo">
-        <div class="collapse-btn">
-          <img class="img"
-               src="../../assets/logo.png"
-               alt />
-        </div>
-        商盟
-      </div>
-      <div class="collapse"
-           @click="collapseChage">
-        <i v-if="!collapse"
-           class="el-icon-s-fold"></i>
-        <i v-else
-           class="el-icon-s-unfold"></i>
-      </div>
-      <div class="fl">
-        <ul class="topDataBox">
-          <li v-for="item in navData"
-              :key="item.index"
-              @click="routerbtn(item)">
-            <div v-show="item.index != 0 || qiyeID != 0">
-              <span><img :src="item.imgUrl"
-                     alt=""> </span>
-              <span>{{ item.name }} </span>
+    <div>
+        <div class="header">
+            <div class="logo">
+                <div class="collapse-btn">
+                    <img class="img" src="../../assets/logo.png" alt />
+                </div>商盟
             </div>
-          </li>
-        </ul>
-      </div>
-      <div class="header-right">
-        <div class="header-user-con">
-          <!-- 用户头像 -->
-          <span style="font-size: 18px;">欢迎您</span>
-          <div class="user-avator">
-            <el-avatar :size="40"
-                       :src="circleUrl"></el-avatar>
-          </div>
-          <!-- 用户名下拉菜单 -->
-          <el-dropdown class="user-name"
-                       trigger="click">
-            <span class="el-dropdown-link">
-              {{ username }}
-              <i class="el-icon-caret-bottom"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item divided
-                                command="cancel">
-                <label @click="updatePassword"
-                       class="UPpassword">修改密码</label>
-              </el-dropdown-item>
-              <el-dropdown-item divided
-                                command="loginout">
-                <el-button type="text"
-                           @click="tuichulogin">退出登录</el-button>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-          <!-- 消息中心 -->
-          <div class="btn-bell">
-            <el-tooltip effect="dark"
-                        :content="message ? `有${message}条未读消息` : `消息中心`"
-                        placement="bottom">
-              <router-link to="/tabs">
-                <i class="iconfontssda iconfont icon-laba1"></i>
-              </router-link>
-            </el-tooltip>
-            <span class="btn-bell-badge"
-                  v-if="message">{{ message }}</span>
-          </div>
+            <div class="collapse" @click="collapseChage">
+                <i v-if="!collapse" class="el-icon-s-fold"></i>
+                <i v-else class="el-icon-s-unfold"></i>
+            </div>
+            <div class="fl">
+                <ul class="topDataBox">
+                    <li v-for="item in navData" :key="item.index" @click="routerbtn(item)">
+                        <div v-show="item.index != 0 || qiyeID != 0">
+                            <span>
+                                <img :src="item.imgUrl" alt />
+                            </span>
+                            <span>{{ item.name }}</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="header-right">
+                <div class="header-user-con">
+                    <!-- 用户头像 -->
+                    <div style="font-size: 18px;">欢迎您</div>
+                    <div class="user-avator">
+                        <el-avatar :size="40" :src="circleUrl"></el-avatar>
+                    </div>
+                    <!-- 用户名下拉菜单 -->
+                    <el-dropdown class="user-name" trigger="click">
+                        <span class="el-dropdown-link">
+                            {{ username }}
+                            <i class="el-icon-caret-bottom"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item divided command="cancel">
+                                <label @click="updatePassword" class="UPpassword">修改密码</label>
+                            </el-dropdown-item>
+                            <el-dropdown-item divided command="loginout">
+                                <el-button type="text" @click="tuichulogin">退出登录</el-button>
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                    <!-- 消息中心 -->
+                    <div class="btn-bells">
+                        <el-tooltip
+                            effect="dark"
+                            :content="message ? `有${message}条未读消息` : `消息中心`"
+                            placement="bottom"
+                        >
+                            <router-link to="/messagelist">
+                                <i class="iconfontssda iconfont icon-laba1"></i>
+                            </router-link>
+                        </el-tooltip>
+                        <span class="btn-bell-badge" v-if="message">{{ message }}</span>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+        <el-dialog title="修改密码" :visible.sync="dialogVisibpassword" width="50%">
+            <div class="iconEnlorder" @click="enlarge">
+                <el-tooltip effect="dark" :content="fullscreen ? `取消全屏` : `全屏`" placement="bottom">
+                    <i class="iconfont icon-quanping"></i>
+                </el-tooltip>
+            </div>
+            <el-form :model="password" :rules="rules" ref="password">
+                <el-form-item label="新密码:" prop="xinpass" label-width="35%">
+                    <el-input
+                        class="inputddd"
+                        v-model="password.xinpass"
+                        onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"
+                        type="password"
+                        placeholder="请输入新密码"
+                    ></el-input>
+                </el-form-item>
+                <el-form-item label="确定密码:" prop="quedingpass" label-width="35%">
+                    <el-input
+                        class="inputddd"
+                        v-model="password.quedingpass"
+                        onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"
+                        type="password"
+                        placeholder="请确认密码"
+                    ></el-input>
+                </el-form-item>
+            </el-form>
+            <div class="xinpasswo">
+                <el-button @click="buncuanpassword" class="Btn">保存</el-button>
+            </div>
+        </el-dialog>
     </div>
-    <el-dialog title="修改密码"
-               :visible.sync="dialogVisibpassword"
-               width="50%">
-      <div class="iconEnlorder"
-           @click="enlarge">
-        <el-tooltip effect="dark"
-                    :content="fullscreen ? `取消全屏` : `全屏`"
-                    placement="bottom">
-          <i class="iconfont icon-quanping"></i>
-        </el-tooltip>
-      </div>
-      <el-form :model="password"
-               :rules="rules"
-               ref="password">
-        <el-form-item label="新密码:"
-                      prop="xinpass"
-                      label-width="35%">
-          <el-input class="inputddd"
-                    v-model="password.xinpass"
-                    onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"
-                    type="password"
-                    placeholder="请输入新密码"></el-input>
-        </el-form-item>
-        <el-form-item label="确定密码:"
-                      prop="quedingpass"
-                      label-width="35%">
-          <el-input class="inputddd"
-                    v-model="password.quedingpass"
-                    onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"
-                    type="password"
-                    placeholder="请确认密码"></el-input>
-        </el-form-item>
-      </el-form>
-      <div class="xinpasswo">
-        <el-button class="Btn">保存</el-button>
-      </div>
-    </el-dialog>
-  </div>
 </template>
 <script>
 import bus from './bus.js';
@@ -120,7 +101,7 @@ export default {
             collapse: true,
             fullscreen: false,
             name: '',
-            message: 1,
+            message: 0,
             qiyeID: '',
             dialogVisibpassword: false,
             circleUrl: '',
