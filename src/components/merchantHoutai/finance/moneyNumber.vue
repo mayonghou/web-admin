@@ -28,6 +28,7 @@
         <div style="height: 30px;"></div>
         <el-table :data="tableData" border style="width: 100%">
             <el-table-column type="index" prop label="序号" align="center" width="80"></el-table-column>
+            <el-table-column type="seleection" prop label="序号" align="center" width="80"></el-table-column>
             <el-table-column prop="withAccount" label="提现金额" align="center"></el-table-column>
             <el-table-column prop="handlename" label="提现状态" align="center"></el-table-column>
             <el-table-column prop="createTime" label="申请时间" align="center"></el-table-column>

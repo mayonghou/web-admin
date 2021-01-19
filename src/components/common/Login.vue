@@ -20,6 +20,7 @@
                 </el-form-item>
             </el-form>
             <el-button class="loginData" @click="submitForm">立即登录</el-button>
+            <el-button class="loginData" @click="submitForm">立即登录</el-button>
         </div>
     </div>
 </template>
@@ -99,6 +100,7 @@ export default {
 .login-wrap {
     position: relative;
     text-align: center;
+    text-align: center;
     width: 100%;
     height: 100%;
     background: url(../../assets/loginImg.png);
@@ -112,6 +114,8 @@ export default {
 
 .ms-login {
     position: absolute;
+    position: absolute;
+
     left: 70%;
     top: 45%;
     text-align: left;
