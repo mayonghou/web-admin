@@ -130,7 +130,57 @@ export default {
             this.dialogFormVisible = true;
         },
         // 提现保存
-        tixianBaocun() {},
+        tixianBaocun() {
+            this.$refs.tixianNumber.validate((valid) => {
+                if (valid) {
+                    this.$confirm('是否确定提现金额【 ' + this.tixianNumber.money + '】', '温馨提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        let data = {
+                            account: parseInt(this.tixianNumber.money) * 100
+                        };
+                        const loading = this.$loading({
+                            lock: true,
+                            text: '提现中 ...',
+                            spinner: 'el-icon-loading',
+                            background: 'rgba(0, 0, 0, 0.7)'
+                        });
+                        console.log(data);
+                        this.$axios.post('admin/financialManagement/postWithdrawal', data).then((res) => {
+                            loading.close();
+                            if (res.status == 200) {
+                                let datas = res.data;
+                                if (datas.code == 200) {
+                                    this.$message({
+                                        showClose: true,
+                                        message: data.msg,
+                                        type: 'success'
+                                    });
+                                    this.getmoney();
+                                } else {
+                                    this.$message({
+                                        showClose: true,
+                                        message: data.msg,
+                                        type: 'error'
+                                    });
+                                }
+                            } else {
+                                this.$message({
+                                    showClose: true,
+                                    message: res.data.msg,
+                                    type: 'error'
+                                });
+                            }
+                        });
+                    });
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
+        },
         // 全屏事件
         enlarge() {},
         // 页面
