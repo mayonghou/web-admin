@@ -4,7 +4,6 @@
 
 <script>
 export default {
-    props: ['ModalTableData'],
     data() {
         return {
             ModalTable: [
@@ -17,31 +16,31 @@ export default {
                 },
                 {
                     title: '订单编号',
-                    key: 'orderSn',
+                    key: 'key1',
                     align: 'center'
                 },
                 {
                     title: '客户名',
-                    key: 'userName',
+                    key: 'key2',
                     align: 'center'
                 },
                 {
                     title: '订单金额',
-                    key: 'payAmount',
+                    key: 'key3',
                     align: 'center'
                 },
                 {
-                    title: '客服来源',
-                    key: 'sourceUserName',
+                    title: '客户来源',
+                    key: 'key4',
                     align: 'center'
                 },
                 {
                     title: '创建时间',
-                    key: 'createTime',
+                    key: 'key5',
                     align: 'center'
                 },
                 {
-                    title: '操作',
+                    title: 'Action',
                     key: 'action',
                     width: 150,
                     align: 'center',
@@ -68,10 +67,39 @@ export default {
                         ]);
                     }
                 }
+            ],
+            ModalTableData: [
+                {
+                    key1: 4567819891,
+                    key2: '小鱼儿 ',
+                    key3: '￥30000',
+                    key4: ' BOSS直聘',
+                    key5: ' 2020-10-20'
+                },
+                {
+                    key1: 4567819891,
+                    key2: '小鱼儿 ',
+                    key3: '￥30000',
+                    key4: ' BOSS直聘',
+                    key5: ' 2020-10-20'
+                },
+                {
+                    key1: 4567819891,
+                    key2: '小鱼儿 ',
+                    key3: '￥30000',
+                    key4: ' BOSS直聘',
+                    key5: ' 2020-10-20'
+                },
+                {
+                    key1: 4567819891,
+                    key2: '小鱼儿 ',
+                    key3: '￥30000',
+                    key4: ' BOSS直聘',
+                    key5: ' 2020-10-20'
+                }
             ]
         };
     },
-    created() {},
     methods: {
         show(index) {
             this.$router.push({

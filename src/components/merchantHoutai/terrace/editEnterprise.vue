@@ -4,9 +4,9 @@
             <el-form ref="formData" :model="formData">
                 <div class="add_Top">
                     <label>企业信息</label>
-                    <label class="GS_name" v-model="qyname">{{qyname}}</label>
+                    <label class="GS_name">{{this.qyname}}</label>
                     <label class="GS_rz">已入驻</label>
-                    <label class="GS_time" v-model="time">入驻日期: {{time}}</label>
+                    <label class="GS_time">入驻日期: {{this.time}}</label>
                 </div>
                 <el-form-item label="企业名称:" :label-width="formLabelWidth">
                     <el-input class="formWidth" v-model="formData.name" placeholder="请输入"></el-input>
@@ -200,14 +200,19 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="收款账号:" prop="bankNumber" :label-width="formLabelWidth">
-                    <el-input class="formWidth" v-model="formData.bankNumber" placeholder="请输入"></el-input>
+                    <el-input
+                        class="formWidth"
+                        v-model="formData.bankNumber"
+                        placeholder="请输入"
+                        @change="bramkAuccent"
+                    ></el-input>
                 </el-form-item>
                 <el-form-item label="开户银行:" prop="depositBank" :label-width="formLabelWidth">
                     <el-select class="formWidth" v-model="formData.depositBank" placeholder="请选择">
-                        <el-option label="中国工商银行" value="0"></el-option>
-                        <el-option label="中国银行" value="1"></el-option>
-                        <el-option label="建设银行" value="2"></el-option>
-                        <el-option label="农业银行" value="3"></el-option>
+                        <el-option label="中国工商银行" value="中国工商银行"></el-option>
+                        <el-option label="中国银行" value="中国银行"></el-option>
+                        <el-option label="建设银行" value="建设银行"></el-option>
+                        <el-option label="农业银行" value="农业银行"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="开户网点:" prop="branch" :label-width="formLabelWidth">
@@ -223,6 +228,8 @@
 
 <script>
 import address from '../../../api/address.json';
+import axios from 'axios';
+// import brank from '../../../api/brank.json';
 import { regionData } from 'element-china-area-data';
 export default {
     name: 'editEnterprise',
@@ -282,6 +289,12 @@ export default {
         this.manageData();
     },
     methods: {
+        bramkAuccent(value) {
+            console.log(value);
+            if (value != '') {
+            }
+        },
+
         Uploadagain_a() {
             document.querySelector('.yinyezhizhao').click();
         },

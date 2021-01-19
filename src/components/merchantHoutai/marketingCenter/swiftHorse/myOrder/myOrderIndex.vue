@@ -382,7 +382,6 @@ export default {
                             var m = date.getMinutes() < 10 ? '0' + date.getMinutes() + '' : date.getMinutes();
                             console.log(h + m);
                             datalist[index].timeshaoma = h + m;
-                            console.log('fas');
 
                             let bbb = [];
                             val.taskList.forEach(function (item, number) {

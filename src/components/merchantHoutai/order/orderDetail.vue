@@ -7,7 +7,7 @@
                     style="color: #FF8D00;"
                 >{{this.groupDTO==null?'':this.groupDTO.status ==1?'团购订单('+this.groupDTO.countMemberNeed+'/'+this.groupDTO.teamSize+'未成团)':'团购订单('+ this.groupDTO.teamSize +'/'+this.groupDTO.teamSize+' 已成团)'}}</span>
             </label>
-            <label class="orderstatus">订单状态：{{this.statusName}}</label>
+            <label class="orderstatus">订单状态：{{statusName}}</label>
         </div>
         <div class="ordertrue">
             <span v-if="this.groupDTO != null && this.groupDTO.status == 1">
@@ -68,7 +68,7 @@
             <ul class="detailUl">
                 <li class="detailli width">
                     <div class="detail">订单编号</div>
-                    <div class="detail active">{{this.orderSn}}</div>
+                    <div class="detail active">{{orderSn}}</div>
                 </li>
                 <li class="detailli width">
                     <div class="detail">客户名</div>
@@ -90,7 +90,7 @@
             <ul class="detailUl">
                 <li class="detailli width">
                     <div class="detail">支付方式</div>
-                    <div class="detail active">{{this.payTypeName}}</div>
+                    <div class="detail active">{{payTypeName}}</div>
                 </li>
                 <li class="detailli width">
                     <div class="detail">订单类型</div>
@@ -98,15 +98,15 @@
                 </li>
                 <li class="detailli width">
                     <div class="detail">创建时间</div>
-                    <div class="detail active">{{this.createTime}}</div>
+                    <div class="detail active">{{createTime}}</div>
                 </li>
                 <li class="detailli width">
                     <div class="detail">发货单号</div>
-                    <div class="detail active">{{ this.deliverySn}}</div>
+                    <div class="detail active">{{deliverySn}}</div>
                 </li>
                 <li class="detailli width">
                     <div class="detail">活动信息</div>
-                    <div class="detail active">{{this.promotionInfo}}</div>
+                    <div class="detail active">{{promotionInfo}}</div>
                 </li>
             </ul>
 
@@ -116,15 +116,15 @@
             <ul class="detailUl">
                 <li class="detailli shouhuo">
                     <div class="detail">收货人</div>
-                    <div class="detail active">{{this.receiverName}}</div>
+                    <div class="detail active">{{receiverName}}</div>
                 </li>
                 <li class="detailli shouhuo">
                     <div class="detail">手机号</div>
-                    <div class="detail active">{this.{receiverPhone}}</div>
+                    <div class="detail active">{{receiverPhone}}</div>
                 </li>
                 <li class="detailli shouhuo">
                     <div class="detail">收货地址</div>
-                    <div class="detail active">{{this.receiverDetailAddress}}</div>
+                    <div class="detail active">{{receiverDetailAddress}}</div>
                 </li>
             </ul>
             <div></div>
@@ -161,7 +161,7 @@
             <!-- <el-divider></el-divider> -->
             <div class="heji">
                 <label>合计：</label>
-                <label class="red">￥ {{this.countPrice / 100}}</label>
+                <label class="red">￥ {{countPrice / 100}}</label>
             </div>
 
             <div class="tabel-top jj clearfix">
@@ -170,7 +170,7 @@
             <ul class="detailUl">
                 <li class="detailli shouhuo">
                     <div class="detail">商品合计</div>
-                    <div class="detail active">￥{{this.shoppCount / 100}}</div>
+                    <div class="detail active">￥{{shoppCount / 100}}</div>
                 </li>
                 <li class="detailli shouhuo">
                     <div class="detail">配送费</div>
@@ -178,13 +178,13 @@
                 </li>
                 <li class="detailli shouhuo">
                     <div class="detail">优惠券</div>
-                    <div class="detail active">-￥{{this.youhuijuan}}</div>
+                    <div class="detail active">-￥{{youhuijuan}}</div>
                 </li>
             </ul>
             <ul class="detailUl">
                 <li class="detailli shouhuo">
                     <div class="detail">活动优惠</div>
-                    <div class="detail active">-￥{{this.hedongyouhui}}</div>
+                    <div class="detail active">-￥{{hedongyouhui}}</div>
                 </li>
                 <li class="detailli shouhuo">
                     <div class="detail">订单总金额</div>
@@ -477,10 +477,12 @@ export default {
             let orderId = this.$route.query.id;
             let orderDatas = this.$route.query.data;
             this.groupDTO = orderDatas.groupDTO;
+            console.log(orderDatas.groupDTO);
             this.$axios.get('admin/order/adminQueryOrderInfo?orderId=' + orderId).then((res) => {
                 if (res.status == 200) {
                     var data = res.data;
                     if (data.code == 200) {
+                        console.log(data);
                         let tableListData = data.data.orderInfo;
                         this.userName = tableListData.memberName;
                         this.orderSn = tableListData.orderSn;
@@ -589,12 +591,12 @@ export default {
 <style>
 .detailUl .detailli {
     list-style: none;
-    border: 1px solid #c1c1c1;
+    border: 1px solid #f4f4f4;
     border-right: 0;
     float: left;
 }
 .detailUl .detailli:nth-child(5) {
-    border-right: 1px solid #c1c1c1;
+    border-right: 1px solid #f4f4f4;
 }
 .detailli.width {
     width: 20%;
@@ -606,18 +608,18 @@ export default {
     padding: 0 auto;
 }
 .detailli.shouhuo:nth-child(3) {
-    border-right: 1px solid #c1c1c1;
+    border-right: 1px solid #f4f4f4;
 }
 .detailli .detail {
     width: 100%;
     height: 38px;
-    background-color: #f1fafd;
+    background-color: #fcfbfc;
     line-height: 38px;
     padding: 0;
     text-align: center;
 }
 .detail.active {
-    border-top: 1px solid #c1c1c1;
+    border-top: 1px solid #f4f4f4;
     background-color: #ffffff;
     font-size: 10px;
 }
@@ -730,5 +732,8 @@ export default {
 }
 .detail.coilor {
     color: #ff8d00;
+}
+.orderDetailData .el-table .has-gutter th {
+    background: #f4f4f4;
 }
 </style>

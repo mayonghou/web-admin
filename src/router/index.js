@@ -1359,6 +1359,32 @@ export default new Router({
           meta: {
             title: '营销专区'
           }
+        }, , {
+          path: '/xiaozhishiList',
+          component: () => import('../components/merchantHoutai/marketingCenter/marketingxizozhishi/xiaozhishiList.vue'),
+          meta: {
+            title: '营销小知识'
+          }
+        },
+
+        {
+          path: '/activityList',
+          component: () => import('../components/merchantHoutai/marketingCenter/activitymarket/activityList.vue'),
+          meta: {
+            title: '营销活动列表'
+          }
+        }, {
+          path: '/activityDetail',
+          component: () => import('../components/merchantHoutai/marketingCenter/activitymarket/activityDetail.vue'),
+          meta: {
+            title: '营销活动详情'
+          }
+        }, {
+          path: '/zhishiDeatil',
+          component: () => import('../components/merchantHoutai/marketingCenter/marketingxizozhishi/zhishiDeatil.vue'),
+          meta: {
+            title: '营销小知识详情'
+          }
         },
         // 营销千里马
         {

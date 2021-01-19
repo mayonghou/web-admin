@@ -8,7 +8,7 @@
             <div class="swDetail-top-b">
                 <div class="banner">
                     <el-carousel height="240px">
-                        <el-carousel-item v-for="item in this.imgUrl" :key="item.index">
+                        <el-carousel-item v-for="(item,index) in this.imgUrl" :key="index">
                             <img width="100%" height="100%" :src="item" />
                         </el-carousel-item>
                     </el-carousel>
@@ -39,7 +39,7 @@
                                 ></el-rate>
                                 <span>
                                     按时完成率
-                                    <span style="color: #409EFF;">{{}}%</span>
+                                    <span style="color: #409EFF;">{{this.baifengbi}}%</span>
                                 </span>
                             </div>
                         </div>
@@ -48,8 +48,18 @@
                         <i style="color: #FF8400;" class="el-icon-phone-outline"></i>
                         <span>联系方式</span>
                         <span style="margin-left: 20px;">{{this.basicInfos.phoneNumber}}</span>
-                        <i style="cursor: pointer;" class="el-icon-view"></i>
-                        <!-- <i style="cursor: pointer;" @click class="el-icon-view"></i> -->
+                        <i
+                            style="cursor: pointer;"
+                            @click="phoho"
+                            v-show="yangStuts ==0"
+                            class="el-icon-view"
+                        ></i>
+                        <i
+                            style="cursor: pointer;"
+                            v-show="yangStuts ==1"
+                            @click="phohoguabu"
+                            class="iconfont icon-biyan"
+                        ></i>
                     </div>
                     <div class="price">
                         <span class="span">指导价：</span>
@@ -74,21 +84,13 @@
                 </div>
                 <div class="Self-introduction">
                     <div style="font-size: 20px;">个人介绍</div>
-                    <div class="Self-introduction-img">
-                        <!-- <img width="206" height="206" src="../../../../assets/img/img.jpg" />
-                        <img width="206" height="206" src="../../../../assets/img/img.jpg" />-->
-                    </div>
+                    <div class="Self-introduction-img"></div>
                     <p class="text">{{this.detailInfos.introduction}}</p>
                 </div>
                 <div class="workpane">
                     <div style="font-size: 20px;">个人及作品方格</div>
                     <ul class="workpaneUL">
-                        <!-- <li class="workpaneLI" v-for="item in checkData" :key="item.index">
-							<span class="shouhangsoujin">{{item.index}}.</span>
-							<span>{{item.text}}</span>
-                        </li>-->
                         <li class="workpaneLI">
-                            <!-- <span class="shouhangsoujin">{{item.index}}.</span> -->
                             <span>{{this.detailInfos.styleDescription}}</span>
                         </li>
                     </ul>
@@ -106,7 +108,6 @@
                     <li class="wordlist-li" v-for="item in this.dataworks" :key="item.id">
                         <div class="li-left">
                             <video class="video" :src="item.video" controls="controls"></video>
-                            <!-- <img class="video" :src="item.video" /> -->
                         </div>
                         <div class="li-right">
                             <div>{{item.name}}</div>
@@ -347,8 +348,6 @@ export default {
             });
         },
         delorderTextList(item) {
-            console.log('sjafikj');
-
             var index = this.order.orderTextList.indexOf(item);
             if (index != -1) {
                 this.order.orderTextList.splice(index, 1);
@@ -627,7 +626,7 @@ export default {
     right: 30px;
 }
 .elInpiut {
-    width: 465px;
+    width: 80%;
     height: 100px;
 }
 .el-textarea__inner {
@@ -648,7 +647,7 @@ export default {
     margin-left: 27%;
 }
 .inputPrice {
-    width: 465px;
+    width: 80%;
 }
 .dialog-footer {
     width: 100%;
@@ -664,7 +663,7 @@ export default {
     font-size: 24px;
 }
 .el-date-editor--daterange.el-input__inner {
-    width: 465px;
+    width: 80%;
 }
 .el-dialog__header {
     background-color: #f0f0f0;

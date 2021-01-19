@@ -22,24 +22,22 @@
 <script>
 export default {
     name: 'marketactivity',
-    data() {
-        return {
-            actDetail: {}
-        };
+    data(){
+        return{
+            actDetail:{}
+        }
     },
-    mounted() {
+    mounted(){
         this.getActivityDetail();
     },
-    methods: {
-        getActivityDetail() {
-            console.log('sjafikj');
-
-            this.$axios.get('admin/admin/market/activity/select/' + this.$route.query.id).then((res) => {
-                if (res.status == 200) {
+    methods:{
+        getActivityDetail(){
+            this.$axios.get('admin/admin/market/activity/select/'+this.$route.query.id).then((res) => {
+                if(res .status == 200){ 
                     let data = res.data;
-                    if (data.code == 200) {
+                    if(data.code == 200){
                         this.actDetail = data.data;
-                    } else {
+                    } else  {
                         this.$message({
                             showClose: true,
                             message: data.msg,
@@ -56,39 +54,39 @@ export default {
             });
         }
     }
-};
+}
 </script>
 
 <style scoped>
-.marketactivity {
-    box-sizing: border-box;
-    padding: 20px;
-    background: #f5f7fc;
-}
-.marketactivity-top {
-    width: 80%;
-    margin: 0 auto;
-}
-.marketactivity-top .top-title {
-    width: 100%;
-    height: 130px;
-    padding: 20px;
-    background: #fff;
-}
-.top-title .title-time {
-    display: flex;
-    justify-content: space-between;
-    padding-left: 45%;
-}
-.title {
-    width: 100%;
-    text-align: center;
-    margin-top: 20px;
-}
-.detail-text {
-    margin-top: 20px;
-}
-.detail-text img {
-    display: block;
-}
+    .marketactivity{
+        box-sizing: border-box;
+        padding: 20px;
+        background: #F5F7FC;
+    }
+    .marketactivity-top{
+        width: 80%;
+        margin: 0 auto;
+    }
+    .marketactivity-top .top-title{
+        width: 100%;
+        height: 130px;
+        padding: 20px;
+        background: #fff;
+    }
+   .top-title .title-time{
+       display: flex;
+       justify-content: space-between;
+        padding-left: 45%;
+   }
+   .title{
+       width: 100%;
+       text-align: center;
+       margin-top: 20px;
+   }
+   .detail-text{
+       margin-top: 20px;
+   }
+   .detail-text img{
+       display: block;
+   }
 </style>

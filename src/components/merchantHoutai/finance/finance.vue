@@ -2,23 +2,34 @@
     <!-- 财务管理列表 -->
     <div class="finance" id="finance">
         <div class="caiwu-top">
-            <div class="account">
-                <el-button class="tixianRecord" type="text">提现记录</el-button>
+            <div class="accounttitle">
+                <!-- <el-button class="tixianRecord" @click="tixianjilu" type="text">提现记录</el-button> -->
                 <div class="account-num">
                     <div class="shoppyee">
                         <label>商户当前余额</label>
                     </div>
-                    <div class="number">
-                        <label>￥5200000520</label>
-                        <i style="margin-left: 10px;" class="iconfont icon-ai-eye"></i>
+                    <div class="numbermoney">
+                        <label style="width: 100px;">￥{{momeyData}}</label>
+                        <i
+                            style="margin-left: 10px; cursor: pointer; font-size: 40px;"
+                            @click="lookmoney"
+                            class="iconfont icon-yanjing"
+                            v-if="moneyboolean == false"
+                        ></i>
+                        <i
+                            v-else
+                            style="margin-left: 10px; cursor: pointer; font-size: 40px;"
+                            @click="lookmoneylist"
+                            class="iconfont icon-biyan1"
+                        ></i>
                     </div>
-                    <el-button @click="tixannum" class="tixian">提现</el-button>
+                    <el-button @click="tixannum" class="tixiansss" round>提现</el-button>
                 </div>
             </div>
             <div class="jiluchaxun">
                 <label style="display: block;">记录查询</label>
                 <div class="search-tinajian">
-                    <el-input class v-model="orderSn" placeholder="输入订单编号"></el-input>
+                    <el-input class="searchinput" v-model="orderSn" clearable placeholder="输入订单编号"></el-input>
                     <i
                         style="font-size: 22px;color: #2494D2;margin-left: 38px;margin-top: 5px; margin-right: 38px;"
                         class="el-icon-date"
@@ -30,15 +41,15 @@
                         start-placeholder="开始日期"
                         end-placeholder="结束日期"
                         value-format="yyyy-MM-dd"
+                        @change="timeData"
                     ></el-date-picker>
-                    <el-button class="chaxunbtn">查询</el-button>
+                    <el-button @click="queryData" class="chaxunbtn">查询</el-button>
                 </div>
             </div>
         </div>
         <div style="height: 30px;"></div>
-        <el-table :data="tableData" style="width: 100%;" border>
+        <el-table :data="tableData" border style="width: 100%;">
             <el-table-column type="index" prop label="序号" align="center" width="80"></el-table-column>
-            <el-table-column type="selection" prop label="序号" align="center" width="80"></el-table-column>
             <el-table-column prop="orderSn" label="流水号" align="center"></el-table-column>
             <el-table-column prop="totalAmount" label="金额" align="center"></el-table-column>
             <el-table-column prop="payTypeList" label="支付平台" align="center"></el-table-column>
@@ -73,19 +84,19 @@
                 <div class="jibenxinxi">
                     <div class="bank">
                         <label class="bank-name">开户银行：</label>
-                        <label class="bank-text">中国工商银行</label>
+                        <label class="bank-text">{{this.companyData.depositBank}}</label>
                     </div>
                     <div class="bank">
                         <label class="bank-name">开户网点：</label>
-                        <label class="bank-text">贵州贵阳观山湖区支行</label>
+                        <label class="bank-text">{{this.companyData.branch}}</label>
                     </div>
                     <div class="bank">
                         <label class="bank-name">账号名称：</label>
-                        <label class="bank-text">贵州万疆烽火科技有限公司</label>
+                        <label class="bank-text">{{this.companyData.name}}</label>
                     </div>
                     <div class="bank">
                         <label class="bank-name">收款账号：</label>
-                        <label class="bank-text">3256413189481894843452</label>
+                        <label class="bank-text">{{this.companyData.bankNumber}}</label>
                     </div>
                 </div>
             </div>
@@ -108,8 +119,14 @@ export default {
             time: '',
             tableData: [],
             page: 1,
-            limit: 20,
+            limit: 10,
             counts: 0,
+            momeyData: '',
+            timeStart: '',
+            timeEnd: '',
+            companyData: {},
+            momeyDataList: '',
+            moneyboolean: '',
             tixianNumber: {
                 money: ''
             },
@@ -124,10 +141,56 @@ export default {
             }
         };
     },
-    mounted() {},
+    mounted() {
+        this.getFinanceData();
+        this.getmoney();
+    },
     methods: {
+        tixianjilu() {
+            this.$router.push({
+                path: './moneyNumber'
+            });
+        },
+        lookmoney() {
+            this.moneyboolean = true;
+            this.momeyData = this.momeyDataList;
+        },
+        lookmoneylist() {
+            this.moneyboolean = false;
+            let nbs = [];
+            for (let i = 0; i < this.momeyData.length; i++) {
+                nbs[i] = this.momeyData[i].replace(this.momeyData[i], '*');
+            }
+            this.momeyData = nbs.join('');
+        },
+
+        // 余额
+        getmoney() {
+            this.$axios.get('admin/financialManagement/accountBalance').then((res) => {
+                if (res.status == 200) {
+                    let data = res.data;
+                    if (data.code == 200) {
+                        this.momeyDataList = data.data / 100 + '';
+                        let money = data.data / 100 + '';
+                        let nbs = [];
+                        for (let i = 0; i < money.length; i++) {
+                            nbs[i] = money[i].replace(money[i], '*');
+                        }
+                        this.momeyData = nbs.join('');
+                    }
+                }
+            });
+        },
         tixannum() {
             this.dialogFormVisible = true;
+            this.$axios.get('admin/company/info/' + localStorage.getItem('loginData')).then((res) => {
+                if (res.status == 200) {
+                    let data = res.data;
+                    if (data.code == 200) {
+                        this.companyData = data.data;
+                    }
+                }
+            });
         },
         // 提现保存
         tixianBaocun() {
@@ -185,6 +248,7 @@ export default {
         // 页面
         handleCurrentChange(val) {
             this.page = val;
+            this.getFinanceData();
         },
         handleSizeChange(val) {
             this.limit = val;
@@ -268,22 +332,19 @@ export default {
 .finance {
     width: 100%;
     box-sizing: border-box;
-    padding: 20px;
+    /* padding: 20px; */
     background: #fafafa;
 }
 .caiwu-top {
     width: 100%;
-    width: 100%;
 }
-.account {
+.accounttitle {
     width: 100%;
-    height: 120px;
-    background-color: #f1fafd;
+    height: 317px;
     text-align: center;
     background: url('../../../assets/img/caiwu.png');
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    padding: 40px 0;
     padding: 40px 0;
 }
 .el-input {
@@ -299,22 +360,24 @@ export default {
     margin: 0 auto;
 }
 .shoppyee {
-    font-size: 18px;
-    color: #101010;
-    padding-top: 10px;
-}
-.number {
-    font-size: 14px;
-    color: #ff8d00;
-    line-height: 58px;
-}
-.account .tixian {
-    width: 95px;
-    height: 80px;
+    font-size: 24px;
     color: #fff;
+    padding-top: 50px;
+}
+.account-num .numbermoney {
+    font-size: 40px;
+    color: #fff;
+    line-height: 100px;
+}
+.accounttitle .tixiansss {
+    background-color: #fff;
+    width: 210px;
+    height: 50px;
+    color: #2450d2;
+    font-size: 30px;
     padding: 0;
-    background-color: #2450d2;
-    border-radius: 8px;
+    border-radius: 50px;
+    border: 3px solid #3b58ff;
 }
 .iconEqan {
     position: relative;
@@ -351,18 +414,18 @@ export default {
     margin-left: 100px;
 }
 .jiluchaxun {
-    padding-left: 20px;
+    padding-left: 30px;
     margin-top: 10px;
 }
-.search-tinajian {
-    margin-top: 10px;
-}
+
 .search-tinajian .chaxunbtn {
     width: 150px;
     height: 30px;
     background: #2450d2;
     color: #ffffff;
-    margin-left: 40px;
     border-radius: 8px;
+}
+.search-tinajian .searchinput {
+    width: 300px;
 }
 </style>

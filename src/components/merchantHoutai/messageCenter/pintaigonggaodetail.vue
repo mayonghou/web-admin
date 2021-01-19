@@ -38,7 +38,6 @@ export default {
             });
         },
         getdetailData() {
-            console.log('daad');
             let id = this.$route.params.id || localStorage.getItem('pingtaiId');
             this.$axios.get('admin/platform/detail?id=' + id).then((res) => {
                 if (res.status == 200) {

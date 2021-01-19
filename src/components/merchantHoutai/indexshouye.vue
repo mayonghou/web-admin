@@ -241,7 +241,6 @@ export default {
                 if (res.status == 200) {
                     var data = res.data;
                     if (data.code == 200) {
-                        console.log(data);
                         this.dataList0 = data.data[0];
                         var https = /^https:\/\/.+$/;
                         if (https.test(data.data[0])) {
@@ -317,6 +316,7 @@ export default {
                                 orient: 'value',
                                 left: 'right',
                                 y: '30%',
+
                                 data: ['男', '女', '保密']
                             },
                             series: [
@@ -411,6 +411,7 @@ export default {
     height: 50px;
     border-radius: 50%;
 }
+
 .StatisticsBulletin {
     display: flex;
     justify-content: space-between;
@@ -424,10 +425,12 @@ export default {
     width: 80%;
     height: 300px;
 }
+
 .StatisticsBulletin .Statistics .echarts {
     width: 100%;
     height: 400px;
 }
+
 .StatisticsBulletin .Bulletin {
     width: 49%;
     font-size: 18px;
@@ -489,6 +492,7 @@ export default {
     height: 100%;
     background-color: #0000ff;
 }
+
 .company-main {
     width: 100%;
     display: flex;
@@ -546,6 +550,7 @@ export default {
     border-radius: 50px;
     margin-top: 3px;
 }
+
 .main-card .card-buttom {
     width: 60%;
     margin: 0 auto;

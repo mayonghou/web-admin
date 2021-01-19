@@ -21,6 +21,14 @@ Vue.use(VueQuillEditor);
 import ViewUI from 'view-design';
 import 'view-design/dist/styles/iview.css';
 Vue.use(ViewUI);
+
+import {
+    HappyScroll
+} from 'vue-happy-scroll'
+//自定义组件名
+Vue.component('happy-scroll', HappyScroll)
+// 引入css
+import 'vue-happy-scroll/docs/happy-scroll.css'
 //bus
 import VueBus from 'vue-bus';
 Vue.use(VueBus);

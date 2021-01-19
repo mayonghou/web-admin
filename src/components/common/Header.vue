@@ -227,7 +227,7 @@ export default {
                     });
                 } else {
                     this.$router.push({
-                        path: './'
+                        path: './product'
                     });
                 }
             }
@@ -263,6 +263,71 @@ export default {
                 }
             }
             this.fullscreen = !this.fullscreen;
+        },
+        buncuanpassword() {
+            // 修改密码
+            this.$refs.password.validate((valid) => {
+                if (valid) {
+                    this.$confirm('是否确定修改密码?', '温馨提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        const loading = this.$loading({
+                            lock: true,
+                            text: '修改中...',
+                            spinner: 'el-icon-loading',
+                            background: 'rgba(0, 0, 0, 0.7)'
+                        });
+                        if (this.password.xinpass != this.password.quedingpass) {
+                            loading.close();
+                            return this.$message({
+                                showClose: true,
+                                message: '您两次输入的密码不一致',
+                                type: 'error'
+                            });
+                        } else {
+                            let password = this.password.quedingpass;
+                            let data = {
+                                avatar: '',
+                                password: this.$md5(password),
+                                userId: parseInt(localStorage.getItem('userIds'))
+                            };
+                            console.log(data);
+                            this.$axios.post('admin/user/edit', data).then((res) => {
+                                console.log(res);
+                                loading.close();
+                                if (res.status == 200) {
+                                    let data = res.data;
+                                    if (data.code == 200) {
+                                        this.$message({
+                                            showClose: true,
+                                            message: data.msg,
+                                            type: 'success'
+                                        });
+                                        this.$router.push({
+                                            path: './Login'
+                                        });
+                                        localStorage.removeItem('token');
+                                    } else {
+                                        this.$message({
+                                            showClose: true,
+                                            message: data.data,
+                                            type: 'error'
+                                        });
+                                    }
+                                } else {
+                                    this.$message({
+                                        showClose: true,
+                                        message: res.data.msg,
+                                        type: 'error'
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
         }
     },
     mounted() {

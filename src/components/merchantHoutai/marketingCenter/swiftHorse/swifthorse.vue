@@ -1,5 +1,8 @@
 <template>
     <div class="swifthorse" id="swifthorse">
+        <div class="myorder">
+            <el-button class="myOrderBtn" @click="myOerder" type="text">我的订单</el-button>
+        </div>
         <div class="swifthorse-top"></div>
         <div class="swifthorse-body">
             <div class="body-top" ref="tabtext">
@@ -17,7 +20,6 @@
                 <div class="experience" @click="zhonghe">
                     <span class="experience-text">综合</span>
                     <span class="experience-shangxia">
-                        <!-- <i class="el-icon-arrow-up"></i> -->
                         <i class="el-icon-arrow-down"></i>
                     </span>
                 </div>
@@ -122,8 +124,6 @@ export default {
             });
         },
         zhonghe() {
-            console.log('sjafikj');
-
             this.countVisitedOrder = 0;
             this.ExperiencesLevelOrder = 0;
             this.getListSidelineUser();
@@ -261,7 +261,8 @@ export default {
 .swifthorse-top {
     width: 100%;
     height: 144px;
-    background: #0000ff;
+    background: url('../../../../assets/img/qianlima.png');
+    background-size: 100% 100%;
 }
 .swifthorse-body {
     width: 100%;
@@ -365,5 +366,14 @@ export default {
     padding-top: 20px;
     width: 100%;
     text-align: center;
+}
+.myorder {
+    width: 100%;
+    text-align: right;
+    background: #ffffff;
+}
+.myorder .myOrderBtn {
+    color: #ff3b31;
+    font-size: 16px;
 }
 </style>

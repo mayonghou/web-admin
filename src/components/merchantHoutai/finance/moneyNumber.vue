@@ -5,26 +5,29 @@
             <div class="jiluchaxun">
                 <label style="display: block;">记录查询</label>
                 <div class="search-tinajian">
-                    <i
-                        style="font-size: 22px;color: #2494D2;margin-left: 38px;margin-top: 5px; margin-right: 38px;"
-                        class="el-icon-date"
-                    ></i>
                     <el-date-picker
-                        prefix-icon="md-date_range"
                         v-model="time"
                         type="daterange"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期"
                         value-format="yyyy-MM-dd"
+                        @change="timeDate"
                     ></el-date-picker>
-                    <el-button class="chaxunbtn">查询</el-button>
+                    <el-select v-model="optionsStatus" placeholder="请选择提现状态" clearable>
+                        <el-option
+                            v-for="(item, index) in options"
+                            :key="index"
+                            :label="item.name"
+                            :value="item.index"
+                        ></el-option>
+                    </el-select>
+                    <el-button @click="queryData" class="chaxunbtn">查询</el-button>
                 </div>
             </div>
         </div>
         <div style="height: 30px;"></div>
-        <el-table :data="tableData" style="width: 100%;" border>
+        <el-table :data="tableData" border style="width: 100%">
             <el-table-column type="index" prop label="序号" align="center" width="80"></el-table-column>
-            <el-table-column type="seleection" prop label="序号" align="center" width="80"></el-table-column>
             <el-table-column prop="withAccount" label="提现金额" align="center"></el-table-column>
             <el-table-column prop="handlename" label="提现状态" align="center"></el-table-column>
             <el-table-column prop="createTime" label="申请时间" align="center"></el-table-column>
@@ -42,10 +45,44 @@
             @current-change="handleCurrentChange"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40]"
-            :page-size="20"
+            :page-size="limit"
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
         ></el-pagination>
+        <el-dialog title="提现申请详情" :visible.sync="dialogFormVisible">
+            <el-form :model="tixianNumber">
+                <el-form-item label="提现企业:" prop="company" :label-width="formLabelWidth">
+                    <label>{{tixianNumber.company}}</label>
+                </el-form-item>
+                <el-form-item label="提现金额:" prop="money" :label-width="formLabelWidth">
+                    <label>{{tixianNumber.money}}</label>
+                </el-form-item>
+                <el-form-item label="状态:" prop="status" :label-width="formLabelWidth">
+                    <label>{{tixianNumber.status}}</label>
+                </el-form-item>
+            </el-form>
+            <div class="account-xinxi">
+                <div class="tixian-xinxi">提现信息:</div>
+                <div class="jibenxinxi">
+                    <div class="bank">
+                        <label class="bank-name">开户银行：</label>
+                        <label class="bank-text">{{this.companyData.depositBank}}</label>
+                    </div>
+                    <div class="bank">
+                        <label class="bank-name">开户网点：</label>
+                        <label class="bank-text">{{this.companyData.branch}}</label>
+                    </div>
+                    <div class="bank">
+                        <label class="bank-name">账号名称：</label>
+                        <label class="bank-text">{{this.companyData.name}}</label>
+                    </div>
+                    <div class="bank">
+                        <label class="bank-name">收款账号：</label>
+                        <label class="bank-text">{{this.companyData.bankNumber}}</label>
+                    </div>
+                </div>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -287,11 +324,8 @@ export default {
 }
 .jiluchaxun {
     padding-left: 20px;
-    margin-top: 10px;
 }
-.search-tinajian {
-    margin-top: 10px;
-}
+
 .search-tinajian .chaxunbtn {
     width: 150px;
     height: 30px;
@@ -299,5 +333,9 @@ export default {
     color: #ffffff;
     margin-left: 40px;
     border-radius: 8px;
+}
+.el-table .lookdetail {
+    background: #4985f0;
+    color: #fff;
 }
 </style>

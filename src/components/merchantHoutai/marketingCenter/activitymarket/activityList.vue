@@ -47,8 +47,6 @@ export default {
             });
         },
         prev_click(e) {
-            console.log('sjafikj');
-
             this.page = e;
             this.getActiviyList();
         },

@@ -15,7 +15,7 @@
                         type="password"
                         placeholder="请输入密码"
                         v-model="param.password"
-                        @keyup.enter.native="submitForm(a)"
+                        @keyup.enter.native="submitForm()"
                     ></el-input>
                 </el-form-item>
             </el-form>

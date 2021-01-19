@@ -21,10 +21,10 @@
 				</template>
 			</el-table-column>
 		</el-table>
-		<el-pagination class="pagintion" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page"
+		<!-- <el-pagination class="pagintion" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page"
 		 :page-sizes="[10, 20, 30, 40]" :page-size="limit" layout="total, sizes, prev, pager, next, jumper" :total="counts">
 		</el-pagination>
-
+ -->
 		<!-- 添加职位 -->
 		<el-dialog title="添加职位" :visible.sync="dialogVisible">
 			<div class="iconEnlarge" @click="enlarge">
@@ -75,7 +75,7 @@
 				tableData: [],
 				counts: this.counts,
 				page: 1,
-				limit: 10,
+				limit: 100,
 				qiyeName: '',
 				Addform: {
 					positionNamea: ''

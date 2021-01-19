@@ -2,10 +2,7 @@
     <div class="xiaoyuer-encapsulation">
         <h3 class="h3">订单详情</h3>
         <div class="countCss">
-            <div class="jbxxBtn">
-                <h3 class="h32">基本信息</h3>
-                <Button type="primary" @click="returnBtn">返回</Button>
-            </div>
+            <h3 class="h32">基本信息</h3>
             <detaila
                 :dataData1="dataData1"
                 :listData1="listData1"
@@ -221,13 +218,6 @@ export default {
             // detaile
         };
     },
-    methods: {
-        returnBtn() {
-            this.$router.push({
-                path: '/viewdata'
-            });
-        }
-    },
     components: {
         detaila,
         detailb,
@@ -241,7 +231,6 @@ export default {
 <style scoped>
 .xiaoyuer-encapsulation {
     padding: 20px;
-    padding-bottom: 120px;
 }
 .h3 {
     padding: 20px 0 0px 0;
@@ -255,10 +244,5 @@ export default {
 .h33 {
     margin-top: 20px;
     padding: 20px 0px;
-}
-.jbxxBtn {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 }
 </style>

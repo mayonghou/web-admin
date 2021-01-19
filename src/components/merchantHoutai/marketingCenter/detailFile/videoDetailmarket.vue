@@ -172,8 +172,6 @@ export default {
         },
         // 视频点赞
         dianzhang(val) {
-            console.log('sjafikj');
-
             this.zan = true;
             let datas = '?videoId=' + val.id + '&zan=' + this.zan;
             this.$axios.get('admin/admin/market/video/video/like' + datas).then((res) => {
