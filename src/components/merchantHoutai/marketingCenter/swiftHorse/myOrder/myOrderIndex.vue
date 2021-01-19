@@ -363,6 +363,7 @@ export default {
                 page: this.page,
                 status: this.status
             };
+            console.log(data);
             this.$axios.post('admin/sideline/order/list', data).then((res) => {
                 if (res.status == 200) {
                     let data = res.data;
@@ -440,7 +441,7 @@ export default {
 .marketOrder {
     padding: 20px;
     box-sizing: border-box;
-    /* background: #fafafa; */
+    background: #fafafa;
 }
 .orderNav {
     width: 80%;

@@ -236,7 +236,6 @@ export default {
                 }
             });
         },
-
         handleSizeChange(val) {
             this.limit = val;
             this.getListSidelineUser();

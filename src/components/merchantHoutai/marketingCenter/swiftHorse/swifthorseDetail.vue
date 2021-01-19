@@ -3,7 +3,7 @@
     <div class="swifthorseDetail" id="swifthorseDetail">
         <div class="swDetail">
             <div class="returnBtn">
-                <el-button style="font-size: 14px;" type="text">返回列表</el-button>
+                <el-button style="font-size: 14px;" @click="returnswifthorse" type="text">返回列表</el-button>
             </div>
             <div class="swDetail-top-b">
                 <div class="banner">
@@ -183,8 +183,9 @@
                 </el-form-item>
                 <el-form-item label="约定成交价格:" prop="orderPrice" :label-width="formLabelWidth">
                     <el-input
-                        v-model.number="order.orderPrice"
+                        v-model="order.orderPrice"
                         class="inputPrice"
+                        oninput="value=value.replace(/[^0-9.]/g,'')"
                         placeholder="请输入约定价格"
                     ></el-input>
                     <div>
@@ -229,10 +230,7 @@ export default {
                 orderEequire: [{ required: true, message: '请输入订单内容', trigger: 'blur' }],
                 orderTextList: [{ required: true, message: '请选择订单sss', trigger: 'blur' }],
                 dataValue: [{ required: true, message: '请选择日期', trigger: 'blur' }],
-                orderPrice: [
-                    { required: true, message: '请输入约定价格', trigger: 'blur' },
-                    { type: 'number', message: '请输入数字', trigger: 'blur' }
-                ]
+                orderPrice: [{ required: true, message: '请输入约定价格', trigger: 'blur' }]
             },
             index: 0,
             imgUrl: [],
@@ -364,6 +362,11 @@ export default {
             let end = this.phohonumber.slice(-4);
             this.basicInfos.phoneNumber = start + '****' + end;
             return this.basicInfos.phoneNumber;
+        },
+        returnswifthorse() {
+            this.$router.push({
+                path: './swifthorse'
+            });
         },
         getProfile() {
             let id = this.$route.query.id;
