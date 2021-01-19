@@ -16,7 +16,8 @@ Vue.directive('dialogDrag', {
             } else {
                 return (dom, attr) => getComputedStyle(dom, false)[attr];
             }
-        })()
+        })
+
 
         dialogHeaderEl.onmousedown = (e) => {
             // 鼠标按下，计算当前元素距离可视区的距离
@@ -24,7 +25,7 @@ Vue.directive('dialogDrag', {
             const disY = e.clientY - dialogHeaderEl.offsetTop;
 
             const screenWidth = document.body.clientWidth; // body当前宽度
-            const screenHeight = document.documentElement.clientHeight; // 可见区域高度(应为body高度，可某些环境下无法获取) 
+            const screenHeight = document.documentElement.clientHeight; // 可见区域高度(应为body高度，可某些环境下无法获取)
 
             const dragDomWidth = dragDom.offsetWidth; // 对话框宽度
             const dragDomheight = dragDom.offsetHeight; // 对话框高度
@@ -49,8 +50,8 @@ Vue.directive('dialogDrag', {
                 styT = +styT.replace(/\px/g, '');
             };
 
-            document.onmousemove = function (e) {
-                // 通过事件委托，计算移动的距离 
+            document.onmousemove = function(e) {
+                // 通过事件委托，计算移动的距离
                 let left = e.clientX - disX;
                 let top = e.clientY - disY;
 
@@ -67,11 +68,11 @@ Vue.directive('dialogDrag', {
                     top = maxDragDomTop;
                 }
 
-                // 移动当前元素  
+                // 移动当前元素
                 dragDom.style.cssText += `;left:${left + styL}px;top:${top + styT}px;`;
             };
 
-            document.onmouseup = function (e) {
+            document.onmouseup = function(e) {
                 document.onmousemove = null;
                 document.onmouseup = null;
             };
