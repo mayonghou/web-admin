@@ -348,6 +348,8 @@ export default {
             });
         },
         delorderTextList(item) {
+            console.log('sjafikj');
+
             var index = this.order.orderTextList.indexOf(item);
             if (index != -1) {
                 this.order.orderTextList.splice(index, 1);

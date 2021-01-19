@@ -48,6 +48,8 @@ export default {
             });
         },
         updatelist() {
+            console.log('fas');
+
             this.$refs.nomanyi.validate((valid) => {
                 if (valid) {
                     this.$confirm('是否确定延期【' + this.nomanyi.time + '】天?', '温馨提示', {

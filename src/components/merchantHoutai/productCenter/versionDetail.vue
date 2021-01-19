@@ -34,6 +34,8 @@ export default {
     },
     methods: {
         getVersion() {
+            console.log('sjafikj');
+
             this.$axios.get('admin/version/queryLastVersion').then((res) => {
                 if (res.status == 200) {
                     let data = res.data;

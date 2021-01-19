@@ -114,6 +114,7 @@ export default {
             this.dialogVisible = true;
         },
         getDataorder() {
+            console.log('sjafikj');
             let id = this.$route.query.data;
             this.$axios.post('admin/sideline/order/query/' + id).then((res) => {
                 if (res.status == 200) {

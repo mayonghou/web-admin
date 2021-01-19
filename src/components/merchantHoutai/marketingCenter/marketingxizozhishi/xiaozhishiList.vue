@@ -46,6 +46,7 @@ export default {
     },
     methods: {
         detaitl(item) {
+            console.log('fas');
             console.log(item.id);
             this.$router.push({
                 path: './zhishiDeatil',

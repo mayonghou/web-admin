@@ -102,6 +102,8 @@ export default {
     mounted() {},
     methods: {
         handleSuccess(res, file, fileList) {
+            console.log('sjafikj');
+
             if (res.code == 200) {
                 this.addproduct.pic.push(res.data);
             } else {

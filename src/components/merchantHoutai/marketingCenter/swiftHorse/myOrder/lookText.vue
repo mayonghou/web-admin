@@ -396,6 +396,8 @@ export default {
             });
         },
         getdataLst() {
+            console.log('fas');
+
             this.$axios.post('admin/sideline/order/query/' + this.$route.query.id).then((res) => {
                 if (res.status == 200) {
                     let data = res.data;

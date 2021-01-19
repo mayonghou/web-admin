@@ -124,6 +124,8 @@ export default {
             });
         },
         zhonghe() {
+            console.log('sjafikj');
+
             this.countVisitedOrder = 0;
             this.ExperiencesLevelOrder = 0;
             this.getListSidelineUser();

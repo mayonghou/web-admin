@@ -109,6 +109,8 @@ export default {
     },
     methods: {
         handleChange(file, fileList) {
+            console.log('sjafikj');
+
             this.addproduct.pic = file.url;
             this.addproduct.file = file;
         },
