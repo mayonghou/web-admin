@@ -48,7 +48,8 @@
                         <i style="color: #FF8400;" class="el-icon-phone-outline"></i>
                         <span>联系方式</span>
                         <span style="margin-left: 20px;">{{this.basicInfos.phoneNumber}}</span>
-                        <i style="cursor: pointer;" @click class="el-icon-view"></i>
+                        <i style="cursor: pointer;" class="el-icon-view"></i>
+                        <!-- <i style="cursor: pointer;" @click class="el-icon-view"></i> -->
                     </div>
                     <div class="price">
                         <span class="span">指导价：</span>
@@ -146,7 +147,7 @@
                     >
                         <el-select v-model="item.sidelineType">
                             <el-option
-                                v-for="(val,i) in item.dataTypeList"
+                                v-for="val in item.dataTypeList"
                                 :key="val.id"
                                 :label="val.name"
                                 :value="val.id"
