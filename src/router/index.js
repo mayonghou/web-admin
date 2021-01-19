@@ -726,6 +726,30 @@ export default new Router({
           }
         },
         {
+          path: '/salesreturn',
+          component: () => import('../components/merchantHoutai/order/returnsales/salesreturn.vue'),
+          // component: Index,
+          meta: {
+            title: '退货申请处理'
+          }
+        },
+        {
+          path: '/returnMoney',
+          component: () => import('../components/merchantHoutai/order/returnsales/returnMoney.vue'),
+          // component: Index,
+          meta: {
+            title: '退货申请中'
+          }
+        },
+        {
+          path: '/returnMoneywuliu',
+          component: () => import('../components/merchantHoutai/order/returnsales/returnMoneywuliu.vue'),
+          // component: Index,
+          meta: {
+            title: '物流退货申请中'
+          }
+        },
+        {
           path: '/orderlistb',
           component: () => import( /* webpackChunkName: "Renting" */ '../view/Order-manger/orderlistb.vue'),
           // component: Index,
@@ -1353,6 +1377,83 @@ export default new Router({
             title: '订单确定'
           }
         },
+        // 营销中心视频详情
+        {
+          path: '/videoDetailmarket',
+          name: 'videoDetailmarket',
+          component: () => import('../components/merchantHoutai/marketingCenter/detailFile/videoDetailmarket.vue'),
+          meta: {
+            title: '视频详情'
+          }
+        },
+        {
+          path: '/myOrderIndex',
+          component: () => import('../components/merchantHoutai/marketingCenter/swiftHorse/myOrder/myOrderIndex.vue'),
+          meta: {
+            title: '我的订单'
+          }
+        },
+        {
+          path: '/lookText',
+          component: () => import('../components/merchantHoutai/marketingCenter/swiftHorse/myOrder/lookText.vue'),
+          meta: {
+            title: '上传文件列表'
+          }
+        },
+        {
+          path: '/bumanyi',
+          component: () => import('../components/merchantHoutai/marketingCenter/swiftHorse/myOrder/bumanyi.vue'),
+          meta: {
+            title: '对作品不满意'
+          }
+        },
+        // 产品中心
+        {
+          path: '/product',
+          component: () => import('../components/merchantHoutai/productCenter/product.vue'),
+          meta: {
+            title: '产品中心'
+          }
+        },
+        {
+          path: '/addproduct',
+          component: () => import('../components/merchantHoutai/productCenter/addproduct.vue'),
+          meta: {
+            title: '新增预设产品'
+          }
+        },
+        {
+          path: '/editproduct',
+          component: () => import('../components/merchantHoutai/productCenter/editproduct.vue'),
+          meta: {
+            title: '修改预设产品'
+          }
+        },
+        {
+          path: '/versionDetail',
+          component: () => import('../components/merchantHoutai/productCenter/versionDetail.vue'),
+          meta: {
+            title: '查看版本详情'
+          }
+        },
+        // 消息中心
+        {
+          path: '/messagelist',
+          component: () => import('../components/merchantHoutai/messageCenter/messagelist.vue'),
+          meta: {
+            title: '消息中心'
+          }
+        },
+        // 平台公告详情
+        {
+          path: '/pintaigonggaodetail',
+          component: () => import('../components/merchantHoutai/messageCenter/pintaigonggaodetail.vue'),
+          meta: {
+            title: '平台公告详情'
+          }
+        },
+
+
       ]
     },
     {

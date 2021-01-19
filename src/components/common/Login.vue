@@ -18,9 +18,6 @@
                         <el-button slot="prepend" icon="el-icon-lx-lock"></el-button>
                     </el-input>
                 </el-form-item>
-                <div class="login-btn">
-                    <el-button type="primary" @click="submitForm">登录</el-button>
-                </div>
             </el-form>
         </div>
     </div>
@@ -79,6 +76,7 @@ export default {
                                     } else {
                                         _this.$router.push('/indexshouye');
                                         _this.$message.success('登录成功');
+                                        // _this.$message.success('登录成功');
                                     }
                                 }
                                 if (data.code != 200) {

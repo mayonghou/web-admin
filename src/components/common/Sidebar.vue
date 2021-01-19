@@ -349,6 +349,14 @@ export default {
                             {
                                 index: 'order',
                                 title: '订单列表'
+                            },
+                            {
+                                index: 'salesreturn',
+                                title: '退货申请处理'
+                            },
+                            {
+                                index: 'salesreturn',
+                                title: '退货申请处理'
                             }
                         ]
                     },

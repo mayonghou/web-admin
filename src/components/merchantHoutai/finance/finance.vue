@@ -38,11 +38,11 @@
         <div style="height: 30px;"></div>
         <el-table :data="tableData" style="width: 1200px;margin: 0 auto;">
             <el-table-column type="index" prop label="序号" align="center" width="80"></el-table-column>
-            <el-table-column prop label="流水号" align="center"></el-table-column>
-            <el-table-column prop label="订单编号" width="150" align="center"></el-table-column>
-            <el-table-column prop label="金额" align="center"></el-table-column>
-            <el-table-column prop label="支付平台" align="center"></el-table-column>
-            <el-table-column prop label="入账时间" align="center"></el-table-column>
+            <el-table-column type="selection" prop label="序号" align="center" width="80"></el-table-column>
+            <el-table-column prop="orderSn" label="流水号" align="center"></el-table-column>
+            <el-table-column prop="totalAmount" label="金额" align="center"></el-table-column>
+            <el-table-column prop="payTypeList" label="支付平台" align="center"></el-table-column>
+            <el-table-column prop="createTime" label="入账时间" align="center"></el-table-column>
         </el-table>
         <!-- 页码 -->
         <el-pagination
