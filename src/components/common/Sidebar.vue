@@ -410,6 +410,21 @@ export default {
                             }
                         ]
                     },
+                    {
+                        icon: require('../../assets/img/icon/caiwu.png'),
+                        index: 'finance',
+                        title: '财务管理',
+                        subs: [
+                            {
+                                index: 'finance',
+                                title: '财务列表'
+                            },
+                            {
+                                index: 'moneyNumber',
+                                title: '提现记录'
+                            }
+                        ]
+                    },
                     // 租房管理
                     {
                         icon: require('../../assets/img/icon/zufangyuechifangzixianxing.png'),
