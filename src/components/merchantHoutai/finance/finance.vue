@@ -334,10 +334,11 @@ export default {
 .finance {
     width: 100%;
     box-sizing: border-box;
-    /* padding: 20px; */
+    padding: 20px;
     background: #fafafa;
 }
 .caiwu-top {
+    width: 100%;
     width: 100%;
 }
 .accounttitle {
@@ -347,6 +348,7 @@ export default {
     background: url('../../../assets/img/caiwu.png');
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    padding: 40px 0;
     padding: 40px 0;
 }
 .el-input {
