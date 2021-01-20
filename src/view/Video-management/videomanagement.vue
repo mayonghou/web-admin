@@ -224,36 +224,49 @@ export default {
             this.$axios
                 .post(url, data)
                 .then((res) => {
-                    var AjaxData = res.data.list;
-                    this.counts = res.data.total;
-                    const statusCode = res.data.code;
-                    this.statusCode = statusCode;
-                    var DataAjax5 = [];
-                    AjaxData.forEach(function (val, index) {
-                        DataAjax5[index] = val;
-                        DataAjax5[index].dataTanle = val.title;
-                        DataAjax5[index].col1 = val.companyName;
-                        DataAjax5[index].col2 = val.publisher;
-                        if (val.productInfo != null) {
-                            DataAjax5[index].col3 = val.productInfo.name; //关联商品名称
+                    if (res.status == 200) {
+                        const statusCode = res.data.code;
+                        this.statusCode = statusCode;
+                        if (res.data.code == 200) {
+                            var AjaxData = res.data.list;
+                            this.counts = res.data.total;
+                            var DataAjax5 = [];
+                            AjaxData.forEach(function (val, index) {
+                                DataAjax5[index] = val;
+                                DataAjax5[index].dataTanle = val.title;
+                                DataAjax5[index].col1 = val.companyName;
+                                DataAjax5[index].col2 = val.publisher;
+                                if (val.productInfo != null) {
+                                    DataAjax5[index].col3 = val.productInfo.name; //关联商品名称
+                                }
+                                if (val.status == 2) {
+                                    DataAjax5[index].col4 = '上架';
+                                } else if (val.status == 3) {
+                                    DataAjax5[index].col4 = '下架';
+                                }
+                                var date = new Date(val.publishAtTime);
+                                var time1 =
+                                    date.getFullYear() +
+                                    '-' +
+                                    (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                                    '-' +
+                                    date.getDate();
+                                DataAjax5[index].col5 = time1;
+                            });
+                            this.$nextTick(() => {
+                                this.Datar5 = DataAjax5;
+                            });
+                        } else {
+                            this.$nextTick(() => {
+                                this.Datar5 = [{ name: '暂无数据！' }];
+                            });
                         }
-                        if (val.status == 2) {
-                            DataAjax5[index].col4 = '上架';
-                        } else if (val.status == 3) {
-                            DataAjax5[index].col4 = '下架';
+                        if (!res.data.list || res.data.list.length == 0) {
+                            this.$nextTick(() => {
+                                this.Datar5 = [{ name: '暂无数据！' }];
+                            });
                         }
-                        var date = new Date(val.publishAtTime);
-                        var time1 =
-                            date.getFullYear() +
-                            '-' +
-                            (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-                            '-' +
-                            date.getDate();
-                        DataAjax5[index].col5 = time1;
-                    });
-                    this.$nextTick(() => {
-                        this.Datar5 = DataAjax5;
-                    });
+                    }
                 })
                 .catch(() => {
                     this.$nextTick(() => {

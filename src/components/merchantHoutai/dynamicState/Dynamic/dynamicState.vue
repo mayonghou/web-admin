@@ -7,10 +7,15 @@
         element-loading-background="rgba(0, 0, 0, 0.7)"
     >
         <div class="activit-top">
-            <div class="activit-label"><label>动态查询</label></div>
+            <div class="activit-label">
+                <label>动态查询</label>
+            </div>
             <div class="activit-search">
                 <el-input class="activit-S" v-model="activitSeach" placeholder="请输入动态关键字"></el-input>
-                <i style="font-size: 22px; color: #2494d2; margin-left: 20px; margin-right: 20px" class="el-icon-date"></i>
+                <i
+                    style="font-size: 22px; color: #2494d2; margin-left: 20px; margin-right: 20px"
+                    class="el-icon-date"
+                ></i>
                 <el-date-picker
                     prefix-icon="md-date_range"
                     v-model="time"
@@ -19,10 +24,14 @@
                     end-placeholder="结束日期"
                     value-format="yyyy-MM-dd"
                     @change="templateTime"
-                >
-                </el-date-picker>
+                ></el-date-picker>
                 <el-select v-model="type" style="margin-left: 20px" placeholder="动态类型">
-                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                    ></el-option>
                 </el-select>
                 <el-button @click="activitQuery" class="query">查询</el-button>
             </div>
@@ -31,15 +40,15 @@
             <el-button @click="activitAdd" class="btn">发布图文动态</el-button>
             <el-button @click="delAllstate" class="delAlltbn">全部删除</el-button>
         </div>
-        <el-table :data="tableData"border style="width: 100%;" @selection-change="changeSelect">
-			<el-table-column type="selection" align="center"></el-table-column>
-            <el-table-column type="index" label="序号" width="" align="center"></el-table-column>
-            <el-table-column prop="details" label="动态详情" align="center" width=""></el-table-column>
-            <el-table-column prop="pushName" label="发布人" align="center" width=""></el-table-column>
-            <el-table-column prop="phone" label="手机号码" align="center" width=""></el-table-column>
-            <el-table-column prop="isOfficial" label="动态类型" align="center" width="">
+        <el-table :data="tableData" border style="width: 100%;" @selection-change="changeSelect">
+            <el-table-column type="selection" align="center"></el-table-column>
+            <el-table-column type="index" label="序号" width align="center"></el-table-column>
+            <el-table-column prop="details" label="动态详情" align="center" width></el-table-column>
+            <el-table-column prop="pushName" label="发布人" align="center" width></el-table-column>
+            <el-table-column prop="phone" label="手机号码" align="center" width></el-table-column>
+            <el-table-column prop="isOfficial" label="动态类型" align="center" width>
                 <template slot-scope="scope">
-                    <label>{{ scope.row.isOfficial == 0 ? '普通动态' : '官方动态' }} </label>
+                    <label>{{ scope.row.isOfficial == 0 ? '普通动态' : '官方动态' }}</label>
                 </template>
             </el-table-column>
             <el-table-column prop="createTime" label="发布时间" width="180" align="center"></el-table-column>
@@ -60,8 +69,7 @@
             :page-size="10"
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
-        >
-        </el-pagination>
+        ></el-pagination>
     </div>
 </template>
 
@@ -91,84 +99,83 @@ export default {
             page: 1,
             limit: 10,
             counts: this.counts,
-			stateID: []
+            stateID: []
         };
     },
     mounted() {
         this.getSelectAllDynamic();
     },
     methods: {
-		changeSelect(val){
-			this.stateID = val;
-		},
-		delAllstate(){
-			var name = [];
-			var id = [];
-			this.stateID.forEach(function(val,index){
-				name[index] = val.pushName;
-				id[index] = val.id;
-			});
-			if(this.stateID == ''){
-				return this.$message({
-					showClose: true,
-					message: '请选择要删除的动态',
-					type: 'error'
-				});
-			}else {
-			this.$confirm('是否确定将【' + name + '】发布的图文动态删除?', '温馨提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning'
-			}).then(() => {
-					const loading = this.$loading({
-						lock: true,
-						text: '批量删除中...',
-						spinner: 'el-icon-loading',
-						background: 'rgba(0, 0, 0, 0.7)'
-					});
-					this.$axios.post('admin/admin/company/delete/bathDelete', id).then((res) => {
-						loading.close();
-						if(res.status == 200){
-							var data = res.data;
-							if(data.code == 200){
-								this.$message({
-									showClose: true,
-									message: data.msg,
-									type: 'success'
-								});
-								this.getSelectAllDynamic();
-							}else {
-								this.$message({
-									showClose: true,
-									message: data.msg,
-									type: 'error'
-								});
-							}
-						}else {
-							this.$message({
-								showClose: true,
-								message: data.msg,
-								type: 'error'
-							});
-						}
-					});
-			});
-				}
-		},
+        changeSelect(val) {
+            this.stateID = val;
+        },
+        delAllstate() {
+            var name = [];
+            var id = [];
+            this.stateID.forEach(function (val, index) {
+                name[index] = val.pushName;
+                id[index] = val.id;
+            });
+            if (this.stateID == '') {
+                return this.$message({
+                    showClose: true,
+                    message: '请选择要删除的动态',
+                    type: 'error'
+                });
+            } else {
+                this.$confirm('是否确定将【' + name + '】发布的图文动态删除?', '温馨提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    const loading = this.$loading({
+                        lock: true,
+                        text: '批量删除中...',
+                        spinner: 'el-icon-loading',
+                        background: 'rgba(0, 0, 0, 0.7)'
+                    });
+                    this.$axios.post('admin/admin/company/delete/bathDelete', id).then((res) => {
+                        loading.close();
+                        if (res.status == 200) {
+                            var data = res.data;
+                            if (data.code == 200) {
+                                this.$message({
+                                    showClose: true,
+                                    message: data.msg,
+                                    type: 'success'
+                                });
+                                this.getSelectAllDynamic();
+                            } else {
+                                this.$message({
+                                    showClose: true,
+                                    message: data.msg,
+                                    type: 'error'
+                                });
+                            }
+                        } else {
+                            this.$message({
+                                showClose: true,
+                                message: data.msg,
+                                type: 'error'
+                            });
+                        }
+                    });
+                });
+            }
+        },
         // 时间戳
         templateTime(value) {
-			if(value != null){
-				var date = new Date(value[0]);
-				var start = date.getTime(date);
-				this.startTime = start;
-				var date1 = new Date(value[1]);
-				var end = date1.getTime(date1);
-				this.endTime = end;
-			} else if(value == null) {
-				this.startTime = '';
-				this.endTime = '';
-			}
-           
+            if (value != null) {
+                var date = new Date(value[0]);
+                var start = date.getTime(date);
+                this.startTime = start;
+                var date1 = new Date(value[1]);
+                var end = date1.getTime(date1);
+                this.endTime = end;
+            } else if (value == null) {
+                this.startTime = '';
+                this.endTime = '';
+            }
         },
         // 活动查询
         activitQuery() {
@@ -231,7 +238,7 @@ export default {
                 path: './editDynamic',
                 query: {
                     data: row,
-					page: this.page
+                    page: this.page
                 }
             });
         },
@@ -258,7 +265,8 @@ export default {
                 pushEndDate: this.endTime,
                 pushStartDate: this.startTime,
                 search: this.activitSeach,
-                type: 2
+                type: 2,
+                company: localStorage.getItem('companyName')
             };
             this.$axios.post('admin/admin/company/selectAllDynamic', data).then((res) => {
                 this.fullscreenLoading = false;
@@ -302,8 +310,8 @@ export default {
 <style>
 .activityList {
     width: 100%;
-	box-sizing: border-box;
-	padding: 20px;
+    box-sizing: border-box;
+    padding: 20px;
 }
 .activit-top {
     width: 100%;
@@ -312,11 +320,11 @@ export default {
 }
 .activit-top .activit-label {
     padding-top: 10px;
-	padding-left: 20px;
+    padding-left: 20px;
 }
 .activit-search {
     margin-top: 13px;
-	padding-left: 20px;
+    padding-left: 20px;
 }
 .activit-search .activit-S {
     width: 200px;
@@ -342,26 +350,26 @@ export default {
     background-color: #2482d2;
     color: #fff;
     border-radius: 8px;
-	padding: 0;
-	font-size: 14px;
-	line-height: 30px;
+    padding: 0;
+    font-size: 14px;
+    line-height: 30px;
 }
-.activit-add .delAlltbn{
-	width: 104px;
-	height: 30px;
-	background-color: #FF0000;
-	color: #fff;
-	border-radius: 8px;
-	padding: 0;
-	font-size: 14px;
-	line-height: 30px;
+.activit-add .delAlltbn {
+    width: 104px;
+    height: 30px;
+    background-color: #ff0000;
+    color: #fff;
+    border-radius: 8px;
+    padding: 0;
+    font-size: 14px;
+    line-height: 30px;
 }
 
 .el-table .lookvideo {
     width: 70px;
     height: 30px;
-	font-size: 14px;
-	line-height: 30px;
+    font-size: 14px;
+    line-height: 30px;
     padding: 0;
     background-color: #2450d2;
     color: #fff;

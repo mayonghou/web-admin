@@ -284,52 +284,65 @@ export default {
             this.$axios
                 .post(url, data)
                 .then((res) => {
-                    const statusCode = res.data.code;
-                    this.statusCode = statusCode;
-                    var AjaxData = res.data.data.dataList;
-                    this.counts = res.data.data.totalCount;
-                    var DataAjax1 = [];
-                    AjaxData.forEach(function (val, index) {
-                        DataAjax1[index] = val;
-                        DataAjax1[index].col1 = val.orderSn;
-                        DataAjax1[index].col2 = val.userName;
-                        DataAjax1[index].col3 = val.companyName;
-                        DataAjax1[index].col4 = val.orderSource;
-                        if (val.payType == 0) {
-                            val.payType = '未支付';
-                        } else if (val.payType == 1) {
-                            val.payType = '支付宝';
-                        } else if (val.payType == 2) {
-                            val.payType = '微信';
+                    if (res.status == 200) {
+                        const statusCode = res.data.code;
+                        this.statusCode = statusCode;
+                        if (res.data.code == 200) {
+                            var AjaxData = res.data.data.dataList;
+                            this.counts = res.data.data.totalCount;
+                            var DataAjax1 = [];
+                            AjaxData.forEach(function (val, index) {
+                                DataAjax1[index] = val;
+                                DataAjax1[index].col1 = val.orderSn;
+                                DataAjax1[index].col2 = val.userName;
+                                DataAjax1[index].col3 = val.companyName;
+                                DataAjax1[index].col4 = val.orderSource;
+                                if (val.payType == 0) {
+                                    val.payType = '未支付';
+                                } else if (val.payType == 1) {
+                                    val.payType = '支付宝';
+                                } else if (val.payType == 2) {
+                                    val.payType = '微信';
+                                }
+                                DataAjax1[index].col5 = val.payType;
+                                if (val.status == 0) {
+                                    val.status = '待付款';
+                                } else if (val.status == 1) {
+                                    val.status = '待发货';
+                                } else if (val.status == 2) {
+                                    val.status = '已发货';
+                                } else if (val.status == 3) {
+                                    val.status = '已完成';
+                                } else if (val.status == 4) {
+                                    val.status = '已关闭';
+                                } else if (val.status == 5) {
+                                    val.status = '无效订单';
+                                }
+                                DataAjax1[index].col6 = val.status;
+                                DataAjax1[index].col7 = val.payAmount / 100;
+                                var date = new Date(val.createTime);
+                                var time1 =
+                                    date.getFullYear() +
+                                    '-' +
+                                    (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                                    '-' +
+                                    date.getDate();
+                                DataAjax1[index].col8 = time1;
+                            });
+                            this.$nextTick(() => {
+                                this.Datar1 = DataAjax1;
+                            });
+                        } else {
+                            this.$nextTick(() => {
+                                this.Datar1 = [{ name: '暂无数据！' }];
+                            });
                         }
-                        DataAjax1[index].col5 = val.payType;
-                        if (val.status == 0) {
-                            val.status = '待付款';
-                        } else if (val.status == 1) {
-                            val.status = '待发货';
-                        } else if (val.status == 2) {
-                            val.status = '已发货';
-                        } else if (val.status == 3) {
-                            val.status = '已完成';
-                        } else if (val.status == 4) {
-                            val.status = '已关闭';
-                        } else if (val.status == 5) {
-                            val.status = '无效订单';
+                        if (!res.data.data.dataList || res.data.dataList.dataList.length == 0) {
+                            this.$nextTick(() => {
+                                this.Datar1 = [{ name: '暂无数据！' }];
+                            });
                         }
-                        DataAjax1[index].col6 = val.status;
-                        DataAjax1[index].col7 = val.payAmount / 100;
-                        var date = new Date(val.createTime);
-                        var time1 =
-                            date.getFullYear() +
-                            '-' +
-                            (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-                            '-' +
-                            date.getDate();
-                        DataAjax1[index].col8 = time1;
-                    });
-                    this.$nextTick(() => {
-                        this.Datar1 = DataAjax1;
-                    });
+                    }
                 })
                 .catch(() => {
                     this.$nextTick(() => {

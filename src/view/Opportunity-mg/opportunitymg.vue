@@ -230,33 +230,43 @@ export default {
             this.$axios
                 .post(url, data)
                 .then((res) => {
-                    if (res.status == 200 && res.data.code == 200) {
+                    if (res.status == 200) {
                         const statusCode = res.data.code;
                         this.statusCode = statusCode;
-                        var AjaxData = res.data.data.dataList;
-                        this.counts = res.data.data.totalCount;
-                        var DataAjax6 = [];
-                        AjaxData.forEach(function (val, index) {
-                            DataAjax6[index] = val;
-                            DataAjax6[index].dataTanle = val.title;
-                            DataAjax6[index].col1 = val.companyName; //发布企业
-                            DataAjax6[index].col2 = val.username;
-                            DataAjax6[index].col3 = val.address;
-                            DataAjax6[index].col4 = val.type;
-                            var date = new Date(val.createTime);
-                            var time1 =
-                                date.getFullYear() +
-                                '-' +
-                                (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-                                '-' +
-                                date.getDate();
-                            DataAjax6[index].col5 = time1;
-                        });
-                        this.$nextTick(() => {
-                            this.Datar6 = DataAjax6;
-                        });
-                    } else {
-                        alert(res.data.msg);
+                        if (statusCode == 200) {
+                            var AjaxData = res.data.data.dataList;
+                            this.counts = res.data.data.totalCount;
+                            var DataAjax6 = [];
+                            AjaxData.forEach(function (val, index) {
+                                DataAjax6[index] = val;
+                                DataAjax6[index].dataTanle = val.title;
+                                DataAjax6[index].col1 = val.companyName; //发布企业
+                                DataAjax6[index].col2 = val.username;
+                                DataAjax6[index].col3 = val.address;
+                                DataAjax6[index].col4 = val.type;
+                                var date = new Date(val.createTime);
+                                var time1 =
+                                    date.getFullYear() +
+                                    '-' +
+                                    (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                                    '-' +
+                                    date.getDate();
+                                DataAjax6[index].col5 = time1;
+                            });
+                            this.$nextTick(() => {
+                                this.Datar6 = DataAjax6;
+                            });
+                        } else {
+                            this.$nextTick(() => {
+                                this.Datar6 = [{ name: '暂无数据！' }];
+                            });
+                        }
+                        const lengthNew = res.data.data.dataList;
+                        if (!lengthNew || lengthNew.length == 0) {
+                            this.$nextTick(() => {
+                                this.Datar6 = [{ name: '暂无数据！' }];
+                            });
+                        }
                     }
                 })
                 .catch(() => {

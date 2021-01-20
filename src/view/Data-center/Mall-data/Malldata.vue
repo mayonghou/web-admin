@@ -37,6 +37,13 @@
                 <rightcode></rightcode>
             </div>
         </div>
+        <div class="midliieClassStyle">
+            <div class="firstChild">
+                <div>asdasd</div>
+                <div>asdasd</div>
+            </div>
+            <div class="secondChild">asdasd</div>
+        </div>
     </div>
 </template>
 
@@ -108,5 +115,22 @@ export default {
 .xiaoyuer-f {
     padding: 10px 0;
     height: auto;
+}
+.midliieClassStyle {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 30px;
+    display: flex;
+    justify-content: space-between;
+}
+.midliieClassStyle .firstChild {
+    background-color: red;
+    flex-grow: 1;
+}
+.midliieClassStyle .secondChild {
+    background-color: gold;
+    width: 320px;
+    box-sizing: border-box;
+    margin-left: 10px;
 }
 </style>

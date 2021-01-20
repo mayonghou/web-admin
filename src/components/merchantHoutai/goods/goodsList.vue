@@ -384,7 +384,7 @@ export default {
 }
 .reat-search {
     display: flex;
-    flex-direction: row;
+    /* flex-direction: row; */
     align-items: center;
 }
 

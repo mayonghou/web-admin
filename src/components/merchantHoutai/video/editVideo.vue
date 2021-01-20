@@ -2,7 +2,7 @@
     <!-- 添加发布的视频 -->
     <div class="addVideo" id="addvideo">
         <div class="videoTop">
-            <label>填写发布的视频</label>
+            <label>编辑视频</label>
         </div>
         <el-form :model="addvideoData" :rules="rules" ref="addvideoData">
             <el-form-item label="封面: " prop="imgUrl" :label-width="labelWidth">
@@ -36,16 +36,28 @@
                     :show-file-list="false"
                     ref="uploadvideo"
                 >
-                    <video
+                    <!-- <video
                         ref="videoPlayer"
-                        width="100%"
-                        height="100%"
+                        width="400"
+                        height="200"
                         controls
                         controlslist="nodownload"
                         v-if="addvideoData.videoUrl"
                         :src="addvideoData.videoUrl"
                         class="video"
-                    ></video>
+                    ></video>-->
+                    <div v-if="addvideoData.videoUrl">
+                        <!-- <span>重新上传</span> -->
+                        <video
+                            ref="videoPlayer"
+                            width="100%"
+                            height="100%"
+                            controls
+                            controlslist="nodownload"
+                            :src="addvideoData.videoUrl"
+                            class="video"
+                        ></video>
+                    </div>
                     <i v-else style="font-size: 30px;" class="el-icon-plus"></i>
                 </el-upload>
             </el-form-item>
@@ -56,9 +68,11 @@
                 <label style="display: block;">{{this.addvideoData.cooper}}</label>
                 <el-button class="el-icon-circle-plus-outline gunliang" @click="cooperShop">关联商品</el-button>
             </el-form-item>
+            <el-form-item label-width="300px">
+                <el-button class="fabushipin" @click="quxiaovideofabvu">取消</el-button>
+                <el-button class="fabushipin" @click="addvideofabvu">发布</el-button>
+            </el-form-item>
         </el-form>
-
-        <el-button class="fabushipin" @click="addvideofabvu">发布</el-button>
 
         <el-dialog title="关联商品" :visible.sync="dialogVisible" width="80%">
             <div class="iconEnlorder" @click="enlarge">
@@ -182,8 +196,16 @@ export default {
             imgUrlData: ''
         };
     },
-    mounted() {},
+    mounted() {
+        this.getEditVideo();
+    },
     methods: {
+        // 取消上架
+        quxiaovideofabvu() {
+            this.$router.push({
+                path: './lowerVideo'
+            });
+        },
         // 关联商品按钮
         cooperShop() {
             this.dialogVisible = true;
@@ -237,7 +259,6 @@ export default {
                         });
                         this.tableData = list;
                         this.counts = data.total;
-                        console.log(data.total);
                     } else {
                         this.$message({
                             showClose: true,
@@ -276,6 +297,7 @@ export default {
                         type: 'warning'
                     }).then(() => {
                         let data = {
+                            id: this.addvideoData.id,
                             coverUrl: this.imgUrlData,
                             contentUrl: this.videoUrldata,
                             industryId: parseInt(localStorage.getItem('industryId')),
@@ -305,6 +327,7 @@ export default {
                                         path: './videoIndex'
                                     });
                                     this.addvideoData.videoUrl = '';
+                                    this.videoUrldata = '';
                                     this.$refs.addvideoData.resetFields();
                                 } else {
                                     this.$message({
@@ -324,6 +347,21 @@ export default {
                     });
                 }
             });
+        },
+        // 获取要重新发布的视频信息
+        getEditVideo() {
+            let data = this.$route.params.data;
+            if (data != undefined) {
+                console.log(data);
+                this.imgUrlData = data.coverUrl;
+                this.videoUrldata = data.contentUrl;
+                this.addvideoData.id = data.id;
+                this.addvideoData.imgUrl = localStorage.getItem('imgUrl') + data.coverUrl;
+                this.addvideoData.videoUrl = localStorage.getItem('imgUrl') + data.contentUrl;
+                this.addvideoData.title = data.title;
+                this.addvideoData.cooper = data.name;
+                this.shoppId = data.productInfo.id;
+            }
         }
     }
 };
@@ -355,6 +393,7 @@ export default {
     width: 400px;
     height: auto;
     /* min-height: 200px; */
+    /* border: 0; */
     /* line-height: 200px; */
 }
 .elInput .el-input__inner {
@@ -414,8 +453,14 @@ export default {
 .addVideo .fabushipin {
     width: 90px;
     height: 30px;
-    margin-left: 35%;
     background-color: #2482d2;
+    color: #fff;
+}
+.addVideo .fabushipin:nth-child(2) {
+    width: 90px;
+    height: 30px;
+    background-color: #2482d2;
+    margin-left: 60px;
     color: #fff;
 }
 .addVideo .el-form-item__label {

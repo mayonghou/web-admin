@@ -195,7 +195,6 @@ export default {
             this.$axios
                 .post(url, data)
                 .then((res) => {
-                    console.log(res);
                     if (res.status == 200) {
                         const statusCode = res.data.code;
                         this.statusCode = statusCode;
@@ -223,6 +222,15 @@ export default {
                             });
                             this.$nextTick(() => {
                                 this.Datar20 = AjaxData20;
+                            });
+                        } else {
+                            this.$nextTick(() => {
+                                this.Datar20 = [{ name: '暂无数据！' }];
+                            });
+                        }
+                        if (!res.data.list || res.data.list.length == 0) {
+                            this.$nextTick(() => {
+                                this.Datar19 = [{ name: '暂无数据！' }];
                             });
                         }
                     }

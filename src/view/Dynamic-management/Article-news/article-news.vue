@@ -222,37 +222,46 @@ export default {
             this.$axios
                 .post(url, data)
                 .then((res) => {
-                    if (res.status == 200 && res.data.code == 200) {
+                    if (res.status == 200) {
                         const statusCode = res.data.code;
                         this.statusCode = statusCode;
-                        var AjaxData = res.data.data;
-                        this.counts = res.data.total;
-                        var DataAjax16 = [];
-                        AjaxData.forEach(function (val, index) {
-                            DataAjax16[index] = val;
-                            DataAjax16[index].col1 = val.title;
-                            DataAjax16[index].col2 = val.companyName; //发布企业
-                            DataAjax16[index].col3 = val.pushName;
-                            if (val.type == 0) {
-                                val.type = '普通动态';
-                            } else if (val.type == 1) {
-                                val.type = '官方动态';
-                            }
-                            DataAjax16[index].col4 = val.type;
-                            var date = new Date(val.pushTime);
-                            var time1 =
-                                date.getFullYear() +
-                                '-' +
-                                (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-                                '-' +
-                                date.getDate();
-                            DataAjax16[index].col5 = time1;
-                        });
-                        this.$nextTick(() => {
-                            this.Datar16 = DataAjax16;
-                        });
-                    } else {
-                        alert(res.data.msg);
+                        if (res.data.code == 200) {
+                            var AjaxData = res.data.data;
+                            this.counts = res.data.total;
+                            var DataAjax16 = [];
+                            AjaxData.forEach(function (val, index) {
+                                DataAjax16[index] = val;
+                                DataAjax16[index].col1 = val.title;
+                                DataAjax16[index].col2 = val.companyName; //发布企业
+                                DataAjax16[index].col3 = val.pushName;
+                                if (val.type == 0) {
+                                    val.type = '普通动态';
+                                } else if (val.type == 1) {
+                                    val.type = '官方动态';
+                                }
+                                DataAjax16[index].col4 = val.type;
+                                var date = new Date(val.pushTime);
+                                var time1 =
+                                    date.getFullYear() +
+                                    '-' +
+                                    (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                                    '-' +
+                                    date.getDate();
+                                DataAjax16[index].col5 = time1;
+                            });
+                            this.$nextTick(() => {
+                                this.Datar16 = DataAjax16;
+                            });
+                        } else {
+                            this.$nextTick(() => {
+                                this.Datar16 = [{ name: '暂无数据！' }];
+                            });
+                        }
+                        if (!res.data.data || res.data.data.length == 0) {
+                            this.$nextTick(() => {
+                                this.Datar16 = [{ name: '暂无数据！' }];
+                            });
+                        }
                     }
                 })
                 .catch(() => {

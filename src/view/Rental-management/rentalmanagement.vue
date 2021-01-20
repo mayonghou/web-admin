@@ -142,7 +142,6 @@ export default {
                     col6: '2020.20.20'
                 }
             ],
-
             page: 1,
             limit: 10,
             counts: this.counts,
@@ -268,36 +267,50 @@ export default {
             this.$axios
                 .post(url, data)
                 .then((res) => {
-                    var AjaxData = res.data.data.data;
-                    this.counts = res.data.data.total;
-                    const statusCode = res.data.code;
-                    this.statusCode = statusCode;
-                    var DataAjax3 = [];
-                    AjaxData.forEach(function (val, index) {
-                        DataAjax3[index] = val;
-                        DataAjax3[index].dataTanle = val.order;
-                        DataAjax3[index].col1 = val.houseTitle;
-                        DataAjax3[index].col2 = val.userCompanyDTO.company.name;
-                        DataAjax3[index].col3 = val.publisher;
-                        DataAjax3[index].col4 = val.typeName;
-                        if (val.status == 2) {
-                            val.status = '上架';
-                        } else if (val.status == 3) {
-                            val.status = '下架';
+                    if (res.status == 200) {
+                        const statusCode = res.data.code;
+                        this.statusCode = statusCode;
+                        if (res.data.code == 200) {
+                            var AjaxData = res.data.data.data;
+                            this.counts = res.data.data.total;
+                            var DataAjax3 = [];
+                            AjaxData.forEach(function (val, index) {
+                                DataAjax3[index] = val;
+                                DataAjax3[index].dataTanle = val.order;
+                                DataAjax3[index].col1 = val.houseTitle;
+                                DataAjax3[index].col2 = val.userCompanyDTO.company.name;
+                                DataAjax3[index].col3 = val.publisher;
+                                DataAjax3[index].col4 = val.typeName;
+                                if (val.status == 2) {
+                                    val.status = '上架';
+                                } else if (val.status == 3) {
+                                    val.status = '下架';
+                                }
+                                DataAjax3[index].col5 = val.status;
+                                var date = new Date(val.createTime);
+                                var time1 =
+                                    date.getFullYear() +
+                                    '-' +
+                                    (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                                    '-' +
+                                    date.getDate();
+                                DataAjax3[index].col6 = time1;
+                            });
+                            this.$nextTick(() => {
+                                this.Datar3 = DataAjax3;
+                            });
+                        } else {
+                            this.$nextTick(() => {
+                                this.Datar3 = [{ name: '暂无数据！' }];
+                            });
                         }
-                        DataAjax3[index].col5 = val.status;
-                        var date = new Date(val.createTime);
-                        var time1 =
-                            date.getFullYear() +
-                            '-' +
-                            (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-                            '-' +
-                            date.getDate();
-                        DataAjax3[index].col6 = time1;
-                    });
-                    this.$nextTick(() => {
-                        this.Datar3 = DataAjax3;
-                    });
+                        const NewArrlength = res.data.data.data;
+                        if (!NewArrlength || NewArrlength.length == 0) {
+                            this.$nextTick(() => {
+                                this.Datar3 = [{ name: '暂无数据！' }];
+                            });
+                        }
+                    }
                 })
                 .catch(() => {
                     this.$nextTick(() => {

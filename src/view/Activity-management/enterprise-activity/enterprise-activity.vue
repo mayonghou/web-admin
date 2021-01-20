@@ -192,29 +192,42 @@ export default {
             this.$axios
                 .post(url, data)
                 .then((res) => {
-                    const statusCode = res.data.code;
-                    this.statusCode = statusCode;
-                    var AjaxData = res.data.list;
-                    this.counts = res.data.total;
-                    var DataAjax14 = [];
-                    AjaxData.forEach(function (val, index) {
-                        DataAjax14[index] = val;
-                        DataAjax14[index].dataTanle = val.order;
-                        DataAjax14[index].col1 = val.title;
-                        DataAjax14[index].col2 = val.companyName;
-                        DataAjax14[index].col3 = val.createByUser;
-                        var date = new Date(val.createTime);
-                        var time1 =
-                            date.getFullYear() +
-                            '-' +
-                            (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-                            '-' +
-                            date.getDate();
-                        DataAjax14[index].col4 = time1;
-                    });
-                    this.$nextTick(() => {
-                        this.Datar14 = DataAjax14;
-                    });
+                    if (res.status == 200) {
+                        const statusCode = res.data.code;
+                        this.statusCode = statusCode;
+                        if (res.data.code == 200) {
+                            var AjaxData = res.data.list;
+                            this.counts = res.data.total;
+                            var DataAjax14 = [];
+                            AjaxData.forEach(function (val, index) {
+                                DataAjax14[index] = val;
+                                DataAjax14[index].dataTanle = val.order;
+                                DataAjax14[index].col1 = val.title;
+                                DataAjax14[index].col2 = val.companyName;
+                                DataAjax14[index].col3 = val.createByUser;
+                                var date = new Date(val.createTime);
+                                var time1 =
+                                    date.getFullYear() +
+                                    '-' +
+                                    (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                                    '-' +
+                                    date.getDate();
+                                DataAjax14[index].col4 = time1;
+                            });
+                            this.$nextTick(() => {
+                                this.Datar14 = DataAjax14;
+                            });
+                        } else {
+                            this.$nextTick(() => {
+                                this.Datar14 = [{ name: '暂无数据！' }];
+                            });
+                        }
+                        if (!res.data.list || res.data.list.length == 0) {
+                            this.$nextTick(() => {
+                                this.Datar14 = [{ name: '暂无数据！' }];
+                            });
+                        }
+                    }
                 })
                 .catch((err) => {
                     this.$nextTick(() => {

@@ -1,6 +1,8 @@
 <template>
     <div class="addDynamic" id="addDynamic">
-        <div class="addDynamic-top"><label style="margin-left: 20px">填写发布的图文动态信息</label></div>
+        <div class="addDynamic-top">
+            <label style="margin-left: 20px">填写发布的图文动态信息</label>
+        </div>
         <el-form :model="forData" :rules="rules" ref="forData">
             <el-form-item label="动态详情:" prop="dynamicDetial" :label-width="labelwidth">
                 <el-input
@@ -12,8 +14,8 @@
                     :show-word-limit="true"
                 ></el-input>
             </el-form-item>
-            <el-form-item label="" prop="dynamicImg" :label-width="labelwidth">
-				<label>{{this.length + '/5'}}</label>
+            <el-form-item label prop="dynamicImg" :label-width="labelwidth">
+                <label>{{this.length + '/5'}}</label>
                 <el-upload
                     class="avatar-uploader"
                     :action="action"
@@ -68,7 +70,7 @@ export default {
             imgUrl: [],
             loading: '',
             imgList: [],
-			length: '',
+            length: 0
         };
     },
     mounted() {},
@@ -77,50 +79,50 @@ export default {
             this.forData.dynamicImg = file.url;
             this.forData.file = file;
             this.imgList = fileList;
-			this.length = fileList.length;
+            this.length = fileList.length;
         },
         removeUpload(file, fileList) {
             this.imgList = fileList;
-			this.length = fileList.length;
+            this.length = fileList.length;
         },
         fmSuccess(response, file, fileList) {
             if (response.code == 200) {
                 this.imgUrl.push(response.data || '');
-				this.length = this.imgUrl.length;
-                if(this.imgUrl.length >= this.imgList.length ) {
-                  let data = {
-                    details: this.forData.dynamicDetial,
-                    type: 2,
-                    url: this.imgUrl.join(','),
-                  }
-                  this.$axios.post('admin/admin/company/insertDynamic', data).then((res) => {
-                    this.loading.close();
-                    if(res.status == 200){
-                      var data = res.data;
-                      if(data.code == 200){
-                        this.$message({
-                          showClose: true,
-                          message: data.msg,
-                          type: 'success'
-                        });
-                        this.$router.push({
-                          path: './dynamicState'
-                        });
-                      } else {
-                        this.$message({
-                          showClose: true,
-                          message: data.msg,
-                          type: 'error'
-                        });
-                      }
-                    } else {
-                      this.$message({
-                        showClose: true,
-                        message: res.data.msg,
-                        type: 'error'
-                      });
-                    }
-                  });
+                this.length = this.imgUrl.length;
+                if (this.imgUrl.length >= this.imgList.length) {
+                    let data = {
+                        details: this.forData.dynamicDetial,
+                        type: 2,
+                        url: this.imgUrl.join(',')
+                    };
+                    this.$axios.post('admin/admin/company/insertDynamic', data).then((res) => {
+                        this.loading.close();
+                        if (res.status == 200) {
+                            var data = res.data;
+                            if (data.code == 200) {
+                                this.$message({
+                                    showClose: true,
+                                    message: data.msg,
+                                    type: 'success'
+                                });
+                                this.$router.push({
+                                    path: './dynamicState'
+                                });
+                            } else {
+                                this.$message({
+                                    showClose: true,
+                                    message: data.msg,
+                                    type: 'error'
+                                });
+                            }
+                        } else {
+                            this.$message({
+                                showClose: true,
+                                message: res.data.msg,
+                                type: 'error'
+                            });
+                        }
+                    });
                 }
             }
         },
@@ -150,13 +152,13 @@ export default {
 <style>
 .addDynamic {
     box-sizing: border-box;
-	width: 100%;
+    width: 100%;
     padding: 20px;
 }
 .addDynamic-top {
-   width: 100%;
+    width: 100%;
     height: 45px;
-    background-color: #FAFBFA;
+    background-color: #fafbfa;
     margin-bottom: 30px;
     line-height: 45px;
 }
@@ -176,7 +178,7 @@ export default {
 .btn-bell .btndds {
     width: 90px;
     height: 30px;
-    background-color: #2450D2;
+    background-color: #2450d2;
     color: #fff;
     padding: 0;
     /* margin-left: 10%; */

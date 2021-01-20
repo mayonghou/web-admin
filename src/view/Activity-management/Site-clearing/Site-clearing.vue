@@ -219,44 +219,57 @@ export default {
             this.$axios
                 .post(url, data)
                 .then((res) => {
-                    const statusCode = res.data.code;
-                    this.statusCode = statusCode;
-                    var AjaxData = res.data.data;
-                    this.counts = res.data.total;
-                    var DataAjax11 = [];
-                    AjaxData.forEach((val, index) => {
-                        DataAjax11[index] = val;
-                        DataAjax11[index].dataTanle = val.order;
-                        DataAjax11[index].col2 = val.companyName;
-                        DataAjax11[index].col3 = val.publishUser;
-                        DataAjax11[index].col4 = val.productDTOList.length + ' ' + '个';
-                        var date = new Date(val.startTime);
-                        var time1 =
-                            date.getFullYear() +
-                            '-' +
-                            (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-                            '-' +
-                            date.getDate();
-                        var date1 = new Date(val.endTime);
-                        var time2 =
-                            date1.getFullYear() +
-                            '-' +
-                            (date1.getMonth() + 1 < 10 ? '0' + (date1.getMonth() + 1) : date1.getMonth() + 1) +
-                            '-' +
-                            date1.getDate();
-                        var date2 = new Date(val.publishTime);
-                        var time3 =
-                            date2.getFullYear() +
-                            '-' +
-                            (date2.getMonth() + 1 < 10 ? '0' + (date2.getMonth() + 1) : date2.getMonth() + 1) +
-                            '-' +
-                            date2.getDate();
-                        DataAjax11[index].col1 = time3;
-                        DataAjax11[index].col5 = time1 + '——' + time2;
-                    });
-                    this.$nextTick(() => {
-                        this.Datar11 = DataAjax11;
-                    });
+                    if (res.status == 200) {
+                        const statusCode = res.data.code;
+                        this.statusCode = statusCode;
+                        if (res.data.code == 200) {
+                            var AjaxData = res.data.data;
+                            this.counts = res.data.total;
+                            var DataAjax11 = [];
+                            AjaxData.forEach((val, index) => {
+                                DataAjax11[index] = val;
+                                DataAjax11[index].dataTanle = val.order;
+                                DataAjax11[index].col2 = val.companyName;
+                                DataAjax11[index].col3 = val.publishUser;
+                                DataAjax11[index].col4 = val.productDTOList.length + ' ' + '个';
+                                var date = new Date(val.startTime);
+                                var time1 =
+                                    date.getFullYear() +
+                                    '-' +
+                                    (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                                    '-' +
+                                    date.getDate();
+                                var date1 = new Date(val.endTime);
+                                var time2 =
+                                    date1.getFullYear() +
+                                    '-' +
+                                    (date1.getMonth() + 1 < 10 ? '0' + (date1.getMonth() + 1) : date1.getMonth() + 1) +
+                                    '-' +
+                                    date1.getDate();
+                                var date2 = new Date(val.publishTime);
+                                var time3 =
+                                    date2.getFullYear() +
+                                    '-' +
+                                    (date2.getMonth() + 1 < 10 ? '0' + (date2.getMonth() + 1) : date2.getMonth() + 1) +
+                                    '-' +
+                                    date2.getDate();
+                                DataAjax11[index].col1 = time3;
+                                DataAjax11[index].col5 = time1 + '——' + time2;
+                            });
+                            this.$nextTick(() => {
+                                this.Datar11 = DataAjax11;
+                            });
+                        } else {
+                            this.$nextTick(() => {
+                                this.Datar11 = DataAjax11;
+                            });
+                        }
+                        if (!res.data.data || res.data.data.length == 0) {
+                            this.$nextTick(() => {
+                                this.Datar11 = DataAjax11;
+                            });
+                        }
+                    }
                 })
                 .catch((err) => {
                     this.$nextTick(() => {

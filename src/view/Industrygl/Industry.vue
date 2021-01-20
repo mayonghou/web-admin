@@ -182,19 +182,32 @@ export default {
             this.$axios
                 .get(url)
                 .then((res) => {
-                    const statusCode = res.data.code;
-                    this.statusCode = statusCode;
-                    var AjaxData = res.data.data;
-                    this.counts = res.data.total;
-                    var DataAjax17 = [];
-                    AjaxData.forEach(function (val, index) {
-                        DataAjax17[index] = val;
-                        DataAjax17[index].col1 = val.name;
-                        DataAjax17[index].col2 = val.remark;
-                    });
-                    this.$nextTick(() => {
-                        this.Datar17 = DataAjax17;
-                    });
+                    if (res.status == 200) {
+                        const statusCode = res.data.code;
+                        this.statusCode = statusCode;
+                        if (res.data.code == 200) {
+                            var AjaxData = res.data.data;
+                            this.counts = res.data.total;
+                            var DataAjax17 = [];
+                            AjaxData.forEach(function (val, index) {
+                                DataAjax17[index] = val;
+                                DataAjax17[index].col1 = val.name;
+                                DataAjax17[index].col2 = val.remark;
+                            });
+                            this.$nextTick(() => {
+                                this.Datar17 = DataAjax17;
+                            });
+                        } else {
+                            this.$nextTick(() => {
+                                this.Datar17 = DataAjax17;
+                            });
+                        }
+                        if (!res.data.data || res.data.data.length == 0) {
+                            this.$nextTick(() => {
+                                this.Datar17 = DataAjax17;
+                            });
+                        }
+                    }
                 })
                 .catch(() => {
                     this.$nextTick(() => {

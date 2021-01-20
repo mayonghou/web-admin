@@ -211,39 +211,52 @@ export default {
             this.$axios
                 .post(url, data)
                 .then((res) => {
-                    const statusCode = res.data.code;
-                    this.statusCode = statusCode;
-                    var AjaxData = res.data.list;
-                    this.counts = res.data.total;
-                    var DataAjax12 = [];
-                    AjaxData.forEach((val, index) => {
-                        DataAjax12[index] = val;
-                        DataAjax12[index].dataTanle = val.order;
-                        DataAjax12[index].col1 = val.title;
-                        DataAjax12[index].col2 = val.companyName;
-                        DataAjax12[index].col3 = val.publisher;
-                        DataAjax12[index].col4 = val.chanceNumPerDay + '次';
-                        DataAjax12[index].col5 = val.winRate + '%';
-                        DataAjax12[index].col6 = val.countPrizeNum + '个';
-                        var date = new Date(val.startTime);
-                        var time1 =
-                            date.getFullYear() +
-                            '-' +
-                            (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-                            '-' +
-                            date.getDate();
-                        var date1 = new Date(val.endTime);
-                        var time2 =
-                            date1.getFullYear() +
-                            '-' +
-                            (date1.getMonth() + 1 < 10 ? '0' + (date1.getMonth() + 1) : date1.getMonth() + 1) +
-                            '-' +
-                            date1.getDate();
-                        DataAjax12[index].col7 = time1 + '——' + time2;
-                    });
-                    this.$nextTick(() => {
-                        this.Datar12 = DataAjax12;
-                    });
+                    if (res.status == 200) {
+                        const statusCode = res.data.code;
+                        this.statusCode = statusCode;
+                        if (res.data.code == 200) {
+                            var AjaxData = res.data.list;
+                            this.counts = res.data.total;
+                            var DataAjax12 = [];
+                            AjaxData.forEach((val, index) => {
+                                DataAjax12[index] = val;
+                                DataAjax12[index].dataTanle = val.order;
+                                DataAjax12[index].col1 = val.title;
+                                DataAjax12[index].col2 = val.companyName;
+                                DataAjax12[index].col3 = val.publisher;
+                                DataAjax12[index].col4 = val.chanceNumPerDay + '次';
+                                DataAjax12[index].col5 = val.winRate + '%';
+                                DataAjax12[index].col6 = val.countPrizeNum + '个';
+                                var date = new Date(val.startTime);
+                                var time1 =
+                                    date.getFullYear() +
+                                    '-' +
+                                    (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                                    '-' +
+                                    date.getDate();
+                                var date1 = new Date(val.endTime);
+                                var time2 =
+                                    date1.getFullYear() +
+                                    '-' +
+                                    (date1.getMonth() + 1 < 10 ? '0' + (date1.getMonth() + 1) : date1.getMonth() + 1) +
+                                    '-' +
+                                    date1.getDate();
+                                DataAjax12[index].col7 = time1 + '——' + time2;
+                            });
+                            this.$nextTick(() => {
+                                this.Datar12 = DataAjax12;
+                            });
+                        } else {
+                            this.$nextTick(() => {
+                                this.Datar12 = DataAjax12;
+                            });
+                        }
+                        if (!res.data.list || res.data.list == 0) {
+                            this.$nextTick(() => {
+                                this.Datar12 = [{ name: '暂无数据！' }];
+                            });
+                        }
+                    }
                 })
                 .catch((err) => {
                     this.$nextTick(() => {

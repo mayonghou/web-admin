@@ -84,7 +84,6 @@ export default {
             page: 1,
             limit: 20,
             counts: this.counts,
-            // value2: ['2016-01-01', '2016-02-15'],
             // 时间段选择
             pickerOptions: {
                 shortcuts: [
@@ -136,46 +135,55 @@ export default {
             this.$axios
                 .get(url)
                 .then((res) => {
-                    if (res.status == 200 && res.data.code == 200) {
+                    if (res.status == 200) {
                         const statusCode = res.data.code;
                         this.statusCode = statusCode;
-                        var AjaxData = res.data.data;
-                        var DataAjax18 = [];
-                        var https = /^https.+$/;
-                        AjaxData.forEach(function (val, index) {
-                            DataAjax18[index] = val;
-                            DataAjax18[index].dataTanle = val.id;
-                            DataAjax18[index].col1 = val.note;
-                            DataAjax18[index].col2 = val.name;
-                            if (val.location == 0) {
-                                val.location = '首页轮播图';
-                            } else if (val.location == 1) {
-                                val.location = '优惠券广告';
-                            } else if (val.location == 2) {
-                                val.location = '折扣专区广告';
-                            } else if (val.location == 3) {
-                                val.location = '清仓处理广告';
-                            } else if (val.location == 4) {
-                                val.location = '抽奖广告';
-                            } else if (val.location == 5) {
-                                val.location = '秒杀广告';
-                            } else if (val.location == 6) {
-                                val.location = '同城团购广告';
-                            } else if (val.location == 7) {
-                                val.location = '限时抢购广告';
-                            }
-                            DataAjax18[index].col4 = val.url;
-                            if (https.test(val.image)) {
-                                DataAjax18[index].col3 = val.image;
-                            } else {
-                                DataAjax18[index].col3 = localStorage.getItem('imgUrl') + val.image;
-                            }
-                        });
-                        this.$nextTick(() => {
-                            this.Datar18 = DataAjax18;
-                        });
-                    } else {
-                        alert(res.data.msg);
+                        if (res.data.code == 200) {
+                            var AjaxData = res.data.data;
+                            var DataAjax18 = [];
+                            var https = /^https.+$/;
+                            AjaxData.forEach(function (val, index) {
+                                DataAjax18[index] = val;
+                                DataAjax18[index].dataTanle = val.id;
+                                DataAjax18[index].col1 = val.note;
+                                DataAjax18[index].col2 = val.name;
+                                if (val.location == 0) {
+                                    val.location = '首页轮播图';
+                                } else if (val.location == 1) {
+                                    val.location = '优惠券广告';
+                                } else if (val.location == 2) {
+                                    val.location = '折扣专区广告';
+                                } else if (val.location == 3) {
+                                    val.location = '清仓处理广告';
+                                } else if (val.location == 4) {
+                                    val.location = '抽奖广告';
+                                } else if (val.location == 5) {
+                                    val.location = '秒杀广告';
+                                } else if (val.location == 6) {
+                                    val.location = '同城团购广告';
+                                } else if (val.location == 7) {
+                                    val.location = '限时抢购广告';
+                                }
+                                DataAjax18[index].col4 = val.url;
+                                if (https.test(val.image)) {
+                                    DataAjax18[index].col3 = val.image;
+                                } else {
+                                    DataAjax18[index].col3 = localStorage.getItem('imgUrl') + val.image;
+                                }
+                            });
+                            this.$nextTick(() => {
+                                this.Datar18 = DataAjax18;
+                            });
+                        } else {
+                            this.$nextTick(() => {
+                                this.Datar18 = [{ name: '暂无数据！' }];
+                            });
+                        }
+                        if (res.data.data || res.data.data.length == 0) {
+                            this.$nextTick(() => {
+                                this.Datar18 = [{ name: '暂无数据！' }];
+                            });
+                        }
                     }
                 })
                 .catch(() => {

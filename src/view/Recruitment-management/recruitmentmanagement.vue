@@ -149,7 +149,6 @@ export default {
                     col6: '2020.20.20'
                 }
             ],
-
             page: 1,
             limit: 10,
             counts: 0,
@@ -159,7 +158,6 @@ export default {
             model2: '',
             model3: '',
             model4: '',
-
             cityList2: [
                 //全部行业
                 {
@@ -184,7 +182,6 @@ export default {
                 }
                 */
             ],
-
             cityList4: [
                 //状态
                 {
@@ -289,35 +286,49 @@ export default {
             this.$axios
                 .post(url, data)
                 .then((res) => {
-                    var AjaxData = res.data.data.data.jobDetailDTOS;
-                    this.counts = res.data.data.total;
-                    const statusCode = res.data.code;
-                    this.statusCode = statusCode;
-                    var DataAjax4 = [];
-                    AjaxData.forEach(function (val, index) {
-                        DataAjax4[index] = val;
-                        DataAjax4[index].dataTanle = val.jobName;
-                        DataAjax4[index].col1 = val.companyName;
-                        DataAjax4[index].col2 = val.contact;
-                        DataAjax4[index].col3 = val.positionType;
-                        DataAjax4[index].col4 = val.industryName;
-                        if (val.status == 2) {
-                            DataAjax4[index].col5 = '上架';
-                        } else if (val.status == 3) {
-                            DataAjax4[index].col5 = '下架';
+                    if (res.status == 200) {
+                        const statusCode = res.data.code;
+                        this.statusCode = statusCode;
+                        if (res.data.code == 200) {
+                            var AjaxData = res.data.data.data.jobDetailDTOS;
+                            this.counts = res.data.data.total;
+                            var DataAjax4 = [];
+                            AjaxData.forEach(function (val, index) {
+                                DataAjax4[index] = val;
+                                DataAjax4[index].dataTanle = val.jobName;
+                                DataAjax4[index].col1 = val.companyName;
+                                DataAjax4[index].col2 = val.contact;
+                                DataAjax4[index].col3 = val.positionType;
+                                DataAjax4[index].col4 = val.industryName;
+                                if (val.status == 2) {
+                                    DataAjax4[index].col5 = '上架';
+                                } else if (val.status == 3) {
+                                    DataAjax4[index].col5 = '下架';
+                                }
+                                var date = new Date(val.publishDate);
+                                var time1 =
+                                    date.getFullYear() +
+                                    '-' +
+                                    (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                                    '-' +
+                                    date.getDate();
+                                DataAjax4[index].col6 = time1;
+                            });
+                            this.$nextTick(() => {
+                                this.Datar4 = DataAjax4;
+                            });
+                        } else {
+                            this.$nextTick(() => {
+                                this.Datar4 = [{ name: '暂无数据！' }];
+                            });
                         }
-                        var date = new Date(val.publishDate);
-                        var time1 =
-                            date.getFullYear() +
-                            '-' +
-                            (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-                            '-' +
-                            date.getDate();
-                        DataAjax4[index].col6 = time1;
-                    });
-                    this.$nextTick(() => {
-                        this.Datar4 = DataAjax4;
-                    });
+                        const NewLeng = res.data.data.data;
+                        if (!NewLeng || NewLeng.length) {
+                            this.$nextTick(() => {
+                                this.Datar4 = [{ name: '暂无数据！' }];
+                            });
+                        }
+                    }
                 })
                 .catch(() => {
                     this.$nextTick(() => {

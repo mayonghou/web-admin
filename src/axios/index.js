@@ -6,8 +6,8 @@ import Axios from 'axios';
 import Qs from 'qs'
 
 const instance = Axios.create({
-    // baseURL: 'https://api.gzwjfh.com//', // api的base_url
-    baseURL: 'http://192.168.0.200:7070/', // api的base_url
+    baseURL: 'https://api.gzwjfh.com//', // api的base_url
+    // baseURL: 'http://192.168.0.200:7070/', // api的base_url
     timeout: 600000, // 请求超时时间
     headers: {
         'token': localStorage.getItem('token'),

@@ -1292,7 +1292,6 @@ export default {
                             wxNumber: this.updateform.WeChat,
                             photo: this.photoUrlimg
                         };
-                        console.log(updateDate);
                         this.$axios.post('admin/company/edit/card', updateDate).then((res) => {
                             loading.close();
                             if (res.status == 200) {
@@ -1343,7 +1342,6 @@ export default {
             this.dialogFormExchange = true;
             this.avatar = row.avatar;
             this.exchangeform.photoUrl = localStorage.getItem('imgUrl') + row.photo;
-            console.log(row);
         },
         // 交换图片上传成功的回调
         exchangeSuccess(response, file, filelist) {
@@ -1383,7 +1381,6 @@ export default {
                             wxNumber: this.exchangeform.WeChat,
                             photo: this.photoUrlimg
                         };
-                        console.log(exchangeDate);
                         this.$axios.post('admin/company/edit/card', exchangeDate).then((res) => {
                             loading.close();
                             if (res.status == 200) {
@@ -1468,7 +1465,6 @@ export default {
         // 当授权管理的id等于编码数组中的编码时就选中
         // 授权管理 弹框
         btn_Kinguser(row) {
-            console.log(row);
             const _this = this;
             _this.name = row.name;
             _this.AlldictionList = [];
@@ -1519,7 +1515,6 @@ export default {
                         var data = res.data;
                         if (data.code == 200) {
                             this.checkList = data.data;
-                            console.log(data.data);
                         } else if (data.code != 200) {
                             this.$message({
                                 showClose: true,
@@ -1938,7 +1933,7 @@ export default {
     height: 30px;
     font-size: 14px;
     color: #fff;
-    border-radius: 50px;
+    /* border-radius: 50px; */
     float: right;
     margin-right: 5px;
     padding: 0 10px;

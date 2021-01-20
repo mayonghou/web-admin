@@ -222,9 +222,9 @@ export default {
                 .then((res) => {
                     if (res.status == 200) {
                         let data = res.data;
+                        const statusCode = res.data.code;
+                        this.statusCode = statusCode;
                         if (data.code == 200) {
-                            const statusCode = res.data.code;
-                            this.statusCode = statusCode;
                             let DataAjax8 = [];
                             data.list.forEach((val, index) => {
                                 DataAjax8[index] = val;
@@ -259,6 +259,14 @@ export default {
                                 showClose: true,
                                 message: data.msg,
                                 type: 'error'
+                            });
+                            this.$nextTick(() => {
+                                this.Datar8 = [{ name: '暂无数据！' }];
+                            });
+                        }
+                        if (!res.data.list || res.data.list.length == 0) {
+                            this.$nextTick(() => {
+                                this.Datar8 = [{ name: '暂无数据！' }];
                             });
                         }
                     } else {

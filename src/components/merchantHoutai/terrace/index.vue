@@ -21,7 +21,6 @@
                         :value="item.id"
                     ></el-option>
                 </el-select>
-
                 <el-date-picker
                     class="asdas"
                     value-format="yyyy-MM-dd"
@@ -49,7 +48,7 @@
             <el-table-column prop="industry" label="所属行业" align="center"></el-table-column>
             <el-table-column prop="teams" label="团队成员" align="center">
                 <template slot-scope="scope">
-                    <el-link :underline="false" @click="JumpRoute">{{scope.row.teams}}人</el-link>
+                    <el-link :underline="false" @click="JumpRoute">{{ scope.row.teams }}人</el-link>
                 </template>
             </el-table-column>
             <el-table-column prop="time" label="入驻时间" align="center"></el-table-column>
@@ -78,14 +77,13 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="page"
-            :page-sizes="[5, 10, 20, 30]"
-            :page-size="10"
+            :page-sizes="[10, 20, 30,40]"
+            :page-size="limit"
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
         ></el-pagination>
     </div>
 </template>
-
 <script>
 export default {
     name: 'terraceIndex',
@@ -111,7 +109,6 @@ export default {
     },
     created() {},
     methods: {
-        // /*
         // 添加企业按钮
         add_enterprise() {
             this.$router
@@ -141,7 +138,6 @@ export default {
         del_enterprise(row) {
             let id = row.id;
             this.$axios.get('admin/company/delete?ids=' + id).then((res) => {
-                console.log(res);
                 if (res.status == 200) {
                     var data = res.data;
                     if (data.code == 200) {
@@ -156,7 +152,10 @@ export default {
         // 管理
         admin(row) {
             this.$router.push({
-                path: './businessmanage'
+                path: './businessmanage',
+                query: {
+                    id: row.company.id
+                }
             });
         },
         edit_enterprise(row) {
@@ -207,10 +206,10 @@ export default {
         // 查询企业
         getTerraceList() {
             var datalist = {
-                page: 1,
+                page: this.page,
                 beginTime: this.time[0],
                 endTime: this.time[1],
-                industryId: 0,
+                industryId: parseInt(localStorage.getItem('loginData')),
                 limit: this.limit,
                 name: this.inputName
             };
@@ -238,6 +237,7 @@ export default {
                             DataList[index].time = time1;
                         });
                         this.tableData = DataList;
+                        this.counts = data.totalCount;
                     } else {
                         this.$message({
                             showClose: true,
@@ -259,7 +259,6 @@ export default {
     }
 };
 </script>
-
 <style scoped>
 @import './style.css';
 </style>

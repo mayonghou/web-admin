@@ -222,38 +222,47 @@ export default {
             this.$axios
                 .post(url, data)
                 .then((res) => {
-                    if (res.status == 200 && res.data.code == 200) {
+                    if (res.status == 200) {
                         const statusCode = res.data.code;
                         this.statusCode = statusCode;
-                        var AjaxData = res.data.data;
-                        this.counts = res.data.total;
-                        var DataAjax15 = [];
-                        AjaxData.forEach(function (val, index) {
-                            DataAjax15[index] = val;
-                            // DataAjax15[index].dataTanle = val.;
-                            DataAjax15[index].col1 = val.details;
-                            DataAjax15[index].col2 = val.companyName; // 发布企业
-                            DataAjax15[index].col3 = val.pushName;
-                            if (val.isOfficial == 0) {
-                                val.type = '普通动态';
-                            } else if (val.isOfficial == 1) {
-                                val.type = '官方动态';
-                            }
-                            DataAjax15[index].col4 = val.type;
-                            var date = new Date(val.pushTime);
-                            var time1 =
-                                date.getFullYear() +
-                                '-' +
-                                (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-                                '-' +
-                                date.getDate();
-                            DataAjax15[index].col5 = time1;
-                        });
-                        this.$nextTick(() => {
-                            this.Datar15 = DataAjax15;
-                        });
-                    } else {
-                        alert(res.data.msg);
+                        if (statusCode == 200) {
+                            var AjaxData = res.data.data;
+                            this.counts = res.data.total;
+                            var DataAjax15 = [];
+                            AjaxData.forEach(function (val, index) {
+                                DataAjax15[index] = val;
+                                // DataAjax15[index].dataTanle = val.;
+                                DataAjax15[index].col1 = val.details;
+                                DataAjax15[index].col2 = val.companyName; // 发布企业
+                                DataAjax15[index].col3 = val.pushName;
+                                if (val.isOfficial == 0) {
+                                    val.type = '普通动态';
+                                } else if (val.isOfficial == 1) {
+                                    val.type = '官方动态';
+                                }
+                                DataAjax15[index].col4 = val.type;
+                                var date = new Date(val.pushTime);
+                                var time1 =
+                                    date.getFullYear() +
+                                    '-' +
+                                    (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                                    '-' +
+                                    date.getDate();
+                                DataAjax15[index].col5 = time1;
+                            });
+                            this.$nextTick(() => {
+                                this.Datar15 = DataAjax15;
+                            });
+                        } else {
+                            this.$nextTick(() => {
+                                this.Datar15 = [{ name: '暂无数据！' }];
+                            });
+                        }
+                        if (!res.data.data || res.data.data.length == 0) {
+                            this.$nextTick(() => {
+                                this.Datar15 = [{ name: '暂无数据！' }];
+                            });
+                        }
                     }
                 })
                 .catch(() => {

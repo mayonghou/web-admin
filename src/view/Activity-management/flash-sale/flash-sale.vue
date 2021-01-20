@@ -198,40 +198,49 @@ export default {
             this.$axios
                 .post(url, data)
                 .then((res) => {
-                    if (res.data.code == 200 && res.data.code == 200) {
+                    if (res.data.code == 200) {
                         const statusCode = res.data.code;
                         this.statusCode = statusCode;
-                        var AjaxData = res.data.data;
-                        this.counts = res.data.total;
-                        var DataAjax13 = [];
-                        AjaxData.forEach((val, index) => {
-                            DataAjax13[index] = val;
-                            DataAjax13[index].dataTanle = val.order;
-                            DataAjax13[index].col1 = val.publishUser;
-                            DataAjax13[index].col2 = val.countSale + '件';
-                            DataAjax13[index].col3 = val.activityPrice / 100 + '￥';
-                            DataAjax13[index].col4 = val.productId;
-                            var date = new Date(val.startTime);
-                            var time1 =
-                                date.getFullYear() +
-                                '-' +
-                                (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-                                '-' +
-                                date.getDate();
-                            var date1 = new Date(val.endTime);
-                            var time2 =
-                                date1.getFullYear() +
-                                '-' +
-                                (date1.getMonth() + 1 < 10 ? '0' + (date1.getMonth() + 1) : date1.getMonth() + 1) +
-                                '-' +
-                                date1.getDate();
-                            DataAjax13[index].col5 = time1 + '——' + time2;
-                        });
-                        this.$nextTick(() => {
-                            this.Datar13 = DataAjax13;
-                        });
-                    } else {
-                        alert(res.data.msg);
+                        if (statusCode == 200) {
+                            var AjaxData = res.data.data;
+                            this.counts = res.data.total;
+                            var DataAjax13 = [];
+                            AjaxData.forEach((val, index) => {
+                                DataAjax13[index] = val;
+                                DataAjax13[index].dataTanle = val.order;
+                                DataAjax13[index].col1 = val.publishUser;
+                                DataAjax13[index].col2 = val.countSale + '件';
+                                DataAjax13[index].col3 = val.activityPrice / 100 + '￥';
+                                DataAjax13[index].col4 = val.productId;
+                                var date = new Date(val.startTime);
+                                var time1 =
+                                    date.getFullYear() +
+                                    '-' +
+                                    (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                                    '-' +
+                                    date.getDate();
+                                var date1 = new Date(val.endTime);
+                                var time2 =
+                                    date1.getFullYear() +
+                                    '-' +
+                                    (date1.getMonth() + 1 < 10 ? '0' + (date1.getMonth() + 1) : date1.getMonth() + 1) +
+                                    '-' +
+                                    date1.getDate();
+                                DataAjax13[index].col5 = time1 + '——' + time2;
+                            });
+                            this.$nextTick(() => {
+                                this.Datar13 = DataAjax13;
+                            });
+                        } else {
+                            this.$nextTick(() => {
+                                this.Datar13 = DataAjax13;
+                            });
+                        }
+                        if (!res.data.data || res.data.data.length == 0) {
+                            this.$nextTick(() => {
+                                this.Datar13 = DataAjax13;
+                            });
+                        }
                     }
                 })
                 .catch((err) => {

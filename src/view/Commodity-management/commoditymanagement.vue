@@ -276,13 +276,12 @@ export default {
                 .post(url, data)
                 .then((res) => {
                     if (res.status == 200 && res.statusText == 'OK') {
-                        var AjaxData = res.data.data.dataList;
+                        const statusCode = res.data.code;
+                        this.statusCode = statusCode;
                         if (res.data.code == 200) {
-                            const statusCode = res.data.code;
-                            this.statusCode = statusCode;
-                            this.counts = res.data.data.totalCount;
                             let https = /^https:\/\/.+$/;
                             var DataAjax0 = [];
+                            var AjaxData = res.data.data.dataList;
                             AjaxData.forEach(function (val, index) {
                                 DataAjax0[index] = val;
                                 DataAjax0[index].col1 = val.name;
@@ -309,8 +308,18 @@ export default {
                                     date.getDate();
                                 DataAjax0[index].col7 = time1;
                             });
+                            this.counts = res.data.data.totalCount;
                             this.$nextTick(() => {
                                 this.Datar0 = DataAjax0;
+                            });
+                        } else {
+                            this.$nextTick(() => {
+                                this.Datar0 = [{ name: '暂无数据！' }];
+                            });
+                        }
+                        if (!res.data.data.dataList || res.data.data.dataList.length == 0) {
+                            this.$nextTick(() => {
+                                this.Datar0 = [{ name: '暂无数据！' }];
                             });
                         }
                     }

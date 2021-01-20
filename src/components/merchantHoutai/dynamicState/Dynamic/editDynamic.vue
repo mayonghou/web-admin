@@ -1,6 +1,8 @@
 <template>
     <div class="addDynamic" id="editDynamic">
-        <div class="addDynamic-top"><label style="margin-left: 20px">编辑发布的图文动态信息</label></div>
+        <div class="addDynamic-top">
+            <label style="margin-left: 20px">编辑发布的图文动态信息</label>
+        </div>
         <el-form :model="editDynamic" :rules="rules" ref="editDynamic">
             <el-form-item label="动态详情:" prop="dynamicDetial" :label-width="labelwidth">
                 <el-input
@@ -12,7 +14,7 @@
                     :show-word-limit="true"
                 ></el-input>
             </el-form-item>
-            <el-form-item label="" prop="dynamicImg" :label-width="labelwidth">
+            <el-form-item label prop="dynamicImg" :label-width="labelwidth">
                 <el-upload
                     class="avatar-uploader"
                     :action="action"
@@ -29,7 +31,7 @@
                 >
                     <i class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
-				<label>{{this.length + '/5'}}</label>
+                <label>{{this.length + '/5'}}</label>
             </el-form-item>
         </el-form>
         <div class="btnbellbtn">
@@ -65,8 +67,8 @@ export default {
             imgList: [],
             pushName: '',
             id: '',
-			listFiel: [],
-			length: ''
+            listFiel: [],
+            length: 0
         };
     },
     mounted() {
@@ -77,38 +79,38 @@ export default {
             this.editDynamic.dynamicImg = file.url;
             this.editDynamic.file = file;
             this.imgList = fileList;
-			this.length = fileList.length;
+            this.length = fileList.length;
         },
         removeUpload(file, fileList) {
             this.imgList = fileList;
-			if(fileList){
-				var ddataUrl = [];
-				let aaa = /\.(png|svg|jpg|gif|woff|woff2|svg|eot|ttf)$/
-				fileList.forEach((val,index) => {
-					if(aaa.test(val.url) == true){
-						ddataUrl[index] = val.url.substring(val.url.lastIndexOf("/image"));
-					}
-				})
-				this.imgList = ddataUrl;
-				this.imgUrl = this.imgList;
-				this.length = this.imgList.length;
-			}
+            if (fileList) {
+                var ddataUrl = [];
+                let aaa = /\.(png|svg|jpg|gif|woff|woff2|svg|eot|ttf)$/;
+                fileList.forEach((val, index) => {
+                    if (aaa.test(val.url) == true) {
+                        ddataUrl[index] = val.url.substring(val.url.lastIndexOf('/image'));
+                    }
+                });
+                this.imgList = ddataUrl;
+                this.imgUrl = this.imgList;
+                this.length = this.imgList.length;
+            }
         },
         fmSuccess(response, file, fileList) {
             if (response.code == 200) {
                 this.imgUrl.push(response.data || '');
             }
-			if(this.imgUrl.length == fileList.length){
-				this.posteditDynamic();
-			}
+            if (this.imgUrl.length == fileList.length) {
+                this.posteditDynamic();
+            }
         },
         posteditDynamic() {
-			let data = {
-			    details: this.editDynamic.dynamicDetial,
-			    type: 2,
-			    url: this.imgUrl.join(','),
-			    id: this.id
-			};
+            let data = {
+                details: this.editDynamic.dynamicDetial,
+                type: 2,
+                url: this.imgUrl.join(','),
+                id: this.id
+            };
             this.$axios.post('admin/admin/company/editDynamic', data).then((res) => {
                 this.loading.close();
                 if (res.status == 200) {
@@ -120,8 +122,8 @@ export default {
                             type: 'success'
                         });
                         this.$router.push({
-                          path: '/dynamicState',
-						  page: this.$route.query.page
+                            path: '/dynamicState',
+                            page: this.$route.query.page
                         });
                     } else {
                         this.$message({
@@ -167,21 +169,22 @@ export default {
             if (data != Object) {
                 this.editDynamic.dynamicDetial = data.details;
                 this.pushName = data.pushName;
-				var imgDataUrl = [];
-				var aaas = /^(https):\/\/.+$/;
-                data.url.split(',').forEach(function(val, index){
-					if(aaas.test(val) == true){
-						imgDataUrl[index] = val;
-					} else {
-						imgDataUrl[index] = localStorage.getItem('imgUrl') + val;
-					}
+                var imgDataUrl = [];
+                var aaas = /^(https):\/\/.+$/;
+                data.url.split(',').forEach(function (val, index) {
+                    if (aaas.test(val) == true) {
+                        imgDataUrl[index] = val;
+                    } else {
+                        imgDataUrl[index] = localStorage.getItem('imgUrl') + val;
+                    }
                 });
-				this.imgList = imgDataUrl;
-				this.listFiel = imgDataUrl.map(i => {
-					var obj = {};
-					obj.url = i;
-					return obj;
-				})
+                this.imgList = imgDataUrl;
+                this.length = imgDataUrl.length;
+                this.listFiel = imgDataUrl.map((i) => {
+                    var obj = {};
+                    obj.url = i;
+                    return obj;
+                });
                 this.id = data.id;
             }
         }
@@ -198,7 +201,7 @@ export default {
 .addDynamic-top {
     box-sizing: border-box;
     height: 45px;
-    background-color: #FAFBFA;
+    background-color: #fafbfa;
     margin-bottom: 30px;
     line-height: 45px;
 }
@@ -208,8 +211,8 @@ export default {
 .textarea {
     width: 750px;
 }
-.textarea .el-input__count{
-	padding: 0;
+.textarea .el-input__count {
+    padding: 0;
 }
 .el-textarea__inner {
     height: 250px;
@@ -221,9 +224,9 @@ export default {
 .btnbellbtn .btndds {
     width: 90px;
     height: 30px;
-	line-height: 30px;
-	font-size: 14px;
-    background-color: #2450D2;
+    line-height: 30px;
+    font-size: 14px;
+    background-color: #2450d2;
     color: #fff;
     padding: 0;
 }

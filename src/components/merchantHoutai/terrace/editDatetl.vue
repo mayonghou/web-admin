@@ -4,36 +4,42 @@
             <div style="width: 100%; clear: both; margin-top: 30px;">
                 <el-button @click="editDetail" class="edit">编辑</el-button>
             </div>
+
             <el-form ref="addform" :model="addform">
                 <div class="add_Top">
-                    <label>企业信息</label>
+                    <label>企业信息：</label>
                     <label class="GS_name">{{this.qyname}}</label>
                     <label class="GS_rz">已入驻</label>
                     <label class="GS_time">入驻日期: {{this.time}}</label>
                 </div>
+
                 <el-form-item label="企业名称:" :label-width="formLabelWidth">
-                    <el-input
-                        class="formWidth form"
-                        v-model="addform.name"
-                        placeholder="请输入"
-                        disabled
-                    ></el-input>
+                    <!-- <el-input
+                            class="formWidth form"
+                            v-model="addform.name"
+                            placeholder="请输入"
+                            disabled
+                    ></el-input>-->
+
+                    <span class="spanData">{{addform.name}}</span>
                 </el-form-item>
                 <el-form-item label="企业简称:" :label-width="formLabelWidth">
-                    <el-input
-                        class="formWidth form"
-                        v-model="addform.remark"
-                        placeholder="请输入"
-                        disabled
-                    ></el-input>
+                    <!-- <el-input
+                            class="formWidth form"
+                            v-model="addform.remark"
+                            placeholder="请输入"
+                            disabled
+                    ></el-input>-->
+                    <span class="spanData">{{addform.remark}}</span>
                 </el-form-item>
                 <el-form-item label="社会统一信用代码:" :label-width="formLabelWidth">
-                    <el-input
-                        class="formWidth form"
-                        v-model="addform.code"
-                        placeholder="请输入"
-                        disabled
-                    ></el-input>
+                    <!-- <el-input
+                            class="formWidth form"
+                            v-model="addform.code"
+                            placeholder="请输入"
+                            disabled
+                    ></el-input>-->
+                    <span class="spanData">{{addform.code}}</span>
                 </el-form-item>
                 <el-form-item label="营业执照:" prop="licenseUrl" :label-width="formLabelWidth">
                     <img
@@ -44,38 +50,46 @@
                     <el-button v-if="addform.licenseUrl" type="text" @click="examineZZ">查看大图</el-button>
                 </el-form-item>
                 <el-form-item label="所属行业:" :label-width="formLabelWidth">
-                    <el-input
-                        class="formWidth form"
-                        v-model="addform.industry"
-                        placeholder="请选择"
-                        disabled
-                    ></el-input>
+                    <!-- <el-input
+                            class="formWidth form"
+                            v-model="addform.industry"
+                            placeholder="请选择"
+                            disabled
+                    ></el-input>-->
+                    <span class="spanData">{{addform.industry}}</span>
                 </el-form-item>
                 <el-form-item label="企业类型:" prop="businessType" :label-width="formLabelWidth">
-                    <el-input class="formWidth form" v-model="addform.businessType" disabled></el-input>
+                    <!-- <el-input class="formWidth form" v-model="addform.businessType" disabled></el-input> -->
+                    <span class="spanData">{{addform.businessType}}</span>
                 </el-form-item>
                 <el-form-item label="注册地址:" :label-width="formLabelWidth">
-                    <el-input class="formWidth form" v-model="addform.registerAddress" disabled></el-input>
+                    <!-- <el-input class="formWidth form" v-model="addform.registerAddress" disabled></el-input> -->
+                    <span class="spanData">{{addform.registerAddress}}</span>
                 </el-form-item>
                 <el-form-item label="经营地址:" :label-width="formLabelWidth">
-                    <el-input class="formWidth form" v-model="addform.address" disabled></el-input>
+                    <!-- <el-input class="formWidth form" v-model="addform.address" disabled></el-input> -->
+                    <span class="spanData">{{addform.address}}</span>
                 </el-form-item>
                 <el-form-item label="注册资本:" :label-width="formLabelWidth">
-                    <el-input class="formWidth form" v-model="addform.registerMoney" disabled></el-input>
-                    <label style="margin-left: 20px;">万</label>
+                    <!-- <el-input class="formWidth form" v-model="addform.registerMoney" disabled></el-input> -->
+                    <span class="spanData">{{addform.registerMoney}}万</span>
+
+                    <!-- <label style="margin-left: 20px;"></label> -->
                 </el-form-item>
                 <el-form-item label="成立日期:" prop="registerTime" :label-width="formLabelWidth">
-                    <el-date-picker
-                        prefix-icon="md-date_range"
-                        v-model="addform.registerTime"
-                        type="date"
-                        class="formWidth form"
-                        placeholder="选择日期"
-                        disabled
-                    ></el-date-picker>
+                    <!-- <el-date-picker
+                            prefix-icon="md-date_range"
+                            v-model="addform.registerTime"
+                            type="date"
+                            class="formWidth form"
+                            placeholder="选择日期"
+                            disabled
+                    ></el-date-picker>-->
+                    <span class="spanData">{{addform.registerTime}}</span>
                 </el-form-item>
                 <el-form-item label="企业电话:" prop="serverPhone" :label-width="formLabelWidth">
-                    <el-input class="formWidth form" v-model="addform.serverPhone" disabled></el-input>
+                    <!-- <el-input class="formWidth form" v-model="addform.serverPhone" disabled></el-input> -->
+                    <span class="spanData">{{addform.serverPhone}}</span>
                 </el-form-item>
                 <el-form-item label="企业背景图:" prop="backgroundImage" :label-width="formLabelWidth">
                     <img
@@ -93,10 +107,12 @@
                 </el-form-item>
                 <div class="add_Top">企业法人</div>
                 <el-form-item label="法人姓名:" prop="legal" :label-width="formLabelWidth">
-                    <el-input class="formWidth form" v-model="addform.legal" disabled></el-input>
+                    <!-- <el-input class="formWidth form" v-model="addform.legal" disabled></el-input> -->
+                    <span class="spanData">{{addform.legal}}</span>
                 </el-form-item>
                 <el-form-item label="身份证号:" prop="identityId" :label-width="formLabelWidth">
-                    <el-input class="formWidth form" v-model="addform.identityId" disabled></el-input>
+                    <!-- <el-input class="formWidth form" v-model="addform.identityId" disabled></el-input> -->
+                    <span class="spanData">{{addform.identityId}}</span>
                 </el-form-item>
                 <el-form-item label="身份证图片:" prop="frontImage" :label-width="formLabelWidth">
                     <img
@@ -113,45 +129,50 @@
                 </el-form-item>
                 <div class="add_Top">企业账号信息</div>
                 <el-form-item label="账号类型:" prop="bankType" :label-width="formLabelWidth">
-                    <el-input class="formWidth form" v-model="addform.bankType" disabled></el-input>
+                    <!-- <el-input class="formWidth form" v-model="addform.bankType" disabled></el-input> -->
+                    <span class="spanData">{{addform.bankType}}</span>
                 </el-form-item>
                 <el-form-item label="开户银行:" prop="depositBank" :label-width="formLabelWidth">
-                    <el-input class="formWidth form" v-model="addform.depositBank" disabled></el-input>
+                    <!-- <el-input class="formWidth form" v-model="addform.depositBank" disabled></el-input> -->
+                    <span class="spanData">{{addform.depositBank}}</span>
                 </el-form-item>
                 <el-form-item label="开户网点:" prop="branch" :label-width="formLabelWidth">
-                    <el-input class="formWidth form" v-model="addform.branch" disabled></el-input>
+                    <!-- <el-input class="formWidth form" v-model="addform.branch" disabled></el-input> -->
+                    <span class="spanData">{{addform.branch}}</span>
                 </el-form-item>
                 <el-form-item label="收款账号:" prop="bankNumber" :label-width="formLabelWidth">
-                    <el-input class="formWidth form" v-model="addform.bankNumber" disabled></el-input>
+                    <!-- <el-input class="formWidth form" v-model="addform.bankNumber" disabled></el-input> -->
+                    <span class="spanData">{{addform.bankNumber}}</span>
                 </el-form-item>
             </el-form>
-            <div style="width: 1200px; margin: 0 auto;">
-                <el-button @click="returnIndex" v-show="loginData == 0" class="addBut">返回</el-button>
-            </div>
-            <el-dialog :visible.sync="dialogVisiblebg">
-                <img width="100%" height="100%" :src="imageBGUrl" alt />
-            </el-dialog>
-            <el-dialog :visible.sync="dialogVisiblezz">
-                <img width="100%" height="100%" :src="imageZZUrl" alt />
-            </el-dialog>
-            <el-dialog :visible.sync="dialogVisiblogo">
-                <img width="100%" height="100%" :src="this.addform.logoUrl" alt />
-            </el-dialog>
-            <el-dialog :visible.sync="dialogVisibbackImage">
-                <img width="100%" height="100%" :src="this.addform.backImage" alt />
-            </el-dialog>
-            <el-dialog :visible.sync="dialogVisibfrontImage">
-                <img width="100%" height="100%" :src="this.addform.frontImage" alt />
-            </el-dialog>
+            <!-- <div style="width: 1200px; margin: 0 auto;">
+                    <el-button @click="returnIndex" v-show="loginData == 0" class="addBut">返回</el-button>
+            </div>-->
         </div>
+        <el-dialog :visible.sync="dialogVisiblebg">
+            <img width="100%" height="100%" :src="imageBGUrl" alt />
+        </el-dialog>
+        <el-dialog :visible.sync="dialogVisiblezz">
+            <img width="100%" height="100%" :src="imageZZUrl" alt />
+        </el-dialog>
+        <el-dialog :visible.sync="dialogVisiblogo">
+            <img width="100%" height="100%" :src="this.addform.logoUrl" alt />
+        </el-dialog>
+        <el-dialog :visible.sync="dialogVisibbackImage">
+            <img width="100%" height="100%" :src="this.addform.backImage" alt />
+        </el-dialog>
+        <el-dialog :visible.sync="dialogVisibfrontImage">
+            <img width="100%" height="100%" :src="this.addform.frontImage" alt />
+        </el-dialog>
     </div>
+    <!-- </div> -->
 </template>
 
 <script>
 export default {
     data() {
         return {
-            formLabelWidth: '220px',
+            formLabelWidth: '300px',
             qyID: '',
             fileList: '',
             dialogVisiblebg: false,
@@ -279,7 +300,6 @@ export default {
                 this.$axios.get('admin/company/info/' + loginData).then((res) => {
                     if (res.status == 200) {
                         var data = res.data;
-                        // this.data = data.data;
                         if (data.code == 200) {
                             this.addform = data.data;
                             this.qyname = this.addform.name;

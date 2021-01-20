@@ -226,9 +226,9 @@ export default {
                 .then((res) => {
                     if (res.status == 200) {
                         let data = res.data;
+                        const statusCode = res.data.code;
+                        this.statusCode = statusCode;
                         if (data.code == 200) {
-                            const statusCode = res.data.code;
-                            this.statusCode = statusCode;
                             let newData = data.data;
                             this.counts = res.data.totalCount;
                             let DataAjax2 = [];
@@ -255,6 +255,15 @@ export default {
                                 DataAjax2[index].col5 = time1;
                             });
                             this.Datar2 = DataAjax2;
+                        } else {
+                            this.$nextTick(() => {
+                                this.Datar2 = [{ name: '暂无数据！' }];
+                            });
+                        }
+                        if (!res.data.data || res.data.data.length == 0) {
+                            this.$nextTick(() => {
+                                this.Datar2 = [{ name: '暂无数据！' }];
+                            });
                         }
                     }
                 })

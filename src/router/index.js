@@ -233,7 +233,6 @@ export default new Router({
           // component: Index,
           meta: {
             title: '招聘管理',
-            title: '招聘列表'
           }
         },
         {
@@ -951,7 +950,16 @@ export default new Router({
           meta: {
             title: '添加视频'
           }
-        },
+        }, {
+          path: '/editVideo',
+          name: 'editVideo',
+          component: () => import('../components/merchantHoutai/video/editVideo.vue'),
+          // component: Index,
+          meta: {
+            title: '编辑视频'
+          }
+
+        }, ,
         {
           path: '/detailVideo',
           component: () => import('../components/merchantHoutai/video/detailVideo.vue'),
@@ -975,16 +983,33 @@ export default new Router({
         // },
         {
           path: '/addcouponControl',
+          name: 'addcouponControl',
           component: () => import('../components/merchantHoutai/couponControl/addcouponControl.vue'),
           meta: {
-            title: '发布优惠券--满减'
+            title: '发布满减券'
           }
         },
         {
           path: '/addcouponControlvoucher',
+          name: 'addcouponControlvoucher',
           component: () => import('../components/merchantHoutai/couponControl/addcouponControlvoucher.vue'),
           meta: {
-            title: '发布优惠券--代金'
+            title: '发布代金券'
+          }
+        },
+        {
+          path: '/editcouponControl',
+          name: 'editcouponControl',
+          component: () => import('../components/merchantHoutai/couponControl/editcouponControl.vue'),
+          meta: {
+            title: '编辑满减券'
+          }
+        }, {
+          path: '/editcouponControlvoucher',
+          name: 'editcouponControlvoucher',
+          component: () => import('../components/merchantHoutai/couponControl/editcouponControlvoucher.vue'),
+          meta: {
+            title: '编辑代金券'
           }
         },
         {

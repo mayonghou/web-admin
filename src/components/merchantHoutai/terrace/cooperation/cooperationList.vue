@@ -121,6 +121,7 @@
 
             <div class="recommend" v-if="this.recommend != ''">
                 <div style="font-size: 20px; font-weight: bold;">平台推荐:</div>
+                {{ this.recommend}}
                 <el-row>
                     <el-col :span="6" v-for="(item,index) in this.recommend" :key="index">
                         <div class="grid-content bg-purple">

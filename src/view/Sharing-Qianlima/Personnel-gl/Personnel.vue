@@ -237,15 +237,6 @@ export default {
             },
             NewPatrn: '',
             idData: '',
-            statusDataXiaoyuer: {
-                colr1: '你两次输入的密码不一致！',
-                colr2: '请输入确认密码！',
-                colr3: '请输入新密码！',
-                colr4: '你未修改密码！',
-                colr5: '输入密码至少为6位！且校验密码：只能输入6-20个字母、数字、下划线！',
-                colr6: '输入密码不能超过20位！',
-                colr7: '格式不正确，只能输入6-20个字母、数字、下划线'
-            },
             statusCode: ''
         };
     },
@@ -348,48 +339,57 @@ export default {
             this.$axios
                 .post(url, data)
                 .then((res) => {
-                    const statusCode = res.data.code;
-                    this.statusCode = statusCode;
-                    if (res.status == 200 && res.data.code == 200) {
-                        var AjaxData = res.data.list;
-                        this.counts = res.data.total;
-                        var DataAjax19 = [];
-                        AjaxData.forEach(function (val, index) {
-                            DataAjax19[index] = val;
-                            DataAjax19[index].col1 = val.userName;
-                            DataAjax19[index].col2 = val.career;
-                            DataAjax19[index].col3 = val.phoneNumber;
-                            DataAjax19[index].col4 = val.userAccount;
-                            DataAjax19[index].col5 = val.orderNum;
-                            DataAjax19[index].col6 = val.sidelineTypeName;
-                            var date = new Date(val.loginTime);
-                            var time1 =
-                                date.getFullYear() +
-                                '-' +
-                                (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-                                '-' +
-                                date.getDate();
-                            DataAjax19[index].col7 = time1;
-                            var date1 = new Date(val.createTime);
-                            var time2 =
-                                date.getFullYear() +
-                                '-' +
-                                (date1.getMonth() + 1 < 10 ? '0' + (date1.getMonth() + 1) : date1.getMonth() + 1) +
-                                '-' +
-                                date1.getDate();
-                            DataAjax19[index].col8 = time2;
-                            if (val.businessStatus == 0) {
-                                val.businessStatus = '关闭';
-                            } else if (val.businessStatus == 1) {
-                                val.businessStatus = '开放';
-                            }
-                            DataAjax19[index].col9 = val.businessStatus;
-                        });
-                        this.$nextTick(() => {
-                            this.Datar19 = DataAjax19;
-                        });
-                    } else {
-                        alert(this.data.msg);
+                    if (res.status == 200) {
+                        const statusCode = res.data.code;
+                        this.statusCode = statusCode;
+                        if (res.data.code == 200) {
+                            var AjaxData = res.data.list;
+                            this.counts = res.data.total;
+                            var DataAjax19 = [];
+                            AjaxData.forEach(function (val, index) {
+                                DataAjax19[index] = val;
+                                DataAjax19[index].col1 = val.userName;
+                                DataAjax19[index].col2 = val.career;
+                                DataAjax19[index].col3 = val.phoneNumber;
+                                DataAjax19[index].col4 = val.userAccount;
+                                DataAjax19[index].col5 = val.orderNum;
+                                DataAjax19[index].col6 = val.sidelineTypeName;
+                                var date = new Date(val.loginTime);
+                                var time1 =
+                                    date.getFullYear() +
+                                    '-' +
+                                    (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                                    '-' +
+                                    date.getDate();
+                                DataAjax19[index].col7 = time1;
+                                var date1 = new Date(val.createTime);
+                                var time2 =
+                                    date.getFullYear() +
+                                    '-' +
+                                    (date1.getMonth() + 1 < 10 ? '0' + (date1.getMonth() + 1) : date1.getMonth() + 1) +
+                                    '-' +
+                                    date1.getDate();
+                                DataAjax19[index].col8 = time2;
+                                if (val.businessStatus == 0) {
+                                    val.businessStatus = '关闭';
+                                } else if (val.businessStatus == 1) {
+                                    val.businessStatus = '开放';
+                                }
+                                DataAjax19[index].col9 = val.businessStatus;
+                            });
+                            this.$nextTick(() => {
+                                this.Datar19 = DataAjax19;
+                            });
+                        } else {
+                            this.$nextTick(() => {
+                                this.Datar19 = [{ name: '暂无数据！' }];
+                            });
+                        }
+                        if (!res.data.list || res.data.list.length == 0) {
+                            this.$nextTick(() => {
+                                this.Datar19 = [{ name: '暂无数据！' }];
+                            });
+                        }
                     }
                 })
                 .catch((err) => {

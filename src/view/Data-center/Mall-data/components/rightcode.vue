@@ -65,22 +65,6 @@ export default {
                 {
                     companyName: '香江酒店',
                     NumData: '456'
-                },
-                {
-                    companyName: '香江酒店',
-                    NumData: '456'
-                },
-                {
-                    companyName: '香江酒店',
-                    NumData: '456'
-                },
-                {
-                    companyName: '香江酒店',
-                    NumData: '456'
-                },
-                {
-                    companyName: '香江酒店',
-                    NumData: '456'
                 }
             ]
         };

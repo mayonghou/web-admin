@@ -214,42 +214,51 @@ export default {
             this.$axios
                 .post(url, data)
                 .then((res) => {
-                    if (res.status == 200 && res.data.code == 200) {
+                    if (res.status == 200) {
                         const statusCode = res.data.code;
                         this.statusCode = statusCode;
-                        var Datar = res.data.list;
-                        this.counts = res.data.total;
-                        var DataAjax7 = [];
-                        Datar.forEach(function (val, index) {
-                            DataAjax7[index] = val;
-                            DataAjax7[index].dataTanle = val.order;
-                            DataAjax7[index].col1 = val.activityTitle;
-                            DataAjax7[index].col2 = val.companyName;
-                            DataAjax7[index].col3 = val.publisher;
-                            DataAjax7[index].col4 = val.countReceived;
-                            DataAjax7[index].col5 = val.countUsed;
-                            DataAjax7[index].col6 = val.couponName;
-                            var date = new Date(val.startTime);
-                            var time1 =
-                                date.getFullYear() +
-                                '-' +
-                                (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-                                '-' +
-                                date.getDate();
-                            var date1 = new Date(val.endTime);
-                            var time2 =
-                                date1.getFullYear() +
-                                '-' +
-                                (date1.getMonth() + 1 < 10 ? '0' + (date1.getMonth() + 1) : date1.getMonth() + 1) +
-                                '-' +
-                                date1.getDate();
-                            DataAjax7[index].col7 = time1 + '——' + time2;
-                        });
-                        this.$nextTick(() => {
-                            this.Datar7 = DataAjax7;
-                        });
-                    } else {
-                        alert(res.data.msg);
+                        if (statusCode == 200) {
+                            var Datar = res.data.list;
+                            this.counts = res.data.total;
+                            var DataAjax7 = [];
+                            Datar.forEach(function (val, index) {
+                                DataAjax7[index] = val;
+                                DataAjax7[index].dataTanle = val.order;
+                                DataAjax7[index].col1 = val.activityTitle;
+                                DataAjax7[index].col2 = val.companyName;
+                                DataAjax7[index].col3 = val.publisher;
+                                DataAjax7[index].col4 = val.countReceived;
+                                DataAjax7[index].col5 = val.countUsed;
+                                DataAjax7[index].col6 = val.couponName;
+                                var date = new Date(val.startTime);
+                                var time1 =
+                                    date.getFullYear() +
+                                    '-' +
+                                    (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                                    '-' +
+                                    date.getDate();
+                                var date1 = new Date(val.endTime);
+                                var time2 =
+                                    date1.getFullYear() +
+                                    '-' +
+                                    (date1.getMonth() + 1 < 10 ? '0' + (date1.getMonth() + 1) : date1.getMonth() + 1) +
+                                    '-' +
+                                    date1.getDate();
+                                DataAjax7[index].col7 = time1 + '——' + time2;
+                            });
+                            this.$nextTick(() => {
+                                this.Datar7 = DataAjax7;
+                            });
+                        } else {
+                            this.$nextTick(() => {
+                                this.Datar7 = [{ name: '暂无数据！' }];
+                            });
+                        }
+                        if (!res.data.list || res.data.list.length == 0) {
+                            this.$nextTick(() => {
+                                this.Datar7 = [{ name: '暂无数据！' }];
+                            });
+                        }
                     }
                 })
                 .catch(() => {

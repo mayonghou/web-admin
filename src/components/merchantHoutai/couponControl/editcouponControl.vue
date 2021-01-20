@@ -1,58 +1,57 @@
 <template>
-    <div class="addcouponControlvoucher" id="addcouponControlvoucher">
-        <!-- 代金卷 -->
+    <div class="addcouponControl" id="addcouponControl">
+        <!-- 满减卷 -->
         <div class="coupon-top">
-            <label>填写发布的优惠券信息</label>
+            <label>编辑满减优惠券信息</label>
         </div>
-        <el-form :model="addcoupons" :rules="rules" ref="addcoupons">
+        <el-form :model="addcoupon" :rules="rules" ref="addcoupon">
             <el-form-item label="优惠券名称:" prop="couName" :label-width="labelWidth">
-                <el-input
-                    class="Elinput"
-                    v-model="addcoupons.couName"
-                    placeholder="例如:全场优惠24元,点击立抢"
-                ></el-input>
+                <el-input class="Elinput" v-model="addcoupon.couName" placeholder="例如:全场优惠24元,点击立抢"></el-input>
             </el-form-item>
             <el-form-item label="可使用商品:" prop="radio" :label-width="labelWidth">
-                <el-radio v-model="addcoupons.radio" label="1">全场通用</el-radio>
-                <el-radio v-model="addcoupons.radio" label="2">指定商品</el-radio>
+                <el-radio v-model="addcoupon.radio" :label="radioOne">全场通用</el-radio>
+                <el-radio v-model="addcoupon.radio" :label="radioTwo">指定商品</el-radio>
             </el-form-item>
             <el-form-item
                 label="选择活动商品:"
-                v-if="addcoupons.radio == 2"
+                v-if="addcoupon.radio == 2"
                 prop="selhdcoupon"
                 :label-width="labelWidth"
             >
-                <div v-if="addcoupons.selhdcoupon != ''">
-                    <label class="seleLabel">{{addcoupons.selhdcoupon}}</label>
+                <div v-if="addcoupon.selhdcoupon != ''">
+                    <label class="seleLabel">{{addcoupon.selhdcoupon}}</label>
                     <el-button class="selectBtn" @click="guanlian">重新关联</el-button>
                 </div>
                 <el-button
                     @click="guanlian"
-                    v-else-if="addcoupons.selhdcoupon == ''"
+                    v-else-if="addcoupon.selhdcoupon == ''"
                     class="el-icon-circle-plus-outline couponSel"
-                >关联商品</el-button>
+                >关联优惠券</el-button>
             </el-form-item>
-            <el-form-item label="规则:" prop="price" :label-width="labelWidth">
-                <label class>抵扣</label>
-                <el-input class="inputEl" v-model.number="addcoupons.price" placeholder="价格"></el-input>
+            <el-form-item label="规格:" prop="price" :label-width="labelWidth">
+                <label class>满</label>
+                <el-input class="inputEl" v-model.number="addcoupon.price" placeholder="价格"></el-input>
+                <label class>元</label>
+                <label class style="margin-left: 10px;">减</label>
+                <el-input class="inputEl" v-model="addcoupon.prices" placeholder="价格" ref="prices"></el-input>
                 <label class>元</label>
             </el-form-item>
             <el-form-item label="有效期:" prop="time" :label-width="labelWidth">
-                <el-input class="Elinput" v-model.number="addcoupons.time" placeholder="填写有效期"></el-input>
+                <el-input class="Elinput" v-model.number="addcoupon.time" placeholder="填写有效期"></el-input>
                 <label class="danwei">天</label>
             </el-form-item>
             <el-form-item label="发行数量:" prop="number" :label-width="labelWidth">
                 <el-input
                     class="Elinput"
-                    v-model.number="addcoupons.number"
+                    v-model.number="addcoupon.number"
                     placeholder="每个用户的领劵上限,默认不限"
                 ></el-input>
                 <label class="danwei">张</label>
             </el-form-item>
         </el-form>
         <div class="addcouponBtn">
-            <el-button @click="quxiaoadd" class="buttonr">取消</el-button>
-            <el-button @click="addcoupondaijinjuan" class="buttonr mL">添加</el-button>
+            <el-button @click="quxiaoAdd" class="buttonr">取消</el-button>
+            <el-button @click="addcouponControla" class="buttonr mL">添加</el-button>
         </div>
 
         <el-dialog title="关联商品" :visible.sync="dialogVisible" width="80%">
@@ -62,16 +61,18 @@
                 </el-tooltip>
             </div>
             <div class="goodsSeacher">
-                <el-input v-model="goodData">
-                    <i slot="prefix" class="el-input__icon el-icon-search"></i>
-                </el-input>
+                <i class="el-icon-search icon"></i>
+                <el-input v-model="goodData"></el-input>
                 <el-button @click="seacherdata" type="text" class="seacher">搜索</el-button>
             </div>
-            <el-table :data="tableData" border style="width: 100%;">
-                <!-- <el-table-column type="selection" width align="center"></el-table-column> -->
+            <el-table :data="tableData" style="width: 100%;" border>
                 <el-table-column prop="order" label="序号" width="100" align="center"></el-table-column>
                 <el-table-column prop="name" label="商品名称" width align="center"></el-table-column>
-                <el-table-column prop="price" label="商品售价" align="center"></el-table-column>
+                <el-table-column prop="price" label="商品售价" align="center">
+                    <template slot-scope="scope">
+                        <label>{{scope.row.price / 100}}￥</label>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="picture" label="商品封面" align="center">
                     <template slot-scope="scope">
                         <img width="80" height="80" :src="scope.row.picture" />
@@ -83,16 +84,22 @@
                     <template slot-scope="scope">
                         <el-button
                             @click="GLgoods(scope.row)"
-                            v-show="scope.row.id != shoppId"
+                            v-if="scope.row.canBind == true && scope.row.id != shoppId"
                             class="bulebutton"
                             size="small"
                         >选择关联</el-button>
                         <el-button
                             type="text"
-                            style="color: #2971FF;"
-                            v-show="scope.row.id == shoppId"
+                            style="color: #4985F0;"
+                            v-if="scope.row.id == shoppId"
                             size="small"
                         >当前关联</el-button>
+                        <el-button
+                            type="text"
+                            style="color: #4985F0;"
+                            v-if="scope.row.canBind == false"
+                            size="small"
+                        >已关联</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -102,7 +109,7 @@
                 @current-change="handleCurrentChange"
                 :current-page="page"
                 :page-sizes="[10, 20, 30, 40]"
-                :page-size="20"
+                :page-size="limit"
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="counts"
             ></el-pagination>
@@ -112,25 +119,43 @@
 
 <script>
 export default {
-    name: 'addcouponControlvoucher',
+    name: 'addcouponControl',
     data() {
+        var checkFrequency = (rule, value, callback) => {
+            let minutes = this.$refs.prices.value;
+            if (!value && !minutes) {
+                callback();
+            }
+            var reg = /^[0-9]\d*$/;
+            if (!reg.test(value) || !reg.test(minutes)) {
+                callback(new Error('请输入满减后的价格且只能是数字'));
+            } else {
+                callback();
+            }
+        };
+
         return {
             labelWidth: '230px',
             tableData: [],
             fullscreen: '',
             page: 1,
-            limit: 20,
-            counts: 0,
+            limit: 10,
+            counts: this.counts,
             goodData: '',
             shoppId: '',
+            radioOne: 1,
+            radioTwo: 2,
             dialogVisible: false,
-            addcoupons: {
+            addcoupon: {
                 couName: '',
                 selhdcoupon: '',
-                radio: '',
+                radio: 1,
+                prices: '',
                 price: '',
                 time: '',
-                number: ''
+                number: '',
+                id: '',
+                productId: ''
             },
             rules: {
                 couName: [
@@ -156,16 +181,21 @@ export default {
                 ],
                 price: [
                     {
-                        required: true,
-                        message: '请输入抵扣的价格',
-                        trigger: 'blur'
-                    },
-                    {
                         type: 'number',
                         message: '请输入数字',
                         trigger: 'blur'
+                    },
+                    {
+                        required: true,
+                        message: '请输入满减的价格',
+                        trigger: 'blur'
+                    },
+                    {
+                        validator: checkFrequency,
+                        trigger: 'blur'
                     }
                 ],
+
                 time: [
                     {
                         required: true,
@@ -194,7 +224,7 @@ export default {
         };
     },
     mounted() {
-        this.getListProduct();
+        this.getmianjianJuanData();
     },
     methods: {
         // 关联按钮
@@ -212,24 +242,24 @@ export default {
             this.page = val;
             this.getListProduct();
         },
-        // 取消
-        quxiaoadd() {
-            this.$refs.addcoupons.validate((valid) => {
-                this.$refs.addcoupons.resetFields();
-                this.$router.push({
-                    path: './couponConList'
-                });
-            });
-        },
         // 商品搜索
         seacherdata() {
             this.page = 1;
             this.getListProduct();
         },
+        // 取消
+        quxiaoAdd() {
+            this.$refs.addcoupon.validate((valid) => {
+                this.$refs.addcoupon.resetFields();
+                this.$router.push({
+                    path: './couponConList'
+                });
+            });
+        },
         // 选择关联
         GLgoods(row) {
             this.shoppId = row.id;
-            this.addcoupons.selhdcoupon = row.name;
+            this.addcoupon.selhdcoupon = row.name;
             this.dialogVisible = false;
         },
         // 商品查询
@@ -248,8 +278,16 @@ export default {
                         data.list.forEach(function (val, index) {
                             shopList[index] = val;
                             shopList[index].picture = localStorage.getItem('imgUrl') + val.picture;
+                            var date = new Date(val.publishAtTime);
+                            shopList[index].publishAtTime =
+                                date.getFullYear() +
+                                '-' +
+                                (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                                '-' +
+                                date.getDate();
                         });
                         this.tableData = shopList;
+                        this.counts = data.total;
                     } else {
                         this.$message({
                             showClose: true,
@@ -266,26 +304,28 @@ export default {
                 }
             });
         },
-        //  发布代金卷
-        addcoupondaijinjuan() {
-            this.$refs.addcoupons.validate((valid) => {
+
+        // 发布优惠券按钮
+        addcouponControla() {
+            this.$refs.addcoupon.validate((valid) => {
                 if (valid) {
-                    this.$confirm('是否确定发布代金券:【' + this.addcoupons.couName + '】?', '温馨提示', {
+                    this.$confirm('是否确定发布优惠券:【' + this.addcoupon.couName + '】?', '温馨提示', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
                         let data = {
-                            companyId: localStorage.getItem('loginData'),
+                            companyId: parseInt(localStorage.getItem('loginData')),
                             companyName: localStorage.getItem('name'),
-                            count: this.addcoupons.number,
-                            couponValue: this.addcoupons.price,
-                            type: 2,
-                            productId: this.shoppId,
-                            name: this.addcoupons.couName,
-                            minPrice: 0,
-                            useType: this.addcoupons.radio,
-                            expiration: this.addcoupons.time
+                            count: parseInt(this.addcoupon.number),
+                            couponValue: parseInt(this.addcoupon.prices) * 100,
+                            type: 1,
+                            id: this.addcoupon.id,
+                            productId: parseInt(this.shoppId),
+                            name: this.addcoupon.couName,
+                            minPrice: parseInt(this.addcoupon.price) * 100,
+                            useType: parseInt(this.addcoupon.radio),
+                            expiration: parseInt(this.addcoupon.time)
                         };
                         const loading = this.$loading({
                             lock: true,
@@ -303,10 +343,10 @@ export default {
                                         message: data.msg,
                                         type: 'success'
                                     });
-                                    this.$refs.addcoupons.resetFields();
                                     this.$router.push({
                                         path: './couponConList'
                                     });
+                                    this.$refs.addcoupon.resetFields();
                                 } else {
                                     this.$message({
                                         showClose: true,
@@ -325,15 +365,37 @@ export default {
                     });
                 }
             });
+        },
+        // 获取满减卷的信息
+        getmianjianJuanData() {
+            let data = this.$route.params.data;
+            if (data != undefined) {
+                this.addcoupon.couName = data.name;
+                this.addcoupon.radio = data.useType;
+                if (data.useType == 1) {
+                    this.radioOne = 1;
+                } else {
+                    this.radioTwo = 2;
+                }
+                this.addcoupon.id = data.id;
+                if (data.productInfo != null) {
+                    this.addcoupon.selhdcoupon = data.productInfo.name;
+                    this.shoppId = data.productId;
+                }
+                this.addcoupon.prices = data.couponValue / 100;
+                this.addcoupon.price = data.minPrice / 100;
+                this.addcoupon.time = data.expiration;
+                this.addcoupon.number = data.count;
+            }
         }
     }
 };
 </script>
 
 <style>
-.addcouponControlvoucher {
+.addcouponControl {
     width: 100%;
-    /* margin: 0 auto; */
+    box-sizing: border-box;
     padding: 20px;
 }
 
@@ -354,7 +416,9 @@ export default {
     width: 257px;
     text-align: center;
 }
-
+.inputEl {
+    width: 90px;
+}
 .inputEl .el-input__inner {
     border: 0;
     border-bottom: 1px solid #c1c1c1;
@@ -374,13 +438,16 @@ export default {
     float: left;
 }
 
-.couponhedong .selectBtn {
+.addcouponControl .selectBtn {
     width: 76px;
     height: 21px;
     background-color: #2450d2;
     color: #fff;
     padding: 0;
     border-radius: 8px;
+}
+.addcouponControl .el-form-item__label {
+    text-align: right;
 }
 
 .couponSel {
@@ -395,11 +462,10 @@ export default {
     color: #2450d2;
     background-color: #fff;
 }
-
 .danwei {
     position: absolute;
     left: 257px;
-    top: 7px;
+    top: 11px;
 }
 
 .addcouponControl .el-date-editor {
@@ -408,12 +474,12 @@ export default {
     border-bottom: 1px solid #ccc;
 }
 
-.addcouponControlvoucher .addcouponBtn {
+.addcouponControl .addcouponBtn {
     margin-left: 30%;
     margin-top: 100px;
 }
 
-.addcouponControlvoucher .addcouponBtn .buttonr {
+.addcouponControl .addcouponBtn .buttonr {
     width: 90px;
     height: 30px;
     border-radius: 8px;
@@ -421,7 +487,7 @@ export default {
     color: #fff;
 }
 
-.addcouponControlvoucher .addcouponBtn .buttonr.mL {
+.addcouponControl .addcouponBtn .buttonr.mL {
     margin-left: 100px;
 }
 
@@ -441,13 +507,19 @@ export default {
     background-color: #faffe0;
     margin: 0 auto;
     margin-bottom: 25px;
-    line-height: 45px;
+    position: relative;
+    line-height: 30px;
 }
-.el-dialog__header {
-    background: #f9f9fa;
+
+.icon {
+    position: absolute;
+    z-index: 1;
+    top: 17px;
+    left: 10px;
 }
+
 .el-input {
-    /* margin-top: 7px; */
+    margin-top: 7px;
     margin-left: 10px;
     width: 290px;
     height: 30px;
@@ -458,7 +530,10 @@ export default {
     margin-left: 10px;
 }
 .el-table .bulebutton {
-    background: #2971ff;
-    color: #fff;
+    width: 76px;
+    height: 20px;
+    background-color: #2450d2;
+    padding: 0;
+    color: #ffffff;
 }
 </style>

@@ -2,7 +2,7 @@
     <div class="addcouponControlvoucher" id="addcouponControlvoucher">
         <!-- 代金卷 -->
         <div class="coupon-top">
-            <label>填写发布的优惠券信息</label>
+            <label>编辑代金券信息</label>
         </div>
         <el-form :model="addcoupons" :rules="rules" ref="addcoupons">
             <el-form-item label="优惠券名称:" prop="couName" :label-width="labelWidth">
@@ -13,8 +13,8 @@
                 ></el-input>
             </el-form-item>
             <el-form-item label="可使用商品:" prop="radio" :label-width="labelWidth">
-                <el-radio v-model="addcoupons.radio" label="1">全场通用</el-radio>
-                <el-radio v-model="addcoupons.radio" label="2">指定商品</el-radio>
+                <el-radio v-model="addcoupons.radio" :label="radioOne">全场通用</el-radio>
+                <el-radio v-model="addcoupons.radio" :label="radioTwo">指定商品</el-radio>
             </el-form-item>
             <el-form-item
                 label="选择活动商品:"
@@ -83,7 +83,7 @@
                     <template slot-scope="scope">
                         <el-button
                             @click="GLgoods(scope.row)"
-                            v-show="scope.row.id != shoppId"
+                            v-show=" scope.row.canBind == true && scope.row.id != shoppId"
                             class="bulebutton"
                             size="small"
                         >选择关联</el-button>
@@ -93,6 +93,12 @@
                             v-show="scope.row.id == shoppId"
                             size="small"
                         >当前关联</el-button>
+                        <el-button
+                            type="text"
+                            style="color: #2971FF;"
+                            v-show=" scope.row.canBind == false"
+                            size="small"
+                        >已关联</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -102,7 +108,7 @@
                 @current-change="handleCurrentChange"
                 :current-page="page"
                 :page-sizes="[10, 20, 30, 40]"
-                :page-size="20"
+                :page-size="limit"
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="counts"
             ></el-pagination>
@@ -119,9 +125,11 @@ export default {
             tableData: [],
             fullscreen: '',
             page: 1,
-            limit: 20,
+            limit: 10,
             counts: 0,
             goodData: '',
+            radioOne: 1,
+            radioTwo: 2,
             shoppId: '',
             dialogVisible: false,
             addcoupons: {
@@ -130,7 +138,8 @@ export default {
                 radio: '',
                 price: '',
                 time: '',
-                number: ''
+                number: '',
+                id: ''
             },
             rules: {
                 couName: [
@@ -194,7 +203,8 @@ export default {
         };
     },
     mounted() {
-        this.getListProduct();
+        this.getDaijingjuanData();
+        // this.getListProduct();
     },
     methods: {
         // 关联按钮
@@ -250,6 +260,7 @@ export default {
                             shopList[index].picture = localStorage.getItem('imgUrl') + val.picture;
                         });
                         this.tableData = shopList;
+                        this.counts = data.total;
                     } else {
                         this.$message({
                             showClose: true,
@@ -279,8 +290,9 @@ export default {
                             companyId: localStorage.getItem('loginData'),
                             companyName: localStorage.getItem('name'),
                             count: this.addcoupons.number,
-                            couponValue: this.addcoupons.price,
+                            couponValue: this.addcoupons.price * 100,
                             type: 2,
+                            id: this.addcoupons.id,
                             productId: this.shoppId,
                             name: this.addcoupons.couName,
                             minPrice: 0,
@@ -325,6 +337,28 @@ export default {
                     });
                 }
             });
+        },
+        // 获取代金卷信息
+        getDaijingjuanData() {
+            let data = this.$route.params.data;
+            if (data != undefined) {
+                console.log(data);
+                this.addcoupons.couName = data.name;
+                if (data.productInfo != null) {
+                    this.addcoupons.selhdcoupon = data.productInfo.name;
+                    this.shoppId = data.productId;
+                }
+                if (data.useType == 1) {
+                    this.radioOne = 1;
+                } else {
+                    this.radioTwo = 2;
+                }
+                this.addcoupons.radio = data.useType;
+                this.addcoupons.price = data.couponValue / 100;
+                this.addcoupons.time = data.expiration;
+                this.addcoupons.number = data.count;
+                this.addcoupons.id = data.id;
+            }
         }
     }
 };
@@ -346,7 +380,9 @@ export default {
     margin-top: 20px;
     padding-left: 20px;
 }
-
+.Elinput {
+    width: 257px;
+}
 .Elinput .el-input__inner {
     border: 0;
     border-bottom: 1px solid #c1c1c1;
@@ -354,7 +390,9 @@ export default {
     width: 257px;
     text-align: center;
 }
-
+.inputEl {
+    width: 90px;
+}
 .inputEl .el-input__inner {
     border: 0;
     border-bottom: 1px solid #c1c1c1;

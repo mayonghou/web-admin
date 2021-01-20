@@ -799,7 +799,7 @@ export default {
                 this.columns12 = this.pageid;
                 if (this.Datar0 == undefined) {
                     alert('喔，NO，Bady，数据丢失了！');
-                } else if (this.Datar0[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar0[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar0 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar0;
@@ -812,7 +812,7 @@ export default {
                 this.isShowIfShow = !this.isShowIfShow; //table-Btn
                 if (this.Datar1 == undefined) {
                     alert('喔，NO，Bady，数据丢失了！');
-                } else if (this.Datar1[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar1[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar1 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar1;
@@ -824,7 +824,7 @@ export default {
                 this.columns12 = this.pageid;
                 if (this.Datar2 == undefined) {
                     alert('喔，NO，Bady，数据丢失了！');
-                } else if (this.Datar2[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar2[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar2 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar2;
@@ -840,7 +840,7 @@ export default {
                 // this.data6.push(bbb)
                 if (this.Datar3 == undefined) {
                     alert('喔，NO，Bady，数据丢失了！');
-                } else if (this.Datar3[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar3[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar3 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar3;
@@ -853,7 +853,7 @@ export default {
                 // this.data6.push(bbb)
                 if (this.Datar4 == undefined) {
                     alert('喔，NO，Bady，数据丢失了！');
-                } else if (this.Datar4[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar4[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar4 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar4;
@@ -866,7 +866,7 @@ export default {
                 // this.data6.push(bbb)
                 if (this.Datar5 == undefined) {
                     alert('喔，NO，Bady，数据丢失了！');
-                } else if (this.Datar5[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar5[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar5 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar5;
@@ -879,7 +879,7 @@ export default {
                 this.isShowIfShow = !this.isShowIfShow; //table-Btn
                 if (this.Datar6 == undefined) {
                     alert('喔，NO，Bady，数据丢失了！');
-                } else if (this.Datar6[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar6[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar6 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar6;
@@ -891,7 +891,7 @@ export default {
                 this.columns12 = this.pageid;
                 if (this.Datar7 == undefined) {
                     alert('喔，NO，Bady，数据丢失了！');
-                } else if (this.Datar7[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar7[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar7 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar7;
@@ -903,7 +903,7 @@ export default {
                 this.columns12 = this.pageid;
                 if (this.Datar8 == undefined) {
                     alert('喔，NO，Bady，数据丢失了！');
-                } else if (this.Datar8[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar8[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar8 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar8;
@@ -915,7 +915,7 @@ export default {
                 this.columns12 = this.pageid;
                 if (this.Datar9 == undefined) {
                     alert('喔，NO，Bady，数据丢失了！');
-                } else if (this.Datar9[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar9[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar9 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar9;
@@ -927,7 +927,7 @@ export default {
                 this.columns12 = this.pageid;
                 if (this.Datar10 == undefined) {
                     alert('喔，NO，Bady，数据丢失了！');
-                } else if (this.Datar10[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar10[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar10 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar10;
@@ -939,7 +939,7 @@ export default {
                 this.columns12 = this.pageid;
                 if (this.Datar11 == undefined) {
                     alert('喔，NO，Bady，数据丢失了！');
-                } else if (this.Datar11[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar11[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar11 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar11;
@@ -951,7 +951,7 @@ export default {
                 this.columns12 = this.pageid;
                 if (this.Datar12 == undefined) {
                     alert('喔，NO，Bady，数据丢失了！');
-                } else if (this.Datar12[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar12[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar12 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar12;
@@ -964,7 +964,7 @@ export default {
                 this.isShowIfShow09 = !this.isShowIfShow09;
                 if (this.Datar13 == undefined) {
                     alert('喔，NO，Bady，数据丢失了！');
-                } else if (this.Datar13[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar13[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar13 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar13;
@@ -976,7 +976,7 @@ export default {
                 this.columns12 = this.pageid;
                 if (this.Datar14 == undefined) {
                     alert('喔，NO，Bady，数据丢失了！');
-                } else if (this.Datar14[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar14[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar14 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar14;
@@ -989,7 +989,7 @@ export default {
                 this.isShowIfShow = !this.isShowIfShow; //table-Btn
                 if (this.Datar15 == undefined) {
                     alert('喔，NO，Bady，数据丢失了！');
-                } else if (this.Datar15[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar15[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar15 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar15;
@@ -1002,7 +1002,7 @@ export default {
                 this.isShowIfShow = !this.isShowIfShow; //table-Btn
                 if (this.Datar16 == undefined) {
                     alert('喔，NO，数据丢失了！');
-                } else if (this.Datar16[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar16[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar16 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar16;
@@ -1021,7 +1021,7 @@ export default {
                 this.BtnDataiShhow2 = !this.BtnDataiShhow2; //TOP---Btn
                 if (this.Datar17 == undefined) {
                     alert('喔，NO，数据丢失了！');
-                } else if (this.Datar17[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar17[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar17 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar17;
@@ -1038,7 +1038,7 @@ export default {
                 this.isShowIfShow09 = !this.isShowIfShow09;
                 if (this.Datar18 == undefined) {
                     alert('喔，NO，数据丢失了！');
-                } else if (this.Datar18[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar18[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar18 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar18;
@@ -1056,7 +1056,7 @@ export default {
                 this.isShowIfShow = !this.isShowIfShow; //table-Btn
                 if (this.Datar19 == undefined) {
                     alert('喔，NO，数据丢失了！');
-                } else if (this.Datar19[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar19[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar19 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar19;
@@ -1073,7 +1073,7 @@ export default {
                 this.BtnDataiShhow4 = !this.BtnDataiShhow4; //TOP---Btn
                 if (this.Datar20 == undefined) {
                     alert('喔，NO，数据丢失了！');
-                } else if (this.Datar20[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar20[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar20 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar20;
@@ -1085,7 +1085,7 @@ export default {
                 this.columns12 = this.pageid;
                 if (this.Datar21 == undefined) {
                     alert('喔，NO，数据丢失了！');
-                } else if (this.Datar21[0].name == '暂无数据！' && this.statusCode != 200) {
+                } else if (this.Datar21[0].name == '暂无数据！') {
                     this.data6 = [];
                 } else if (this.Datar21 != undefined && this.statusCode == 200) {
                     this.data6 = this.Datar21;

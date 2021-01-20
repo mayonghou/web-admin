@@ -3,7 +3,7 @@
         <div class="add_from">
             <el-form ref="formData" :model="formData">
                 <div class="add_Top">
-                    <label>企业信息</label>
+                    <label>企业信息：</label>
                     <label class="GS_name">{{this.qyname}}</label>
                     <label class="GS_rz">已入驻</label>
                     <label class="GS_time">入驻日期: {{this.time}}</label>
@@ -208,12 +208,13 @@
                     ></el-input>
                 </el-form-item>
                 <el-form-item label="开户银行:" prop="depositBank" :label-width="formLabelWidth">
-                    <el-select class="formWidth" v-model="formData.depositBank" placeholder="请选择">
+                    <!-- <el-select class="formWidth" v-model="formData.depositBank" placeholder="请选择">
                         <el-option label="中国工商银行" value="中国工商银行"></el-option>
                         <el-option label="中国银行" value="中国银行"></el-option>
                         <el-option label="建设银行" value="建设银行"></el-option>
                         <el-option label="农业银行" value="农业银行"></el-option>
-                    </el-select>
+                    </el-select>-->
+                    <el-input class="formWidth" v-model="formData.depositBank" placeholder="请输入"></el-input>
                 </el-form-item>
                 <el-form-item label="开户网点:" prop="branch" :label-width="formLabelWidth">
                     <el-input class="formWidth" v-model="formData.branch" placeholder="请输入"></el-input>
@@ -292,6 +293,16 @@ export default {
         bramkAuccent(value) {
             console.log(value);
             if (value != '') {
+                // "https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo=银行卡卡号&cardBinCheck=true"
+                axios
+                    .get(
+                        'https://ccdcapi.alipay.com/validateAndCacheCardInfo.json?_input_charset=utf-8&cardNo=' +
+                            value +
+                            '&cardBinCheck=true'
+                    )
+                    .then((res) => {
+                        console.log(res);
+                    });
             }
         },
 
@@ -546,9 +557,7 @@ export default {
     width: 100%;
     box-sizing: border-box;
 }
-.GS_name {
-    margin-left: 50px;
-}
+
 .GS_rz {
     margin-left: 30%;
     color: #109955;
