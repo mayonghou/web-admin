@@ -20,7 +20,12 @@
                 v-if="BtnDataiShhow3"
                 @click="AddNewPeople"
             >添加人员</Button>
-            <Button type="primary" style="margin-left:15px;" v-if="BtnDataiShhow4">发布新公告</Button>
+            <Button
+                type="primary"
+                style="margin-left:15px;"
+                v-if="BtnDataiShhow4"
+                @click="AnnouncementFuc"
+            >发布新公告</Button>
         </div>
         <Table
             border
@@ -34,11 +39,12 @@
             </template>
             <template slot-scope="{ row,index }" slot="action">
                 <Button
+                    @click="TopDisplayTable(row)"
                     type="primary"
                     size="small"
                     class="Button bottokmt"
                     v-if="isShowIfShow03"
-                >已置顶</Button>
+                >置顶</Button>
                 <Button
                     type="primary"
                     size="small"
@@ -63,7 +69,7 @@
                     class="Button bottokmt"
                     style="background-color:#109955 ;"
                     v-if="isShowIfShow05"
-                    @click="SendDataToFunction"
+                    @click="SendDataToFunction(row)"
                 >修改</Button>
                 <!-- 行业管理 -->
                 <Button
@@ -370,7 +376,7 @@ export default {
             } else if (this.pageId == 17) {
                 this.$parent.deletIndustryData(row.id); //行业
             } else if (this.pageId == 19) {
-                this.$parent.DeletData(row.id); //千里马
+                this.$parent.DeletData([row.id]); //千里马
             } else if (this.pageId == 20) {
                 const iddata = [row.id].join(',');
                 this.$parent.DeletDataBtn(iddata); //平台公告
@@ -650,7 +656,6 @@ export default {
                 });
             } else if (this.pageId == 5) {
                 //视频列表页
-                console.log(row);
                 this.$router.push({
                     path: './videodetail',
                     query: {
@@ -745,10 +750,10 @@ export default {
             }
         },
         // 修改----btn
-        SendDataToFunction() {
+        SendDataToFunction(row) {
             // 行业管理----修改
             if (this.pageId == 17) {
-                this.$emit('adminiDataA');
+                this.$emit('adminiDataA', row);
             } else if (this.pageId == 21) {
                 //行业管理----管理
                 this.$emit('adminiDataB');
@@ -786,6 +791,20 @@ export default {
         resetPasswordXiaoyuer(row) {
             if (this.pageId == 19) {
                 this.$parent.ModalXiaoyuer(row.id);
+            }
+        },
+        //行业置顶
+        TopDisplayTable(row) {
+            this.$parent.TopDisplay(row.id);
+            this.$parent.CouponDataQuery();
+        },
+        //发布公告
+        AnnouncementFuc() {
+            if (this.pageId == 20) {
+                console.log('调用接口函数');
+                this.$router.push({
+                    path: './detailsPageinfo'
+                });
             }
         },
         // 页面渲染
@@ -1062,7 +1081,6 @@ export default {
                     this.data6 = this.Datar19;
                 }
             } else if (this.pageid[0].pageid == 20) {
-                console.log(this.Datar20);
                 //平台管理----人员管理
                 this.pageid.shift();
                 var bbb = this.pageid.pop();

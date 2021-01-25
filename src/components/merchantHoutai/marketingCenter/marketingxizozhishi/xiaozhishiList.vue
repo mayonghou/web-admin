@@ -9,13 +9,15 @@
                     @click="detaitl(item)"
                 >
                     <!-- 这个地方渲染出错下 -->
-                    <div>
+                    <!-- <div>{{item}}</div> -->
+                    <div class="xaiozhishiListass">
                         <img class="imgUrl" src="../../../../assets/img/img.jpg" />
                         <div class="titleText">
                             <div class="title">{{ item.title }}</div>
                             <div class="text">{{ item.content }}</div>
                         </div>
                     </div>
+                    <div v-html="item.content"></div>
                     <!-- 这个地方渲染出错上 -->
 
                     <i style="font-size: 28px" class="el-icon-right"></i>
@@ -97,17 +99,19 @@ export default {
 }
 .listUl {
     width: 100%;
-    height: 150px;
+    /* height: 150px; */
 }
 .listLi {
     width: 100%;
     height: 100%;
     display: flex;
+    box-sizing: border-box;
     justify-content: space-between;
     padding: 0 20px;
     align-items: center;
     background: #f6f6f6;
     cursor: pointer;
+    margin-top: 20px;
 }
 .imgUrl {
     width: 25%;
@@ -116,6 +120,7 @@ export default {
 .titleText {
     display: flex;
     flex-direction: column;
+    width: 100%;
     padding: 5px 30px 5px 30px;
     height: 100%;
     width: 70%;
@@ -139,5 +144,10 @@ export default {
     width: 100%;
     margin-top: 20px;
     text-align: center;
+}
+.xaiozhishiListass {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
 }
 </style>

@@ -9,7 +9,7 @@
                 <infor :DetailsData="DetailsData"></infor>
             </div>
             <div class="positionClassb" v-if="isHowifb">
-                <inforset></inforset>
+                <inforset :id="id"></inforset>
             </div>
         </div>
     </div>
@@ -21,6 +21,7 @@ import inforset from '../component/inforset.vue';
 export default {
     data() {
         return {
+            id: '',
             isHowifa: false,
             isHowifb: true,
             DetailsData: ''
@@ -29,6 +30,7 @@ export default {
     methods: {
         personnelinfomation() {
             this.DetailsData = this.$route.query.Data;
+            this.id = this.$route.query.Data.id;
             this.$nextTick(() => {
                 this.isHowifa = true;
             });

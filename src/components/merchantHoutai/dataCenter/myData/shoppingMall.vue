@@ -52,6 +52,7 @@
             <!-- 客户和商品统计 -->
             <div class="kehuShoppCount">
                 <!-- 客户统计 -->
+                <strong></strong>
                 <div class="kehuCount">
                     <el-card class="box-card">
                         <div slot="header" class="kehu-card">
@@ -389,7 +390,12 @@
             <!-- 在招职位浏览量及沟通量 -->
             <div class="recrutment-echarts">
                 <div class="echarts-select">
-                    <el-select class="select" v-model="selectName" @change="selectNamedata">
+                    <el-select
+                        class="select"
+                        v-model="selectName"
+                        @change="selectNamedata"
+                        clearable
+                    >
                         <el-option
                             v-for="item in options"
                             :key="item.id"
@@ -411,12 +417,17 @@
             <!-- 招聘简历的平台数据 -->
             <div class="resumeData">
                 <div class="echartsPie">
-                    <el-select class="pie-select" v-model="echartPie">
+                    <el-select
+                        class="pie-select"
+                        v-model="echartPie"
+                        @change="resumepingtai"
+                        clearable
+                    >
                         <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
+                            v-for="item in industryData"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id"
                         ></el-option>
                     </el-select>
                     <div
@@ -427,14 +438,14 @@
                 </div>
                 <div class="echartstable">
                     <el-table :data="tableData">
-                        <el-table-column prop type="index" label="排名" align="center"></el-table-column>
-                        <el-table-column prop="gongzuo" label="工作经验" align="center"></el-table-column>
-                        <el-table-column prop="baifen" label="占比%" width="300" align="center">
+                        <el-table-column type="index" label="排名" align="center"></el-table-column>
+                        <el-table-column prop="experience" label="工作经验" align="center"></el-table-column>
+                        <el-table-column prop="proportion" label="占比%" width="300" align="center">
                             <template slot-scope="scope">
                                 <el-progress
                                     :text-inside="true"
                                     :stroke-width="12"
-                                    :percentage="scope.row.baifen"
+                                    :percentage="parseInt(scope.row.proportion)"
                                 ></el-progress>
                             </template>
                         </el-table-column>
@@ -479,12 +490,18 @@
             <!-- 在招房源浏览量及沟通量 -->
             <div class="recrutment-echarts">
                 <div class="echarts-select">
-                    <el-select class="select" v-model="selecthousing" placeholder="全部在租房源">
+                    <el-select
+                        class="select"
+                        v-model="selecthousing"
+                        placeholder="全部在租房源"
+                        clearable
+                        @change="fangyuanchange"
+                    >
                         <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
+                            v-for="item in fangyuanList"
+                            :key="item.id"
+                            :label="item.houseTitle"
+                            :value="item.id"
                         ></el-option>
                     </el-select>
                     <el-date-picker
@@ -533,12 +550,7 @@ export default {
             echartPie: '',
             selecthousing: '',
             monthed: '',
-            tableData: [
-                {
-                    gongzuo: '小学以下',
-                    baifen: 86
-                }
-            ],
+            tableData: [],
             shoppCountsData: {}, // 数据中心商城数据客户统计
             goodsCountsData: {}, // 数据中心商场数据商品统计
             goodsCountssituation: {}, //数据中心商城数据 商品情况
@@ -557,7 +569,12 @@ export default {
             startDate: '',
             endDate: '',
             houseStartTime: '',
-            houseEndTime: ''
+            houseEndTime: '',
+            positionName: '',
+            industryData: [],
+            valueindustry: '',
+            fangyuanList: [],
+            fangyaunid: ''
         };
     },
     mounted() {
@@ -587,6 +604,7 @@ export default {
             } else if (item.index == 1) {
                 // 招聘数据
                 this.getDateTime();
+                this.getindustryList();
                 this.getpositionList();
                 this.positionEchartData();
                 this.resumeJobPie();
@@ -597,6 +615,7 @@ export default {
                 this.gethouseDateTime();
                 this.queryDataPost();
                 this.housingechartpar();
+                this.getzaixianFangyuan();
             }
 
             for (let i = 0; i < this.$refs.buttab.length; i++) {
@@ -1094,33 +1113,63 @@ export default {
             }
             this.positionEchartData();
         },
+
+        // 获取所有行业
+        getindustryList() {
+            this.$axios.get('admin/industry/list').then((res) => {
+                if (res.status == 200) {
+                    let datas = res.data;
+                    if (datas.code == 200) {
+                        this.industryData = datas.data;
+                    }
+                }
+            });
+        },
+        // 招聘简历的数据
+        resumepingtai(value) {
+            console.log(value);
+            this.valueindustry = value;
+            this.resumeJobPie();
+        },
         // 招聘简历的品台数据
         resumeJobPie() {
-            this.job = document.getElementById('resumeDataPie');
-            var jobpie = this.$echarts.init(this.job);
-            jobpie.setOption({
-                title: {
-                    text: '招聘简历的品台数据'
-                },
-                tooltip: {
-                    trigger: 'item',
-                    formatter: '{b}:{c}<br />{d}%'
-                },
-                series: [
-                    {
-                        type: 'pie',
-                        name: '',
-                        type: 'pie',
-                        radius: '55%',
-                        center: ['50%', '60%'],
-                        data: [
-                            { value: 152, name: '小学及以下' },
-                            { value: 1232, name: '初中、中专' },
-                            { value: 130, name: '高中' },
-                            { value: 120, name: '大学及本科' }
-                        ]
+            let datas = {
+                industryId: this.valueindustry
+            };
+            this.$axios.post('admin/job/dataCenter/getAdminResume', datas).then((res) => {
+                if (res.status == 200) {
+                    let data = res.data;
+                    if (data.code == 200) {
+                        let dataListss = [];
+                        data.data.data.educationDataDTOList.forEach(function (val, index) {
+                            dataListss[index] = val;
+                            dataListss[index].value = val.count;
+                            dataListss[index].name = val.education;
+                        });
+                        this.tableData = data.data.data.resumeDataDTOList;
+                        this.job = document.getElementById('resumeDataPie');
+                        var jobpie = this.$echarts.init(this.job);
+                        jobpie.setOption({
+                            title: {
+                                text: '招聘简历的平台数据'
+                            },
+                            tooltip: {
+                                trigger: 'item',
+                                formatter: '{b}:{c}<br />{d}%'
+                            },
+                            series: [
+                                {
+                                    type: 'pie',
+                                    name: '',
+                                    type: 'pie',
+                                    radius: '55%',
+                                    center: ['50%', '60%'],
+                                    data: dataListss
+                                }
+                            ]
+                        });
                     }
-                ]
+                }
             });
         },
 
@@ -1168,10 +1217,26 @@ export default {
                 // console.log(res);
             });
         },
+
+        // 获取所有的在线房源
+        getzaixianFangyuan() {
+            this.$axios.get('admin/renting/dataCenter/getAllHouse/' + localStorage.getItem('loginData')).then((res) => {
+                if (res.status == 200) {
+                    let data = res.data;
+                    if (data.code == 200) {
+                        this.fangyuanList = data.data.data;
+                    }
+                }
+            });
+        },
+        fangyuanchange(value) {
+            this.fangyaunid = value;
+            this.housingechartpar();
+        },
         // 在租房源浏览量及沟通量
         housingechartpar() {
             let data = {
-                id: 0,
+                id: this.fangyaunid,
                 endTime: this.houseEndTime,
                 startTime: this.houseStartTime
             };
@@ -1593,6 +1658,7 @@ export default {
     width: 90%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 .orderText .orderAmount {
     display: flex;

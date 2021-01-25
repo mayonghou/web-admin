@@ -406,7 +406,9 @@ export default {
                         this.sysRecommendPrices = data.data.basicInfo.sysRecommendPrice;
                         let dataworks = [];
                         var https = /^https:\/\/.+$/;
-                        this.sidelineUserId = dataLists.works[0].sidelineUserId;
+                        // this.sidelineUserId = dataLists.works[0].sidelineUserId;
+                        this.sidelineUserId = dataLists.detailInfo.sidelineUserId;
+                        console.log(this.sidelineUserId);
                         dataLists.works.forEach(function (val, index) {
                             dataworks[index] = val;
                             if (https.test(val.content)) {

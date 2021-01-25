@@ -68,7 +68,7 @@
             @current-change="handleCurrentChange"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40]"
-            :page-size="20"
+            :page-size="limit"
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
         ></el-pagination>
@@ -110,7 +110,7 @@ export default {
                 // }
             ],
             page: 1,
-            limit: 20,
+            limit: 10,
             counts: this.counts,
             rentypeName: '',
             timeStart: '',
@@ -258,43 +258,11 @@ export default {
         },
         // 上架
         xiajia_enterprise(row) {
-            this.$confirm('是否确定上架【' + row.houseTitle + '】的房源?', '温馨提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                const loading = this.$loading({
-                    lock: true,
-                    text: '上架中...',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-                });
-                this.$axios.get('admin/renting/manage/update/status?id=' + row.id + '&status=2').then((res) => {
-                    loading.close();
-                    if (res.status == 200) {
-                        var data = res.data;
-                        if (data.code == 200) {
-                            this.$message({
-                                showClose: true,
-                                message: data.msg,
-                                type: 'success'
-                            });
-                            this.postRenting();
-                        } else {
-                            this.$message({
-                                showClose: true,
-                                message: data.msg,
-                                type: 'error'
-                            });
-                        }
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
-                    }
-                });
+            this.$router.push({
+                path: './updaterenting',
+                query: {
+                    data: row.id
+                }
             });
         },
         // 页码
@@ -343,7 +311,8 @@ export default {
                 status: 3,
                 typeName: this.rentypeName,
                 page: this.page,
-                limit: this.limit
+                limit: this.limit,
+                company: localStorage.getItem('companyName')
             };
             this.$axios.post('admin/renting/manage/search', date).then((res) => {
                 this.fullscreenLoading = false;
@@ -364,7 +333,6 @@ export default {
                             list[index].time = time1;
                         });
                         this.tableData = list;
-                        console.log(data);
                         this.counts = data.data.total;
                     } else {
                         this.$message({
@@ -481,10 +449,10 @@ export default {
     font-size: 10px;
 }
 
-.renting .pagintion {
-    /* margin-left: 25%;
-		padding-top: 30px; */
-}
+/* .renting .pagintion {
+    margin-left: 25%;
+		padding-top: 30px;
+} */
 
 .renting .tab_buttons.tab {
     background-color: #2450d2;

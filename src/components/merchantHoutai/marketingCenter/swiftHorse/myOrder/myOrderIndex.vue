@@ -15,6 +15,24 @@
                 </li>
             </ul>
         </div>
+        <div class="searxh-title">
+            <h3>订单查询</h3>
+            <div class="search">
+                <el-input v-model="jobName" class="jobName" placeholder="请输入兼职人员姓名" clearable></el-input>
+                <el-date-picker
+                    v-model="missionTime"
+                    type="daterange"
+                    range-separator="——"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    @change="timeChange"
+                ></el-date-picker>
+                <el-button class="queryBtn" @click="queryBtn">查询</el-button>
+            </div>
+        </div>
+        <div class="zanwushuju" v-if="orderDataList == ''">
+            <span>暂无数据</span>
+        </div>
         <div class="orderList" v-for="(item, index) in orderDataList" :key="index">
             <div class="orderSn">订单编号：{{item.orderNo}}</div>
             <div class="jobInformation">
@@ -146,7 +164,11 @@ export default {
             dialogVisible: false,
             imgbase64: '',
             counts: 0,
+            jobName: '',
+            missionTime: [],
             orderDataList: [],
+            startTime: '',
+            endTime: '',
             navList: [
                 {
                     index: 0,
@@ -273,7 +295,6 @@ export default {
         },
         // noManyi 对作品不满意
         noManyi(item) {
-            console.log(item);
             this.$router.push({
                 path: './bumanyi',
                 query: {
@@ -355,15 +376,34 @@ export default {
             this.page = val;
             this.getSwiftHorseorder();
         },
+        // 筛选时间
+        timeChange(value) {
+            if (value) {
+                let start = new Date(value[0]);
+                this.startTime = start.getTime(start);
+                let end = new Date(value[0]);
+                this.endTime = end.getTime(end);
+            } else {
+                this.startTime = '';
+                this.endTime = '';
+            }
+        },
+        // queryBtn 查询筛选按钮
+        queryBtn() {
+            this.page = 1;
+            this.getSwiftHorseorder();
+        },
         // 查询订单列表
         getSwiftHorseorder() {
             let data = {
                 companyId: parseInt(localStorage.getItem('loginData')),
                 limit: this.limit,
                 page: this.page,
-                status: this.status
+                status: this.status,
+                sidelineUserName: this.jobName,
+                timeEnd: this.endTime || 0,
+                timeStart: this.startTime || 0
             };
-            console.log(data);
             this.$axios.post('admin/sideline/order/list', data).then((res) => {
                 if (res.status == 200) {
                     let data = res.data;
@@ -377,13 +417,10 @@ export default {
                             } else {
                                 datalist[index].sellerAvatar = localStorage.getItem('imgUrl') + val.sellerAvatar;
                             }
-                            console.log(val.leftPayTime);
                             var date = new Date(val.leftPayTime);
                             var h = date.getHours() < 10 ? '0' + date.getHours() + ':' : date.getHours();
                             var m = date.getMinutes() < 10 ? '0' + date.getMinutes() + '' : date.getMinutes();
-                            console.log(h + m);
                             datalist[index].timeshaoma = h + m;
-
                             let bbb = [];
                             val.taskList.forEach(function (item, number) {
                                 bbb[number] = item.accomplishedNum / item.totalNum;
@@ -416,6 +453,7 @@ export default {
                             datalist[index].submitTime = submitTime;
                         });
                         this.orderDataList = datalist;
+
                         this.counts = data.total;
                     } else {
                         this.$message({
@@ -444,7 +482,7 @@ export default {
     background: #fafafa;
 }
 .orderNav {
-    width: 80%;
+    width: 100%;
     height: 50px;
     line-height: 50px;
 }
@@ -465,13 +503,16 @@ export default {
     border-bottom: 1px solid #3b58ff;
 }
 .orderList {
-    padding: 10px 0;
-    width: 80%;
-    height: 300px;
+    padding: 10px;
+    width: 100%;
+    /* height: 300px; */
     background: #fff;
-    margin-left: 20px;
+    /* margin-left: 20px; */
     margin-top: 60px;
     margin-bottom: 80px;
+}
+.orderList:hover {
+    box-shadow: 0px 0px 5px 5px #c1c1c1;
 }
 .orderList .orderSn {
     padding: 0 40px;
@@ -552,7 +593,7 @@ export default {
     /* justify-content: space-between; */
 }
 .elpaginations {
-    width: 80%;
+    width: 100%;
     text-align: right;
     margin-top: 30px;
 }
@@ -585,5 +626,31 @@ export default {
     width: 100px;
     height: 30px;
     color: #fff;
+}
+.searxh-title {
+    width: 100%;
+    height: 60px;
+    padding: 25px;
+}
+.searxh-title .search {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.search .jobName {
+    width: 15%;
+    margin-right: 20px;
+}
+.search .queryBtn {
+    width: 150px;
+    height: 30px;
+    color: #fff;
+    background: #2450d2;
+}
+.zanwushuju {
+    width: 100%;
+    text-align: center;
+    padding-top: 100px;
+    font-size: 50px;
 }
 </style>

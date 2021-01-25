@@ -300,7 +300,19 @@ export default {
                         subs: [
                             {
                                 index: 'expandfunction',
-                                title: '平台公告管理列表'
+                                title: '平台公告管理'
+                            },
+                            {
+                                index: 'SettleIn',
+                                title: '商家入驻申请'
+                            },
+                            {
+                                index: 'Report',
+                                title: '投诉举报'
+                            },
+                            {
+                                index: 'feedback',
+                                title: '帮助反馈'
                             }
                         ]
                     }

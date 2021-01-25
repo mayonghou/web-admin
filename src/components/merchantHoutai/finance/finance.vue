@@ -35,7 +35,6 @@
                         class="el-icon-date"
                     ></i>
                     <el-date-picker
-                        prefix-icon="md-date_range"
                         v-model="time"
                         type="daterange"
                         start-placeholder="开始日期"
@@ -427,5 +426,8 @@ export default {
 }
 .search-tinajian .searchinput {
     width: 300px;
+}
+.number {
+    color: #000;
 }
 </style>

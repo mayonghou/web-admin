@@ -250,7 +250,7 @@ export default {
                                 this.Datar9 = [{ name: '暂无数据！' }];
                             });
                         }
-                        if (res.data.list || res.data.list.length == 0) {
+                        if (!res.data.list || res.data.list.length == 0) {
                             this.$nextTick(() => {
                                 this.Datar9 = [{ name: '暂无数据！' }];
                             });

@@ -12,11 +12,11 @@
                     class="el-icon-date"
                 ></i>
                 <el-date-picker
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
                     prefix-icon="md-date_range"
                     v-model="time"
                     type="daterange"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
                     value-format="yyyy-MM-dd"
                     @change="timeCuo"
                 ></el-date-picker>

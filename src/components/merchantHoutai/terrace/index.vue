@@ -54,7 +54,11 @@
             <el-table-column prop="time" label="入驻时间" align="center"></el-table-column>
             <el-table-column label="操作" width="350" align="center">
                 <template slot-scope="scope">
-                    <el-button type="primary" class="tab_button index-btn">密码重置</el-button>
+                    <el-button
+                        type="primary"
+                        class="tab_button index-btn"
+                        @click.stop.prevent="PassworDReset(scope.row)"
+                    >密码重置</el-button>
                     <el-button
                         @click="admin(scope.row)"
                         type="text"
@@ -82,6 +86,28 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
         ></el-pagination>
+        <!-- 弹窗密码重置 -->
+        <Modal
+            v-model="PassworClick"
+            title="密码重置"
+            @on-ok="ok()"
+            @on-cancel="cancel"
+            class-name="vertical-center-modal"
+            footerHide
+            on-visible-change="StatusChange"
+        >
+            <Form :model="formRight" label-position="right" :label-width="200">
+                <FormItem label="请输入新密码：" class="fatherClass">
+                    <input class="InputClass" v-model="formRight.input1" placeholder="请输入新密码..." />
+                </FormItem>
+                <FormItem label="请再次输入新密码：" class="fatherClass">
+                    <input class="InputClass" v-model="formRight.input2" placeholder="请再次输入新密码..." />
+                </FormItem>
+            </Form>
+            <div class="BtnCLassModal">
+                <Button type="primary" @click="resetSubmit">立即重置</Button>
+            </div>
+        </Modal>
     </div>
 </template>
 <script>
@@ -89,6 +115,7 @@ export default {
     name: 'terraceIndex',
     data() {
         return {
+            PassworClick: false,
             inputName: '',
             time: '',
             qiyeID: [],
@@ -100,7 +127,12 @@ export default {
             fullscreenLoading: true,
             loadingText: '加载中....',
             options: [],
-            value: ''
+            value: '',
+            formRight: {
+                input1: '',
+                input2: ''
+            },
+            Id: ''
         };
     },
     mounted() {
@@ -159,8 +191,12 @@ export default {
             });
         },
         edit_enterprise(row) {
+            console.log(row);
             this.$router.push({
-                path: './editerinfor'
+                path: './editerinfor',
+                query: {
+                    id: row.company.id
+                }
             });
         },
         // 页码
@@ -176,6 +212,51 @@ export default {
         queryQY() {
             this.page = 1;
             this.getTerraceList();
+        },
+        // 密码重置
+        PassworDReset(row) {
+            this.Id = row.company.id;
+            this.PassworClick = true;
+        },
+        resetSubmit() {
+            const pwdRegex = new RegExp('(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9]).{6,18}');
+            if (this.formRight.input1 != this.formRight.input2) {
+                this.$Message.info('两次密码输入不一致！');
+            } else if (this.formRight.input1.length < 6 || this.formRight.input2.length < 6) {
+                this.$Message.info('密码至少为6位数！');
+            } else if (this.formRight.input1.length > 18 || this.formRight.input2.length > 18) {
+                this.$Message.info('密码最多为18位数！');
+            } else if (!pwdRegex.test(this.formRight.input1) || !pwdRegex.test(this.formRight.input2)) {
+                this.$Message.info('您的密码不符合要求（密码中必须包含大小写字母、数字、特殊字符）并以字母开头，请重新输入！');
+            } else if (
+                this.formRight.input1 == this.formRight.input2 &&
+                pwdRegex.test(this.formRight.input1) == true &&
+                pwdRegex.test(this.formRight.input2) == true
+            ) {
+                this.PasswordResetNterface(); //密码重置接口
+                this.PassworClick = false;
+            }
+        },
+        // 对话框
+        ok() {},
+        cancel() {},
+        // 密码重置接口
+        PasswordResetNterface() {
+            const url = 'admin/user/edit';
+            const data = {
+                password: this.formRight.input2,
+                userId: this.Id
+            };
+            this.$axios
+                .post(url, data)
+                .then((res) => {
+                    if (res.status == 200) {
+                        if (res.data.code == 200) {
+                            this.$Message.info(res.data.msg);
+                        }
+                    }
+                })
+                .catch((err) => {});
         },
         // 查询行业
         getIndustryList() {

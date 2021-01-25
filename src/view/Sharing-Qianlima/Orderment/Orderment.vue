@@ -56,7 +56,6 @@ export default {
                         this.$router.push({
                             path: './UnpaidPage'
                         });
-                        this.tabChangeBtn();
                     }
                     if (i == 1) {
                         this.$router.push({

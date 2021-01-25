@@ -275,7 +275,7 @@ export default {
             this.$axios
                 .post(url, data)
                 .then((res) => {
-                    if (res.status == 200 && res.statusText == 'OK') {
+                    if (res.status == 200) {
                         const statusCode = res.data.code;
                         this.statusCode = statusCode;
                         if (res.data.code == 200) {

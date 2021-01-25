@@ -151,6 +151,6 @@ export default {
 }
 .el-input {
     width: 290px;
-    margin: 0 auto;
+    /* margin: 0 auto; */
 }
 </style>

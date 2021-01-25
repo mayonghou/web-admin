@@ -33,16 +33,32 @@
             </div>
             <el-form :model="addkehuleixing" :rules="rules" ref="addkehuleixing">
                 <el-form-item label="客户类型名称:" prop="kehuleixingName" :label-width="formLabelWidth">
-                    <el-input class="formWidth" v-model="addkehuleixing.kehuleixingName" placeholder="请输入客户类型名称"></el-input>
+                    <el-input
+                        class="formWidth"
+                        v-model="addkehuleixing.kehuleixingName"
+                        placeholder="请输入客户类型名称"
+                    ></el-input>
                 </el-form-item>
                 <el-form-item label="总计购买的商品数量:" prop="shoppingNum" :label-width="formLabelWidth">
-                    <el-input class="formWidth" v-model.number="addkehuleixing.shoppingNum" placeholder="请输入购买的商品数量"></el-input>
+                    <el-input
+                        class="formWidth"
+                        v-model.number="addkehuleixing.shoppingNum"
+                        placeholder="请输入购买的商品数量"
+                    ></el-input>
                 </el-form-item>
                 <el-form-item label="总计消费:" prop="countExpense" :label-width="formLabelWidth">
-                    <el-input class="formWidth" v-model.number="addkehuleixing.countExpense" placeholder="请输入总计消费"></el-input>
+                    <el-input
+                        class="formWidth"
+                        v-model.number="addkehuleixing.countExpense"
+                        placeholder="请输入总计消费"
+                    ></el-input>
                 </el-form-item>
                 <el-form-item label="总计单量:" prop="countOutput" :label-width="formLabelWidth">
-                    <el-input class="formWidth" v-model.number="addkehuleixing.countOutput" placeholder="请输入总计单量"></el-input>
+                    <el-input
+                        class="formWidth"
+                        v-model.number="addkehuleixing.countOutput"
+                        placeholder="请输入总计单量"
+                    ></el-input>
                 </el-form-item>
             </el-form>
             <span class="dialog-footer">
@@ -101,7 +117,11 @@
             </div>
             <el-form :model="kehuleixingUpdata" :rules="rules" ref="kehuleixingUpdata">
                 <el-form-item label="客户类型名称:" prop="kehuleixingName" :label-width="formLabelWidth">
-                    <el-input class="formWidth" v-model="kehuleixingUpdata.kehuleixingName" placeholder="请输入客户类型名称"></el-input>
+                    <el-input
+                        class="formWidth"
+                        v-model="kehuleixingUpdata.kehuleixingName"
+                        placeholder="请输入客户类型名称"
+                    ></el-input>
                 </el-form-item>
                 <el-form-item label="总计购买的商品数量:" prop="shoppingNum" :label-width="formLabelWidth">
                     <el-input
@@ -111,10 +131,18 @@
                     ></el-input>
                 </el-form-item>
                 <el-form-item label="总计消费:" prop="countExpense" :label-width="formLabelWidth">
-                    <el-input class="formWidth" v-model.number="kehuleixingUpdata.countExpense" placeholder="请输入总计消费"></el-input>
+                    <el-input
+                        class="formWidth"
+                        v-model.number="kehuleixingUpdata.countExpense"
+                        placeholder="请输入总计消费"
+                    ></el-input>
                 </el-form-item>
                 <el-form-item label="总计单量:" prop="countOutput" :label-width="formLabelWidth">
-                    <el-input class="formWidth" v-model.number="kehuleixingUpdata.countOutput" placeholder="请输入总计单量"></el-input>
+                    <el-input
+                        class="formWidth"
+                        v-model.number="kehuleixingUpdata.countOutput"
+                        placeholder="请输入总计单量"
+                    ></el-input>
                 </el-form-item>
             </el-form>
             <span class="dialog-footer">
@@ -172,16 +200,14 @@ export default {
                     { type: 'number', message: '只能是数字', trigger: 'change' }
                 ]
             },
-			id: '',
+            id: ''
         };
     },
     mounted() {
         this.getConsumerTypeList();
     },
     methods: {
-		del_kehuType(){
-			
-		},
+        del_kehuType() {},
         enlarge() {},
         // 添加会员按钮
         add_kehuleixing() {
@@ -197,7 +223,7 @@ export default {
                         type: 'warning'
                     }).then(() => {
                         let data = {
-							id: parseInt(this.id),
+                            id: parseInt(this.id),
                             productNum: this.addkehuleixing.shoppingNum,
                             totalConsumption: this.addkehuleixing.countExpense,
                             totalOrder: this.addkehuleixing.countOutput,
@@ -221,7 +247,7 @@ export default {
                                     });
                                     this.dialogVisibleaddkehuleixing = false;
                                     this.getConsumerTypeList();
-									this.$refs.addkehuleixing.resetFields();
+                                    this.$refs.addkehuleixing.resetFields();
                                 } else {
                                     this.$message({
                                         showClose: true,
@@ -364,7 +390,7 @@ export default {
                     var data = res.data;
                     if (data.code == 200) {
                         this.tableData = data.data.dataList;
-						console.log(this.tableData);
+                        console.log(this.tableData);
                         // this.counts = data.data.totalCount;
                     } else {
                         this.$message({
@@ -399,7 +425,7 @@ export default {
 
 .formWidth {
     width: 194px;
-	text-align: left;
+    text-align: left;
 }
 
 .clearfix {
@@ -408,7 +434,8 @@ export default {
 
 .kehuleixingList {
     width: 100%;
-    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .search {
@@ -425,7 +452,7 @@ export default {
 .top_time .button {
     width: 151px;
     height: 30px;
-	font-size: 14px;
+    font-size: 14px;
     color: #ffffff;
     border-radius: 8px;
     background: #2450d2;
@@ -433,7 +460,9 @@ export default {
 }
 
 .add_Del {
-    margin-top: 10px;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
 }
 
 .add_Del .button {
@@ -443,9 +472,7 @@ export default {
     font-size: 14px;
     color: #fff;
     border-radius: 10px;
-    margin-right: 5px;
-    margin-top: 5px;
-    margin-bottom: 5px;
+
     padding: 0;
 }
 
@@ -453,14 +480,14 @@ export default {
     background: #2482d2;
     padding: 0;
 }
-.add_Del .del_kehuleixing{
-	background-color: #FF0000;
-	padding: 0;
+.add_Del .del_kehuleixing {
+    background-color: #ff0000;
+    padding: 0;
 }
 .kehuleixingList .addkehuleixing {
     width: 151px;
     height: 30px;
-	font-size: 14px;
+    font-size: 14px;
     color: #ffffff;
     border-radius: 8px;
     background: #2450d2;
@@ -507,7 +534,7 @@ export default {
     padding: 0;
     width: 70px;
     height: 30px;
-	font-size: 14px;
+    font-size: 14px;
     line-height: 5px;
     color: #fff;
 }
@@ -516,7 +543,7 @@ export default {
     background-color: #ff0000;
     width: 70px;
     height: 30px;
-	font-size: 14px;
+    font-size: 14px;
     line-height: 5px;
     color: #fff;
 }

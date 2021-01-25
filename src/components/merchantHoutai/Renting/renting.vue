@@ -299,7 +299,8 @@ export default {
                 status: this.reatState || 2,
                 typeName: this.rentypeName,
                 page: this.page,
-                limit: this.limit
+                limit: this.limit,
+                company: localStorage.getItem('companyName')
             };
             this.$axios.post('admin/renting/manage/search', date).then((res) => {
                 this.fullscreenLoading = false;

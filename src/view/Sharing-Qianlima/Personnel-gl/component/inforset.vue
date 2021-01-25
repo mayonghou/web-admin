@@ -5,7 +5,13 @@
                 <li>
                     <div>是否开放权限：</div>
                     <div>
-                        <el-switch v-model="value" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+                        <el-switch
+                            v-model="value"
+                            :active-value="1"
+                            :inactive-value="0"
+                            active-color="#13ce66"
+                            inactive-color="#ff4949"
+                        ></el-switch>
                     </div>
                 </li>
             </ul>
@@ -18,13 +24,49 @@
 
 <script>
 export default {
+    props: ['id'],
     data() {
         return {
-            value: true
+            value: 1
         };
     },
     methods: {
-        routerTocd() {}
+        routerTocd() {
+            let datas = {
+                sidelineUserId: parseInt(this.id),
+                status: this.value
+            };
+            this.$axios
+                .post('admin/sideline/management/update_business_status?sidelineUserId=' + parseInt(this.id) + '&status=' + this.value)
+                .then((res) => {
+                    console.log(res);
+                    if (res.status == 200) {
+                        let data = res.data;
+                        if (data.code == 200) {
+                            this.$message({
+                                showClose: true,
+                                message: data.msg,
+                                type: 'success'
+                            });
+                            this.$router.push({
+                                path: './Personnel'
+                            });
+                        } else {
+                            this.$message({
+                                showClose: true,
+                                message: data.msg,
+                                type: 'error'
+                            });
+                        }
+                    } else {
+                        this.$message({
+                            showClose: true,
+                            message: res.data.msg,
+                            type: 'error'
+                        });
+                    }
+                });
+        }
     }
 };
 </script>

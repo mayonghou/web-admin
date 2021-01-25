@@ -16,9 +16,10 @@
                     style="color: #FF3737;"
                 >{{this.groupDTO.teamSize - this.groupDTO.countMemberNeed}}</span>人成团，成团后才可以出货，若拼团失败，将自动退款
             </span>
+
             <span v-if="this.groupDTO != null &&　this.status == 0">等待用户付款</span>
             <span
-                v-if="this.groupDTO != null && this.groupDTO.status == 2 &&　this.selfRaisingMethod == '配送' &&　this.status == 1"
+                v-if="this.groupDTO != null && this.groupDTO.status == 2 &&　this.selfRaisingMethod == '物流配送' &&　this.status == 1"
             >{{this.groupDTO.teamSize}}人拼团已完成，请尽快发货，7天内未发货将自动取消</span>
             <span
                 v-if="this.groupDTO != null && this.groupDTO.status == 2 &&　this.selfRaisingMethod == '自提带走' && this.status == 1"
@@ -39,6 +40,9 @@
             <span
                 v-if="this.groupDTO == null && this.selfRaisingMethod == '到店消费' && this.status == 1"
             >与客户联系到店消费，在手机端使用扫码核销</span>
+            <span
+                v-if="this.groupDTO == null && this.selfRaisingMethod == '物流配送' && this.status == 1"
+            >买家已付款，请尽快发货，7天内未发货将自动取消订单</span>
         </div>
         <div class="orderTabel">
             <div class="tabel-top clearfix">
@@ -477,7 +481,7 @@ export default {
             let orderId = this.$route.query.id;
             let orderDatas = this.$route.query.data;
             this.groupDTO = orderDatas.groupDTO;
-            console.log(orderDatas.groupDTO);
+
             this.$axios.get('admin/order/adminQueryOrderInfo?orderId=' + orderId).then((res) => {
                 if (res.status == 200) {
                     var data = res.data;

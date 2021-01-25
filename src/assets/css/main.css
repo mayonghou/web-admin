@@ -185,3 +185,11 @@ a {
 	margin-top: 20px;
 	text-align: center;
 }
+
+.el-date-editor input::-ms-input-placeholder {
+	text-align: center;
+}
+
+.el-date-editor input::-webkit-input-placeholder {
+	text-align: center;
+}

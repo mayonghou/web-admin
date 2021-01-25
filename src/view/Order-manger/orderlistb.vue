@@ -337,11 +337,6 @@ export default {
                                 this.Datar1 = [{ name: '暂无数据！' }];
                             });
                         }
-                        if (!res.data.data.dataList || res.data.dataList.dataList.length == 0) {
-                            this.$nextTick(() => {
-                                this.Datar1 = [{ name: '暂无数据！' }];
-                            });
-                        }
                     }
                 })
                 .catch(() => {
@@ -371,25 +366,24 @@ export default {
         },
         // 批量删除
         BatchDeleteForOrder(id) {
-            alert('还木有接口');
-            /*
-            const url = 'admin/product/adminBatchDelProduct?productIds=' + id;
+            console.log(id);
+            const url = 'admin/order/order/delBatchOrder?orderIds=' + id;
             this.$axios
-                .post(url)
+                .get(url)
                 .then((res) => {
+                    console.log(res);
                     if (res.status == 200) {
                         const dataert = res.data;
                         if (dataert.cpde == 200) {
-                            alert(dataert.msg);
+                            this.$Message.info(dataert.msg);
                             this.CouponDataQuery();
                         } else {
-                            alert(dataert.msg);
+                            this.$Message.info(dataert.msg);
                             this.CouponDataQuery();
                         }
                     }
                 })
                 .catch((err) => {});
-                */
         }
     }
 };

@@ -112,7 +112,6 @@
                                 <p>反面</p>
                                 <p>
                                     <Upload
-                                        multiple
                                         type="drag"
                                         :action="action"
                                         accept="image/*"

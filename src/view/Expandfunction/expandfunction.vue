@@ -1,5 +1,5 @@
 <template>
-    <!-- <h1>平台公告管理</h1> -->
+    <!-- 平台公告管理 -->
     <div class="table_css_xiaoyuer">
         <div class="top-compo">
             <Row style="width: 100%">

@@ -241,7 +241,7 @@ export default {
     name: '',
     data() {
         return {
-            action: 'http://192.168.0.200:7070/api/expand/upload/image',
+            action: localStorage.getItem('actionUrl'),
             formLabelWidth: '220px',
             // fileList:'',
             addform: {

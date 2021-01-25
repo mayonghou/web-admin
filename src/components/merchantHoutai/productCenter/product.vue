@@ -56,7 +56,7 @@
                 <el-table-column prop="productDescribe" label="商品描述" align="center"></el-table-column>
                 <el-table-column prop="pic " label="图片" align="center">
                     <template slot-scope="scope">
-                        <img width="100" :src="scope.row.pic" alt />
+                        <img width="100%" height="auto" :src="scope.row.pic" alt />
                     </template>
                 </el-table-column>
                 <el-table-column prop="video" label="视频" align="center">
@@ -142,8 +142,6 @@ export default {
             });
         },
         getVersion() {
-            console.log('sjafikj');
-
             this.$axios.get('admin/version/queryLastVersion').then((res) => {
                 if (res.status == 200) {
                     let data = res.data;

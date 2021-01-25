@@ -50,7 +50,7 @@
             @current-change="handleCurrentChange"
             :current-page="page"
             :page-sizes="[10, 20, 30, 40]"
-            :page-size="10"
+            :page-size="limit"
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
         ></el-pagination>
@@ -271,49 +271,77 @@ export default {
             this.dialogVisible = true;
         },
         // 弹窗输入回调
-        xiaoyuerChange() {
-            const patrn = /^(\w){6,20}$/;
-            const NewPatrn = patrn.exec(this.formRight.input1);
-            const NewPatrnN = patrn.exec(this.formRight.input2);
-            this.NewPatrn = NewPatrn;
+        xiaoyuerChange() {},
+        // 删除||批量删除
+        DeletData(userid) {
+            const url = 'admin/sideline/management/delete_user';
+            const data = userid;
+            console.log(data);
+            this.$axios
+                .post(url, data)
+                .then((res) => {
+                    console.log(res);
+                    if (res.status == 200) {
+                        const data = res.data;
+                        if (data.code == 200) {
+                            this.$message.info(data.msg);
+                            this.CouponDataQuery();
+                        } else {
+                            this.$message.info(data.msg);
+                            this.CouponDataQuery();
+                        }
+                    }
+                })
+                .catch((err) => {});
+        },
+        // 添加人员
+        AddNewPeopleData() {
+            const url = 'admin/sideline/management/save_user';
+            const data = {};
+            this.$axios
+                .post(url, data)
+                .then((err) => {
+                    if (res.status == 200) {
+                        console.log(res);
+                    } else {
+                        console.log(res);
+                    }
+                })
+                .catch((err) => {});
         },
         // 确定时校验
         jiaoyanFunction() {
-            this.modal10 = true;
-            const patrn = /^(\w){6,20}$/;
-            const NewPatrn = patrn.exec(this.formRight.input1);
-            const NewPatrnN = patrn.exec(this.formRight.input2);
-            if (
-                this.formRight.input1 == this.formRight.input2 &&
-                this.formRight.input1 !== '' &&
-                this.formRight.input2 !== '' &&
-                this.NewPatrn != null
-            ) {
-                this.ResetPasswordButton(); //调用接口
-            } else if (this.formRight.input1 != this.formRight.input2) {
-                this.$message.success(this.statusDataXiaoyuer.colr1);
-            } else if (this.formRight.input1 == '') {
-                this.$message.success(this.statusDataXiaoyuer.colr2);
-            } else if (this.formRight.input2 == '') {
-                this.$message.success(this.statusDataXiaoyuer.colr3);
-            } else if (this.formRight.input1 == '' && this.formRight.input2 == '') {
-                this.$message.success(this.statusDataXiaoyuer.colr4);
-            } else if (this.formRight.input1.length <= 6 || this.formRight.input2 <= 6) {
-                if (NewPatrn == null || NewPatrnN == null) {
-                    this.$message.success(this.statusDataXiaoyuer.colr5);
-                }
-            } else if (this.formRight.input1.length >= 21 || this.formRight.input2 >= 21) {
-                if (NewPatrn == null || NewPatrnN == null) {
-                    this.$message.success(this.statusDataXiaoyuer.colr6);
-                }
+            const pwdRegex = new RegExp('(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9]).{6,18}');
+            if (this.formRight.input1 != this.formRight.input2) {
+                this.$Message.info('两次密码输入不一致！');
+            } else if (this.formRight.input1.length < 6 || this.formRight.input2.length < 6) {
+                this.$Message.info('密码至少为6位数！');
+            } else if (this.formRight.input1.length > 18 || this.formRight.input2.length > 18) {
+                this.$Message.info('密码最多为18位数！');
+            } else if (!pwdRegex.test(this.formRight.input1) || !pwdRegex.test(this.formRight.input2)) {
+                this.$Message.info('您的密码不符合要求（密码中必须包含大小写字母、数字、特殊字符）并以字母开头，请重新输入！');
             } else if (
-                (this.formRight.input1.length > 6 && this.formRight.input1.length <= 20) ||
-                (this.formRight.input1.length > 6 && this.formRight.input1.length <= 20)
+                this.formRight.input1 == this.formRight.input2 &&
+                pwdRegex.test(this.formRight.input1) == true &&
+                pwdRegex.test(this.formRight.input2) == true
             ) {
-                if (NewPatrn == null || NewPatrnN == null) {
-                    this.$message.success(this.statusDataXiaoyuer.colr7);
-                }
+                this.ResetPasswordButton(); //密码重置接口
+                this.dialogVisible = false;
             }
+        },
+        // Request重置密码
+        ResetPasswordButton() {
+            const url = 'admin/sideline/management/reset_pwd/' + this.idData;
+            this.$axios
+                .post(url)
+                .then((res) => {
+                    if (res.status == 200) {
+                        if (res.data.code == 200) {
+                            this.$message.success(res.data.msg);
+                        }
+                    }
+                })
+                .catch((err) => {});
         },
         //将时间转换成时间撮
         fgetLocalTime() {
@@ -397,55 +425,6 @@ export default {
                         this.Datar19 = [{ name: '暂无数据！' }];
                     });
                 });
-        },
-        // 删除||批量删除
-        DeletData(userid) {
-            const url = 'admin/sideline/management/delete_user';
-            const data = userid;
-            this.$axios
-                .post(url, data)
-                .then((res) => {
-                    if (res.status == 200) {
-                        const data = res.data;
-                        if (data.code == 200) {
-                            alert(data.msg);
-                            this.CouponDataQuery();
-                        } else {
-                            alert(data.msg);
-                            this.CouponDataQuery();
-                        }
-                    }
-                })
-                .catch((err) => {});
-        },
-        // 添加人员
-        AddNewPeopleData() {
-            const url = 'admin/sideline/management/save_user';
-            const data = {};
-            this.$axios
-                .post(url, data)
-                .then((err) => {
-                    if (res.status == 200) {
-                        console.log(res);
-                    } else {
-                        console.log(res);
-                    }
-                })
-                .catch((err) => {});
-        },
-        // Request重置密码
-        ResetPasswordButton() {
-            const url = 'admin/sideline/management/reset_pwd/' + this.idData;
-            this.$axios
-                .post(url)
-                .then((res) => {
-                    if (res.status == 200) {
-                        if (res.data.code == 200) {
-                            this.$message.success(res.data.msg);
-                        }
-                    }
-                })
-                .catch((err) => {});
         }
     }
 };

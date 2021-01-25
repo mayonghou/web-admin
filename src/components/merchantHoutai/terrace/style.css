@@ -211,3 +211,17 @@
     color: #fff;
     border-radius: 8px;
 }
+
+.InputClass {
+    padding: 0px 5px;
+    border: 0;
+    outline: none;
+    border-bottom: 1px solid #e6e6e6;
+    width: 150px;
+}
+
+.BtnCLassModal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

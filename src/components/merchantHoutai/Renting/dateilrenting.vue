@@ -15,7 +15,7 @@
                 <video
                     ref="videoPlayer"
                     width="400"
-                    height="200"
+                    height="auto"
                     controls
                     controlslist="nodownload"
                     @play="toPlays"

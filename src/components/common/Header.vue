@@ -45,7 +45,7 @@
                         </el-dropdown-menu>
                     </el-dropdown>
                     <!-- 消息中心 -->
-                    <div class="btn-bells">
+                    <div class="btn-bell">
                         <el-tooltip
                             effect="dark"
                             :content="message ? `有${message}条未读消息` : `消息中心`"
@@ -507,6 +507,7 @@ export default {
 .iconfontssda {
     font-size: 20px;
     font-weight: 1000px;
+    color: #fff;
 }
 
 .iconEnlorder {

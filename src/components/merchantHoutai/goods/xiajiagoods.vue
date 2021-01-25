@@ -29,12 +29,7 @@
         <div class="text-button">
             <el-button @click="delButton" class="delButton">全部删除</el-button>
         </div>
-        <el-table
-            :data="tableData"
-            style="width: 100%;"
-			border
-            @selection-change="SelectionChange"
-        >
+        <el-table :data="tableData" style="width: 100%;" border @selection-change="SelectionChange">
             <el-table-column type="selection" width align="center"></el-table-column>
             <el-table-column prop="index" type="index" label="序号" align="center"></el-table-column>
             <el-table-column prop="name" label="商品名称" width align="center"></el-table-column>
@@ -158,45 +153,51 @@ export default {
         },
         enlarge() {},
         shangjia_btn(row) {
-            this.$confirm('是否确定将商品【' + row.name + '】-上架?', '温馨提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                var data = '?productId=' + row.id + '&publishStaus=1';
-                const loading = this.$loading({
-                    lock: true,
-                    text: '上架中...',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-                });
-                this.$axios.get('admin/product/adminProductPublishStaus' + data).then((res) => {
-                    loading.close();
-                    if (res.status == 200) {
-                        var data = res.data;
-                        if (data.code == 200) {
-                            this.$message({
-                                showClose: true,
-                                message: data.msg,
-                                type: 'success'
-                            });
-                            this.postAdminQueryProductList();
-                        } else {
-                            this.$message({
-                                showClose: true,
-                                message: data.msg,
-                                type: 'error'
-                            });
-                        }
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
-                    }
-                });
+            this.$router.push({
+                path: './editgoods',
+                query: {
+                    id: row.id
+                }
             });
+            // this.$confirm('是否确定将商品【' + row.name + '】-上架?', '温馨提示', {
+            //     confirmButtonText: '确定',
+            //     cancelButtonText: '取消',
+            //     type: 'warning'
+            // }).then(() => {
+            //     var data = '?productId=' + row.id + '&publishStaus=1';
+            //     const loading = this.$loading({
+            //         lock: true,
+            //         text: '上架中...',
+            //         spinner: 'el-icon-loading',
+            //         background: 'rgba(0, 0, 0, 0.7)'
+            //     });
+            //     this.$axios.get('admin/product/adminProductPublishStaus' + data).then((res) => {
+            //         loading.close();
+            //         if (res.status == 200) {
+            //             var data = res.data;
+            //             if (data.code == 200) {
+            //                 this.$message({
+            //                     showClose: true,
+            //                     message: data.msg,
+            //                     type: 'success'
+            //                 });
+            //                 this.postAdminQueryProductList();
+            //             } else {
+            //                 this.$message({
+            //                     showClose: true,
+            //                     message: data.msg,
+            //                     type: 'error'
+            //                 });
+            //             }
+            //         } else {
+            //             this.$message({
+            //                 showClose: true,
+            //                 message: data.msg,
+            //                 type: 'error'
+            //             });
+            //         }
+            //     });
+            // });
         },
         // 查看详情
         btn_detail(row) {
@@ -307,6 +308,7 @@ export default {
 .xiajiagoods {
     box-sizing: border-box;
     width: 100%;
+    padding: 20px;
 }
 .divwuliu {
     margin-top: 20px;

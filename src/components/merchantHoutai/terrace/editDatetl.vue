@@ -172,7 +172,7 @@
 export default {
     data() {
         return {
-            formLabelWidth: '300px',
+            formLabelWidth: '400px',
             qyID: '',
             fileList: '',
             dialogVisiblebg: false,
@@ -304,7 +304,7 @@ export default {
                             this.addform = data.data;
                             this.qyname = this.addform.name;
                             this.qyID = data.data.id;
-                            var date = new Date(data.data.time);
+                            var date = new Date(parseInt(data.data.time));
                             var GS_time =
                                 date.getFullYear() +
                                 '-' +

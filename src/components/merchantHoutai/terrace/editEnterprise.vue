@@ -502,7 +502,7 @@ export default {
                         this.FRONTurl = data.data.frontImage;
                         // 反面
                         this.BACKurl = data.data.backImage;
-                        var date = new Date(data.data.time);
+                        var date = new Date(parseInt(data.data.time));
                         var GS_time =
                             date.getFullYear() +
                             '-' +
