@@ -109,6 +109,62 @@ export default {
                     });
                 }
             });
+        },
+        // 删除
+        DeleteDatas(row) {
+            this.$axios.get('admin/user/feedback/delete?ids=' + row.id).then((res) => {
+                if (res.status == 200) {
+                    let data = res.data;
+                    if (data.code == 200) {
+                        this.$message({
+                            showClose: true,
+                            message: data.msg,
+                            type: 'success'
+                        });
+                        this.getDatalists(1, 10, '');
+                    } else {
+                        this.$message({
+                            showClose: true,
+                            message: data.msg,
+                            type: 'error'
+                        });
+                    }
+                } else {
+                    this.$message({
+                        showClose: true,
+                        message: res.data.msg,
+                        type: 'error'
+                    });
+                }
+            });
+        },
+        // 删除多条
+        DeteleDataAlls(idList) {
+            this.$axios.get('admin/user/feedback/delete?ids=' + idList).then((res) => {
+                if (res.status == 200) {
+                    let data = res.data;
+                    if (data.code == 200) {
+                        this.$message({
+                            showClose: true,
+                            message: data.msg,
+                            type: 'success'
+                        });
+                        this.getDatalists(1, 10, '');
+                    } else {
+                        this.$message({
+                            showClose: true,
+                            message: data.msg,
+                            type: 'error'
+                        });
+                    }
+                } else {
+                    this.$message({
+                        showClose: true,
+                        message: res.data.msg,
+                        type: 'error'
+                    });
+                }
+            });
         }
     }
 };

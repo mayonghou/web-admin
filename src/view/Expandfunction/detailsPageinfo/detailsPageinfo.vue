@@ -14,8 +14,8 @@
                 <FormItem label="公告范围">
                     <Select v-model="formItem.select" style="width:200px">
                         <Option
-                            value="beijing"
                             v-for="(item,index) in xiaoyuerData"
+                            :value="item.index"
                             :key="index"
                         >{{ item.OptionData }}</Option>
                     </Select>
@@ -23,18 +23,29 @@
                 <!--附文本-->
                 <FormItem label="公告详情">
                     <div class="edit_container">
+                        <el-upload
+                            :with-credentials="true"
+                            multiple
+                            class="quill-upload"
+                            :action="action"
+                            style="display: none;width:0;"
+                            :show-file-list="false"
+                            accept="image/*"
+                            :on-success="success"
+                            :before-upload="beforeAvatarUpload"
+                        >
+                            <i class="el-icon-upload"></i>
+                        </el-upload>
+                        <!-- :content="content" -->
                         <quill-editor
-                            v-model="content"
                             ref="myQuillEditor"
+                            v-model="formItem.content"
                             :options="editorOption"
-                            @blur="onEditorBlur($event)"
-                            @focus="onEditorFocus($event)"
-                            @change="onEditorChange($event)"
                         ></quill-editor>
                     </div>
                 </FormItem>
                 <div class="BtnClassStyle">
-                    <Button type="primary">发布</Button>
+                    <Button type="primary" @click="publishNotice">发布</Button>
                     <Button style="margin-left: 8px" @click="returnCancel">取消</Button>
                 </div>
             </Form>
@@ -49,26 +60,81 @@ import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
 export default {
     data() {
+        const toolbarOptions = [
+            ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+            ['blockquote', 'code-block'],
+
+            [{ header: 1 }, { header: 2 }], // custom button values
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
+            [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+            [{ direction: 'rtl' }], // text direction
+
+            [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+            [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+            [{ font: [] }],
+            [{ align: [] }],
+            ['image'],
+            ['clean'] // remove formatting button
+        ];
         return {
+            action: localStorage.getItem('actionUrl'),
             formItem: {
                 input: '',
-                select: ''
+                select: '',
+                content: ''
             },
             // 附文本
             content: `请编辑你的富文本内容......`,
-            editorOption: {},
+            editorOption: {
+                placeholder: '请输入内容',
+                modules: {
+                    toolbar: {
+                        container: toolbarOptions,
+                        handlers: {
+                            // 重写点击组件上的图片按钮要执行的代码
+                            image: function (value) {
+                                document.querySelector('.quill-upload .el-icon-upload').click();
+                            }
+                        }
+                    }
+                }
+            },
             xiaoyuerData: [
                 {
+                    index: 0,
+                    OptionData: '全平台'
+                },
+                {
+                    index: 1,
                     OptionData: '商家会员'
                 },
                 {
+                    index: 2,
                     OptionData: '普通会员'
                 },
                 {
+                    index: 3,
                     OptionData: '兼职会员'
                 }
             ]
         };
+    },
+    watch: {
+        serviceUrl(val) {
+            this.serviceUrl = val;
+        },
+        getHeader(val) {
+            this.getHeader = val;
+        },
+        editorData(val) {
+            this.$emit('getEditorData', this.editorData);
+        },
+        content(val) {
+            this.content = val;
+        }
     },
     comments: {
         quillEditor //附文本
@@ -80,12 +146,81 @@ export default {
         }
     },
     methods: {
-        onEditorReady(editor) {
-            // 准备编辑器
+        beforeAvatarUpload(file) {
+            this.$emit('beforeAvatarUpload', file);
         },
-        onEditorBlur() {}, // 失去焦点事件
-        onEditorFocus() {}, // 获得焦点事件
-        onEditorChange() {}, // 内容改变事件
+        // 富文本图片上传
+        success(res, file, fileList) {
+            // res为图片服务器返回的数据
+            // 获取富文本组件实例
+            let quill = this.$refs.myQuillEditor.quill;
+            // 如果上传成功
+            if (res.code == 200) {
+                // 获取光标所在位置
+                const pos = quill.selection.savedRange.index; //这个得注意下，网上很多都是不对的
+                // 插入图片到光标位置
+                quill.insertEmbed(pos, 'image', localStorage.getItem('imgUrl') + res.data);
+                // 调整光标到最后
+                quill.setSelection(length + 1);
+            } else {
+                this.$message({
+                    showClose: true,
+                    message: '详情图片上传失败',
+                    type: 'error'
+                });
+            }
+            // loading动画消失
+            this.quillUpdateImg = false;
+        },
+        // 发布公告
+        publishNotice() {
+            this.$confirm('是否确定发布标题为【' + this.formItem.input + '】的公告?', '温馨提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                let data = {
+                    detail: this.formItem.content,
+                    noticeRange: this.formItem.select,
+                    title: this.formItem.input
+                };
+                const loading = this.$loading({
+                    lock: true,
+                    text: '发布中...',
+                    spinner: 'el-icon-loading',
+                    background: 'rgba(0, 0, 0, 0.7)'
+                });
+
+                this.$axios.post('admin/platform/publish', data).then((res) => {
+                    loading.close();
+                    if (res.status == 200) {
+                        let data = res.data;
+                        if (data.code == 200) {
+                            this.$message({
+                                showClose: true,
+                                message: data.msg,
+                                type: 'success'
+                            });
+                            this.$router.push({
+                                path: './expandfunction'
+                            });
+                        } else {
+                            this.$message({
+                                showClose: true,
+                                message: data.msg,
+                                type: 'error'
+                            });
+                        }
+                    } else {
+                        this.$message({
+                            showClose: true,
+                            message: data.msg,
+                            type: 'error'
+                        });
+                    }
+                });
+            });
+        },
         // 取消按钮
         returnCancel() {
             this.$router.push({

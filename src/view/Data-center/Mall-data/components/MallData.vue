@@ -21,11 +21,12 @@
 
 <script>
 export default {
+    props: ['saleTotal'],
     data() {
         return {
             MallData: {
-                Numcout: '30000',
-                transaction: '今日交易金额'
+                Numcout: this.saleTotal || 0,
+                transaction: '今日交易总金额'
             }
         };
     }

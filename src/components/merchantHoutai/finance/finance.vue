@@ -25,6 +25,7 @@
                     </div>
                     <el-button @click="tixannum" class="tixiansss" round>提现</el-button>
                 </div>
+                <div class="promptMessage">提现说明：提现时平台收取{{ this.moneydatasdda}}%的订单服务费，将从提现金额中扣除。</div>
             </div>
             <div class="jiluchaxun">
                 <label style="display: block;">记录查询</label>
@@ -50,7 +51,7 @@
         <el-table :data="tableData" border style="width: 100%;">
             <el-table-column type="index" prop label="序号" align="center" width="80"></el-table-column>
             <el-table-column prop="orderSn" label="流水号" align="center"></el-table-column>
-            <el-table-column prop="totalAmount" label="金额" align="center"></el-table-column>
+            <el-table-column prop="totalAmount" label="入账金额" align="center"></el-table-column>
             <el-table-column prop="payTypeList" label="支付平台" align="center"></el-table-column>
             <el-table-column prop="createTime" label="入账时间" align="center"></el-table-column>
         </el-table>
@@ -75,7 +76,20 @@
             </div>
             <el-form :model="tixianNumber" :rules="rules" ref="tixianNumber">
                 <el-form-item label="输入提现金额:" prop="money" :label-width="formLabelWidth">
-                    <el-input v-model="tixianNumber.money" placeholder="请输入金额"></el-input>
+                    <el-input
+                        v-model="tixianNumber.money"
+                        onkeyup="value=value.replace(/[^\0-9]./g,'')"
+                        placeholder="请输入金额"
+                        @change="realityMoney"
+                    ></el-input>
+                </el-form-item>
+                <el-form-item label="实际到账金额:" prop="realitymoney" :label-width="formLabelWidth">
+                    <el-input
+                        class="realitymoney"
+                        v-model="tixianNumber.realitymoney"
+                        placeholder="请输入体现金额"
+                        disabled
+                    ></el-input>
                 </el-form-item>
             </el-form>
             <div class="account-xinxi">
@@ -102,6 +116,7 @@
             <div class="baocunfinance">
                 <el-button class="finbtn" @click="tixianBaocun">保存</el-button>
             </div>
+            <div class="prMessage">提现说明：提现时平台收取{{ this.moneydatasdda}}%的订单服务费，将从提现金额中扣除。</div>
         </el-dialog>
     </div>
 </template>
@@ -126,8 +141,10 @@ export default {
             companyData: {},
             momeyDataList: '',
             moneyboolean: '',
+            moneydatasdda: 10, //平台服务费占比 10%
             tixianNumber: {
-                money: ''
+                money: '',
+                realitymoney: ''
             },
             rules: {
                 money: [
@@ -145,6 +162,28 @@ export default {
         this.getmoney();
     },
     methods: {
+        // 计算实际到账金额
+        realityMoney(value) {
+            this.$axios.get('admin/financialManagement/accountBalance').then((res) => {
+                if (res.status == 200) {
+                    let data = res.data;
+                    if (data.code == 200) {
+                        let moneyData = data.data / 100;
+                        if (value > moneyData) {
+                            return this.$message({
+                                showClose: true,
+                                message: '提现金额不能大于余额',
+                                type: 'error'
+                            });
+                        } else {
+                            this.tixianNumber.realitymoney = this.tixianNumber.money - (value * this.moneydatasdda) / 100;
+                            console.log(value);
+                            console.log((value * 10) / 100);
+                        }
+                    }
+                }
+            });
+        },
         tixianjilu() {
             this.$router.push({
                 path: './moneyNumber'
@@ -355,10 +394,9 @@ export default {
 }
 .account-num {
     text-align: center;
-    width: 200px;
-    margin: 0 auto;
+    width: 100%;
 }
-.shoppyee {
+.account-num .shoppyee {
     font-size: 24px;
     color: #fff;
     padding-top: 50px;
@@ -429,5 +467,25 @@ export default {
 }
 .number {
     color: #000;
+}
+.promptMessage {
+    width: 100%;
+    /* margin-left: 43%; */
+    text-align: right;
+    color: #ff8d00;
+    padding-right: 11%;
+}
+/* .realitymoney .el-input__inner {
+
+} */
+.realitymoney.is-disabled .el-input__inner {
+    background: #fff;
+    color: #000;
+    border: 0;
+}
+.prMessage {
+    width: 100%;
+    text-align: right;
+    color: #ff8d00;
 }
 </style>

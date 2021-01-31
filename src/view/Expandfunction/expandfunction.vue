@@ -50,7 +50,7 @@ import tablea from '../conponents/table/tablea/tablea.vue';
 export default {
     data() {
         return {
-            Datar20: '',
+            Datar20: [],
             // 数据发散
             pageid: [
                 { pageid: 20 },
@@ -186,10 +186,10 @@ export default {
         CouponDataQuery() {
             var url = 'admin/platform/list';
             var data = {
-                endDate: this.end || 0,
+                endDate: this.end,
                 limit: this.limit,
                 page: this.page,
-                startDate: this.start || 0,
+                startDate: this.start,
                 title: this.value01
             };
             this.$axios
@@ -228,11 +228,11 @@ export default {
                                 this.Datar20 = [{ name: '暂无数据！' }];
                             });
                         }
-                        if (!res.data.list || res.data.list.length == 0) {
-                            this.$nextTick(() => {
-                                this.Datar19 = [{ name: '暂无数据！' }];
-                            });
-                        }
+                        // if (!res.data.list || res.data.list.length == 0) {
+                        //     this.$nextTick(() => {
+                        //         this.Datar20 = [{ name: '暂无数据！' }];
+                        //     });
+                        // }
                     }
                 })
                 .catch((err) => {

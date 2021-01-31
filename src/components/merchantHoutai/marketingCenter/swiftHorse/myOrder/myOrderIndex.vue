@@ -142,7 +142,7 @@
             :total="counts"
         ></el-pagination>
         <el-dialog title="支付" :visible.sync="dialogVisible" width="30%">
-            <img :src="'data:image/jpg;base64,'+imgbase64" />
+            <img class="dfsdikf" :src="'data:image/jpg;base64,'+imgbase64" />
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -652,5 +652,8 @@ export default {
     text-align: center;
     padding-top: 100px;
     font-size: 50px;
+}
+.dfsdikf {
+    width: 100%;
 }
 </style>

@@ -12,7 +12,7 @@
                 <li>
                     <div>通知内容：</div>
                     <div>
-                        <p>{{AjaxData.detail}}</p>
+                        <p v-html="AjaxData.detail"></p>
                     </div>
                 </li>
             </ul>

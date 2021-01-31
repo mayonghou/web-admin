@@ -178,7 +178,8 @@ export default {
                 '&zan=' +
                 this.dianzhuang +
                 '&play=' +
-                this.videoBuofang;
+                this.videoBuofang +
+                '&paging=true';
             this.$axios.get('admin/admin/market/video/selectAllMarketVideo' + datas).then((res) => {
                 if (res.status == 200) {
                     let data = res.data;

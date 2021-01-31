@@ -46,7 +46,8 @@
                                     <span>{{item.browse}}次浏览</span>
                                 </div>
                             </div>
-                            <div class="li-body">{{item.content}}</div>
+                            <!-- <div class="li-body" v-html="item.content">{{item.content}}</div> -->
+                            <div class="li-body" v-html="item.content"></div>
                         </li>
                     </ul>
                 </div>
@@ -152,7 +153,7 @@ export default {
         // 营销活动列表
         activityAll() {
             this.$router.push({
-                path: './activityList'
+                path: './activityDataList'
             });
         },
         // 营销小知识详情
@@ -255,7 +256,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .marketing {
     width: 100%;
     box-sizing: border-box;
@@ -427,10 +428,12 @@ export default {
     overflow: hidden;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    display: -webkit-box;
+    /* display: -webkit-box; */
     font-size: 14px;
 }
-
+.li-body p img {
+    display: none;
+}
 .body-right .right-top {
     display: flex;
     justify-content: space-between;
@@ -496,7 +499,9 @@ export default {
     display: -webkit-box;
     font-size: 14px;
 }
-
+.activityTexts img {
+    display: none;
+}
 .marketing-repository {
     width: 100%;
     margin-top: 20px;

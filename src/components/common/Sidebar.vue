@@ -33,7 +33,7 @@
                                 >{{ threeItem.title }}</el-menu-item>
                             </el-submenu>
                             <el-menu-item
-                                @click="SendData(subItem)"
+                                @click="SendData(subItem.title)"
                                 v-else
                                 :index="subItem.index"
                                 :key="subItem.index"
@@ -58,9 +58,7 @@ export default {
     data() {
         return {
             collapse: false,
-            items: [],
-            xyrMsg: '',
-            subsData: ''
+            items: []
         };
     },
     computed: {
@@ -80,12 +78,10 @@ export default {
     },
     methods: {
         xioayuerfnx(item) {
-            this.xyrMsg = item;
-            bus.$emit('xiaoyuerfn', this.xyrMsg);
+            bus.$emit('SidebarFn1', [item, 'Sid1']);
         },
         SendData(subs) {
-            this.subsData = subs;
-            bus.$emit('xiaoyuerFunction', this.subsData);
+            bus.$emit('SidebarFn2', subs);
         },
         loginData() {
             var loginData = localStorage.getItem('loginData');

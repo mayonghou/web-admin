@@ -18,6 +18,10 @@ export default {
         let video = 'http://192.168.0.200:7070/api/expand/upload/video';
         // let video = 'https://api.gzwjfh.com/api/expand/upload/video';
         localStorage.setItem('videoUrl', video);
+        // 文档上传
+        let fileUrl = 'http://192.168.0.200:7070/api/expand/upload/word';
+        // let fileUrl = 'https://api.gzwjfh.com/api/expand/upload/word';
+        localStorage.setItem('fileUrl', fileUrl);
     }
 };
 </script>

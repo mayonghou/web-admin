@@ -9,7 +9,7 @@
             <div class="imgClass-xiard">
                 <div class="IconClssfd">
                     <p class="fontSized">
-                        <span class="spanClassdfd">￥</span>
+                        <span class="spanClassdfd">&nbsp;</span>
                         {{ MallData.Numcout }}
                     </p>
                     <p class="fontSize2d">{{ MallData.transaction }}</p>
@@ -21,11 +21,12 @@
 
 <script>
 export default {
+    props: ['viewTotal'],
     data() {
         return {
             MallData: {
-                Numcout: '30000',
-                transaction: '今日交易金额'
+                Numcout: this.viewTotal || 0,
+                transaction: '今日浏览量'
             }
         };
     }

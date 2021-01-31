@@ -29,6 +29,8 @@
         <el-table :data="tableData" border style="width: 100%">
             <el-table-column type="index" prop label="序号" align="center" width="80"></el-table-column>
             <el-table-column prop="withAccount" label="提现金额" align="center"></el-table-column>
+            <el-table-column prop="serviceCharge" label="平台服务费" align="center"></el-table-column>
+            <el-table-column prop="incomeAccount" label="到账金额" align="center"></el-table-column>
             <el-table-column prop="handlename" label="提现状态" align="center"></el-table-column>
             <el-table-column prop="createTime" label="申请时间" align="center"></el-table-column>
             <el-table-column prop="handleTime" label="处理时间" align="center"></el-table-column>
@@ -194,6 +196,8 @@ export default {
                         data.data.forEach((val, index) => {
                             tabData[index] = val;
                             tabData[index].withAccount = '￥' + val.withdrawAccount / 100;
+                            tabData[index].serviceCharge = '￥' + val.serviceCharge / 100;
+                            tabData[index].incomeAccount = '￥' + val.incomeAccount / 100;
                             if (val.handleStatus == 0) {
                                 tabData[index].handlename = '处理中';
                             } else if (val.handleStatus == 1) {

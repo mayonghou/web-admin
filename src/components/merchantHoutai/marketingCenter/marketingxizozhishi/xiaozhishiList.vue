@@ -11,13 +11,13 @@
                     <!-- 这个地方渲染出错下 -->
                     <!-- <div>{{item}}</div> -->
                     <div class="xaiozhishiListass">
-                        <img class="imgUrl" src="../../../../assets/img/img.jpg" />
+                        <!-- <img class="imgUrl" src="../../../../assets/img/img.jpg" /> -->
                         <div class="titleText">
                             <div class="title">{{ item.title }}</div>
-                            <div class="text">{{ item.content }}</div>
+                            <div class="text" v-html="item.content"></div>
                         </div>
                     </div>
-                    <div v-html="item.content"></div>
+                    <!-- <div v-html="item.content"></div> -->
                     <!-- 这个地方渲染出错上 -->
 
                     <i style="font-size: 28px" class="el-icon-right"></i>
@@ -149,5 +149,8 @@ export default {
     display: flex;
     flex-direction: row;
     margin-top: 20px;
+}
+.text img {
+    display: inline-block;
 }
 </style>

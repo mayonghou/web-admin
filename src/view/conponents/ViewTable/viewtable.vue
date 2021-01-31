@@ -128,206 +128,71 @@ export default {
         // 获取全选的id
         selectionChange(value) {
             if (this.judge.name == 1) {
-                this.sttlelnId.push(value.id);
+                let ids = [];
+                value.forEach(function (val) {
+                    ids.push(val.id);
+                });
+                this.sttlelnId = ids;
             } else if (this.judge.name == 2) {
-                this.reportId.push(value.id);
+                let ids = [];
+                value.forEach(function (val) {
+                    ids.push(val.id);
+                });
+                this.reportId = ids;
             } else if (this.judge.name == 3) {
-                this.feedbackid.push(value.id);
+                let ids = [];
+                value.forEach(function (val) {
+                    ids.push(val.id);
+                });
+                this.feedbackid = ids;
             }
         },
         // 批量删除
         batchDelAll() {
             if (this.judge.name == 1) {
-                this.$axios.get('admin/user/attract/delete?ids=' + this.sttlelnId).then((res) => {
-                    if (res.status == 200) {
-                        let data = res.data;
-                        if (data.code == 200) {
-                            this.$message({
-                                showClose: true,
-                                message: data.msg,
-                                type: 'error'
-                            });
-                            this.$parent.getDataList(1, 10);
-                        } else {
-                            this.$message({
-                                showClose: true,
-                                message: data.msg,
-                                type: 'error'
-                            });
-                        }
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: res.data.msg,
-                            type: 'error'
-                        });
-                    }
-                });
+                this.$parent.DeleteAll(this.sttlelnId);
             } else if (this.judge.name == 2) {
-                this.$axios.get('admin/user/complain/delete?ids=' + this.reportId).then((res) => {
-                    if (res.status == 200) {
-                        let data = res.data;
-                        if (data.code == 200) {
-                            this.$message({
-                                showClose: true,
-                                message: data.msg,
-                                type: 'error'
-                            });
-                            this.$parent.getDatalist(1, 10);
-                        } else {
-                            this.$message({
-                                showClose: true,
-                                message: data.msg,
-                                type: 'error'
-                            });
-                        }
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: res.data.msg,
-                            type: 'error'
-                        });
-                    }
-                });
+                this.$parent.DeleteDataAll(this.reportId);
             } else if (this.judge.name == 3) {
-                this.$axios.get('admin/user/feedback/delete?ids=' + this.reportId).then((res) => {
-                    if (res.status == 200) {
-                        let data = res.data;
-                        if (data.code == 200) {
-                            this.$message({
-                                showClose: true,
-                                message: data.msg,
-                                type: 'error'
-                            });
-                            this.$parent.getDatalists(1, 10);
-                        } else {
-                            this.$message({
-                                showClose: true,
-                                message: data.msg,
-                                type: 'error'
-                            });
-                        }
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: res.data.msg,
-                            type: 'error'
-                        });
-                    }
-                });
+                this.$parent.DeteleDataAlls(this.feedbackid);
             }
         },
         // 删除
         deleteData(row, index) {
             if (this.judge.name == 1) {
-                this.$axios.get('admin/user/attract/delete?ids=' + row.id).then((res) => {
-                    if (res.status == 200) {
-                        let data = res.data;
-                        if (data.code == 200) {
-                            this.$message({
-                                showClose: true,
-                                message: data.msg,
-                                type: 'error'
-                            });
-                            this.$parent.getDataList(1, 10);
-                        } else {
-                            this.$message({
-                                showClose: true,
-                                message: data.msg,
-                                type: 'error'
-                            });
-                        }
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: res.data.msg,
-                            type: 'error'
-                        });
-                    }
-                });
+                this.$parent.Delete(row);
             } else if (this.judge.name == 2) {
-                this.$axios.get('admin/user/complain/delete?ids=' + row.id).then((res) => {
-                    if (res.status == 200) {
-                        let data = res.data;
-                        if (data.code == 200) {
-                            this.$message({
-                                showClose: true,
-                                message: data.msg,
-                                type: 'error'
-                            });
-                            this.$parent.getDatalist(1, 10);
-                        } else {
-                            this.$message({
-                                showClose: true,
-                                message: data.msg,
-                                type: 'error'
-                            });
-                        }
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: res.data.msg,
-                            type: 'error'
-                        });
-                    }
-                });
+                this.$parent.DeleteData(row);
             } else if (this.judge.name == 3) {
-                this.$axios.get('admin/user/feedback/delete?ids=' + row.id).then((res) => {
-                    if (res.status == 200) {
-                        let data = res.data;
-                        if (data.code == 200) {
-                            this.$message({
-                                showClose: true,
-                                message: data.msg,
-                                type: 'error'
-                            });
-                            this.$parent.getDatalists(1, 10);
-                        } else {
-                            this.$message({
-                                showClose: true,
-                                message: data.msg,
-                                type: 'error'
-                            });
-                        }
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: res.data.msg,
-                            type: 'error'
-                        });
-                    }
-                });
+                this.$parent.DeleteDatas(row);
             }
         },
         lookDetail(row) {
             if (this.judge.name == 1) {
-                this.$Message.info('查看详情回调1');
                 const Newjudge = this.judge.name;
                 this.$router.push({
                     path: './ViewDetailsPage',
                     query: {
-                        TitleSon: '商家入驻申请详情',
-                        Newjudge: Newjudge
+                        Newjudge: Newjudge,
+                        data: row
                     }
                 });
             } else if (this.judge.name == 2) {
-                this.$Message.info('查看详情回调2');
                 const Newjudge = this.judge.name;
                 this.$router.push({
                     path: './ViewDetailsPage',
                     query: {
-                        TitleSon: '投诉举报详情',
-                        Newjudge: Newjudge
+                        Newjudge: Newjudge,
+                        data: row
                     }
                 });
             } else if (this.judge.name == 3) {
-                this.$Message.info('查看详情回调3');
                 const Newjudge = this.judge.name;
                 this.$router.push({
                     path: './ViewDetailsPage',
                     query: {
-                        TitleSon: '帮助反馈详情',
-                        Newjudge: Newjudge
+                        Newjudge: Newjudge,
+                        data: row
                     }
                 });
             }

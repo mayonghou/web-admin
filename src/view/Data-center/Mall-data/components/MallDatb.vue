@@ -9,7 +9,7 @@
             <div class="imgClass-xiara">
                 <div class="IconClssfa">
                     <p class="fontSizea">
-                        <span class="spanClassdfa">￥</span>
+                        <span class="spanClassdfa">&nbsp;</span>
                         {{ MallData.Numcout }}
                     </p>
                     <p class="fontSize2a">{{ MallData.transaction }}</p>
@@ -21,11 +21,12 @@
 
 <script>
 export default {
+    props: ['orderTotal'],
     data() {
         return {
             MallData: {
-                Numcout: '30000',
-                transaction: '今日交易金额'
+                Numcout: this.orderTotal || 0,
+                transaction: '今日订单量'
             }
         };
     }

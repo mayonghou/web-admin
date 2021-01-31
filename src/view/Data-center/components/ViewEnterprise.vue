@@ -1,73 +1,62 @@
 <template>
-  <div class="rootClass">
-    <div class="select">
-      <div class="navtitle">查看行业</div>
-      <div class="navcount"
-           @click="selcectFun">
-        <div class="navcounta">
-          <span>{{ this.titlsclick }}</span>
-          <span ref="iSif"
-                class="spanIcon">
-            <Icon type="ios-arrow-down"
-                  class="icon" />
-          </span>
+    <div class="rootClass">
+        <div class="select">
+            <div class="navtitle">查看行业</div>
+            <div class="navcount" @click="selcectFun">
+                <div class="navcounta">
+                    <span>{{ this.titlsclick }}</span>
+                    <span ref="iSif" class="spanIcon">
+                        <Icon type="ios-arrow-down" class="icon" />
+                    </span>
+                </div>
+                <transition name="fade">
+                    <ul v-if="iShow">
+                        <li
+                            v-for="(item, index) in listData"
+                            :key="index"
+                            @click="selectfunction(item)"
+                        >{{ item.name }}</li>
+                    </ul>
+                </transition>
+            </div>
         </div>
-        <transition name="fade">
-          <ul v-if="iShow">
-            <li v-for="(item, index) in listData"
-                :key="index"
-                @click="selectfunction(item)">{{ item.title }}</li>
-          </ul>
-        </transition>
-      </div>
-    </div>
-    <div>
-      <Row>
-        <Col span="12">
-        <DatePicker :value="TimeData"
-                    format="yyyy年MM月dd日"
-                    type="date"
+        <div>
+            <Row>
+                <!-- <Col span="12"> -->
+                <DatePicker
+                    :value="TimeData"
+                    format="yyyy-MM"
+                    type="month"
                     placeholder="Select date"
-                    style="width: 200px"></DatePicker>
-        </Col>
-      </Row>
+                    style="width: 200px"
+                    @on-change="timeDate"
+                ></DatePicker>
+                <!-- </Col> -->
+            </Row>
+        </div>
     </div>
-  </div>
 </template>
 <script>
+import bus from '../../../components/common/bus.js';
 export default {
     data() {
         return {
-            TimeData: '2020年12月20日',
+            TimeData: '',
             iShow: false,
-            titlsclick: '默认选项值',
-            listData: [
-                {
-                    title: '服装f是儿'
-                },
-                {
-                    title: '餐饮行业'
-                },
-                {
-                    title: '旅游业'
-                },
-                {
-                    title: '美容也'
-                },
-                {
-                    title: '服务型行业'
-                },
-                {
-                    title: '餐饮行业'
-                },
-                {
-                    title: '旅游业'
-                },
-                {
-                    title: '美容也'
-                }
-            ]
+            titlsclick: this.titlsclick,
+            listData: []
         };
+    },
+    mounted() {
+        // 获取当前时间
+        let date = new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        if (month.toString().length < 10) {
+            month = '0' + month;
+        }
+        this.TimeData = year + '-' + month;
+        this.getIndustryList();
     },
     methods: {
         selcectFun(index) {
@@ -86,8 +75,25 @@ export default {
                 }
             }
         },
+        timeDate(value) {
+            bus.$emit('timeData', value);
+        },
         selectfunction(item) {
-            this.titlsclick = item.title;
+            this.titlsclick = item.name;
+            bus.$emit('Industrydata', item);
+        },
+        // 获取所有行业
+        getIndustryList() {
+            this.$axios.get('admin/industry/list').then((res) => {
+                if (res.status == 200) {
+                    let data = res.data;
+                    if (data.code == 200) {
+                        this.listData = data.data;
+                        this.titlsclick = this.listData[0].name;
+                        bus.$emit('Industrydata', this.listData[0]);
+                    }
+                }
+            });
         }
     }
 };

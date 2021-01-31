@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
-import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'; // 默认主题
 import './components/common/directives';
 import 'babel-polyfill';
 import axios from './axios/index.js';
+
 // import VSchart from 'vue-schart';
 import echarts from 'echarts';
 import globalstyle from './view/cssglobalstyle/globalstyle.css';
@@ -14,10 +14,13 @@ import VueQuillEditor from 'vue-quill-editor';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
+import './components/common/preventReClick.js';
 // import {editorOptions} from './config/vue-quill-editor-config.js'
 import md5 from 'js-md5';
 Vue.prototype.$md5 = md5;
 Vue.use(VueQuillEditor);
+import ElementUI from 'element-ui';
+Vue.use(ElementUI);
 import ViewUI from 'view-design';
 import 'view-design/dist/styles/iview.css';
 Vue.use(ViewUI);

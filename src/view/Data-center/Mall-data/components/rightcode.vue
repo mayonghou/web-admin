@@ -11,10 +11,10 @@
             <table class="TableStyleClass">
                 <tr v-for="(item,index) in TableData" :key="index">
                     <td>
-                        <span class="bgClasscoele">{{ index }}</span>
+                        <span class="bgClasscoele">{{ index+1 }}</span>
                     </td>
-                    <td>{{ item.companyName }}</td>
-                    <td class="LastChildClass">{{ item.NumData }}</td>
+                    <td>{{ item.name }}</td>
+                    <td class="LastChildClass">{{ item.value / 100 }}</td>
                 </tr>
             </table>
         </ul>
@@ -23,50 +23,10 @@
 
 <script>
 export default {
+    props: ['productList'],
     data() {
         return {
-            TableData: [
-                {
-                    companyName: '香江酒店',
-                    NumData: '12'
-                },
-                {
-                    companyName: '香江酒店',
-                    NumData: '456'
-                },
-                {
-                    companyName: '香江酒店',
-                    NumData: '123'
-                },
-                {
-                    companyName: '香江酒店',
-                    NumData: '456'
-                },
-                {
-                    companyName: '香江酒店',
-                    NumData: '456'
-                },
-                {
-                    companyName: '香江酒店',
-                    NumData: '456'
-                },
-                {
-                    companyName: '香江酒店',
-                    NumData: '456'
-                },
-                {
-                    companyName: '香江酒店',
-                    NumData: '456'
-                },
-                {
-                    companyName: '香江酒店',
-                    NumData: '456'
-                },
-                {
-                    companyName: '香江酒店',
-                    NumData: '456'
-                }
-            ]
+            TableData: this.productList
         };
     }
 };

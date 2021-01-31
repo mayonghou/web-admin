@@ -1,13 +1,17 @@
 <template>
     <div>
-        <h1>营销中心</h1>
+        <IconLikeDesign></IconLikeDesign>
     </div>
 </template>
 
 <script>
+import IconLikeDesign from './components/IconLikeDesign.vue';
 export default {
     data() {
         return {};
+    },
+    components: {
+        IconLikeDesign
     }
 };
 </script>

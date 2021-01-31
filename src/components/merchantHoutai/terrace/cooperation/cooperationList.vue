@@ -667,6 +667,7 @@ export default {
     margin-left: 15px;
     background: #2482d2;
     color: #fff;
+    padding: 0;
 }
 
 .el-badge__content.is-fixed {

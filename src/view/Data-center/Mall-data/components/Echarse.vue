@@ -4,19 +4,30 @@
             <span class="spanClassgr">
                 <div class="xiaoyuert">
                     <p class="sonCls">平台转化率</p>
-                    <p class="sonCls">84%</p>
+                    <p class="sonCls">{{this.conversionRate}}%</p>
                     <div class="xiaoyuGdd">
-                        <div class="xiaoyufg">&nbsp;</div>
+                        <!-- <div class="xiaoyufg">&nbsp;</div> -->
+                        <Progress
+                            :percent="parseInt(this.conversionRate)"
+                            :stroke-width="15"
+                            hide-info
+                        />
                     </div>
                 </div>
             </span>
             <span class="spanClassgr vdisplayClass">
                 <div class="xiaoyuert">
                     <p class="sonCls">平台复购率</p>
-                    <p class="sonClss">50%</p>
+                    <p class="sonClss">{{this.repeatRate}}%</p>
                 </div>
                 <div class="sdeondClass">
-                    <div id="main" style="width: 100px;height:100px;"></div>
+                    <el-progress
+                        type="circle"
+                        :percentage="parseInt(this.repeatRate)"
+                        :show-text="false"
+                        :stroke-width="10"
+                        :width="100"
+                    ></el-progress>
                 </div>
             </span>
         </div>
@@ -26,45 +37,16 @@
 <script>
 var echarts = require('echarts');
 export default {
+    props: [
+        'conversionRate', //转化率
+        'repeatRate' //复购率
+    ],
     data() {
-        return {};
-    },
-    mounted() {
-        var myChart = echarts.init(document.getElementById('main'));
-        let option = {
-            tooltip: {
-                trigger: 'item',
-                formatter: '{a} <br/>{b}: {c} ({d}%)'
-            },
-            series: [
-                {
-                    name: '访问来源',
-                    type: 'pie',
-                    radius: ['50%', '70%'],
-                    avoidLabelOverlap: false,
-                    label: {
-                        show: false,
-                        position: 'center'
-                    },
-                    emphasis: {
-                        label: {
-                            show: true,
-                            fontSize: '12',
-                            fontWeight: 'bold'
-                        }
-                    },
-                    labelLine: {
-                        show: false
-                    },
-                    data: [
-                        { value: 335, name: '直接访问' },
-                        { value: 310, name: '邮件营销' }
-                    ]
-                }
-            ]
+        return {
+            repeatRatedas: parseInt(this.repeatRate)
         };
-        myChart.setOption(option);
-    }
+    },
+    mounted() {}
 };
 </script>
 
@@ -100,7 +82,7 @@ export default {
 }
 .xiaoyuerClass .spanClassgr .xiaoyuGdd {
     width: 200px;
-    background-color: #f2f2f7;
+    /* background-color: #f2f2f7; */
     height: 10px;
     border-radius: 10px;
     padding: 0px;

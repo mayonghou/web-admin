@@ -50,21 +50,37 @@
                             :key="index"
                         >
                             <div class="grid-content bg-purple">
-                                <img class="img" :src="item.work" />
-                                <div class="massage">
-                                    <el-avatar :size="size" :src="item.avatar"></el-avatar>
-                                    <div class="massagetext">
-                                        <h3>{{item.userName}}</h3>
-                                        <span>{{item.phoneNumber}}</span>
+                                <!-- <img class="img" v-if="item.work == ''" :src="item.work" /> -->
+                                <el-carousel height="240px" v-if="item.imgUrl == ' '">
+                                    <el-carousel-item
+                                        v-for="(item,index) in this.imgUrl"
+                                        :key="index"
+                                    >
+                                        <img width="100%" height="100%" :src="item" />
+                                    </el-carousel-item>
+                                </el-carousel>
+                                <img
+                                    v-else
+                                    width="100%"
+                                    height="100%"
+                                    src="../../../../assets/img/marketingqianlima/zhangwutuipian.png"
+                                />
+                                <div style="border: 1px solid #ccc;">
+                                    <div class="massage">
+                                        <el-avatar :size="size" :src="item.avatar"></el-avatar>
+                                        <div class="massagetext">
+                                            <h3>{{item.userName}}</h3>
+                                            <span>{{item.phoneNumber}}</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="positionsName">
-                                    <div class="positions">{{item.sidelineTypeName}}</div>
-                                    <div class="positionjingyang">{{item.workExperiences}}</div>
-                                </div>
-                                <div class="zhidaojiaPrice">
-                                    <span class="zhidao">指导价：</span>
-                                    <span class="price">￥{{item.sysRecommendPrice / 100}}</span>
+                                    <div class="positionsName">
+                                        <div class="positions">{{item.sidelineTypeName}}</div>
+                                        <div class="positionjingyang">{{item.workExperiences}}</div>
+                                    </div>
+                                    <div class="zhidaojiaPrice">
+                                        <span class="zhidao">指导价：</span>
+                                        <span class="price">￥{{item.sysRecommendPrice / 100}}</span>
+                                    </div>
                                 </div>
                                 <el-button @click="zhaotabtn(item)" class="zhaota">找TA</el-button>
                             </div>
@@ -212,10 +228,17 @@ export default {
                             } else {
                                 dataList[index].avatar = localStorage.getItem('imgUrl');
                             }
-                            if (aaas.test(val.works[0])) {
-                                dataList[index].work = val.works[0];
-                            } else {
-                                dataList[index].work = localStorage.getItem('imgUrl') + val.works[0];
+                            if (val.works) {
+                                let imgUrl = [];
+                                val.works.forEach(function (val, index) {
+                                    console.log(val);
+                                    if (aaas.test(val)) {
+                                        imgUrl[index] = val;
+                                    } else {
+                                        imgUrl[index] = localStorage.getItem('imgUrl') + val;
+                                    }
+                                });
+                                dataList[index].imgUrl = imgUrl;
                             }
                         });
                         this.jianzhidataList = dataList;
@@ -355,9 +378,9 @@ export default {
     padding: 0;
     margin: 0;
 }
-.grid-content {
+/* .grid-content {
     border: 1px solid #cccccc;
-}
+} */
 .el-colss {
     margin-top: 20px;
 }

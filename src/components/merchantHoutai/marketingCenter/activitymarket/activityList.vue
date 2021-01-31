@@ -88,7 +88,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scope>
 .activityList {
     box-sizing: border-box;
     padding: 20px;
@@ -101,7 +101,8 @@ export default {
     margin: 0 auto;
     position: relative;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    flex-direction: row;
     align-items: center;
     cursor: pointer;
 }
@@ -115,7 +116,7 @@ export default {
 .list-li .list-body .pImg img {
     height: 130px;
     width: 130px;
-    display: inline-block;
+    /* display: inline-block; */
     margin-right: 20px;
 }
 .el-pagination {

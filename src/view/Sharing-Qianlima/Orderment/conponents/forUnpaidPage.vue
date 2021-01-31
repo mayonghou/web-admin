@@ -9,8 +9,8 @@
                 <div class="xiaoyuerClass">
                     <div class="xiaoyuerLeft">
                         <span class="letimgspan">
-                            <div class="imgCladdss">{{ item.imgSrc }}</div>
-                            <!--<img src="" alt="">-->
+                            <img class="imgCladdss" v-if="item.adminUrl" :src="item.adminUrl" alt />
+                            <div class="imgCladdss" v-else>暂无图片</div>
                         </span>
                         <span class="leftcountClass">
                             <div class="paddiongset">
@@ -27,11 +27,6 @@
                         </span>
                         <div class="middleClass">
                             <p class="ClassPclass colorClass">{{ item.ask }}</p>
-                            <!-- <p
-                                class="coundfClsaa"
-                                v-for="(itemSon1,indexSon1) in item.sign2"
-                                :key="indexSon1"
-                            >{{ itemSon1.count }}</p>-->
                             <p class="coundfClsaa">{{ item.sign2 }}</p>
                         </div>
                     </div>
@@ -42,10 +37,21 @@
                         <div class="ClassPclassdf">
                             <p class="ClassPclass" v-for="(item2,index) in item.sign3" :key="index">
                                 {{ item2.sidelineTypeName }}
-                                <span
-                                    class="teskClassstyle"
-                                >{{ item2.totalNum }}</span>
+                                <span v-if="item2.accomplishedNum">
+                                    <span class="xiaoyuerAddClass">
+                                        <span class="xiaoyuerAddClass02">
+                                            <Progress
+                                                :percent="parseInt(item2.accomplishedNum / item2.totalNum * 100)"
+                                                :stroke-width="8"
+                                            />
+                                            <!-- text-inside -->
+                                        </span>
+                                    </span>
+                                    <span>{{'以上传'+item2.accomplishedNum+'张'}}</span>
+                                </span>
+                                <span class="teskClassstyle">{{'共'+ item2.totalNum +'张'}}</span>
                             </p>
+                            <Button class="orderText" size="small" v-if="item.status ==1 ">查看订单内容</Button>
                         </div>
                     </div>
                 </div>
@@ -56,11 +62,11 @@
                                 {{ item.ordreTitle }}
                                 {{ item.orderTime }}
                                 <span>&nbsp;</span>
-                                {{ item.TmTime1 }}
-                                <span>&nbsp;</span>——
+                                <!-- {{ item.TmTime1 }} -->
+                                <!-- <span>&nbsp;</span>——
                                 <span>&nbsp;</span>
                                 {{ item.TmTime2 }}
-                                <span>&nbsp;</span>12:00
+                                <span>&nbsp;</span>12:00-->
                                 <span class="sgengyuTimeClass">{{ item.surplus }}</span>
                             </p>
                         </div>
@@ -76,16 +82,17 @@
                     <div class="xiaoyuerJsStyleSon2">
                         <div class="xiaoyuerJsStyleSon3">
                             <div class="xiaoyuerJsStyleSon4">
-                                <img :src="item.imgSrcUrl" />
+                                <img v-if="item.imgSrcUrl" :src="item.imgSrcUrl" />
+                                <span v-else>暂无图片</span>
                             </div>
                             <div class="xiaoyuerJsStyleSon4">
                                 <div class="xiaoyuerJsStyleSon5">
                                     姓名：
-                                    <span class="xiaoyuerJsStyleSon6">小虞儿</span>
+                                    <span class="xiaoyuerJsStyleSon6">{{item.jobName}}</span>
                                 </div>
                                 <div class="xiaoyuerJsStyleSon5">
                                     职位：
-                                    <span class="xiaoyuerJsStyleSon6">设计师</span>
+                                    <span class="xiaoyuerJsStyleSon6">{{item.sellerCareer}}</span>
                                 </div>
                             </div>
                         </div>
@@ -94,6 +101,7 @@
                 <div class="btnClassxiaoyuer">
                     <Button
                         :type="item.BtnData=='查看订单详情'?'primary':item.BtnData=='删除'?'error':'warning'"
+                        @click="closeDel(item)"
                     >{{ item.BtnData }}</Button>
                 </div>
             </div>
@@ -109,7 +117,11 @@ export default {
         /**未付款 */
         'assemblyData1',
         /**交易失败 */
-        'assemblyData2'
+        'assemblyData2',
+        // 进行中
+        'DataInProgress1',
+        // 已完成
+        'DataInProgress2'
     ],
     data() {
         return {
@@ -140,6 +152,30 @@ export default {
         assemblyData2: {
             handler(newData) {
                 this.assemblyData2 = newData;
+                this.$nextTick(() => {
+                    this.RenderPage();
+                });
+            },
+            deep: true,
+            immediate: true
+        },
+        // 进行中
+        DataInProgress1: {
+            handler(newData) {
+                this.DataInProgress1 = newData;
+                this.$nextTick(() => {
+                    this.RenderPage();
+                });
+            },
+            deep: true,
+            immediate: true
+        },
+        DataInProgress2: {
+            handler(newData) {
+                this.DataInProgress2 = newData;
+                this.$nextTick(() => {
+                    this.RenderPage();
+                });
             },
             deep: true,
             immediate: true
@@ -150,11 +186,29 @@ export default {
         RenderPage() {
             if (this.check == 1) {
                 // 未付款
-                console.log(this.assemblyData1);
                 this.assemblyData = this.assemblyData1;
             } else if (this.check == 2) {
                 // 交易失败
                 this.assemblyData = this.assemblyData2;
+            } else if (this.check == 3) {
+                // 进行中
+                this.assemblyData = this.DataInProgress1;
+            } else if (this.check == 4) {
+                // 进行中
+                this.assemblyData = this.DataInProgress2;
+            }
+        },
+        //关闭订单和删除
+        closeDel(item) {
+            if (this.check == 1) {
+                // 未付款
+                this.$parent.closeOrder(item);
+            } else if (this.check == 2) {
+                // 交易失败
+                this.$parent.delOrder(item);
+            } else if (this.check == 3) {
+                // 交易失败
+                this.$parent.closeOrder(item);
             }
         }
     }

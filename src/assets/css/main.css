@@ -193,3 +193,7 @@ a {
 .el-date-editor input::-webkit-input-placeholder {
 	text-align: center;
 }
+
+.number {
+	color: #000;
+}

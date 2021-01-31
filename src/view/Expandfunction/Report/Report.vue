@@ -111,6 +111,62 @@ export default {
                     });
                 }
             });
+        },
+        // 删除单调数据
+        DeleteData(row) {
+            this.$axios.get('admin/user/complain/delete?ids=' + row.id).then((res) => {
+                if (res.status == 200) {
+                    let data = res.data;
+                    if (data.code == 200) {
+                        this.$message({
+                            showClose: true,
+                            message: data.msg,
+                            type: 'success'
+                        });
+                        this.getDatalist(1, 10, '');
+                    } else {
+                        this.$message({
+                            showClose: true,
+                            message: data.msg,
+                            type: 'error'
+                        });
+                    }
+                } else {
+                    this.$message({
+                        showClose: true,
+                        message: res.data.msg,
+                        type: 'error'
+                    });
+                }
+            });
+        },
+        // 删除多条数据
+        DeleteDataAll(idList) {
+            this.$axios.get('admin/user/complain/delete?ids=' + idList).then((res) => {
+                if (res.status == 200) {
+                    let data = res.data;
+                    if (data.code == 200) {
+                        this.$message({
+                            showClose: true,
+                            message: data.msg,
+                            type: 'success'
+                        });
+                        this.getDatalist(1, 10, '');
+                    } else {
+                        this.$message({
+                            showClose: true,
+                            message: data.msg,
+                            type: 'error'
+                        });
+                    }
+                } else {
+                    this.$message({
+                        showClose: true,
+                        message: res.data.msg,
+                        type: 'error'
+                    });
+                }
+            });
         }
     }
 };

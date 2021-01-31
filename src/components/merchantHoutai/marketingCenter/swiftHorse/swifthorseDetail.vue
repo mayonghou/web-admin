@@ -7,11 +7,17 @@
             </div>
             <div class="swDetail-top-b">
                 <div class="banner">
-                    <el-carousel height="240px">
+                    <el-carousel height="240px" v-if="this.imgUrl != ''">
                         <el-carousel-item v-for="(item,index) in this.imgUrl" :key="index">
                             <img width="100%" height="100%" :src="item" />
                         </el-carousel-item>
                     </el-carousel>
+                    <img
+                        v-else
+                        width="100%"
+                        height="100%"
+                        src="../../../../assets/img/marketingqianlima/zhangwutuipian.png"
+                    />
                 </div>
                 <div class="personaDdetails">
                     <div class="persona">
@@ -76,22 +82,43 @@
         </div>
         <div class="worksData">
             <div class="wordcheck">
-                <div class="workdirection">
+                <div class="workdirection" v-if="this.dataspan != ''">
                     <div style="font-size: 20px;">作品方向</div>
                     <div class="tag">
                         <span v-for="(item,index) in dataspan" :key="index">{{item}}</span>
                     </div>
+                    <!-- <img
+                        width="100%"
+                        height="auto"
+                        v-else
+                        src="../../../../assets/img/marketingqianlima/zhanwuData.png"
+                    />-->
                 </div>
                 <div class="Self-introduction">
                     <div style="font-size: 20px;">个人介绍</div>
                     <div class="Self-introduction-img"></div>
-                    <p class="text">{{this.detailInfos.introduction}}</p>
+                    <p
+                        class="text"
+                        v-if="this.detailInfos.introduction != ''"
+                    >{{this.detailInfos.introduction}}</p>
+                    <img
+                        class="jieshaoimg"
+                        width="70%"
+                        height="auto"
+                        v-else
+                        src="../../../../assets/img/marketingqianlima/zhanwujieshao.png"
+                    />
                 </div>
-                <div class="workpane">
+                <div class="workpane" v-if="this.detailInfos.styleDescription !=''">
                     <div style="font-size: 20px;">个人及作品方格</div>
                     <ul class="workpaneUL">
                         <li class="workpaneLI">
                             <span>{{this.detailInfos.styleDescription}}</span>
+                            <!-- <img
+                                width="100%"
+                                height="100%"
+                                src="../../../../assets/img/marketingqianlima/zhanwuanli.png"
+                            />-->
                         </li>
                     </ul>
                 </div>
@@ -104,7 +131,7 @@
                         <i class="el-icon-arrow-right"></i>
                     </div>
                 </div>
-                <ul class="wordlist-ul">
+                <ul class="wordlist-ul" v-if="this.dataworks != ''">
                     <li class="wordlist-li" v-for="item in this.dataworks" :key="item.id">
                         <div class="li-left">
                             <video class="video" :src="item.video" controls="controls"></video>
@@ -115,6 +142,11 @@
                         </div>
                     </li>
                 </ul>
+                <img
+                    width="100%"
+                    height="auto"
+                    src="../../../../assets/img/marketingqianlima/zhanwuanli.png"
+                />
             </div>
         </div>
 
@@ -381,13 +413,9 @@ export default {
                         let start = data.data.basicInfo.phoneNumber.slice(0, 3);
                         let end = data.data.basicInfo.phoneNumber.slice(-4);
                         this.basicInfos.phoneNumber = start + '****' + end;
-                        console.log(data.data.detailInfo);
-                        // console.log(
-                        //     (data.data.basicInfo.orderNum - data.data.detailInfo.countDelayOrder) / data.data.detailInfo.countOrder
-                        // );
+
                         let bbbb =
                             ((data.data.basicInfo.orderNum - data.data.detailInfo.countDelayOrder) / data.data.detailInfo.countOrder) * 100;
-                        console.log(bbbb);
                         this.baifengbi = 100;
                         if (parseInt(bbbb) > 0 && parseInt(bbbb) < 21) {
                             this.value = 1;
@@ -408,7 +436,6 @@ export default {
                         var https = /^https:\/\/.+$/;
                         // this.sidelineUserId = dataLists.works[0].sidelineUserId;
                         this.sidelineUserId = dataLists.detailInfo.sidelineUserId;
-                        console.log(this.sidelineUserId);
                         dataLists.works.forEach(function (val, index) {
                             dataworks[index] = val;
                             if (https.test(val.content)) {
@@ -423,19 +450,23 @@ export default {
                             }
                         });
                         this.dataworks = dataworks;
-                        this.dataspan = dataLists.detailInfo.worksTabs.split(';');
+                        if (dataLists.detailInfo.worksTabs != '') {
+                            this.dataspan = dataLists.detailInfo.worksTabs.split(';');
+                        }
 
                         var imgUrls = [];
                         this.dataLists = dataLists.basicInfo.workExperiences;
                         this.name = dataLists.basicInfo.userName;
-                        dataLists.detailInfo.worksPictures.split(';').forEach(function (val, index) {
-                            if (https.test(val)) {
-                                imgUrls[index] = val;
-                            } else {
-                                imgUrls[index] = localStorage.getItem('imgUrl') + val;
-                            }
-                        });
-                        this.imgUrl = imgUrls;
+                        if (dataLists.detailInfo.worksPictures) {
+                            dataLists.detailInfo.worksPictures.split(';').forEach(function (val, index) {
+                                if (https.test(val)) {
+                                    imgUrls[index] = val;
+                                } else {
+                                    imgUrls[index] = localStorage.getItem('imgUrl') + val;
+                                }
+                            });
+                            this.imgUrl = imgUrls;
+                        }
                     } else {
                         this.$message({
                             showClose: true,

@@ -29,6 +29,11 @@ export default {
             endTime: ''
         };
     },
+    methods: {
+        axiuaoyuer(msg) {
+            console.log(msg, this.value1, this.value1);
+        }
+    },
     components: {
         DaTapickers
     },
@@ -53,6 +58,30 @@ export default {
                     timeStart: this.startTime
                 };
                 this.$parent.getDatas(data);
+            } else if (this.check == 2) {
+                let data = {
+                    companyName: this.value1,
+                    sidelineUserName: this.value2,
+                    timeEnd: this.endTime,
+                    timeStart: this.startTime
+                };
+                this.$parent.getData(data);
+            } else if (this.check == 3) {
+                let data = {
+                    companyName: this.value1,
+                    sidelineUserName: this.value2,
+                    timeEnd: this.endTime,
+                    timeStart: this.startTime
+                };
+                this.$parent.getData(data);
+            } else if (this.check == 4) {
+                let data = {
+                    companyName: this.value1,
+                    sidelineUserName: this.value2,
+                    timeEnd: this.endTime,
+                    timeStart: this.startTime
+                };
+                this.$parent.getData(data);
             }
         }
     }

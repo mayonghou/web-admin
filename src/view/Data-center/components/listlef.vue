@@ -1,5 +1,6 @@
 <template>
     <ul>
+        <li>{{this.IndustyName+'业商家数据'}}</li>
         <li v-for="(item,index) in listDataer" :key="index">
             <div class="rootClassList">
                 <div class="rootClassLeft">
@@ -25,39 +26,60 @@
 </template>
 
 <script>
+import bus from '../../../components/common/bus.js';
 export default {
     data() {
         return {
             cur: 'cur',
-            listDataer: [
-                {
-                    titler: '餐饮业昨日浏览量',
-                    dataer: '123456'
-                },
-                {
-                    titler: '餐饮业昨日订单量',
-                    dataer: '888888'
-                },
-                {
-                    titler: '同行业转让商家数据',
-                    dataer: '999999'
-                },
-                {
-                    titler: '餐饮业商家数据',
-                    dataer: '456789'
-                },
-                {
-                    titler: '餐饮业平台联系次数',
-                    dataer: '895612'
-                }
-            ]
+            IndustyName: '',
+            IndustyId: '',
+            listDataer: []
         };
+    },
+    created() {
+        bus.$on('Industrydata', (msg) => {
+            this.IndustyId = msg.id;
+            this.IndustyName = msg.name;
+            this.getAdminDataCenterBusiness();
+        });
     },
     methods: {
         xiaoyuer() {
             for (let i = 0; i < this.$refs.refsDiv2.length; i++) {
                 this.$refs.refsDiv2[i].classList.add('cur' + i);
             }
+        },
+        // 获取商家数据
+        getAdminDataCenterBusiness() {
+            this.$axios.get('admin/mall/dataCenter/getAdminDataCenterBusiness?industryId=' + this.IndustyId).then((res) => {
+                if (res.status == 200) {
+                    let data = res.data;
+                    if (data.code == 200) {
+                        this.listDataer = [
+                            {
+                                titler: this.IndustyName + '业昨日浏览量',
+                                dataer: data.data.yesDayViewCount
+                            },
+                            {
+                                titler: this.IndustyName + '业昨日订单量',
+                                dataer: data.data.yesDayViewCount
+                            },
+                            {
+                                titler: this.IndustyName + '业转让商家数据',
+                                dataer: data.data.industryDataCount
+                            },
+                            {
+                                titler: this.IndustyName + '业商家数据',
+                                dataer: data.data.industryDataCount
+                            },
+                            {
+                                titler: this.IndustyName + '业平台联系次数',
+                                dataer: data.data.callBusinessCount
+                            }
+                        ];
+                    }
+                }
+            });
         }
     },
     mounted() {

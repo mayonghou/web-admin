@@ -9,7 +9,7 @@
             <div class="imgClass-xiarc">
                 <div class="IconClssfc">
                     <p class="fontSizec">
-                        <span class="spanClassdfc">￥</span>
+                        <span class="spanClassdfc">&nbsp;</span>
                         {{ MallData.Numcout }}
                     </p>
                     <p class="fontSize2c">{{ MallData.transaction }}</p>
@@ -21,11 +21,12 @@
 
 <script>
 export default {
+    props: ['sendGoodsTotal'],
     data() {
         return {
             MallData: {
-                Numcout: '30000',
-                transaction: '今日交易金额'
+                Numcout: this.sendGoodsTotal || 0,
+                transaction: '今日出货量'
             }
         };
     }

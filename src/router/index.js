@@ -58,11 +58,107 @@ export default new Router({
                     },
                 },
                 {
+                    path: '/sonpagecent',
+                    component: () => import('../view/Marketing-Center/sonpage/sonpagecent.vue'),
+                    // component: Index,
+                    meta: {
+                        title: '营销详情'
+                    },
+                },
+                {
+                    path: '/sonsonPages',
+                    component: () => import('../view/Marketing-Center/sonsonPages/sonsonPages.vue'),
+                    // component: Index,
+                    meta: {
+                        title: '分类管理'
+
+                    },
+                },
+                {
+                    path: '/PackageDetailsxiao',
+                    component: () => import('../view/Marketing-Center/sonsonPages/PackageDetails/PackageDetailsxiao.vue'),
+                    // component: Index,
+                    meta: {
+                        title: '视频上传'
+                    },
+                },
+                {
+                    path: '/updowmphoto',
+                    component: () => import('../view/Marketing-Center/sonsonPages/updowmphoto/updowmphoto.vue'),
+                    // component: Index,
+                    meta: {
+                        title: '图片上传'
+                    },
+                },
+                {
+                    path: '/updownfile',
+                    component: () => import('../view/Marketing-Center/sonsonPages/updownfile/updownfile.vue'),
+                    // component: Index,
+                    meta: {
+                        title: '文档上传'
+                    },
+                },
+                {
+                    path: '/Postarticles',
+                    component: () => import('../view/Marketing-Center/sonsonPages/Postarticles/Postarticles.vue'),
+                    // component: Index,
+                    meta: {
+                        title: '发布文章'
+                    },
+                },
+                {
+                    path: '/postnews',
+                    component: () => import('../view/Marketing-Center/sonsonPages/postnews/postnews.vue'),
+                    // component: Index,
+                    meta: {
+                        title: '发布通知'
+                    },
+                },
+                {
+                    path: '/addfl',
+                    component: () => import('../view/Marketing-Center/sonsonPages/addfl/addfl.vue'),
+                    // component: Index,
+                    meta: {
+                        title: '新增分类'
+                    },
+                },
+                {
+                    path: '/omviewpage',
+                    component: () => import('../view/Marketing-Center/sonsonPages/omviewpage/omviewpage.vue'),
+                    // component: Index,
+                    meta: {
+                        title: '文章、通知详情'
+                    },
+                },
+                {
                     path: '/productindex',
                     component: () => import('../view/Product-Center/productindex.vue'),
                     // component: Index,
                     meta: {
                         title: '产品中心'
+                    }
+                },
+                {
+                    path: '/Releasenewversion',
+                    component: () => import('../view/Product-Center/components/Releasenewversion.vue'),
+                    // component: Index,
+                    meta: {
+                        title: '版本发布'
+                    }
+                }, {
+                    path: '/viewyes',
+                    component: () => import('../view/Product-Center/components/viewyes.vue'),
+                    // component: Index,
+                    meta: {
+                        title: '查看产品'
+                    }
+                },
+                {
+                    path: '/Releas',
+                    component: () => import('../view/Product-Center/components/Releas.vue'),
+                    // component: Index,
+                    meta: {
+                        title: '产品修改·添加'
                     }
                 },
                 {
@@ -208,7 +304,7 @@ export default new Router({
                     component: () => import('../view/inancial-management/inancialmanagement.vue'),
                     // component: Index,
                     meta: {
-                        title: '财务管理'
+                        title: '财务列表'
                     }
                 },
                 {
@@ -216,7 +312,7 @@ export default new Router({
                     component: () => import('../view/Rental-management/rentalmanagement.vue'),
                     // component: Index,
                     meta: {
-                        title: '租房管理'
+                        title: '租房列表'
                     }
                 },
                 {
@@ -232,7 +328,7 @@ export default new Router({
                     component: () => import('../view/Recruitment-management/recruitmentmanagement.vue'),
                     // component: Index,
                     meta: {
-                        title: '招聘管理',
+                        title: '招聘列表',
                     }
                 },
                 {
@@ -264,7 +360,7 @@ export default new Router({
                     component: () => import('../view/Opportunity-mg/opportunitymg.vue'),
                     // component: Index,
                     meta: {
-                        title: '商机管理'
+                        title: '商机列表'
                     }
                 },
                 {
@@ -440,7 +536,7 @@ export default new Router({
                     component: () => import('../view/Industrygl/Industry.vue'),
                     // component: Index,
                     meta: {
-                        title: '行业管理'
+                        title: '行业列表'
                     }
                 },
                 {
@@ -456,7 +552,7 @@ export default new Router({
                     component: () => import('../view/advertisement-gl/advertisement.vue'),
                     // component: Index,
                     meta: {
-                        title: '广告管理'
+                        title: '广告列表'
                     }
                 },
                 {
@@ -511,7 +607,7 @@ export default new Router({
                             component: () => import('../view/Sharing-Qianlima/Orderment/UnpaidPage/UnpaidPage.vue'),
                             // component: Index,
                             meta: {
-                                title: '未付款'
+                                title: '订单设置' //真实路径‘未付款’
                             }
                         },
                         {
@@ -1440,14 +1536,21 @@ export default new Router({
                         title: '营销小知识'
                     }
                 },
-
                 {
                     path: '/activityList',
                     component: () => import('../components/merchantHoutai/marketingCenter/activitymarket/activityList.vue'),
                     meta: {
                         title: '营销活动列表'
                     }
-                }, {
+                },
+                {
+                    path: '/activityDataList',
+                    component: () => import('../components/merchantHoutai/marketingCenter/activitymarket/activityDataList.vue'),
+                    meta: {
+                        title: '营销活动列表'
+                    }
+                },
+                {
                     path: '/activityDetail',
                     component: () => import('../components/merchantHoutai/marketingCenter/activitymarket/activityDetail.vue'),
                     meta: {

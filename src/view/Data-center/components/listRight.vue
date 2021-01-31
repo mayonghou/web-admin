@@ -7,16 +7,28 @@
         <div class="tableDiv">
             <Table :columns="columns1" :data="data1"></Table>
             <div class="Pagefy">
-                <Page :total="100" />
+                <el-pagination
+                    @prev-click="prev_click"
+                    @next-click="next_click"
+                    @current-change="current_change"
+                    :page-size="limit"
+                    :total="total"
+                    layout="prev, pager, next"
+                ></el-pagination>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import bus from '../../../components/common/bus.js';
 export default {
     data() {
         return {
+            limit: 10,
+            page: 1,
+            total: 0,
+            IndustyId: '',
             columns1: [
                 {
                     title: '企业名称',
@@ -40,38 +52,62 @@ export default {
                 }
             ],
             data1: [
-                {
-                    cooler1: '万境烽火',
-                    cooler2: '中国',
-                    cooler3: '898',
-                    cooler4: '2016-10-03'
-                },
-                {
-                    cooler1: '万境烽火',
-                    cooler2: '中国',
-                    cooler3: '898',
-                    cooler4: '2016-10-03'
-                },
-                {
-                    cooler1: '万境烽火',
-                    cooler2: '中国',
-                    cooler3: '898',
-                    cooler4: '2016-10-03'
-                },
-                {
-                    cooler1: '万境烽火',
-                    cooler2: '中国',
-                    cooler3: '898',
-                    cooler4: '2016-10-03'
-                },
-                {
-                    cooler1: '万境烽火',
-                    cooler2: '中国',
-                    cooler3: '898',
-                    cooler4: '2016-10-03'
-                }
+                // {
+                //     cooler1: '万境烽火',
+                //     cooler2: '中国',
+                //     cooler3: '898',
+                //     cooler4: '2016-10-03'
+                // }
             ]
         };
+    },
+    created() {
+        bus.$on('Industrydata', (msg) => {
+            this.IndustyId = msg.id;
+            this.getAdminDataCenterNewBusiness();
+        });
+    },
+    mounted() {
+        // this.getAdminDataCenterNewBusiness();
+    },
+    methods: {
+        prev_click(val) {
+            this.page = val;
+            this.getAdminDataCenterNewBusiness();
+        },
+        next_click(val) {
+            this.page = val;
+            this.getAdminDataCenterNewBusiness();
+        },
+        current_change(val) {
+            this.page = val;
+            this.getAdminDataCenterNewBusiness();
+        },
+        getAdminDataCenterNewBusiness() {
+            let data = {
+                page: this.page,
+                limit: this.limit,
+                industryId: this.IndustyId
+            };
+            this.$axios.post('admin/mall/dataCenter/getAdminDataCenterNewBusiness', data).then((res) => {
+                if (res.status == 200) {
+                    let data = res.data;
+                    if (data.code == 200) {
+                        let dataLsit = [];
+                        this.total = data.total;
+                        data.forEach(function (val, index) {
+                            dataLsit[index] = val;
+                            dataLsit[index].cooler1 = val.name;
+                            dataLsit[index].cooler2 = val.address;
+                            dataLsit[index].cooler3 = val.viewCount;
+                            dataLsit[index].cooler4 = val.time;
+                        });
+                        this.data1 = dataLsit;
+                        console.log(dataLsit);
+                    }
+                }
+            });
+        }
     }
 };
 </script>

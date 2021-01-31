@@ -3,15 +3,15 @@
         <div class="navStyleXioayuer">
             <h4 class="SonCLassSom">{{ this.$route.query.TitleSon }}</h4>
             <Form :model="formItem" :label-width="150">
-                <FormItem label="姓名/机构名称">
+                <FormItem :label="label">
                     <input
                         v-model="formItem.input"
-                        placeholder="姓名/机构名称"
+                        placeholder
                         disabled="disabled"
                         class="InputStylexiaoyuer"
                     />
                 </FormItem>
-                <FormItem label="联系电话">
+                <FormItem :label="label1">
                     <input
                         v-model="formItem.input1"
                         placeholder="联系电话"
@@ -19,14 +19,12 @@
                         class="InputStylexiaoyuer"
                     />
                 </FormItem>
-                <FormItem label="门头照片">
+                <FormItem :label="label2">
                     <div class="DoorPhoto">
                         <div class="DoorPhotoS">
                             <div class="SonClssa" v-for="(item,index) in PhotoDatas" :key="index">
                                 <div class="SonSonClssad">
-                                    <Icon style="font-size:120px" type="ios-alarm" />
-                                    {{ item.Photos }}
-                                    <!-- <img src="" alt=""> -->
+                                    <img class="img" :src="item" alt />
                                 </div>
                             </div>
                         </div>
@@ -49,23 +47,87 @@ export default {
                 input1: '',
                 select: ''
             },
-            PhotoDatas: [
-                {
-                    Photos: ''
-                },
-                {
-                    Photos: ''
-                },
-                {
-                    Photos: ''
-                },
-                {
-                    Photos: ''
-                }
-            ]
+            label: '',
+            label1: '',
+            label2: '',
+            PhotoDatas: []
         };
     },
+    mounted() {
+        this.getDataLabel();
+        this.getDetailData();
+    },
     methods: {
+        //
+        getDataLabel() {
+            let Newjudge = this.$route.query.Newjudge;
+            if (Newjudge == 1) {
+            }
+        },
+        // 获取详情信息
+        getDetailData() {
+            let Newjudge = this.$route.query.Newjudge;
+            if (Newjudge == 1) {
+                this.label = '姓名/机构名称：';
+                this.label1 = '联系电话：';
+                this.label2 = '门头照片:';
+                let data = this.$route.query.data;
+                this.formItem.input = data.name;
+                this.formItem.input1 = data.phone;
+                if (data.photo != '') {
+                    var https = /^https:\/\/.+$/;
+                    let imgUrl = [];
+                    data.photo.split(',').forEach(function (val, index) {
+                        if (https.test(val)) {
+                            imgUrl[index] = val;
+                        } else {
+                            imgUrl[index] = localStorage.getItem('imgUrl') + val;
+                        }
+                    });
+                    this.PhotoDatas = imgUrl;
+                }
+            } else if (Newjudge == 2) {
+                this.label = '投诉人：';
+                this.label1 = '投诉事项：';
+                this.label2 = '图片：';
+                let data = this.$route.query.data;
+                this.formItem.input = data.phone;
+                this.formItem.input1 = data.content;
+                if (data.image) {
+                    var https = /^https:\/\/.+$/;
+                    let imgUrl = [];
+                    data.image.split(',').forEach(function (val, index) {
+                        if (https.test(val)) {
+                            imgUrl[index] = val;
+                        } else {
+                            imgUrl[index] = localStorage.getItem('imgUrl') + val;
+                        }
+                    });
+                    this.PhotoDatas = imgUrl;
+                }
+            } else if (Newjudge == 3) {
+                this.label = '反馈人：';
+                this.label1 = '反馈内容：';
+                this.label2 = '图片：';
+                let data = this.$route.query.data;
+                this.formItem.input = data.phone;
+                this.formItem.input1 = data.content;
+                if (data.image) {
+                    var https = /^https:\/\/.+$/;
+                    let imgUrl = [];
+                    data.image.split(',').forEach(function (val, index) {
+                        if (https.test(val)) {
+                            imgUrl[index] = val;
+                        } else {
+                            imgUrl[index] = localStorage.getItem('imgUrl') + val;
+                        }
+                    });
+                    this.PhotoDatas = imgUrl;
+                }
+            }
+
+            // if
+        },
         // Btn返回
         returnBtnfn() {
             const NewjudgeData = this.$route.query.Newjudge;

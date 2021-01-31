@@ -9,29 +9,31 @@
                 <div class="xiaoyuerClassxiaoyuer">
                     <div class="xiaoyuerLeftxiaoyuer">
                         <span class="letimgspanxiaoyuer">
-                            <div class="imgCladdssxiaoyuer">{{ item.imgUrl }}</div>
-                            <!--<img src="" alt="">-->
+                            <div class="imgCladdssxiaoyuer" v-if=" item.adminUrl == ''">暂无图片</div>
+                            <img class="imgCladdssxiaoyuer" v-else :src=" item.adminUrl" alt />
                         </span>
                         <span class="leftcountClassxiaoyuer">
                             <div class="paddiongsetxiaoyuer">
                                 <p class="ClassPclassxiaoyuer">
-                                    <span class="nameClassxiaoyuer">{{ item.manNane }}</span>
+                                    <span class="nameClassxiaoyuer">{{ item.xyName }}</span>
                                     <span>{{ item.job }}</span>
                                 </p>
                                 <p class="ClassPclassxiaoyuer">{{ item.company }}</p>
                                 <p class="ClassPclassxiaoyuer">
-                                    <span>{{ item.TransactionPrice }}</span>
-                                    <span class="redCLassfontsizexiaoyuer">{{ item.Price }}</span>
+                                    <span>{{ item.pricefa }}</span>
+                                    <span class="redCLassfontsizexiaoyuer">{{ item.price }}</span>
                                 </p>
                             </div>
                         </span>
                         <div class="middleClassxiaoyuer">
-                            <p class="ClassPclassxiaoyuer colorClassxiaoyuer">{{ item.OrderTitle }}</p>
-                            <p
+                            <p class="ClassPclassxiaoyuer colorClassxiaoyuer">{{ item.ask }}</p>
+                            <!-- <p
                                 class="coundfClsaaxiaoyuer"
                                 v-for="(item,i) in item.NewcoutOrder"
                                 :key="i"
-                            >{{ item.coutOrder }}</p>
+                            >{{ item.coutOrder }}</p>-->
+
+                            <p class="coundfClsaaxiaoyuer">{{ item.sign2 }}</p>
                         </div>
                     </div>
                     <div class="rightClasssDivxsxiaoyuer">
@@ -39,22 +41,18 @@
                             <p class="ClassPclassxiaoyuer teshuClassxiaoyuer">{{ item.OrderNum }}</p>
                         </div>
                         <div class="ClassPclassdfxiaoyuer">
-                            <p
-                                class="ClassPclassxiaoyuer"
-                                v-for="(item,i) in item.taskTypeer"
-                                :key="i"
-                            >
-                                {{ item.taskType }}
+                            <p class="ClassPclassxiaoyuer" v-for="(val,i) in item.sign3" :key="i">
+                                {{ val.sidelineTypeName }}
                                 <span class="baifenbiClassxiaoyuer">
                                     <div class="divClassxiaoyuerxiaoyuer">
                                         <div
                                             ref="xiaoyuerSetClass"
                                             :class="i==0?'sonClassDicvxiaoyuer':i==1?'sonClassDicvxiaoyuer2':'sonClassDicvxiaoyuer3'"
-                                        >{{ item.percentage }}</div>
+                                        >{{ val.percentage }}</div>
                                     </div>
                                 </span>
-                                <span class="yishangchClassxiaoyuer">{{ item.updownLod }}</span>
-                                <span class="teskClassstylexiaoyuer">{{ item.inTotal }}</span>
+                                <span class="yishangchClassxiaoyuer">{{ val.accomplishedNum }}</span>
+                                <span class="teskClassstylexiaoyuer">{{ val.totalNum }}</span>
                             </p>
                             <div class="Rtnsee" v-if="iSshow">
                                 <Button type="primary" size="small" @click="ViewDetailsXiyrFn">查看详情</Button>
@@ -66,24 +64,23 @@
                     <div class="AddPartTimeStaff-son">
                         <div class="decondClassRowxiaoyuer">
                             <p>
-                                {{ item.taskTime }}
+                                {{ item.ordreTitle }}
+                                {{ item.orderTime }}
                                 <span>&nbsp;</span>
-                                {{ item.Time1 }}
+                                <!-- {{ item.Time1 }}
                                 <span>&nbsp;</span>——
                                 <span>&nbsp;</span>
                                 {{ item.Time2 }}
                                 <span>&nbsp;</span>
-                                {{ item.Time3 }}
-                                <span
-                                    class="sgengyuTimeClassxiaoyuer"
-                                >{{ item.AutoClose }}</span>
+                                {{ item.Time3 }}-->
+                                <span class="sgengyuTimeClassxiaoyuer">{{ item.surplus }}</span>
                             </p>
                         </div>
                         <div class="decondClassRowcdxiaoyuer">
                             <p>
-                                {{ item.creatTime }}
+                                {{ item.CreationTime }}
                                 <span>&nbsp;</span>
-                                {{ item.Time4 }}
+                                <!-- {{ item.Time4 }} -->
                             </p>
                         </div>
                         <div class="decondClassRowcdxiaoyuer" v-if="fayqiSshow">
@@ -94,15 +91,16 @@
                     <!-- 兼职人员 -->
                     <div class="brotherClassder">
                         <div class="brotherClassderSon">
-                            <div class="sonCsdlass">imgUrl</div>
+                            <div class="sonCsdlass" v-if="item.imgSrcUrl == ''">暂无图片</div>
+                            <img class="sonCsdlass" v-else :src="item.imgSrcUrl" />
                             <div class="sonCsdlass">
                                 <div class="sonSonClasdfs">
                                     姓名：
-                                    <span class="sonSonClasdfsSpan">小鱼儿</span>
+                                    <span class="sonSonClasdfsSpan">{{item.jobName}}</span>
                                 </div>
                                 <div class="sonSonClasdfs">
                                     职位：
-                                    <span class="sonSonClasdfsSpan">攻城级别</span>
+                                    <span class="sonSonClasdfsSpan">{{item.sellerCareer}}</span>
                                 </div>
                             </div>
                         </div>
@@ -122,7 +120,7 @@
 export default {
     props: [
         /**条件 */
-        'checker',
+        'check',
         /**进行中 */
         'DataInProgress1',
         /**进行中 */
@@ -142,6 +140,9 @@ export default {
             //进行中
             handler(newDaTA) {
                 this.DataInProgress1 = newDaTA;
+                this.$nextTick(() => {
+                    this.RenderPage();
+                });
             },
             deep: true,
             immediate: true
@@ -174,7 +175,7 @@ export default {
     methods: {
         // 页面渲染
         RenderPage() {
-            if (this.checker == 1) {
+            if (this.check == 3) {
                 // 进行中
                 this.DataInProgress = this.DataInProgress1;
                 this.iSshow = !this.iSshow;
@@ -182,10 +183,11 @@ export default {
             } else if (this.checker == 2) {
                 //已完成
                 this.DataInProgress = this.DataInProgress2;
-            } else if (this.checker == 3) {
-                // 交易失败
-                this.DataInProgress = this.DataInProgress3;
             }
+            // else if (this.check == 3) {
+            // 交易失败
+            //     this.DataInProgress = this.DataInProgress3;
+            // }
         },
         // 进度百分比封装
         ProgressPercentage() {
