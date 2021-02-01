@@ -1,5 +1,5 @@
 <template>
-    <Card>
+    <Card style="min-height:529px">
         <div class="rightClass">
             <DatePicker
                 type="month"

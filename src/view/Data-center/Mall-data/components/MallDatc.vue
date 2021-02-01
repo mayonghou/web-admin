@@ -1,5 +1,5 @@
 <template>
-    <Card>
+    <Card style="min-height:195px">
         <div class="abnfClassc">
             <div class="imgClass-xiaoyuerc">
                 <div class="IconClssc">

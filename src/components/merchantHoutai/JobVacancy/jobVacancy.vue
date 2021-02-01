@@ -21,6 +21,7 @@
                 ></el-date-picker>
                 <el-select
                     class="select-el"
+                    style
                     v-model="value"
                     placeholder="全部行业"
                     clearable
@@ -440,5 +441,12 @@ export default {
     font-size: 14px;
     color: #fff;
     border-radius: 8px;
+}
+.el-input__inner {
+    height: 30px;
+    line-height: 30px;
+}
+.el-date-editor .el-range-separator {
+    line-height: 24px;
 }
 </style>

@@ -3,7 +3,14 @@
         <div class="marktingvideo-top">
             <div class="videoClass">
                 <div class="shipinClass">视频分类</div>
-                <div v-for="item in this.videoClass" :key="item.id">
+                <div style="100%" v-if="this.videoClass == ''">
+                    <img
+                        width="100%"
+                        src="../../../assets/img/marketingqianlima/zhanwuData.png"
+                        alt
+                    />
+                </div>
+                <div v-else v-for="item in this.videoClass" :key="item.id">
                     <div
                         class="classtef"
                         ref="classtef"
@@ -40,7 +47,17 @@
                 </div>
                 <div class="listVideo">
                     <el-row>
-                        <el-col :span="8" v-for="item in this.videoList" :key="item.id">
+                        <el-col
+                            :span="24"
+                            v-if="this.videoList == ''"
+                            style="width:100%; text-align: center;"
+                        >
+                            <img
+                                width="60%"
+                                src="../../../assets/img/marketingqianlima/zhanwuData.png"
+                            />
+                        </el-col>
+                        <el-col v-else :span="8" v-for="item in this.videoList" :key="item.id">
                             <div class="grid-content bg-purple">
                                 <div @click="videoDetailBtn(item)" style="cursor: pointer;">
                                     <video
@@ -81,7 +98,7 @@
 
 <script>
 export default {
-    name: 'marketing-video',
+    // name: 'marketing-video',
     data() {
         return {
             commandName: '',
@@ -108,19 +125,7 @@ export default {
                         this.videoClass = data.data.data;
                         this.typeName = data.data.data[0].name;
                         this.getSelectAllMarketVideo();
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: data.msg,
-                        type: 'error'
-                    });
                 }
             });
         },
@@ -148,7 +153,6 @@ export default {
                     id: localStorage.getItem('videoid')
                 }
             });
-            console.log(this.$route);
         },
         // 全部按钮
         quanbuAll() {
@@ -196,19 +200,7 @@ export default {
                         });
                         this.videoList = cList;
                         this.counts = data.data.total;
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: data.msg,
-                        type: 'error'
-                    });
                 }
             });
         },

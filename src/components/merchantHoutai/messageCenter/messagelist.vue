@@ -253,6 +253,14 @@ export default {
                             id: item.commonField
                         }
                     });
+                } else if (item.messageChildTypeTitle == '待付款通知') {
+                    this.$router.push({
+                        path: './goodsDetail',
+                        query: {
+                            id: parseInt(item.commonField),
+                            status: 8
+                        }
+                    });
                 }
             }
         },

@@ -405,4 +405,11 @@ export default {
     background-color: #ff0000;
     color: #fff;
 }
+.el-input__inner {
+    height: 30px;
+    line-height: 30px;
+}
+.el-date-editor .el-range-separator {
+    line-height: 24px;
+}
 </style>

@@ -2,8 +2,16 @@
     <div class="marketimgzhishi" id="marketimgzhishi">
         <div class="listClass">
             <ul class="listUl">
+                <li class="listLi" v-if="this.dataList == ''">
+                    <img
+                        style="margin: 0 auto;"
+                        src="../../../../assets/img/marketingqianlima/zhanwuData.png"
+                        alt
+                    />
+                </li>
                 <li
                     class="listLi"
+                    v-else
                     v-for="item in this.dataList"
                     :key="item.id"
                     @click="detaitl(item)"

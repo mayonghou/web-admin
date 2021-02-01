@@ -3,7 +3,9 @@
         <div class="padding">
             <ViewEnterprise></ViewEnterprise>
         </div>
-        <JSecharts></JSecharts>
+        <div class="JSechartsC">
+            <JSecharts></JSecharts>
+        </div>
         <div class="CountleftAndRight">
             <div class="CountleftAndRightnav">
                 <listlef></listlef>
@@ -16,7 +18,7 @@
 </template>
 
 <script>
-import navdata from '../components/navdata.vue';
+// import navdata from '../components/navdata.vue';
 import ViewEnterprise from '../components/ViewEnterprise.vue';
 import JSecharts from '../components/JSecharts.vue';
 import listlef from '../components/listlef';
@@ -51,7 +53,11 @@ export default {
 }
 .CountleftAndRight .CountleftAndRightcount {
     width: 65%;
-    padding-top: 10px;
+    margin-left: 10px;
     padding-right: 20px;
+}
+.JSechartsC {
+    padding: 20px;
+    padding-bottom: 10px;
 }
 </style>

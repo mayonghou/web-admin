@@ -19,7 +19,8 @@ export default {
             BusRouterData: [],
             isNew: ['/dataCenterindex', '/marketingindex', '/productindex'], //qyId =0
             isNew1: ['/indexshouye', '/datacenter', '/marketing', '/product'], //qyId !=0
-            isNew2: ['/dataCenterindex', '/Malldata', '/Recruitmentdata', '/housedata'] // dataCenterindex  qyId =0
+            isNew2: ['/dataCenterindex', '/Malldata', '/Recruitmentdata', '/housedata'], // dataCenterindex  qyId =0
+            isNew3: ['/Orderment', '/UnpaidPage', '/haveInHand', '/CompletedPage', '/TheDealFailed'] // Orderment  qyId =0
         };
     },
     watch: {
@@ -30,17 +31,6 @@ export default {
                     MainTitle: newvalue.meta.title,
                     RouterPath: newvalue.fullPath
                 });
-                if (this.BusRouterData[0].RouterPath == '/') {
-                    if (localStorage.getItem('loginData') == 0) {
-                        this.$router.push({
-                            path: './dataCenterindex'
-                        });
-                    } else {
-                        this.$router.push({
-                            path: './indexshouye'
-                        });
-                    }
-                }
                 for (let i = 1; i < this.BusRouterData.length; i++) {
                     for (let j = i + 1; j < this.BusRouterData.length; j++) {
                         if (this.BusRouterData[i].MainTitle == this.BusRouterData[j].MainTitle) {
@@ -81,6 +71,18 @@ export default {
                     this.BusRouterData.push({
                         MainTitle: newvalue.meta.title
                     });
+                } else if (
+                    // top     UnpaidPage     qyId !=0
+                    newvalue.fullPath == this.isNew3[0] ||
+                    newvalue.fullPath == this.isNew3[1] ||
+                    newvalue.fullPath == this.isNew3[2] ||
+                    newvalue.fullPath == this.isNew3[3] ||
+                    (newvalue.fullPath == this.isNew3[4] && localStorage.getItem('loginData') == 0)
+                ) {
+                    this.BusRouterData.splice(1);
+                    this.BusRouterData.push({
+                        MainTitle: newvalue.meta.title
+                    });
                 }
                 // return
                 if (oldvalue != undefined && oldvalue.meta.title == this.BusRouterData[this.BusRouterData.length - 1].MainTitle) {
@@ -98,11 +100,6 @@ export default {
         this.xiaoyuerFunctions2();
     },
     methods: {
-        click(item) {
-            this.$router.push({
-                path: item.path
-            });
-        },
         xiaoyuerFunctions1() {
             bus.$on('SidebarFn1', (SideSon1) => {
                 if (SideSon1[1] == 'Sid1') {

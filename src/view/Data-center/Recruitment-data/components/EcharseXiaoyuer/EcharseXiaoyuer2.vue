@@ -1,5 +1,5 @@
 <template>
-    <Card>
+    <Card style="min-height:496px">
         <div>
             <h3>简历平台数据</h3>
         </div>

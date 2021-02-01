@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Card>
+        <Card style="min-height:496px">
             <table class="bottomListStyle">
                 <thead>
                     <tr class="trCone_1_1">

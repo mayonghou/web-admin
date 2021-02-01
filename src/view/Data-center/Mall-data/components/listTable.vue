@@ -1,5 +1,5 @@
 <template>
-    <Card>
+    <Card style="min-height:285px">
         <table class="TableClassxi">
             <thead>
                 <th

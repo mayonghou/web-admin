@@ -39,40 +39,19 @@
 <script>
 export default {
     props: ['functionList'],
-    watch: {
-        xiaoyuerDataer: {
-            header(newName) {
-                console.log(newName);
-                this.xiaoyuerDataer = newName;
-            }
-        }
-    },
     data() {
         return {
             xiaoyuerDataer: this.functionList
-            // xiaoyuerDataer: [
-            //     {
-            //         TitleXiyuer: '抽奖活动功能',
-            //         Count: '发布抽奖活动，为你提供大量优质客源，让产品火起来发布抽奖活动，为你提供大量优质客源，让产品火起来'
-            //     },
-            //     {
-            //         TitleXiyuer: '抽奖活动功能',
-            //         Count: '发布抽奖活动，为你提供大量优质客源，让产品火起来发布抽奖活动，为你提供大量优质客源，让产品火起来'
-            //     },
-            //     {
-            //         TitleXiyuer: '抽奖活动功能',
-            //         Count: '发布抽奖活动，为你提供大量优质客源，让产品火起来发布抽奖活动，为你提供大量优质客源，让产品火起来'
-            //     },
-            //     {
-            //         TitleXiyuer: '抽奖活动功能',
-            //         Count: '发布抽奖活动，为你提供大量优质客源，让产品火起来发布抽奖活动，为你提供大量优质客源，让产品火起来'
-            //     },
-            //     {
-            //         TitleXiyuer: '抽奖活动功能',
-            //         Count: '发布抽奖活动，为你提供大量优质客源，让产品火起来发布抽奖活动，为你提供大量优质客源，让产品火起来'
-            //     }
-            // ]
         };
+    },
+    watch: {
+        functionList: {
+            handler(newName) {
+                this.xiaoyuerDataer = newName;
+            },
+            deep: true,
+            immediate: true
+        }
     },
     mounted() {
         this.xiaoyuerSwiper();
@@ -81,7 +60,9 @@ export default {
     methods: {
         // 布局函数
         xiaoyuerSwiper() {
-            this.$refs.xiaoyuer2.style.width = this.$refs.options[0].clientWidth * this.$refs.options.length + 'px';
+            if (this.$refs.options != undefined && this.$refs.options.length > 2) {
+                this.$refs.xiaoyuer2.style.width = this.$refs.options[0].clientWidth * this.$refs.options.length + 'px';
+            }
         },
         // 滑动回调
         yuercircular() {

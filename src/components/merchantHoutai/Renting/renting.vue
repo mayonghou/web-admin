@@ -477,4 +477,18 @@ export default {
     border-radius: 8px;
     padding: 0;
 }
+.el-date-editor .el-range-separator {
+    line-height: 24px;
+}
+
+.el-date-editor .el-range__icon {
+    line-height: 24px;
+}
+.el-input__inner {
+    height: 30px;
+    line-height: 30px;
+}
+.el-date-editor .el-range-separator {
+    line-height: 24px;
+}
 </style>

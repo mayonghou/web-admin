@@ -1,5 +1,5 @@
 <template>
-    <Card>
+    <Card style="min-height:162px">
         <div class="Statisticsa">
             <div class="StatisticsaA staistic">
                 <span class="StatisticsaB">{{this.merchked == 1?'商家统计':'商品统计'}}</span>

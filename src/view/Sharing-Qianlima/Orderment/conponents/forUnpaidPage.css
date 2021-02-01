@@ -24,8 +24,10 @@
 }
 
 .leftcountClass {
-    display: inline-block;
     padding-right: 30px;
+    min-width: 250px;
+    display: flex;
+    align-items: center;
 }
 
 .middleClass {
@@ -59,11 +61,11 @@
 .imgCladdss {
     width: 90px;
     height: 90px;
-    background-color: aqua;
     border-radius: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: inset 0px 0px 10px #00000038;
 }
 
 .rightClasssDivxs {
@@ -156,7 +158,6 @@
 }
 
 .xiaoyuerJsStyle .xiaoyuerJsStyleSon2 .xiaoyuerJsStyleSon3 .xiaoyuerJsStyleSon4:nth-child(1) {
-    background-color: #0BD5D5;
     width: 60px;
     height: 60px;
     display: flex;
@@ -196,4 +197,46 @@
     color: #fff;
     text-align: center;
     background-color: #42A7FF;
+}
+
+.CardStyle {
+    display: block;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 90px;
+    position: relative;
+}
+
+
+.CardStyle02 {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 60px;
+    position: relative;
+}
+
+.avatarStyle {
+    position: absolute;
+    width: 56px;
+    height: 22px;
+    left: 17px;
+    top: 36px;
+    color: #ff0000;
+    font-size: 14px;
+}
+
+.avatarStyle02 {
+    position: absolute;
+    width: 56px;
+    height: 21px;
+    left: 5px;
+    top: 21px;
+    color: #ff0000;
+    font-size: 12px;
 }

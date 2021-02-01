@@ -454,13 +454,18 @@ export default {
     padding-left: 30px;
     margin-top: 10px;
 }
-
+.search-tinajian {
+    display: flex;
+    align-items: center;
+}
 .search-tinajian .chaxunbtn {
     width: 150px;
     height: 30px;
     background: #2450d2;
     color: #ffffff;
     border-radius: 8px;
+    padding: 0;
+    margin-left: 10px;
 }
 .search-tinajian .searchinput {
     width: 300px;
@@ -487,5 +492,12 @@ export default {
     width: 100%;
     text-align: right;
     color: #ff8d00;
+}
+.el-input__inner {
+    height: 30px;
+    line-height: 30px;
+}
+.el-date-editor .el-range-separator {
+    line-height: 24px;
 }
 </style>

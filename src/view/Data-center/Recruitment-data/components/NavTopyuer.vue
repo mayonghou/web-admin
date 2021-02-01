@@ -1,5 +1,5 @@
 <template>
-    <Card>
+    <Card style="min-height:214px">
         <div class="NavTopyuer_">
             <div class="NavTopyuer_1_1">关键指标</div>
             <div class="NavTopyuer_2_1">

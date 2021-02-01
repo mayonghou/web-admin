@@ -241,7 +241,12 @@ export default {
                 if (res.status == 200) {
                     var data = res.data;
                     if (data.code == 200) {
+                        console.log(data);
                         this.dataList0 = data.data[0];
+                        console.log();
+                        localStorage.setItem('industryId', data.data[0].industryId);
+                        localStorage.setItem('name', data.data[0].legal);
+                        localStorage.setItem('companyName', data.data[0].companyName);
                         var https = /^https:\/\/.+$/;
                         if (https.test(data.data[0])) {
                             this.dataList0.avatar = data.data[0].avatar;
@@ -353,7 +358,11 @@ export default {
             });
         },
         // 平台公告列表页
-        gonggaoList() {},
+        gonggaoList() {
+            this.$router.push({
+                path: './messagelist'
+            });
+        },
         // 跳转到平台公告详情
         gonggaoxianghqing(item) {
             localStorage.setItem('pingtaiId', item.id);

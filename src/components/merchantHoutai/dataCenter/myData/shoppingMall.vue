@@ -235,14 +235,14 @@
                             </el-card>
                         </div>
                         <div class="bottom bottom-right">
-                            <el-card class="box-card">
-                                <div class="box-text" style="margin-right: 100px;  padding:0 20px;">
+                            <el-card class="box-card fugoulv">
+                                <div class="box-text" style=" padding:0 20px;">
                                     <div class="text">复购率</div>
                                     <div class="baifengbi">{{this.repeatRate}}%</div>
                                 </div>
+                                <!-- style="margin-left: 80px;" -->
                                 <el-progress
                                     type="circle"
-                                    style="margin-left: 80px;"
                                     :show-text="false"
                                     color="#34C758"
                                     stroke-linecap="square"
@@ -412,7 +412,10 @@
                         @change="timeData"
                     ></el-date-picker>
                 </div>
-                <div id="positionEcharts" :style="{width: '1587px', height: '300px',}"></div>
+                <div style="width: 100%;text-align:center;" v-if="this.postTList != []">
+                    <img src="../../../../assets/img/marketingqianlima/zhanwuData.png" alt />
+                </div>
+                <div id="positionEcharts" v-else :style="{width: '1587px', height: '300px',}"></div>
             </div>
             <!-- 招聘简历的平台数据 -->
             <div class="resumeData">
@@ -430,6 +433,12 @@
                             :value="item.id"
                         ></el-option>
                     </el-select>
+                    <div
+                        style="width: 100%;text-align:center;"
+                        v-if="this.educationDataDTOList != []"
+                    >
+                        <img src="../../../../assets/img/marketingqianlima/zhanwuData.png" alt />
+                    </div>
                     <div
                         id="resumeDataPie"
                         class="resumeDataPie"
@@ -512,6 +521,9 @@
                         @change="houseDate"
                     ></el-date-picker>
                 </div>
+                <div style="width: 100%;text-align:center;" v-if="this.posdsadasList != []">
+                    <img src="../../../../assets/img/marketingqianlima/zhanwuData.png" alt />
+                </div>
                 <div id="housingecharts" style="width:100%;height: 300px;"></div>
             </div>
         </div>
@@ -523,6 +535,7 @@ export default {
     name: 'mydatas',
     data() {
         return {
+            postTList: [],
             navlist: [
                 {
                     index: 0,
@@ -551,6 +564,7 @@ export default {
             selecthousing: '',
             monthed: '',
             tableData: [],
+            educationDataDTOList: [],
             shoppCountsData: {}, // 数据中心商城数据客户统计
             goodsCountsData: {}, // 数据中心商场数据商品统计
             goodsCountssituation: {}, //数据中心商城数据 商品情况
@@ -563,6 +577,7 @@ export default {
             statTimeType: 3,
             statTimeTypes: 3,
             shangcheng: {},
+            posdsadasList: [],
             houserdataList: {},
             options: [],
             zhiweiName: '',
@@ -603,12 +618,12 @@ export default {
                 this.getAdminDataCenterProduct();
             } else if (item.index == 1) {
                 // 招聘数据
+                this.getJobData();
                 this.getDateTime();
                 this.getindustryList();
                 this.getpositionList();
                 this.positionEchartData();
                 this.resumeJobPie();
-                this.getJobData();
             } else {
                 //租房数据
                 this.gethouseDatalist();
@@ -632,23 +647,12 @@ export default {
         // 招聘指标
         getJobData() {
             this.$axios.post('admin/job/manage/jobData').then((res) => {
+                console.log(res);
                 if (res.status == 200) {
                     let data = res.data;
                     if (data.code == 200) {
                         this.hzibiaoData = data.data.data;
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: res.data.msg,
-                        type: 'error'
-                    });
                 }
             });
         },
@@ -659,19 +663,7 @@ export default {
                     var data = res.data;
                     if (data.code == 200) {
                         this.shoppCountsData = data.data;
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: res.data.msg,
-                        type: 'error'
-                    });
                 }
             });
         },
@@ -682,19 +674,7 @@ export default {
                     var data = res.data;
                     if (data.code == 200) {
                         this.goodsCountsData = data.data;
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: res.data.msg,
-                        type: 'error'
-                    });
                 }
             });
         },
@@ -705,19 +685,7 @@ export default {
                     var data = res.data;
                     if (data.code == 200) {
                         this.goodsCountssituation = data.data;
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: res.data.msg,
-                        type: 'error'
-                    });
                 }
             });
         },
@@ -728,19 +696,7 @@ export default {
                     var data = res.data;
                     if (data.code == 200) {
                         this.orderCountssituation = data.data;
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: res.data.msg,
-                        type: 'error'
-                    });
                 }
             });
         },
@@ -751,19 +707,7 @@ export default {
                     var data = res.data;
                     if (data.code == 200) {
                         this.ConsumerCountssituation = data.data;
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: res.data.msg,
-                        type: 'error'
-                    });
                 }
             });
         },
@@ -777,19 +721,7 @@ export default {
                         this.repeatRate = parseInt(data.data.repeatRate);
                         this.productList = data.data.productList;
                         this.orderList = data.data.orderList;
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: res.data.msg,
-                        type: 'error'
-                    });
                 }
             });
         },
@@ -803,12 +735,6 @@ export default {
                         this.shangcheng = data.data;
                         this.shangcheng.saleTotal = data.data.saleTotal / 100;
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: res.data.msg,
-                        type: 'error'
-                    });
                 }
             });
         },
@@ -877,19 +803,7 @@ export default {
                                 }
                             ]
                         });
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: res.data.msg,
-                        type: 'error'
-                    });
                 }
             });
         },
@@ -957,19 +871,7 @@ export default {
                                 }
                             ]
                         });
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: res.data.msg,
-                        type: 'error'
-                    });
                 }
             });
         },
@@ -998,6 +900,7 @@ export default {
                         let today = [];
                         let connectCount = [];
                         let views = [];
+                        this.postTList = data.data.data;
                         data.data.data.forEach(function (val, index) {
                             today[index] = val.toDay;
                             connectCount[index] = val.connectCount;
@@ -1005,7 +908,7 @@ export default {
                         });
                         var positionEchartsdata = document.getElementById('positionEcharts');
                         // var resizeMyChartContainer = function () {
-                        //     positionEchartsdata.style.height = window.innerHeight * 0.65 + 'px';
+                        // positionEchartsdata.style.height = window.innerHeight * 0.65 + 'px';
                         //     positionEchartsdata.style.width = window.innerWidth * 0.75 + 'px';
                         // };
                         // // 设置容器高和宽
@@ -1141,6 +1044,7 @@ export default {
                     let data = res.data;
                     if (data.code == 200) {
                         let dataListss = [];
+                        this.educationDataDTOList = data.data.data.educationDataDTOList;
                         data.data.data.educationDataDTOList.forEach(function (val, index) {
                             dataListss[index] = val;
                             dataListss[index].value = val.count;
@@ -1247,6 +1151,7 @@ export default {
                         let today = [];
                         let connectCount = [];
                         let views = [];
+                        this.posdsadasList = dataList.data.data;
                         dataList.data.data.forEach(function (val, index) {
                             console.log();
                             today[index] = val.toDay;
@@ -1329,19 +1234,7 @@ export default {
                     let data = res.data;
                     if (data.code == 200) {
                         this.houserdataList = data.data.data;
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: res.data.msg,
-                        type: 'error'
-                    });
                 }
             });
         }
@@ -1662,11 +1555,12 @@ export default {
 }
 .orderText .orderAmount {
     display: flex;
+    width: 100%;
     justify-content: space-around;
     align-items: center;
 }
 .orderText .orderAmount .progress {
-    width: 200px;
+    width: 100%;
     height: 7px;
 }
 .orderAmount .progress .progress-data {
@@ -1758,5 +1652,28 @@ export default {
     width: 100%;
     height: 300px;
     background: violet;
+}
+.orderText,
+.shoppName {
+    width: 100%;
+}
+.el-card {
+    height: 100%;
+}
+.fugoulv {
+    display: flex;
+    justify-content: space-between;
+}
+.fugoulv.el-card {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.fugoulv.el-card .el-card__body {
+    width: 100%;
+    padding: 0 15%;
+    min-height: 250px;
+    display: flex;
+    align-items: center;
 }
 </style>

@@ -7,7 +7,6 @@
             </div>
             <forhaveInHand :DataInProgress1="DataInProgress1" :check="check"></forhaveInHand>
             <div class="xiaoyuerClssa">
-                <!-- <fenPage></fenPage> -->
                 <Page
                     :total="total"
                     :page-size="limit"
@@ -41,7 +40,6 @@
 <script>
 import forhaveInHand from '../conponents/forUnpaidPage.vue';
 import HeadSearchBar from '../conponents/HeadSearchBar.vue';
-// import fenPage from '../../../Expandfunction/components/fenPage.vue';
 export default {
     data() {
         return {
@@ -64,7 +62,6 @@ export default {
     components: {
         forhaveInHand,
         HeadSearchBar
-        // fenPage
     },
     mounted() {
         this.getorderFail();

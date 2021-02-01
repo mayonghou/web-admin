@@ -1,5 +1,5 @@
 <template>
-    <Card>
+    <Card style="min-height:967px">
         <ul class="ulStyleClass">
             <!--title-->
             <li>

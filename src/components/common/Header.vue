@@ -13,7 +13,7 @@
             <div class="fl">
                 <ul class="topDataBox">
                     <li v-for="item in navData" :key="item.index" @click="routerbtn(item)">
-                        <div v-show="item.index != 0 || qiyeID != 0">
+                        <div v-show="item.index != 0 || qiyeID != 0" ref="TopnavBgcolor">
                             <span>
                                 <img :src="item.imgUrl" alt />
                             </span>
@@ -169,6 +169,12 @@ export default {
     },
     mounted() {
         this.qiyeID = localStorage.getItem('loginData');
+        // 侧边栏折叠
+        if (document.body.clientWidth > 1500) {
+            this.collapseChage();
+        }
+        // 背景切换
+        this.BackgroundSwitch();
     },
     methods: {
         // 用户名下拉菜单选择事件
@@ -328,12 +334,10 @@ export default {
                     });
                 }
             });
-        }
-    },
-    mounted() {
-        // 侧边栏折叠
-        if (document.body.clientWidth > 1500) {
-            this.collapseChage();
+        },
+        // 背景切换
+        BackgroundSwitch() {
+            console.log('asdasd');
         }
     }
 };

@@ -29,7 +29,16 @@
                 </div>
                 <div class="center-body">
                     <ul class="center-ul">
+                        <li class="dsaddsafdsimg" v-if="this.yingxiaoxiaozhishi == ''">
+                            <img
+                                width="auto"
+                                height="280px"
+                                src="../../../assets/img/marketingqianlima/zhanwuData.png"
+                                alt
+                            />
+                        </li>
                         <li
+                            v-else
                             class="center-li clearfix"
                             v-for="(item,index) in this.yingxiaoxiaozhishi"
                             :key="index"
@@ -62,6 +71,14 @@
                 </div>
                 <div class="body-right-body">
                     <ul class="right-body-ul">
+                        <li class="dsaddsafdsimg" v-if="this.activityList == ''">
+                            <img
+                                width="auto"
+                                height="280px"
+                                src="../../../assets/img/marketingqianlima/zhanwuData.png"
+                                alt
+                            />
+                        </li>
                         <li
                             class="right-body-li"
                             v-for="(item,i) in this.activityList"
@@ -118,7 +135,7 @@ import markrtingVideo from './marketing-video.vue';
 import markrtingImg from './marketing-img.vue';
 import markrtingwendang from './marketing-wendang.vue';
 export default {
-    name: 'marketing',
+    // name: 'marketing',
     components: {
         markrtingVideo,
         markrtingImg,
@@ -153,7 +170,7 @@ export default {
         // 营销活动列表
         activityAll() {
             this.$router.push({
-                path: './activityDataList'
+                path: './activityList'
             });
         },
         // 营销小知识详情
@@ -188,19 +205,7 @@ export default {
                     let data = res.data;
                     if (data.code == 200) {
                         this.yingxiaoxiaozhishi = data.data.data;
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: data.msg,
-                        type: 'error'
-                    });
                 }
             });
         },
@@ -214,19 +219,7 @@ export default {
                     let data = res.data;
                     if (data.code == 200) {
                         this.activityList = data.data.data;
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: data.msg,
-                        type: 'error'
-                    });
                 }
             });
         },
@@ -336,6 +329,7 @@ export default {
     background-color: #2971ff;
     margin-top: 10px;
     margin-left: 10px;
+    padding: 0;
     color: #ffffff;
 }
 
@@ -552,5 +546,10 @@ export default {
 }
 .body-table-text.tab-active {
     display: block;
+}
+.dsaddsafdsimg {
+    width: 100%;
+    height: 280px;
+    text-align: center;
 }
 </style>

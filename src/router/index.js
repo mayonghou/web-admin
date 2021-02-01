@@ -158,7 +158,7 @@ export default new Router({
                     component: () => import('../view/Product-Center/components/Releas.vue'),
                     // component: Index,
                     meta: {
-                        title: '产品修改·添加'
+                        title: '产品修改'
                     }
                 },
                 {
@@ -604,15 +604,6 @@ export default new Router({
                     },
                     children: [{
                             path: '/',
-                            component: () => import('../view/Sharing-Qianlima/Orderment/UnpaidPage/UnpaidPage.vue'),
-                            // component: Index,
-                            meta: {
-                                title: '订单设置' //真实路径‘未付款’
-                            }
-                        },
-                        {
-                            path: '/UnpaidPage',
-                            // component: Index,',
                             component: () => import('../view/Sharing-Qianlima/Orderment/UnpaidPage/UnpaidPage.vue'),
                             // component: Index,
                             meta: {
@@ -1536,21 +1527,14 @@ export default new Router({
                         title: '营销小知识'
                     }
                 },
+
                 {
                     path: '/activityList',
                     component: () => import('../components/merchantHoutai/marketingCenter/activitymarket/activityList.vue'),
                     meta: {
                         title: '营销活动列表'
                     }
-                },
-                {
-                    path: '/activityDataList',
-                    component: () => import('../components/merchantHoutai/marketingCenter/activitymarket/activityDataList.vue'),
-                    meta: {
-                        title: '营销活动列表'
-                    }
-                },
-                {
+                }, {
                     path: '/activityDetail',
                     component: () => import('../components/merchantHoutai/marketingCenter/activitymarket/activityDetail.vue'),
                     meta: {

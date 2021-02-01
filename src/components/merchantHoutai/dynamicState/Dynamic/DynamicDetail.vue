@@ -1,18 +1,25 @@
 <template>
     <!-- 图文动态详情 -->
     <div class="dynamicDetail" id="dynamicDetail">
-        <div class="detail-top"><label style="margin-left: 20px">图文动态详情</label></div>
+        <div class="detail-top">
+            <label style="margin-left: 20px">图文动态详情</label>
+        </div>
         <el-form :model="detailList">
             <el-form-item label="动态详情：" label-width="230px">
                 <!-- <el-input v-model="detailList.dynamicDetial" type="textarea"  class="textarea" readonly></el-input> -->
-				<div style="width: 610px;">{{this.detailList.dynamicDetial}}</div>
+                <div style="width: 610px;">{{this.detailList.dynamicDetial}}</div>
             </el-form-item>
-            <el-form-item label="" label-width="230px">
-                <img class="imgSize" v-if="detailList.dynamicImg" v-for="item in this.detailList.dynamicImg" :key="item.index" :src="item" />
+            <el-form-item label label-width="230px" v-if="detailList.dynamicImg">
+                <img
+                    class="imgSize"
+                    v-for="item in this.detailList.dynamicImg"
+                    :key="item.index"
+                    :src="item"
+                />
             </el-form-item>
         </el-form>
         <div class="btn-retyrn">
-          <el-button @click="returnBtn" class="rerurn">返回</el-button>
+            <el-button @click="returnBtn" class="rerurn">返回</el-button>
         </div>
     </div>
 </template>
@@ -32,10 +39,10 @@ export default {
         this.getdetailData();
     },
     methods: {
-        returnBtn(){
-          this.$router.push({
-            path: './dynamicState'
-          });
+        returnBtn() {
+            this.$router.push({
+                path: './dynamicState'
+            });
         },
         getdetailData() {
             var id = this.$route.query.id;
@@ -43,18 +50,18 @@ export default {
                 if (res.status == 200) {
                     var data = res.data;
                     if (data.code == 200) {
-                      var imgList = [];
-                      this.detailList.dynamicDetial = data.data.dynamicDTO.details;
-					  var https = /^(https):\/\/.+$/
-					  console.log(data.data.dynamicDTO.url);
-                      data.data.dynamicDTO.url.split(',').forEach(function(val,index) {
-							if(https.test(val)){
-								imgList[index] = val;
-							} else {
-								imgList[index] =  localStorage.getItem('imgUrl') + val;
-							}
-                      });
-                      this.detailList.dynamicImg = imgList;
+                        var imgList = [];
+                        this.detailList.dynamicDetial = data.data.dynamicDTO.details;
+                        var https = /^(https):\/\/.+$/;
+                        console.log(data.data.dynamicDTO.url);
+                        data.data.dynamicDTO.url.split(',').forEach(function (val, index) {
+                            if (https.test(val)) {
+                                imgList[index] = val;
+                            } else {
+                                imgList[index] = localStorage.getItem('imgUrl') + val;
+                            }
+                        });
+                        this.detailList.dynamicImg = imgList;
                     } else {
                         this.$message({
                             showClose: true,
@@ -78,38 +85,38 @@ export default {
 <style>
 .dynamicDetail {
     box-sizing: border-box;
-	width: 100%;
+    width: 100%;
     padding: 20px;
 }
 .detail-top {
     height: 45px;
     line-height: 45px;
     width: 100%;
-    background: #FAFBFA;
+    background: #fafbfa;
     margin-bottom: 20px;
 }
 .dynamicDetail .textarea {
     width: 610px;
-	height: 200px;
+    height: 200px;
 }
 .dynamicDetail .textarea .el-textarea__inner {
     border: 0;
 }
-.btn-retyrn{
-  width: 100%;
-  text-align: center;
+.btn-retyrn {
+    width: 100%;
+    text-align: center;
 }
-.btn-retyrn .rerurn{
-  width: 90px;
-  height: 30px;
-  background: #2482D2;
-  color: #fff;
-  padding: 0;
-  margin-left: 30px;
+.btn-retyrn .rerurn {
+    width: 90px;
+    height: 30px;
+    background: #2482d2;
+    color: #fff;
+    padding: 0;
+    margin-left: 30px;
 }
-.imgSize{
-  width: 100px;
-  height: 100px;
-  margin-left: 20px;
+.imgSize {
+    width: 100px;
+    height: 100px;
+    margin-left: 20px;
 }
 </style>

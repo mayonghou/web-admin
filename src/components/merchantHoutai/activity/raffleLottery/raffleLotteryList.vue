@@ -1,10 +1,15 @@
 <template>
     <div id="activityList" class="activityList">
         <div class="activit-top">
-            <div class="activit-label"><label>抽奖活动查询</label></div>
+            <div class="activit-label">
+                <label>抽奖活动查询</label>
+            </div>
             <div class="activit-search">
                 <el-input class="activit-S" v-model="activitSeach" placeholder="请输入活动关键字"></el-input>
-                <i style="font-size: 22px; color: #2494d2; margin-left: 20px; margin-right: 20px" class="el-icon-date"></i>
+                <i
+                    style="font-size: 22px; color: #2494d2; margin-left: 20px; margin-right: 20px"
+                    class="el-icon-date"
+                ></i>
                 <el-date-picker
                     prefix-icon="md-date_range"
                     v-model="time"
@@ -13,8 +18,7 @@
                     end-placeholder="结束日期"
                     value-format="yyyy-MM-dd"
                     @change="templateTime"
-                >
-                </el-date-picker>
+                ></el-date-picker>
                 <el-button @click="activitQuery" class="query">查询</el-button>
             </div>
         </div>
@@ -22,21 +26,25 @@
             <el-button @click="activitAdd" class="btn">发布抽奖活动</el-button>
         </div>
         <el-table :data="tableData" border style="width: 100%;">
-            <el-table-column type="index" prop="order" label="序号" width="" align="center"> </el-table-column>
-            <el-table-column prop="title" label="活动标题" align="center" width=""> </el-table-column>
-            <el-table-column prop="publisher" label="发布人" align="center" width=""> </el-table-column>
-            <el-table-column prop="chanceNumPerDay" label="每日抽奖的机会" align="center" width=""> </el-table-column>
-            <el-table-column prop="winRate" label="总中奖概率" align="center" width="">
+            <el-table-column type="index" prop="order" label="序号" width align="center"></el-table-column>
+            <el-table-column prop="title" label="活动标题" align="center" width></el-table-column>
+            <el-table-column prop="publisher" label="发布人" align="center" width></el-table-column>
+            <el-table-column prop="chanceNumPerDay" label="每日抽奖的机会" align="center" width></el-table-column>
+            <el-table-column prop="winRate" label="总中奖概率" align="center" width>
                 <template slot-scope="scope">
-                    <label style="">{{ scope.row.winRate}}%</label>
+                    <label style>{{ scope.row.winRate}}%</label>
                 </template>
             </el-table-column>
             <el-table-column prop="num" label="活动奖品" align="center">
                 <template slot-scope="scope">
-                    <el-button type="text" @click="choujiangNum(scope.row)" style="color: #2494d2">{{ scope.row.num }}个</el-button>
+                    <el-button
+                        type="text"
+                        @click="choujiangNum(scope.row)"
+                        style="color: #2494d2"
+                    >{{ scope.row.num }}个</el-button>
                 </template>
             </el-table-column>
-            <el-table-column prop="time" label="发布时间" width="180" align="center"> </el-table-column>
+            <el-table-column prop="time" label="发布时间" width="180" align="center"></el-table-column>
             <el-table-column label="操作" width="250" align="center">
                 <template slot-scope="scope">
                     <el-button @click="lookdetail(scope.row)" class="lookvideo">查看详情</el-button>
@@ -53,8 +61,7 @@
             :page-size="limit"
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
-        >
-        </el-pagination>
+        ></el-pagination>
 
         <el-dialog title="抽奖商品列表" :visible.sync="dialogVisibleraffLery" width="80%">
             <div class="iconEnlorder" @click="enlarge">
@@ -68,7 +75,7 @@
                 <el-table-column prop="prizeLevel" label="奖项等级" align="center"></el-table-column>
                 <el-table-column prop="prizeNum" label="奖品发行数量" align="center"></el-table-column>
                 <!-- <el-table-column prop="prizeType" label="奖品类型" align="center"> </el-table-column> -->
-                <el-table-column prop="couponType" label="优惠券类型" align="center"> </el-table-column>
+                <el-table-column prop="couponType" label="优惠券类型" align="center"></el-table-column>
                 <el-table-column prop="prizeCountLeft" label="奖品剩余数量" align="center"></el-table-column>
             </el-table>
             <el-pagination
@@ -80,8 +87,7 @@
                 :page-size="shoppLimit"
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="shoppcounts"
-            >
-            </el-pagination>
+            ></el-pagination>
         </el-dialog>
     </div>
 </template>
@@ -168,9 +174,9 @@ export default {
                     background: 'rgba(0, 0, 0, 0.7)'
                 });
                 let data = {
-                  activityId: row.id,
-                  activityType: 3,
-                  newStatus: 2
+                    activityId: row.id,
+                    activityType: 3,
+                    newStatus: 2
                 };
                 this.$axios.put('admin/company/activity/all/update_status', data).then((res) => {
                     loading.close();
@@ -238,7 +244,11 @@ export default {
                             datetime2 = val.endTime;
                             var date = new Date(datetime1);
                             var time1 =
-                                date.getFullYear() + '-' + (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-' +  date.getDate();
+                                date.getFullYear() +
+                                '-' +
+                                (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                                '-' +
+                                date.getDate();
 
                             var date1 = new Date(datetime2);
                             var time2 =
@@ -275,9 +285,9 @@ export default {
 <style>
 .activityList {
     width: 100%;
-	box-sizing: border-box;
-	padding: 20px;
-	font-size: 14px;
+    box-sizing: border-box;
+    padding: 20px;
+    font-size: 14px;
 }
 .activit-top {
     width: 100%;
@@ -332,5 +342,12 @@ export default {
     background-color: #ff8d00;
     color: #fff;
     border-radius: 8px;
+}
+.el-input__inner {
+    height: 30px;
+    line-height: 30px;
+}
+.el-date-editor .el-range-separator {
+    line-height: 24px;
 }
 </style>

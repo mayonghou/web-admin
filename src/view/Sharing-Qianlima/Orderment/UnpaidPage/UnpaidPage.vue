@@ -7,8 +7,6 @@
             </div>
             <forUnpaidPage :assemblyData1="assemblyData1" :check="check"></forUnpaidPage>
             <div class="xiaoyuerClssa">
-                <!-- <fenPage @functionFny="functionFny01" :check="check" :total="total"></fenPage>
-                -->
                 <Page
                     :total="total"
                     :page-size="limit"
@@ -42,12 +40,10 @@
 <script>
 import forUnpaidPage from '../conponents/forUnpaidPage.vue';
 import HeadSearchBar from '../conponents/HeadSearchBar.vue';
-// import fenPage from '../../../Expandfunction/components/fenPage.vue';
 export default {
     components: {
         forUnpaidPage,
         HeadSearchBar
-        // fenPage
     },
     data() {
         return {
@@ -67,7 +63,6 @@ export default {
             }
         };
     },
-
     mounted() {
         this.getorderweifukuan();
     },
@@ -252,5 +247,9 @@ export default {
 }
 .SearchBox {
     display: flex;
+}
+.xiaoyuerClssa {
+    display: flex;
+    justify-content: center;
 }
 </style>

@@ -54,7 +54,7 @@ export default {
                     }
                     if (i == 0) {
                         this.$router.push({
-                            path: './UnpaidPage'
+                            path: './Orderment'
                         });
                     }
                     if (i == 1) {

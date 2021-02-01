@@ -1,6 +1,11 @@
 <template>
     <div>
-        <Card v-for="(item,index) in assemblyData" :key="index" class="CaedClassStyle">
+        <Card
+            v-for="(item,index) in assemblyData"
+            :key="index"
+            class="CaedClassStyle"
+            style="min-height:410px"
+        >
             <div class="rootClassderty">
                 <div>
                     <span>订单编号：</span>
@@ -9,8 +14,14 @@
                 <div class="xiaoyuerClass">
                     <div class="xiaoyuerLeft">
                         <span class="letimgspan">
-                            <img class="imgCladdss" v-if="item.adminUrl" :src="item.adminUrl" alt />
-                            <div class="imgCladdss" v-else>暂无图片</div>
+                            <img class="imgCladdss" v-if="item.adminUrl" :src="item.adminUrl" />
+                            <div class="imgCladdss" v-else>
+                                <Card class="CardStyle">
+                                    <!--无头像-->
+                                    <Avatar shape="circle" icon="ios-person" :size="80" />
+                                    <span class="avatarStyle">暂无图片</span>
+                                </Card>
+                            </div>
                         </span>
                         <span class="leftcountClass">
                             <div class="paddiongset">
@@ -62,11 +73,6 @@
                                 {{ item.ordreTitle }}
                                 {{ item.orderTime }}
                                 <span>&nbsp;</span>
-                                <!-- {{ item.TmTime1 }} -->
-                                <!-- <span>&nbsp;</span>——
-                                <span>&nbsp;</span>
-                                {{ item.TmTime2 }}
-                                <span>&nbsp;</span>12:00-->
                                 <span class="sgengyuTimeClass">{{ item.surplus }}</span>
                             </p>
                         </div>
@@ -83,7 +89,14 @@
                         <div class="xiaoyuerJsStyleSon3">
                             <div class="xiaoyuerJsStyleSon4">
                                 <img v-if="item.imgSrcUrl" :src="item.imgSrcUrl" />
-                                <span v-else>暂无图片</span>
+                                <!-- 暂无图片 -->
+                                <span v-else>
+                                    <Card class="CardStyle02">
+                                        <!--无头像-->
+                                        <Avatar shape="circle" icon="ios-person" :size="50" />
+                                        <span class="avatarStyle02">暂无图片</span>
+                                    </Card>
+                                </span>
                             </div>
                             <div class="xiaoyuerJsStyleSon4">
                                 <div class="xiaoyuerJsStyleSon5">

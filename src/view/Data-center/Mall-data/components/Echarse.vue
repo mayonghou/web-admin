@@ -1,37 +1,38 @@
 <template>
-    <Card>
-        <div class="xiaoyuerClass">
-            <span class="spanClassgr">
-                <div class="xiaoyuert">
-                    <p class="sonCls">平台转化率</p>
-                    <p class="sonCls">{{this.conversionRate}}%</p>
-                    <div class="xiaoyuGdd">
-                        <!-- <div class="xiaoyufg">&nbsp;</div> -->
-                        <Progress
-                            :percent="parseInt(this.conversionRate)"
-                            :stroke-width="15"
-                            hide-info
-                        />
+    <div>
+        <Card style="min-height:188px">
+            <div class="xiaoyuerClass">
+                <span class="spanClassgr">
+                    <div class="xiaoyuert">
+                        <p class="sonCls">平台转化率</p>
+                        <p class="sonCls">{{this.conversionRate}}%</p>
+                        <div class="xiaoyuGdd">
+                            <!-- <div class="xiaoyufg">&nbsp;</div> -->
+                            <Progress
+                                :percent="parseInt(this.conversionRate)"
+                                :stroke-width="10"
+                                hide-info
+                            />
+                        </div>
                     </div>
-                </div>
-            </span>
-            <span class="spanClassgr vdisplayClass">
-                <div class="xiaoyuert">
-                    <p class="sonCls">平台复购率</p>
-                    <p class="sonClss">{{this.repeatRate}}%</p>
-                </div>
-                <div class="sdeondClass">
-                    <el-progress
-                        type="circle"
-                        :percentage="parseInt(this.repeatRate)"
-                        :show-text="false"
-                        :stroke-width="10"
-                        :width="100"
-                    ></el-progress>
-                </div>
-            </span>
-        </div>
-    </Card>
+                </span>
+                <span class="spanClassgr vdisplayClass">
+                    <div class="xiaoyuert">
+                        <p class="sonCls">平台复购率</p>
+                        <p class="sonClss">{{this.repeatRate}}%</p>
+                    </div>
+                    <div class="sdeondClass">
+                        <i-circle :percent="parseInt(this.repeatRate)" :size="100">
+                            <!-- <span
+                                class="demo-Circle-inner"
+                                style="font-size:24px"
+                            >{{ parseInt(this.repeatRate)}}</span>-->
+                        </i-circle>
+                    </div>
+                </span>
+            </div>
+        </Card>
+    </div>
 </template>
 
 <script>

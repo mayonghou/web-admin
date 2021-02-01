@@ -1903,6 +1903,8 @@ export default {
     padding: 10px 20px;
     font-size: 12px;
     margin-top: -8px;
+    display: flex;
+    align-items: center;
 }
 
 .top_search .search {
@@ -1919,6 +1921,7 @@ export default {
     /* border-radius: 30px; */
     font-size: 14px;
     padding: 0;
+    margin-left: 10px;
 }
 
 .add_Del {
@@ -2063,5 +2066,9 @@ export default {
 .el-checkbox-lists .el-checkbox__input.is-checked .el-checkbox__inner {
     background-color: #3b58ff;
     border-color: #3b58ff;
+}
+.el-input__inner {
+    height: 30px;
+    line-height: 30px;
 }
 </style>

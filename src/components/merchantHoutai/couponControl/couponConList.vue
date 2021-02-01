@@ -596,4 +596,11 @@ export default {
 .el-date-picker {
     border: 1px solid #dcdfe6;
 }
+.el-input__inner {
+    height: 30px;
+    line-height: 30px;
+}
+.el-date-editor .el-range-separator {
+    line-height: 24px;
+}
 </style>

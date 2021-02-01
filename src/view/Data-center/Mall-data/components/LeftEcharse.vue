@@ -1,5 +1,5 @@
 <template>
-    <Card>
+    <Card style="min-height:493px">
         <div>
             <div class="huoqushijian">
                 <el-date-picker

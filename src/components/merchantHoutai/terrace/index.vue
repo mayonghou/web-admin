@@ -168,7 +168,7 @@ export default {
         },
         // 删除一个
         del_enterprise(row) {
-            let id = row.id;
+            let id = row.company.id;
             this.$axios.get('admin/company/delete?ids=' + id).then((res) => {
                 if (res.status == 200) {
                     var data = res.data;

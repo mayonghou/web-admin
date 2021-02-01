@@ -2,10 +2,19 @@
     <!-- 营销活动列表页 -->
     <div class="activityList" id="activityList">
         <ul>
-            <li class="list-li" v-for="item in this.activityList" :key="item.id">
+            <li class="list-li" v-if="this.activityList == ''">
+                <img
+                    style="margin: 0 auto; padding: 0 35%;"
+                    src="../../../../assets/img/marketingqianlima/zhanwuData.png"
+                    alt
+                />
+            </li>
+            <li class="list-li" v-else v-for="item in this.activityList" :key="item.id">
+                <div class="List-title">{{ item.title }}</div>
                 <div class="list-body" @click="activityDetail(item)">
-                    <div class="List-title">{{ item.title }}</div>
-                    <div class="pImg" v-html="item.content"></div>
+                    <div>
+                        <div class="pImg" v-html="item.content"></div>
+                    </div>
                     <i style="font-size: 24px" class="el-icon-right"></i>
                 </div>
             </li>
@@ -95,22 +104,32 @@ export default {
 }
 .list-li {
     list-style: none;
+    /* position: relative; */
+    /* background: #c2c2c2; */
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+.list-li:hover {
+    background: #c2c2c2;
 }
 .activityList .list-li .list-body {
     width: 80%;
     margin: 0 auto;
-    position: relative;
     display: flex;
-    /* justify-content: space-between; */
-    flex-direction: row;
+    justify-content: space-between;
+    /* flex-direction: row; */
     align-items: center;
+    min-height: 100px;
     cursor: pointer;
+    margin-top: 30px;
 }
-.activityList .list-li .list-body .List-title {
-    position: absolute;
-    left: 40%;
+.activityList .list-li .List-title {
+    /* position: absolute; */
+    /* left: 40%; */
+    text-align: center;
     font-size: 26px;
-    top: 30px;
+    /* top: 30px; */
 }
 
 .list-li .list-body .pImg img {

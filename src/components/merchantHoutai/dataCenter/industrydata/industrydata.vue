@@ -16,7 +16,10 @@
                         <span></span>
                     </div>
                 </div>
-                <div id="myChart" :style="{width: '100%', height: '300px',}"></div>
+                <div style="width: 100%;text-align:center;" v-if="this.industyData != []">
+                    <img src="../../../../assets/img/marketingqianlima/zhanwuData.png" alt />
+                </div>
+                <div id="myChart" v-else :style="{width: '100%', height: '300px',}"></div>
             </el-card>
         </div>
         <div class="dataMerchant">
@@ -108,7 +111,7 @@
                 </el-card>
             </div>
             <div class="sameMerchant">
-                <el-card>
+                <el-card class="sameElCard">
                     <div class="sametop">
                         <div>贵阳市新入驻的同行业商家(近1个月)</div>
                     </div>
@@ -139,7 +142,8 @@ export default {
         return {
             valueTime: '',
             tableData: [],
-            counts: this.counts,
+            industyData: [],
+            counts: 0,
             page: 1,
             limit: 10,
             callBusinessCount: '', // 平台联系次数
@@ -151,38 +155,32 @@ export default {
         };
     },
     mounted() {
-        this.drawLine();
         this.getAdminDataCenterIndustryNewBusiness();
         this.getAdminDataCenterIndustryBusiness();
+        let Year = new Date().getFullYear();
+        let mouth = new Date().getMonth() + 1;
+        this.drawLine(Year + '-' + mouth);
     },
     methods: {
         timeV(value) {
             this.drawLine(value);
         },
         drawLine(value) {
-            let myChart = this.$echarts.init(document.getElementById('myChart'));
-            let date = new Date();
-            let Year = new Date().getFullYear();
-            let mouth = new Date().getMonth() + 1;
-            var dateStr = '';
-            if (value != undefined) {
-                dateStr = value;
-            } else {
-                dateStr = Year + '-' + mouth;
-            }
-            this.$axios.get('admin/mall/dataCenter/getAdminDataCenterIndustryOrder?dateStr=' + dateStr).then((res) => {
+            this.$axios.get('admin/mall/dataCenter/getAdminDataCenterIndustryOrder?dateStr=' + value).then((res) => {
                 if (res.status == 200) {
                     let data = res.data;
                     if (data.code == 200) {
                         this.dataList = data.data;
                         var name = [];
                         var value = [];
-                        var value1 = [];
+
+                        this.industyData = data.data;
                         data.data.forEach(function (val, index) {
                             name[index] = val.name;
                             value[index] = val.value;
                             // value1[index] = val.value + 2;
                         });
+                        let myChart = this.$echarts.init(document.getElementById('myChart'));
                         // 绘制图表
                         myChart.setOption({
                             title: {
@@ -256,6 +254,7 @@ export default {
                     let data = res.data;
                     if (data.code == 200) {
                         this.tableData = data.data;
+                        // this.counts = data.
                     } else {
                         this.$message({
                             showClose: true,
@@ -409,5 +408,9 @@ export default {
     border-top: 9px solid transparent;
     border-right: 14px solid #fff;
     border-bottom: 9px solid transparent;
+}
+.sameMerchant,
+.sameElCard {
+    min-height: 525px;
 }
 </style>

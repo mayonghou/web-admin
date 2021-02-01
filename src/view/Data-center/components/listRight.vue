@@ -1,23 +1,18 @@
 <template>
-    <div>
-        <div class="right">
-            <h4 class="titleHfour">贵阳市入住的同行商家（近一个月）</h4>
-            <p class="colorFont">999</p>
-        </div>
-        <div class="tableDiv">
-            <Table :columns="columns1" :data="data1"></Table>
-            <div class="Pagefy">
-                <el-pagination
-                    @prev-click="prev_click"
-                    @next-click="next_click"
-                    @current-change="current_change"
-                    :page-size="limit"
-                    :total="total"
-                    layout="prev, pager, next"
-                ></el-pagination>
+    <Card style="min-height:483px">
+        <div>
+            <div class="right">
+                <h4 class="ulFirstClass">贵阳市入住的同行商家（近一个月）</h4>
+                <h4 class="colorFont">999</h4>
+            </div>
+            <div class="tableDiv">
+                <Table :columns="columns1" :data="data1"></Table>
+                <div class="Pagefy">
+                    <Page :total="total" />
+                </div>
             </div>
         </div>
-    </div>
+    </Card>
 </template>
 
 <script>
@@ -25,8 +20,6 @@ import bus from '../../../components/common/bus.js';
 export default {
     data() {
         return {
-            limit: 10,
-            page: 1,
             total: 0,
             IndustyId: '',
             columns1: [
@@ -52,12 +45,36 @@ export default {
                 }
             ],
             data1: [
-                // {
-                //     cooler1: '万境烽火',
-                //     cooler2: '中国',
-                //     cooler3: '898',
-                //     cooler4: '2016-10-03'
-                // }
+                {
+                    cooler1: '万境烽火',
+                    cooler2: '中国',
+                    cooler3: '898',
+                    cooler4: '2016-10-03'
+                },
+                {
+                    cooler1: '万境烽火',
+                    cooler2: '中国',
+                    cooler3: '898',
+                    cooler4: '2016-10-03'
+                },
+                {
+                    cooler1: '万境烽火',
+                    cooler2: '中国',
+                    cooler3: '898',
+                    cooler4: '2016-10-03'
+                },
+                {
+                    cooler1: '万境烽火',
+                    cooler2: '中国',
+                    cooler3: '898',
+                    cooler4: '2016-10-03'
+                },
+                {
+                    cooler1: '万境烽火',
+                    cooler2: '中国',
+                    cooler3: '898',
+                    cooler4: '2016-10-03'
+                }
             ]
         };
     },
@@ -67,43 +84,28 @@ export default {
             this.getAdminDataCenterNewBusiness();
         });
     },
-    mounted() {
-        // this.getAdminDataCenterNewBusiness();
-    },
+    mounted() {},
     methods: {
-        prev_click(val) {
-            this.page = val;
-            this.getAdminDataCenterNewBusiness();
-        },
-        next_click(val) {
-            this.page = val;
-            this.getAdminDataCenterNewBusiness();
-        },
-        current_change(val) {
-            this.page = val;
-            this.getAdminDataCenterNewBusiness();
-        },
         getAdminDataCenterNewBusiness() {
             let data = {
-                page: this.page,
-                limit: this.limit,
+                page: 1,
+                limit: 10,
                 industryId: this.IndustyId
             };
             this.$axios.post('admin/mall/dataCenter/getAdminDataCenterNewBusiness', data).then((res) => {
                 if (res.status == 200) {
                     let data = res.data;
                     if (data.code == 200) {
+                        let DataLis = res.data.data;
                         let dataLsit = [];
                         this.total = data.total;
-                        data.forEach(function (val, index) {
+                        DataLis.forEach((val, index) => {
                             dataLsit[index] = val;
                             dataLsit[index].cooler1 = val.name;
                             dataLsit[index].cooler2 = val.address;
                             dataLsit[index].cooler3 = val.viewCount;
                             dataLsit[index].cooler4 = val.time;
                         });
-                        this.data1 = dataLsit;
-                        console.log(dataLsit);
                     }
                 }
             });
@@ -119,15 +121,19 @@ export default {
     justify-content: space-between;
 }
 .colorFont {
-    color: #0177d5;
+    display: flex;
+    align-items: center;
+    color: #1fb054;
 }
 .tableDiv {
     width: 100%;
     height: 100%;
-    padding: 20px 0 20px 20px;
 }
 .Pagefy {
     text-align: center;
-    padding: 36px 0px;
+    padding: 10px 0px;
+}
+.ulFirstClass {
+    padding: 15px 0;
 }
 </style>

@@ -273,46 +273,7 @@ export default {
                 region: '' // 区
             },
             // 注册地址
-            options: [
-                {
-                    value: 'zhinan',
-                    label: '贵州省',
-                    children: [
-                        {
-                            value: 'shejiyuanze',
-                            label: '贵阳市',
-                            children: [
-                                {
-                                    value: 'yizhi',
-                                    label: '观山湖区'
-                                },
-                                {
-                                    value: 'fankui',
-                                    label: '花果园'
-                                },
-                                {
-                                    value: 'xiaolv',
-                                    label: '云岩区'
-                                }
-                            ]
-                        },
-                        {
-                            value: 'daohang',
-                            label: '毕节市',
-                            children: [
-                                {
-                                    value: 'cexiangdaohang',
-                                    label: '七星关区'
-                                },
-                                {
-                                    value: 'dingbudaohang',
-                                    label: '织金县'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ],
+            options: address,
             // 账号类型
             optionsa: [
                 {
@@ -443,11 +404,20 @@ export default {
                     .post('admin/company/add', addformObj)
                     .then((res) => {
                         if (res.status == 200) {
-                            this.$message({
-                                showClose: true,
-                                message: res.data.msg,
-                                type: 'success'
-                            });
+                            let data = res.data;
+                            if (data.code == 200) {
+                                this.$message({
+                                    showClose: true,
+                                    message: data.msg,
+                                    type: 'success'
+                                });
+                            } else {
+                                this.$message({
+                                    showClose: true,
+                                    message: data.msg,
+                                    type: 'error'
+                                });
+                            }
                         } else {
                             this.$message({
                                 showClose: true,

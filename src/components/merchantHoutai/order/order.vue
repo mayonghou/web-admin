@@ -559,6 +559,7 @@ export default {
     background-color: #2450d2;
     color: #fff;
     margin-left: 10px;
+    padding: 0;
 }
 .copy {
     cursor: pointer;
@@ -612,7 +613,10 @@ export default {
 .order-top .rent-top {
     font-size: 14px;
 }
-
+.reat-search {
+    display: flex;
+    align-items: center;
+}
 .reat-search .search {
     width: 220px;
     height: 30px;
@@ -646,6 +650,7 @@ export default {
     width: 150px;
     height: 30px;
     margin-left: 10px;
+    padding: 0;
 }
 
 .button .el-button {
@@ -719,5 +724,12 @@ export default {
 }
 .bgbgb.active {
     background: yellowgreen;
+}
+.el-input__inner {
+    height: 30px;
+    line-height: 30px;
+}
+.el-date-editor .el-range-separator {
+    line-height: 24px;
 }
 </style>

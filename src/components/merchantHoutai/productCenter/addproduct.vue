@@ -257,7 +257,7 @@ export default {
 .baocunquxiao .el-btton-text {
     background: #38a28a;
     color: #fff;
-    height: 32px;
+    height: 40px;
     width: 100px;
     padding: 0 10px;
 }

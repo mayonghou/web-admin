@@ -1,7 +1,7 @@
 <template>
     <div class="membership" id="membership">
         <div class="membershipTop clearfix">
-            <div class="top_text">
+            <div class="top_textssd">
                 <label>用户查询</label>
             </div>
             <div class="search">

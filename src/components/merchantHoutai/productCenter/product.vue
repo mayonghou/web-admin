@@ -8,12 +8,21 @@
         <div class="productindex-top">
             <div class="product-top-left">
                 <el-card class="el-card-body-left">
-                    <div class="company">
-                        <span class="company-title">{{this.versionName}}</span>
-                        <span class="company-text">{{this.title}}</span>
+                    <div v-if="this.versionName != ''">
+                        <div class="company">
+                            <span class="company-title">{{this.versionName}}</span>
+                            <span class="company-text">{{this.title}}</span>
+                        </div>
+                        <div class="compan-version-text">{{this.versionDescribe}}</div>
+                        <el-button @click="lookversionBrn" class="lookdetail">查看详情></el-button>
                     </div>
-                    <div class="compan-version-text">{{this.versionDescribe}}</div>
-                    <el-button @click="lookversionBrn" class="lookdetail">查看详情></el-button>
+                    <div style="width:100%; text-align: center;" v-else>
+                        <img
+                            width="auto"
+                            height="360px"
+                            src="../../../assets/img/marketingqianlima/zhanwuData.png"
+                        />
+                    </div>
                 </el-card>
             </div>
             <div class="product-top-right">
@@ -23,8 +32,21 @@
                         <happy-scroll color="rgba(0,0,0,0.5)" size="5">
                             <ul class="functionUL">
                                 <li
+                                    style="width:100%; text-align: center;"
+                                    v-if="this.functionList != []"
+                                >
+                                    <img
+                                        width="auto"
+                                        height="260px"
+                                        src="../../../assets/img/marketingqianlima/zhanwuData.png"
+                                        alt
+                                        srcset
+                                    />
+                                </li>
+                                <li
+                                    v-else
                                     class="functionLI"
-                                    v-for="(item, index) in functionList"
+                                    v-for="(item, index) in this.functionList"
                                     :key="index"
                                 >
                                     <div style="width:280px;">
@@ -109,7 +131,7 @@ export default {
             ],
             page: 1,
             limit: 10,
-            counts: this.counts,
+            counts: 0,
             versionName: '',
             versionDescribe: ``,
             title: '',
@@ -150,19 +172,7 @@ export default {
                         this.versionName = data.data.versionName;
                         this.title = data.data.title;
                         this.versionDescribe = data.data.versionDescribe;
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: data.msg,
-                        type: 'error'
-                    });
                 }
             });
         },
@@ -299,6 +309,7 @@ export default {
     background-image: linear-gradient(to bottom right, #0dccff, #4760ff);
     border-radius: 10px;
     color: #fff;
+    overflow: hidden;
 }
 .el-card-body-left .company .company-title {
     font-size: 30px;

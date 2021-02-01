@@ -220,90 +220,80 @@ export default {
                 if (res.status == 200) {
                     var data = res.data;
                     if (data.code == 200) {
-                        var goodsDetail = data.data.productDTO;
-                        this.status = goodsDetail.publishStatus;
-                        var aaas = /^(https):\/\/.+$/;
-                        var imgList = [];
-                        goodsDetail.albumPics.split(',').forEach(function (val, index) {
-                            if (aaas.test(val)) {
-                                imgList[index] = val;
-                            } else {
-                                imgList[index] = localStorage.getItem('imgUrl') + val;
-                            }
-                        });
-                        this.goodsDetailList.imgSrcList = imgList;
-                        if (aaas.test(goodsDetail.pic)) {
-                            this.goodsDetailList.imgSrc = goodsDetail.pic;
-                        } else {
-                            this.goodsDetailList.imgSrc = localStorage.getItem('imgUrl') + goodsDetail.pic;
-                        }
-                        if (goodsDetail.videoUrl) {
-                            if (aaas.test(goodsDetail.videoUrl)) {
-                                this.goodsDetailList.fileUrl = goodsDetail.videoUrl;
-                            } else {
-                                this.goodsDetailList.fileUrl = localStorage.getItem('imgUrl') + goodsDetail.videoUrl;
-                            }
-                        } else {
-                            this.goodsDetailList.fileUrl == '';
-                        }
-                        this.goodsDetailList.shoppName = goodsDetail.name;
-                        this.goodsDetailList.time = goodsDetail.makeTime;
-                        this.goodsDetailList.shoppkucun = goodsDetail.stock;
-                        this.goodsDetailList.kucunzhi = goodsDetail.lowStock;
-                        this.goodsDetailList.price = goodsDetail.price / 100 + '元';
-                        this.goodsDetailList.peisong = goodsDetail.logisticsIds;
-                        var aaa = [];
-                        goodsDetail.logisticsIds.split(',').forEach(function (val, index) {
-                            if (val == 1) {
-                                aaa.push('可自提');
-                            } else if (val == 2) {
-                                aaa.push('可到店消费');
-                            } else if (val == 3) {
-                                aaa.push('可配送');
-                            }
-                        });
-                        this.goodsDetailList.peisong = aaa.join('       ');
-                        var ddd = [];
-                        goodsDetail.serviceIds.split(',').forEach(function (val, index) {
-                            if (val == 1) {
-                                ddd.push('假一赔十');
-                            } else if (val == 2) {
-                                ddd.push('极速退款');
-                            } else if (val == 3) {
-                                ddd.push('无忧退货');
-                            }
-                        });
-                        this.goodsDetailList.baozhang = ddd.join('       ');
-                        this.goodsDetailList.baoyou = goodsDetail.freeShipping == 0 ? '否' : '是';
-                        this.goodsDetailList.number = goodsDetail.count == 0 ? '无限制' : goodsDetail.count;
-                        this.goodsDetailList.danwei = goodsDetail.unit;
-                        this.goodsDetailList.huohao = goodsDetail.sn;
-                        this.goodsDetailList.zhutotle = goodsDetail.specTitle;
-                        this.goodsDetailList.label = goodsDetail.detailHtml;
-                        this.goodsDetailList.imgUrl = localStorage.getItem('imgUrl') + goodsDetail.detailHtml;
-                        this.goodsDetailList.canshu = JSON.parse(goodsDetail.parameter);
-                        this.prodAttrList = data.data.prodAttrList;
-                        if (data.data.prodAttrSubList != '') {
-                            var subNList = [];
-                            data.data.prodAttrSubList.forEach(function (val, index) {
-                                subNList[index] = val;
-                                subNList[index].subName = JSON.parse(val.subName);
+                        if (data.data.productDTO != null) {
+                            var goodsDetail = data.data.productDTO;
+                            this.status = goodsDetail.publishStatus;
+                            var aaas = /^(https):\/\/.+$/;
+                            var imgList = [];
+                            goodsDetail.albumPics.split(',').forEach(function (val, index) {
+                                if (aaas.test(val)) {
+                                    imgList[index] = val;
+                                } else {
+                                    imgList[index] = localStorage.getItem('imgUrl') + val;
+                                }
                             });
-                            this.prodAttrSubList = subNList;
+                            this.goodsDetailList.imgSrcList = imgList;
+                            if (aaas.test(goodsDetail.pic)) {
+                                this.goodsDetailList.imgSrc = goodsDetail.pic;
+                            } else {
+                                this.goodsDetailList.imgSrc = localStorage.getItem('imgUrl') + goodsDetail.pic;
+                            }
+                            if (goodsDetail.videoUrl) {
+                                if (aaas.test(goodsDetail.videoUrl)) {
+                                    this.goodsDetailList.fileUrl = goodsDetail.videoUrl;
+                                } else {
+                                    this.goodsDetailList.fileUrl = localStorage.getItem('imgUrl') + goodsDetail.videoUrl;
+                                }
+                            } else {
+                                this.goodsDetailList.fileUrl == '';
+                            }
+                            this.goodsDetailList.shoppName = goodsDetail.name;
+                            this.goodsDetailList.time = goodsDetail.makeTime;
+                            this.goodsDetailList.shoppkucun = goodsDetail.stock;
+                            this.goodsDetailList.kucunzhi = goodsDetail.lowStock;
+                            this.goodsDetailList.price = goodsDetail.price / 100 + '元';
+                            this.goodsDetailList.peisong = goodsDetail.logisticsIds;
+                            var aaa = [];
+                            goodsDetail.logisticsIds.split(',').forEach(function (val, index) {
+                                if (val == 1) {
+                                    aaa.push('可自提');
+                                } else if (val == 2) {
+                                    aaa.push('可到店消费');
+                                } else if (val == 3) {
+                                    aaa.push('可配送');
+                                }
+                            });
+                            this.goodsDetailList.peisong = aaa.join('       ');
+                            var ddd = [];
+                            goodsDetail.serviceIds.split(',').forEach(function (val, index) {
+                                if (val == 1) {
+                                    ddd.push('假一赔十');
+                                } else if (val == 2) {
+                                    ddd.push('极速退款');
+                                } else if (val == 3) {
+                                    ddd.push('无忧退货');
+                                }
+                            });
+                            this.goodsDetailList.baozhang = ddd.join('       ');
+                            this.goodsDetailList.baoyou = goodsDetail.freeShipping == 0 ? '否' : '是';
+                            this.goodsDetailList.number = goodsDetail.count == 0 ? '无限制' : goodsDetail.count;
+                            this.goodsDetailList.danwei = goodsDetail.unit;
+                            this.goodsDetailList.huohao = goodsDetail.sn;
+                            this.goodsDetailList.zhutotle = goodsDetail.specTitle;
+                            this.goodsDetailList.label = goodsDetail.detailHtml;
+                            this.goodsDetailList.imgUrl = localStorage.getItem('imgUrl') + goodsDetail.detailHtml;
+                            this.goodsDetailList.canshu = JSON.parse(goodsDetail.parameter);
+                            this.prodAttrList = data.data.prodAttrList;
+                            if (data.data.prodAttrSubList != '') {
+                                var subNList = [];
+                                data.data.prodAttrSubList.forEach(function (val, index) {
+                                    subNList[index] = val;
+                                    subNList[index].subName = JSON.parse(val.subName);
+                                });
+                                this.prodAttrSubList = subNList;
+                            }
                         }
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: data.msg,
-                        type: 'error'
-                    });
                 }
             });
         }

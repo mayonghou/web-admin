@@ -3,7 +3,14 @@
         <div class="marktingvideo-top">
             <div class="videoClass">
                 <div class="shipinClass">图片分类</div>
-                <div v-for="item in this.imgClass" :key="item.id">
+                <div style="100%" v-if="this.imgClass == ''">
+                    <img
+                        width="100%"
+                        src="../../../assets/img/marketingqianlima/zhanwuData.png"
+                        alt
+                    />
+                </div>
+                <div v-else v-for="item in this.imgClass" :key="item.id">
                     <div
                         class="classimg"
                         :class="item.id==1?'active':''"
@@ -39,7 +46,17 @@
                 </div>
                 <div class="listVideo">
                     <el-row>
-                        <el-col :span="8" v-for="(item, index) in this.imgList" :key="index">
+                        <el-col
+                            :span="24"
+                            v-if="this.imgList == ''"
+                            style="width:100%; text-align: center;"
+                        >
+                            <img
+                                width="60%"
+                                src="../../../assets/img/marketingqianlima/zhanwuData.png"
+                            />
+                        </el-col>
+                        <el-col v-else :span="8" v-for="(item, index) in this.imgList" :key="index">
                             <div class="grid-content bg-purple">
                                 <div class="imgData" @click="imgData(item)">
                                     <img class="video" :src="item.imgurl" />
@@ -128,19 +145,7 @@ export default {
                     var data = res.data;
                     if (data.code == 200) {
                         this.datadialog.zan = data.data.pictureZan;
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: data.msg,
-                        type: 'error'
-                    });
                 }
             });
         },
@@ -213,19 +218,7 @@ export default {
                             pictureType: data.data.pictureType,
                             zan: data.data.zan
                         };
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: data.msg,
-                        type: 'error'
-                    });
                 }
             });
         },
@@ -238,19 +231,7 @@ export default {
                         this.imgClass = data.data.data;
                         this.typeName = data.data.data[0].name;
                         this.getImgAll();
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: data.msg,
-                        type: 'error'
-                    });
                 }
             });
         },
@@ -318,19 +299,7 @@ export default {
                         });
                         this.imgList = cList;
                         this.counts = data.data.total;
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: data.msg,
-                        type: 'error'
-                    });
                 }
             });
         }

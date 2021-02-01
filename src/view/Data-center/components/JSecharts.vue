@@ -1,13 +1,15 @@
 <template>
     <div>
-        <div class="echatsDatatitle">
-            <span>{{this.IndustyName}}业成交量</span>
-            <div>
-                <span class="font">●</span>
-                <span>订单量</span>
+        <Card style="min-height:545px">
+            <div class="echatsDatatitle">
+                <span>{{this.IndustyName}}业成交量</span>
+                <div>
+                    <span class="font">●</span>
+                    <span>订单量</span>
+                </div>
             </div>
-        </div>
-        <div id="main" class="EchatsData"></div>
+            <div id="main" class="EchatsData"></div>
+        </Card>
     </div>
 </template>
 
