@@ -16,10 +16,9 @@
                         <span></span>
                     </div>
                 </div>
-                <div style="width: 100%;text-align:center;" v-if="this.industyData != []">
-                    <img src="../../../../assets/img/marketingqianlima/zhanwuData.png" alt />
-                </div>
-                <div id="myChart" v-else :style="{width: '100%', height: '300px',}"></div>
+
+                <div id="myChart" ref="myChart" :style="{width: '100%', height: '300px',}"></div>
+                <!-- <img v-else src="../../../../assets/img/marketingqianlima/zhanwuData.png" alt /> -->
             </el-card>
         </div>
         <div class="dataMerchant">
@@ -142,10 +141,11 @@ export default {
         return {
             valueTime: '',
             tableData: [],
-            industyData: [],
+            industyData: false,
             counts: 0,
             page: 1,
             limit: 10,
+            myChart: '',
             callBusinessCount: '', // 平台联系次数
             industryDataCount: '', // 行业商家总数
             transferDataCount: '', //同行业商家转让数据
@@ -173,18 +173,20 @@ export default {
                         this.dataList = data.data;
                         var name = [];
                         var value = [];
-
-                        this.industyData = data.data;
                         data.data.forEach(function (val, index) {
                             name[index] = val.name;
                             value[index] = val.value;
                             // value1[index] = val.value + 2;
                         });
-                        let myChart = this.$echarts.init(document.getElementById('myChart'));
+                        if (name == '') {
+                            this.industyData = true;
+                        }
+                        // let myChart = this.$echarts.init(document.getElementById('myChart'));
+                        this.myChart = this.$echarts.init(this.$refs.myChart);
                         // 绘制图表
-                        myChart.setOption({
+                        this.myChart.setOption({
                             title: {
-                                text: '餐饮业成交单量'
+                                text: '成交单量'
                             },
                             tooltip: {},
                             xAxis: {
@@ -219,12 +221,6 @@ export default {
                                     data: value
                                 }
                             ]
-                        });
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
                         });
                     }
                 }
@@ -271,6 +267,7 @@ export default {
                 }
             });
         },
+        // 商家数据
         getAdminDataCenterIndustryBusiness() {
             this.$axios
                 .get('admin/mall/dataCenter/getAdminDataCenterIndustryBusiness')
@@ -325,9 +322,9 @@ export default {
     height: auto;
 }
 .dataMerchant .sameMerchant {
-    width: 55%;
+    width: 59%;
     height: 300px;
-    padding: 10px;
+    /* padding: 10px; */
 }
 .sametop {
     height: 30px;
@@ -387,7 +384,7 @@ export default {
     padding-left: 20px;
     border: 1px solid #e4e4e2;
 }
-/* ==================== */
+
 .xiaoyuerClsdfsd {
     display: flex;
     align-items: center;
@@ -411,6 +408,6 @@ export default {
 }
 .sameMerchant,
 .sameElCard {
-    min-height: 525px;
+    min-height: 530px;
 }
 </style>

@@ -31,6 +31,14 @@ export default {
                     MainTitle: newvalue.meta.title,
                     RouterPath: newvalue.fullPath
                 });
+                if (this.BusRouterData[0].RouterPath == '/') {
+                    console.log(newvalue);
+                    if (localStorage.getItem('loginData') == 0) {
+                        this.$router.push({ path: './dataCenterindex' });
+                    } else {
+                        this.$router.push({ path: './indexshouye' });
+                    }
+                }
                 for (let i = 1; i < this.BusRouterData.length; i++) {
                     for (let j = i + 1; j < this.BusRouterData.length; j++) {
                         if (this.BusRouterData[i].MainTitle == this.BusRouterData[j].MainTitle) {

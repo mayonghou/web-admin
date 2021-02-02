@@ -23,28 +23,28 @@
                 <div class="top-text">
                     <img class="img" src="../../../../assets/img/dataCenter/jiaoyi.png" />
                     <div class="top-countNum">
-                        <div class="countNum-top">￥{{this.shangcheng.saleTotal}}</div>
+                        <div class="countNum-top">￥{{this.shangcheng.saleTotal || 0}}</div>
                         <div class="countNum-bottom">今日销售总额</div>
                     </div>
                 </div>
                 <div class="top-text">
                     <img class="img" src="../../../../assets/img/icon/dingdandanjuwenjian.png" />
                     <div class="top-countNum">
-                        <div class="countNum-top">{{this.shangcheng .orderTotal}}</div>
+                        <div class="countNum-top">{{this.shangcheng .orderTotal || 0}}</div>
                         <div class="countNum-bottom">今日订单量</div>
                     </div>
                 </div>
                 <div class="top-text">
                     <img class="img" src="../../../../assets/img/dataCenter/chuhuo.png" />
                     <div class="top-countNum">
-                        <div class="countNum-top">{{this.shangcheng.sendGoodsTotal}}</div>
+                        <div class="countNum-top">{{this.shangcheng.sendGoodsTotal || 0}}</div>
                         <div class="countNum-bottom">今日出货量</div>
                     </div>
                 </div>
-                <div class="top-text top-browse">
+                <div class="top-text top-browse" @click="lookView">
                     <img class="img" src="../../../../assets/img/dataCenter/liulan.png" />
                     <div class="top-countNum">
-                        <div class="countNum-top">{{this.shangcheng.viewTotal}}</div>
+                        <div class="countNum-top">{{this.shangcheng.viewTotal || 0}}</div>
                         <div class="countNum-bottom">今日浏览量</div>
                     </div>
                 </div>
@@ -122,31 +122,31 @@
                                         <div style="color: #101010; font-size: 13px;">待支付订单：</div>
                                         <div
                                             style="color:#55CA7D;"
-                                        >{{this.orderCountssituation.noPayCount}}</div>
+                                        >{{this.orderCountssituation.noPayCount || 0}}</div>
                                     </div>
                                     <div class="text-item">
                                         <div style="color: #101010; font-size: 13px;">待发货订单：</div>
                                         <div
                                             style="color:#55CA7D;"
-                                        >{{this.orderCountssituation.noSendCount}}</div>
+                                        >{{this.orderCountssituation.noSendCount || 0}}</div>
                                     </div>
                                     <div class="text-item">
                                         <div style="color: #101010; font-size: 13px;">待收货订单：</div>
                                         <div
                                             style="color:#55CA7D;"
-                                        >{{this.orderCountssituation.noReceiveCount}}</div>
+                                        >{{this.orderCountssituation.noReceiveCount || 0}}</div>
                                     </div>
                                     <div class="text-item">
                                         <div style="color: #101010; font-size: 13px;">已成交订单数：</div>
                                         <div
                                             style="color:#55CA7D;"
-                                        >{{this.orderCountssituation.successCount}}</div>
+                                        >{{this.orderCountssituation.successCount || 0}}</div>
                                     </div>
                                     <div class="text-item">
                                         <div style="color: #101010; font-size: 13px;">交易失败：</div>
                                         <div
                                             style="color:#55CA7D;"
-                                        >{{this.orderCountssituation.failCount}}</div>
+                                        >{{this.orderCountssituation.failCount || 0}}</div>
                                     </div>
                                 </div>
                             </el-card>
@@ -161,31 +161,31 @@
                                         <div style="color: #101010; font-size: 13px;">待审核商品：</div>
                                         <div
                                             style="color:#55CA7D;"
-                                        >{{this.goodsCountssituation.noVerifyCount}}</div>
+                                        >{{this.goodsCountssituation.noVerifyCount || 0}}</div>
                                     </div>
                                     <div class="text-item">
                                         <div style="color: #101010; font-size: 13px;">库存警告商品：</div>
                                         <div
                                             style="color:#55CA7D;"
-                                        >{{this.goodsCountssituation.stockWarnCount}}</div>
+                                        >{{this.goodsCountssituation.stockWarnCount || 0}}</div>
                                     </div>
                                     <div class="text-item">
                                         <div style="color: #101010; font-size: 13px;">上架商品：</div>
                                         <div
                                             style="color:#55CA7D;"
-                                        >{{this.goodsCountssituation.upCount}}</div>
+                                        >{{this.goodsCountssituation.upCoun || 0}}</div>
                                     </div>
                                     <div class="text-item">
                                         <div style="color: #101010; font-size: 13px;">下架商品：</div>
                                         <div
                                             style="color:#55CA7D;"
-                                        >{{this.goodsCountssituation.dnCount}}</div>
+                                        >{{this.goodsCountssituation.dnCount || 0}}</div>
                                     </div>
                                     <div class="text-item">
                                         <div style="color: #101010; font-size: 13px;">已售商品数量：</div>
                                         <div
                                             style="color:#55CA7D;"
-                                        >{{this.goodsCountssituation.saleCount}}</div>
+                                        >{{this.goodsCountssituation.saleCount || 0}}</div>
                                     </div>
                                 </div>
                             </el-card>
@@ -200,19 +200,19 @@
                                         <div style="color: #101010;">潜在客户：</div>
                                         <div
                                             style="color:#55CA7D;"
-                                        >{{this.ConsumerCountssituation.potentialCount}}</div>
+                                        >{{this.ConsumerCountssituation.potentialCount || 0}}</div>
                                     </div>
                                     <div class="text-item">
                                         <div style="color: #101010;">客服数量：</div>
                                         <div
                                             style="color:#55CA7D;"
-                                        >{{this.ConsumerCountssituation.serviceCount}}</div>
+                                        >{{this.ConsumerCountssituation.serviceCount || 0}}</div>
                                     </div>
                                     <div class="text-item">
                                         <div style="color: #101010;">今日活跃：</div>
                                         <div
                                             style="color:#55CA7D;"
-                                        >{{this.ConsumerCountssituation.todayActiveCount}}</div>
+                                        >{{this.ConsumerCountssituation.todayActiveCount || 0}}</div>
                                     </div>
                                     <div class="text-item"></div>
                                     <div class="text-item"></div>
@@ -266,7 +266,15 @@
                                 style="font-size: 16px; font-weight: bolder;margin-left: 5px;"
                             >销售额排名(元)</span>
                         </div>
+                        <div v-if="this.productList == ''" style="width:100%; text-algin: center;">
+                            <img
+                                width="100%"
+                                height="auto"
+                                src="../../../../assets/img/marketingqianlima/zhanwuData.png"
+                            />
+                        </div>
                         <div
+                            v-else
                             v-for="(item,index) in this.productList"
                             :key="index"
                             class="text item"
@@ -288,7 +296,7 @@
                     <div class="ordermeter">
                         <el-card>
                             <div class="meter">
-                                <label @click="statTimeType1" class="meterspan">七天</label>
+                                <!-- <label @click="statTimeType1" class="meterspan">七天</label> -->
                                 <label @click="statTimeType2" class="meterspan">一月</label>
                                 <label @click="statTimeType3" class="meterspan">一年</label>
                                 <el-date-picker
@@ -310,7 +318,7 @@
                     <div class="Marketmeter">
                         <el-card>
                             <div class="meter">
-                                <label @click="timeType1" class="meterspan">七天</label>
+                                <!-- <label @click="timeType1" class="meterspan">七天</label> -->
                                 <label @click="timeType2" class="meterspan">一月</label>
                                 <label @click="timeType3" class="meterspan">一年</label>
                                 <el-date-picker
@@ -333,7 +341,17 @@
                             订单量前十的商品
                         </div>
                         <ul class="orderUl">
-                            <li class="orderLi" v-for="(item,i) in this.orderList" :key="i">
+                            <li
+                                v-if="this.orderList == ''"
+                                style="width:100%;text-align:center;list-style: none;"
+                            >
+                                <img
+                                    width="100%"
+                                    height="auto"
+                                    src="../../../../assets/img/marketingqianlima/zhanwuData.png"
+                                />
+                            </li>
+                            <li class="orderLi" v-else v-for="(item,i) in this.orderList" :key="i">
                                 <div :class="'orderIndex'+ (i+1)" class="orderIndex">{{i+1}}</div>
                                 <div class="orderText">
                                     <div class="shoppName">{{item.name}}</div>
@@ -507,7 +525,7 @@
                         @change="fangyuanchange"
                     >
                         <el-option
-                            v-for="item in fangyuanList"
+                            v-for="item in this.fangyuanList"
                             :key="item.id"
                             :label="item.houseTitle"
                             :value="item.id"
@@ -593,8 +611,9 @@ export default {
         };
     },
     mounted() {
-        this.orderEcharts();
-        this.marketEcharts();
+        // this.navTab(this.navlist[0]);
+        this.statTimeType2();
+        this.timeType2();
         this.getAdminConsumerDataStat();
         this.getAdminProductDataStat();
         this.getAdminDataCenterOrder();
@@ -607,8 +626,8 @@ export default {
         // 导航切换
         navTab(item) {
             if (item.index == 0) {
-                this.orderEcharts();
-                this.marketEcharts();
+                this.statTimeType2();
+                this.timeType2();
                 this.getAdminConsumerDataStat();
                 this.getAdminProductDataStat();
                 this.getAdminDataCenterOrder();
@@ -731,35 +750,44 @@ export default {
                 if (res.status == 200) {
                     let data = res.data;
                     if (data.code == 200) {
-                        console.log(data);
                         this.shangcheng = data.data;
                         this.shangcheng.saleTotal = data.data.saleTotal / 100;
                     }
                 }
             });
         },
-
+        // 订单天数
         statTimeType1() {
             this.statTimeType = 0;
             this.orderEcharts();
         },
         statTimeType2() {
+            let date = new Date();
+            let yyyy = date.getFullYear();
+            let month = date.getMonth() + 1;
+            if (month.toString().length < 2) {
+                month = '0' + month;
+            }
+            this.value1 = yyyy + '-' + month + '-' + '01';
             this.statTimeType = 1;
             this.orderEcharts();
         },
         statTimeType3() {
+            let date = new Date();
+            this.value1 = date.getFullYear() + '-' + '01-01';
             this.statTimeType = 2;
             this.orderEcharts();
         },
         changeTime(value) {
+            console.log(value);
             this.value1 = value;
-            this.statTimeType = 3;
+            // this.statTimeType = 3;
             this.orderEcharts();
         },
         // 订单统计
         orderEcharts() {
             let data = {
-                statTimeType: parseInt(this.statTimeType),
+                statTimeType: parseInt(this.statTimeType) || 1,
                 statDate: this.value1,
                 statType: 0
             };
@@ -807,22 +835,31 @@ export default {
                 }
             });
         },
-
+        //销售时间
         timeType1() {
             this.statTimeTypes = 0;
             this.marketEcharts();
         },
         timeType2() {
+            let date = new Date();
+            let yyyy = date.getFullYear();
+            let month = date.getMonth() + 1;
+            if (month.toString().length < 2) {
+                month = '0' + month;
+            }
+            this.value2 = yyyy + '-' + month + '-' + '01';
             this.statTimeTypes = 1;
             this.marketEcharts();
         },
         timeType3() {
             this.statTimeTypes = 2;
+            let date = new Date();
+            this.value2 = date.getFullYear() + '-' + '01-01';
             this.marketEcharts();
         },
         changeTime2(value) {
             this.value2 = value;
-            this.statTimeTypes = 3;
+            // this.statTimeTypes = 3;
             this.marketEcharts();
         },
         // 销售统计
@@ -840,7 +877,7 @@ export default {
                         var values = [];
                         data.data.forEach(function (val, index) {
                             names[index] = val.name;
-                            values[index] = val.value;
+                            values[index] = val.value / 100;
                         });
                         // 基于准备好的dom，初始化echarts实例
                         let mark = document.getElementById('marketChart');
@@ -974,14 +1011,10 @@ export default {
         },
         // 获取职位数据
         getpositionList() {
-            var daTassdsad = {
-                companyId: 1,
-                limit: 1000,
-                page: 1
-            };
             this.$axios
                 .get('admin/company/positions?companyId=' + localStorage.getItem('loginData') + '&limit=1000' + '&page=1')
                 .then((res) => {
+                    console.log(res);
                     if (res.status == 200) {
                         let datas = res.data;
                         if (datas.code == 200) {
@@ -1225,6 +1258,12 @@ export default {
                         });
                     }
                 }
+            });
+        },
+        // 今日浏览量
+        lookView() {
+            this.$router.push({
+                path: './shareData'
             });
         },
         // 租房指标

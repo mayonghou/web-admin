@@ -1511,6 +1511,13 @@ export default new Router({
                     component: () => import('../components/merchantHoutai/dataCenter/datacenter.vue'),
                     meta: {
                         title: '数据中心'
+                    },
+                },
+                {
+                    path: '/shareData',
+                    component: () => import('../components/merchantHoutai/dataCenter/shareData/shareData.vue'),
+                    meta: {
+                        title: '浏览数据详情'
                     }
                 },
                 // 营销中心

@@ -337,7 +337,7 @@ export default {
         },
         // 背景切换
         BackgroundSwitch() {
-            console.log('asdasd');
+            // console.log('asdasd');
         }
     }
 };

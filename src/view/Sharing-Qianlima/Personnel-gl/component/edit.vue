@@ -20,13 +20,13 @@
                 <li>
                     <div>选择行业</div>
                     <div>
-                        <Select v-model="model0" style="width:300px">
+                        <Select v-model="model0" style="width:300px" @on-change="onChange">
                             <Option
                                 style="padding:0 15px;"
-                                v-for="item in cityList0"
-                                :value="item.value"
-                                :key="item.value"
-                            >{{ item.label }}</Option>
+                                v-for="item in this.indusityList"
+                                :value="item.id"
+                                :key="item.id"
+                            >{{ item.name }}</Option>
                         </Select>
                     </div>
                 </li>
@@ -37,10 +37,10 @@
                         <Select v-model="model1" style="width:300px">
                             <Option
                                 style="padding:0 15px;"
-                                v-for="item in cityList1"
-                                :value="item.value"
-                                :key="item.value"
-                            >{{ item.label }}</Option>
+                                v-for="item in this.optionsDataList"
+                                :value="item.jobName"
+                                :key="item.id"
+                            >{{ item.jobName }}</Option>
                         </Select>
                     </div>
                 </li>
@@ -52,9 +52,9 @@
                             <Option
                                 style="padding:0 15px;"
                                 v-for="item in cityList2"
-                                :value="item.value"
-                                :key="item.value"
-                            >{{ item.label }}</Option>
+                                :value="item.name"
+                                :key="item.bm"
+                            >{{ item.name }}</Option>
                         </Select>
                     </div>
                 </li>
@@ -68,6 +68,12 @@
                             placeholder="请选择"
                             class="InputClass"
                         ></el-cascader>
+                        <span>详细地址：</span>
+                        <el-input
+                            v-model="detailAddress"
+                            style="width:280px;"
+                            placeholder="请输入详细地址"
+                        ></el-input>
                     </div>
                 </li>
 
@@ -78,27 +84,31 @@
                         <p>正面</p>
                         <p>
                             <Upload
-                                multiple
                                 type="drag"
-                                action="//jsonplaceholder.typicode.com/posts/"
+                                :show-upload-list="false"
+                                :on-success="frontSuccess"
+                                :action="action"
                             >
-                                <div style="padding: 20px 0">
+                                <div style="padding: 20px 0" v-if="this.frontimgUrl == ''">
                                     <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                                     <p>添加身份证正面</p>
                                 </div>
+                                <img v-else width="100%" height="100%" :src="this.frontimgUrl" />
                             </Upload>
                         </p>
                         <p>反面</p>
                         <p>
                             <Upload
-                                multiple
                                 type="drag"
-                                action="//jsonplaceholder.typicode.com/posts/"
+                                :show-upload-list="false"
+                                :on-success="againstSuccess"
+                                :action="action"
                             >
-                                <div style="padding: 20px 0">
+                                <div style="padding: 20px 0" v-if="this.againstImgUrl == ''">
                                     <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                                     <p>添加身份证反面</p>
                                 </div>
+                                <img v-else width="100%" height="100%" :src="this.againstImgUrl" />
                             </Upload>
                         </p>
                     </div>
@@ -153,29 +163,18 @@ import citydata from '../../../../api/address.json';
 export default {
     data() {
         return {
+            action: localStorage.getItem('actionUrl'),
+            indusityList: [],
+            optionsDataList: [],
+            IndusityName: '',
+            detailAddress: '',
             addressOptions: citydata,
             model0: '',
             model1: '',
             model2: '',
             model3: '',
             model4: '',
-            cityList0: [
-                {
-                    value: 'New York',
-                    label: 'New York',
-                    width: 300
-                },
-                {
-                    value: 'London',
-                    label: 'London',
-                    width: 300
-                },
-                {
-                    value: 'Sydney',
-                    label: 'Sydney',
-                    width: 300
-                }
-            ],
+            cityList0: [],
             cityList1: [],
             cityList2: [],
             cityList4: [],
@@ -183,11 +182,101 @@ export default {
             value1: '',
             value3: '',
             value2: '',
-            value4: ''
+            value4: '',
+            frontimgUrl: '',
+            againstImgUrl: ''
         };
     },
+    mounted() {
+        this.getIndustyList();
+        this.WorkExperienceSelection();
+    },
     methods: {
-        routerTocd() {}
+        // 正面
+        frontSuccess() {},
+        // 反面
+        againstSuccess() {},
+        // 获取编辑数据
+        getEditData() {
+            let datashuju = this.$route.query.data;
+            console.log(datashuju);
+            this.value0 = datashuju.userName;
+            this.value1 = datashuju.gender;
+            let id = '';
+            let industyName = datashuju.industryName;
+            this.indusityList.forEach(function (val, index) {
+                if (industyName == val.name) {
+                    id = val.id;
+                }
+            });
+            this.model0 = id;
+            this.getOptionsList(id);
+            this.model1 = datashuju.career;
+            this.model2 = datashuju.workExperiences;
+            this.model3 = JSON.parse(datashuju.addressArea);
+            this.detailAddress = datashuju.addressDetail;
+            let https = /^https:\/\/.+$/;
+            if (https.test(datashuju.idCardPicFront)) {
+                this.frontimgUrl = datashuju.idCardPicFront;
+            } else {
+                this.frontimgUrl = localStorage.getItem('imgUrl') + datashuju.idCardPicFront;
+            }
+            if (https.test(datashuju.idCardPicBack)) {
+                this.againstImgUrl = datashuju.idCardPicBack;
+            } else {
+                this.againstImgUrl = localStorage.getItem('imgUrl') + datashuju.idCardPicBack;
+            }
+        },
+        // 工作经验
+        WorkExperienceSelection() {
+            const url = 'admin/sideline/list_work_experience';
+            this.$axios.get(url).then((res) => {
+                if (res.status == 200) {
+                    if (res.data.code == 200) {
+                        const dafa = res.data.data;
+                        this.cityList2 = dafa;
+                    } else {
+                    }
+                }
+            });
+        },
+        // 保存按钮
+        routerTocd() {},
+        // 获取行业数据
+        getIndustyList() {
+            this.$axios.get('admin/industry/list').then((res) => {
+                if (res.status == 200) {
+                    let data = res.data;
+                    if (data.code == 200) {
+                        this.indusityList = data.data;
+                        this.getEditData();
+                    }
+                }
+            });
+        },
+        // 获取行业id
+
+        onChange(id) {
+            console.log(id);
+            let obj = {};
+            obj = this.indusityList.find((item) => {
+                return id === item.id;
+            });
+            this.IndusityName = obj.name;
+            this.getOptionsList(id);
+        },
+        // 获取行业下的职业
+        getOptionsList(id) {
+            this.$axios.get('admin/job/manage/getPositionList/' + id).then((res) => {
+                console.log(res);
+                if (res.status == 200) {
+                    let data = res.data;
+                    if (data.code == 200) {
+                        this.optionsDataList = data.data;
+                    }
+                }
+            });
+        }
     }
 };
 </script>
