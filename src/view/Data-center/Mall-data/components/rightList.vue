@@ -1,5 +1,5 @@
 <template>
-    <Card style="min-height:967px">
+    <Card style="min-height:982px; min-width:320px">
         <ul class="ulStyleClass">
             <!--title-->
             <li>
@@ -29,7 +29,13 @@
                         <td class="LastChildClass">{{ item.value / 100 }}</td>
                     </tr>
                 </div>
-                <div v-else style="width:100%;text-align: center; font-size: 20px;">暂无排行</div>
+                <div v-else class="indPositionClass">
+                    <img
+                        class="rightClassCode"
+                        src="../../../../assets/img/queshengPage/ques2.png"
+                        alt
+                    />
+                </div>
             </table>
         </ul>
     </Card>
@@ -105,5 +111,16 @@ export default {
 .ulStyleClass .TableStyleClass tr .backgroundClass .classdert {
     display: flex;
     align-items: center;
+}
+.rightClassCode {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+.indPositionClass {
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+    position: relative;
 }
 </style>

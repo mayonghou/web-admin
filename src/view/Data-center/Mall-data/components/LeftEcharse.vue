@@ -13,7 +13,15 @@
                 <span @click="monthData">一月</span>
                 <span @click="todaysData">七天</span>
             </div>
-            <div ref="main02" style="width: 100%; height:400px"></div>
+            <div ref="main02" style="width: 100%; height:400px" v-show="iSshowDara"></div>
+            <div ref="main0n" style="width: 100%; height:400px" v-show="iSshowDara == false">
+                <img
+                    class="imgClass"
+                    src="../../../../../src/assets/img/queshengPage/ques1.png"
+                    alt
+                />
+                <h3 style="text-align: center; color:#515a6e80">暂无数据</h3>
+            </div>
         </div>
     </Card>
 </template>
@@ -24,7 +32,8 @@ export default {
     data() {
         return {
             value: '',
-            statTimeType: 0
+            statTimeType: 0,
+            iSshowDara: true
         };
     },
     mounted() {
@@ -60,6 +69,11 @@ export default {
                     if (data.code == 200) {
                         let name = [];
                         let value = [];
+                        if (data.data == '') {
+                            this.iSshowDara = false;
+                        } else {
+                            this.iSshowDara = true;
+                        }
                         data.data.forEach(function (val, index) {
                             name[index] = val.name;
                             value[index] = val.value;

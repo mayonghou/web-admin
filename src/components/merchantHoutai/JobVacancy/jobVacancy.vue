@@ -14,6 +14,7 @@
                 <el-date-picker
                     v-model="time"
                     type="daterange"
+                    unlink-panels
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
                     value-format="yyyy-MM-dd"
@@ -419,19 +420,21 @@ export default {
     background-color: #2450d2;
     width: 70px;
     height: 30px;
+    line-height: 30px;
     color: #fff;
     font-size: 14px;
     border-radius: 8px;
+    padding: 0;
 }
 
 .bj_button {
     background-color: #109955;
     width: 50px;
     height: 30px;
-    line-height: 30px;
     font-size: 14px;
     color: #fff;
     border-radius: 8px;
+    padding: 0;
 }
 
 .del_button {

@@ -8,7 +8,7 @@
                 @on-change="timeChange"
             ></DatePicker>
         </div>
-        <div ref="main03" style="width: 100%; height:400px"></div>
+        <div ref="main03" style="width: 100%; height:400px" v-show="iSshowData"></div>
     </Card>
 </template>
 
@@ -19,7 +19,8 @@ export default {
     data() {
         return {
             startTime: '',
-            endTime: ''
+            endTime: '',
+            iSshowData: true
         };
     },
     mounted() {

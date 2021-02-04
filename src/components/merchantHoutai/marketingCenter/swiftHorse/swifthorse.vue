@@ -44,6 +44,14 @@
                 <div class="tab-list">
                     <el-row :gutter="20">
                         <el-col
+                            :span="24"
+                            style="text-align: center;"
+                            v-if="this.jianzhidataList == ''"
+                        >
+                            <img width="100%" src="../../../../assets/img/queshengPage/ques1.png" />
+                            <h3 style="color: #c1c1c1;">暂无数据</h3>
+                        </el-col>
+                        <el-col
                             :span="6"
                             class="el-colss"
                             v-for="(item,index) in this.jianzhidataList"

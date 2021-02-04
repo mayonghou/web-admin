@@ -35,9 +35,11 @@
                         style="font-size: 22px;color: #2494D2;margin-left: 38px;margin-top: 5px; margin-right: 38px;"
                         class="el-icon-date"
                     ></i>
+                    <!-- align="right" -->
                     <el-date-picker
                         v-model="time"
                         type="daterange"
+                        unlink-panels
                         start-placeholder="开始日期"
                         end-placeholder="结束日期"
                         value-format="yyyy-MM-dd"

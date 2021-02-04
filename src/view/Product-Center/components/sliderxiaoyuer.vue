@@ -169,6 +169,9 @@ export default {
     height: 150px;
     position: absolute;
     display: flex;
+    background-color: #2db7f50f;
+    padding: 10px;
+    box-sizing: border-box;
 }
 /**定宽 */
 .swiperSiaoyuer .swipera .options {
@@ -201,14 +204,14 @@ export default {
 }
 .circular .xiaoyuer-xiaoyuer .span_xiaoyuer_:nth-child(1),
 .circular .xiaoyuer-xiaoyuer .span_xiaoyuer_:nth-child(3) {
-    width: 15px;
-    height: 15px;
+    width: 0px;
+    height: 0px;
     background-color: #2db7f5; /*两端颜色 */
     border-radius: 15px;
 }
 .circular .xiaoyuer-xiaoyuer .span_xiaoyuer_:nth-child(2) {
     width: 100%;
-    height: 10px;
+    height: 8px;
     border-radius: 15px;
     background-color: #2db7f5; /**中间颜色 */
 }
@@ -256,5 +259,7 @@ export default {
     -webkit-line-clamp: 2;
     text-overflow: ellipsis;
     overflow: hidden;
+    text-align: center;
+    padding: 2px 20px;
 }
 </style>

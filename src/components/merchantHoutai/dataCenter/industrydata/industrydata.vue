@@ -1,7 +1,7 @@
 <template>
     <!-- 行业数据 -->
     <div class="industrydata" id="industrydata">
-        <el-tag>餐饮业行业数据</el-tag>
+        <el-tag>{{this.indusrtName}}业数据</el-tag>
         <div class="tubiao">
             <el-card class="elCard-time">
                 <div class="timeCount">
@@ -12,19 +12,26 @@
                         value-format="yyyy-MM"
                         @change="timeV"
                     ></el-date-picker>
-                    <div>
-                        <span></span>
-                    </div>
                 </div>
-
-                <div id="myChart" ref="myChart" :style="{width: '100%', height: '300px',}"></div>
-                <!-- <img v-else src="../../../../assets/img/marketingqianlima/zhanwuData.png" alt /> -->
+                <div
+                    id="myChart"
+                    v-show="isShowIndusty"
+                    ref="myChart"
+                    :style="{width: '100%', height: '300px',}"
+                ></div>
+                <div style="width:100%; text-align:center;" v-show="isShowIndusty == false">
+                    <img
+                        width="100%"
+                        src="../../../../assets/img/marketingqianlima/qiushengye(2).png"
+                    />
+                    <p style="font-size:26px;">暂无数据</p>
+                </div>
             </el-card>
         </div>
         <div class="dataMerchant">
             <div class="Merchant">
                 <el-card>
-                    <div class="Merchant-top">餐饮业商家数据</div>
+                    <div class="Merchant-top">{{this.indusrtName}}业商家数据</div>
                     <el-timeline style="margin-top: 20px;">
                         <el-timeline-item class="timeLine1">
                             <div class="xiaoyuerClsdfsd">
@@ -34,7 +41,7 @@
                                     <div class="text1">
                                         <p
                                             style="font-family: Source Han Sans CN Regular; font-size: 20px; font-weight: Regular;"
-                                        >餐饮业昨日浏览量</p>
+                                        >{{this.indusrtName}}业昨日浏览量</p>
                                         <p
                                             style="color: #1DABD1; font-size: 20px;"
                                         >{{this.yesDayViewCount}}</p>
@@ -50,7 +57,7 @@
                                     <div class="text1">
                                         <p
                                             style="font-family: Source Han Sans CN Regular; font-size: 20px; font-weight: Regular;"
-                                        >餐饮业昨日订单量</p>
+                                        >{{this.indusrtName}}业昨日订单量</p>
                                         <p
                                             style="color: #1DABD1; font-size: 20px;"
                                         >{{this.yesDayOrderCount}}</p>
@@ -82,7 +89,7 @@
                                     <div class="text1">
                                         <p
                                             style="font-family: Source Han Sans CN Regular; font-size: 20px; font-weight: Regular;"
-                                        >餐饮业商家总数</p>
+                                        >{{this.indusrtName}}业商家总数</p>
                                         <p
                                             style="color:#F3656C; font-size: 20px;"
                                         >{{this.industryDataCount}}</p>
@@ -98,7 +105,7 @@
                                     <div class="text1">
                                         <p
                                             style="font-family: Source Han Sans CN Regular; font-size: 20px; font-weight: Regular;"
-                                        >餐饮业平台联系次数</p>
+                                        >{{this.indusrtName}}业平台联系次数</p>
                                         <p
                                             style="color: #FFA594; font-size: 20px;"
                                         >{{this.callBusinessCount}}</p>
@@ -142,10 +149,12 @@ export default {
             valueTime: '',
             tableData: [],
             industyData: false,
+            isShowIndusty: false,
             counts: 0,
             page: 1,
             limit: 10,
             myChart: '',
+            indusrtName: localStorage.getItem('industryName'),
             callBusinessCount: '', // 平台联系次数
             industryDataCount: '', // 行业商家总数
             transferDataCount: '', //同行业商家转让数据
@@ -173,6 +182,11 @@ export default {
                         this.dataList = data.data;
                         var name = [];
                         var value = [];
+                        if (data.data == '') {
+                            this.isShowIndusty = false;
+                        } else {
+                            this.isShowIndusty = true;
+                        }
                         data.data.forEach(function (val, index) {
                             name[index] = val.name;
                             value[index] = val.value;
@@ -186,7 +200,7 @@ export default {
                         // 绘制图表
                         this.myChart.setOption({
                             title: {
-                                text: '成交单量'
+                                text: localStorage.getItem('industryName') + '业成交单量'
                             },
                             tooltip: {},
                             xAxis: {

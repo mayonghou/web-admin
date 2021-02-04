@@ -215,19 +215,21 @@ export default {
     width: 100%;
     height: 50px;
     line-height: 50px;
+    text-align: right;
 }
 .add_Del .button {
-    float: right;
     width: 107px;
     height: 30px;
     font-size: 14px;
     color: #fff;
     border-radius: 10px;
+    padding: 0;
 }
 
 .add_Del .kehuleixing {
     background: #ff8d00;
     font-size: 14px;
+    padding: 0;
 }
 
 .el-table {

@@ -18,10 +18,11 @@
         <div class="searxh-title">
             <h3>订单查询</h3>
             <div class="search">
-                <el-input v-model="jobName" class="jobName" placeholder="请输入兼职人员姓名" clearable></el-input>
+                <el-input v-model="jobName" class="jobName" placeholder="请输入兼职人员姓名"></el-input>
                 <el-date-picker
                     v-model="missionTime"
                     type="daterange"
+                    unlink-panels
                     range-separator="——"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
@@ -31,14 +32,16 @@
             </div>
         </div>
         <div class="zanwushuju" v-if="orderDataList == ''">
-            <span>暂无数据</span>
+            <img width="100%" src="../../../../../assets/img/queshengPage/ques1.png" />
+            <span style="color:rgb(199, 198, 182);">暂无数据</span>
         </div>
         <div class="orderList" v-for="(item, index) in orderDataList" :key="index">
             <div class="orderSn">订单编号：{{item.orderNo}}</div>
             <div class="jobInformation">
                 <div class="job-left">
                     <div class="jobLeft-avatar">
-                        <el-avatar :size="size" :src="item.sellerAvatar"></el-avatar>
+                        <el-avatar v-if="item.sellerAvatar" :size="size" :src="item.sellerAvatar"></el-avatar>
+                        <div v-else>暂无</div>
                     </div>
                     <div class="jobLeft-text">
                         <div>{{item.sellerName}}</div>
@@ -475,7 +478,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
 .marketOrder {
     padding: 20px;
     box-sizing: border-box;
@@ -512,6 +515,9 @@ export default {
     margin-bottom: 80px;
 }
 .orderList:hover {
+    box-shadow: 0px 0px 5px 5px #c1c1c1;
+}
+.zanwushuju:hover {
     box-shadow: 0px 0px 5px 5px #c1c1c1;
 }
 .orderList .orderSn {
@@ -641,16 +647,25 @@ export default {
     width: 15%;
     margin-right: 20px;
 }
+.el-input .el-input__inner {
+    height: 30px !important;
+    line-height: 30px !important;
+}
+.el-input__inner {
+    height: 30px !important;
+}
 .search .queryBtn {
     width: 150px;
     height: 30px;
     color: #fff;
     background: #2450d2;
+    margin-left: 20px;
+    padding: 0;
 }
 .zanwushuju {
     width: 100%;
     text-align: center;
-    padding-top: 100px;
+    margin-top: 100px;
     font-size: 50px;
 }
 .dfsdikf {

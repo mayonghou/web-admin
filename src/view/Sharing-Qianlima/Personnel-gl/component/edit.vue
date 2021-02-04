@@ -122,10 +122,10 @@
                         <Select v-model="model4" style="width:300px">
                             <Option
                                 style="padding:0 15px;"
-                                v-for="item in cityList4"
-                                :value="item.value"
-                                :key="item.value"
-                            >{{ item.label }}</Option>
+                                v-for="(item, index) in brackList"
+                                :value="item.bm"
+                                :key="index"
+                            >{{ item.name }}</Option>
                         </Select>
                     </div>
                 </li>
@@ -184,26 +184,46 @@ export default {
             value2: '',
             value4: '',
             frontimgUrl: '',
-            againstImgUrl: ''
+            againstImgUrl: '',
+            brackList: [],
+            idCardPicBack: '',
+            idCardPicFront: '',
+            phoneNumber: '',
+            userAccount: '',
+            sidelineType: '',
+            workExperiencesLevel: ''
         };
     },
     mounted() {
         this.getIndustyList();
         this.WorkExperienceSelection();
+        this.getbrankCode();
     },
     methods: {
         // 正面
-        frontSuccess() {},
+        frontSuccess(res, file, fileList) {
+            if (res.code == 200) {
+                this.frontimgUrl = localStorage.getItem('imgUrl') + res.data;
+                this.idCardPicFront = res.data;
+            }
+        },
         // 反面
-        againstSuccess() {},
+        againstSuccess(res, file, fileList) {
+            if (res.code == 200) {
+                this.againstImgUrl = localStorage.getItem('imgUrl') + res.data;
+                this.idCardPicBack = res.data;
+            }
+        },
         // 获取编辑数据
         getEditData() {
             let datashuju = this.$route.query.data;
-            console.log(datashuju);
+            // console.log(datashuju);
+            this.id = datashuju.id;
             this.value0 = datashuju.userName;
             this.value1 = datashuju.gender;
             let id = '';
             let industyName = datashuju.industryName;
+            this.IndusityName = datashuju.industryName;
             this.indusityList.forEach(function (val, index) {
                 if (industyName == val.name) {
                     id = val.id;
@@ -213,19 +233,32 @@ export default {
             this.getOptionsList(id);
             this.model1 = datashuju.career;
             this.model2 = datashuju.workExperiences;
+            this.sidelineType = datashuju.sidelineType;
             this.model3 = JSON.parse(datashuju.addressArea);
             this.detailAddress = datashuju.addressDetail;
             let https = /^https:\/\/.+$/;
+            console.log(https.test(datashuju.idCardPicFront));
             if (https.test(datashuju.idCardPicFront)) {
                 this.frontimgUrl = datashuju.idCardPicFront;
+                this.idCardPicFront = datashuju.idCardPicFront.substring(datashuju.idCardPicFront.lastIndexOf('/images'));
             } else {
                 this.frontimgUrl = localStorage.getItem('imgUrl') + datashuju.idCardPicFront;
+                this.idCardPicFront = datashuju.idCardPicFront;
             }
             if (https.test(datashuju.idCardPicBack)) {
                 this.againstImgUrl = datashuju.idCardPicBack;
+                this.idCardPicBack = datashuju.idCardPicBack.substring(datashuju.idCardPicBack.lastIndexOf('/images'));
             } else {
                 this.againstImgUrl = localStorage.getItem('imgUrl') + datashuju.idCardPicBack;
+                this.idCardPicBack = datashuju.idCardPicBack;
             }
+            this.model4 = parseInt(datashuju.bankCode);
+            this.value2 = datashuju.bankName;
+            this.value3 = datashuju.bankUserName;
+            this.value4 = datashuju.bankCardNumber;
+            this.phoneNumber = datashuju.phoneNumber;
+            this.userAccount = datashuju.userAccount;
+            this.workExperiencesLevel = datashuju.workExperiencesLevel;
         },
         // 工作经验
         WorkExperienceSelection() {
@@ -241,7 +274,51 @@ export default {
             });
         },
         // 保存按钮
-        routerTocd() {},
+        routerTocd() {
+            let datasd = {
+                addressArea: this.model3,
+                addressDetail: this.detailAddress,
+                bankCardNumber: this.value4,
+                bankCode: this.model4,
+                bankName: this.value2,
+                bankUserName: this.value3,
+                // businessStatus: 0,
+                career: this.model1,
+                gender: this.value1,
+                id: this.id,
+                idCardPicBack: this.idCardPicBack,
+                idCardPicFront: this.idCardPicFront,
+                industryName: this.IndusityName,
+                phoneNumber: this.phoneNumber,
+                sidelineType: this.sidelineType,
+                userAccount: this.userAccount,
+                userName: this.value0,
+                workExperiences: this.model2,
+                workExperiencesLevel: this.workExperiencesLevel
+            };
+
+            this.$axios.post('admin/sideline/management/save_user', datasd).then((res) => {
+                if (res.status == 200) {
+                    let data = res.data;
+                    if (data.code == 200) {
+                        this.$message({
+                            showClose: true,
+                            message: data.msg,
+                            type: 'success'
+                        });
+                        this.$router.push({
+                            path: './Personnel'
+                        });
+                    } else {
+                        this.$message({
+                            showClose: true,
+                            message: data.msg,
+                            type: 'error'
+                        });
+                    }
+                }
+            });
+        },
         // 获取行业数据
         getIndustyList() {
             this.$axios.get('admin/industry/list').then((res) => {
@@ -255,7 +332,6 @@ export default {
             });
         },
         // 获取行业id
-
         onChange(id) {
             console.log(id);
             let obj = {};
@@ -268,11 +344,26 @@ export default {
         // 获取行业下的职业
         getOptionsList(id) {
             this.$axios.get('admin/job/manage/getPositionList/' + id).then((res) => {
-                console.log(res);
                 if (res.status == 200) {
                     let data = res.data;
                     if (data.code == 200) {
                         this.optionsDataList = data.data;
+                    }
+                }
+            });
+        },
+        // 获取银行开户行信息
+        getbrankCode() {
+            this.$axios.get('admin/sideline/list_wx_bank').then((res) => {
+                if (res.status == 200) {
+                    let data = res.data;
+                    if (data.code == 200) {
+                        let datalist = [];
+                        data.data.forEach((val, index) => {
+                            datalist[index] = val;
+                            datalist[index].bm = parseInt(val.bm);
+                        });
+                        this.brackList = datalist;
                     }
                 }
             });

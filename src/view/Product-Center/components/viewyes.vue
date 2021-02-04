@@ -28,7 +28,7 @@
                 <h3 class="h3ert">功能描述</h3>
             </div>
             <div class="form">
-                <Form label-width="120px">
+                <Form :label-width="120">
                     <FormItem
                         v-for="(item, index) in formItem.list"
                         :key="index"

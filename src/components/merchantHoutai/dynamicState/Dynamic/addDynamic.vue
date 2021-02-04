@@ -33,7 +33,7 @@
                 </el-upload>
             </el-form-item>
         </el-form>
-        <div class="btn-bell">
+        <div class="btnbellBtn">
             <el-button @click="btnfabu" class="btndds">发布</el-button>
         </div>
     </div>
@@ -171,16 +171,15 @@ export default {
 .el-textarea__inner {
     height: 250px;
 }
-.btn-bell {
+.btnbellBtn {
     width: 100%;
     text-align: center;
 }
-.btn-bell .btndds {
+.btnbellBtn .btndds {
     width: 90px;
     height: 30px;
     background-color: #2450d2;
     color: #fff;
     padding: 0;
-    /* margin-left: 10%; */
 }
 </style>

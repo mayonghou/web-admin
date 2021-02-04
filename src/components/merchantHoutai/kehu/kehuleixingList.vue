@@ -61,9 +61,9 @@
                     ></el-input>
                 </el-form-item>
             </el-form>
-            <span class="dialog-footer">
-                <el-button @click="addkehuleixingsz" class="addkehuleixing button">添加</el-button>
-            </span>
+            <div class="dialogfooter">
+                <el-button @click="addkehuleixingsz" class="addkehuleixing">添加</el-button>
+            </div>
         </el-dialog>
         <!-- 查看详情 -->
         <el-dialog title="查看详情" :visible.sync="dialogVisibleakehuleixingxiangqing" width="50%">
@@ -145,8 +145,8 @@
                     ></el-input>
                 </el-form-item>
             </el-form>
-            <span class="dialog-footer">
-                <el-button @click="updatekehuleixing" class="addkehuleixing button">修改</el-button>
+            <span class="dialogfooter">
+                <el-button @click="updatekehuleixing" class="addkehuleixing">修改</el-button>
             </span>
         </el-dialog>
     </div>
@@ -158,7 +158,7 @@ export default {
     name: 'kehuleixingList',
     data() {
         return {
-            formLabelWidth: '300px',
+            formLabelWidth: '40%',
             dialogVisibleaddkehuleixing: false,
             dialogVisibleakehuleixingxiangqing: false,
             dialogVisibleakehuleixingbianji: false,
@@ -223,7 +223,7 @@ export default {
                         type: 'warning'
                     }).then(() => {
                         let data = {
-                            id: parseInt(this.id),
+                            id: 0,
                             productNum: this.addkehuleixing.shoppingNum,
                             totalConsumption: this.addkehuleixing.countExpense,
                             totalOrder: this.addkehuleixing.countOutput,
@@ -463,16 +463,15 @@ export default {
     width: 100%;
     height: 50px;
     line-height: 50px;
+    text-align: right;
 }
 
 .add_Del .button {
-    float: right;
     width: 107px;
     height: 30px;
     font-size: 14px;
     color: #fff;
     border-radius: 10px;
-
     padding: 0;
 }
 
@@ -491,8 +490,8 @@ export default {
     color: #ffffff;
     border-radius: 8px;
     background: #2450d2;
-    margin-left: 40%;
     margin-top: 50px;
+    padding: 0;
 }
 .kehuleixingList .el-dialog .el-input .el-input__inner {
     border-radius: 0;
@@ -523,7 +522,7 @@ export default {
 .el-table .tab_gl {
     background-color: #109955;
     width: 66px;
-    height: 22px;
+    height: 30px;
     line-height: 5px;
     color: #fff;
 }
@@ -549,5 +548,9 @@ export default {
 }
 .kehuleixingList .el-form-item__label {
     text-align: right;
+}
+.dialogfooter {
+    width: 100%;
+    text-align: center;
 }
 </style>

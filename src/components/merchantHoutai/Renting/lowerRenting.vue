@@ -20,6 +20,7 @@
                     prefix-icon="md-date_range"
                     v-model="time"
                     type="daterange"
+                    unlink-panels
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
                     value-format="yyyy-MM-dd"
@@ -377,6 +378,7 @@ export default {
     height: 30px;
     background-color: #2450d2;
     color: #fff;
+    padding: 0;
     margin-left: 10px;
 }
 .el-select {

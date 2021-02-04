@@ -8,19 +8,19 @@
 export default {
     name: 'app',
     mounted() {
-        var url = 'http://192.168.0.200:7070/api/expand/upload/image';
-        // let url = 'https://api.gzwjfh.com/api/expand/upload/image';
+        // var url = 'http://192.168.0.200:7070/api/expand/upload/image';
+        let url = 'https://api.gzwjfh.com/api/expand/upload/image';
         localStorage.setItem('actionUrl', url);
         // 图片地址
         let imgurl = 'https://images.gzwjfh.com';
         localStorage.setItem('imgUrl', imgurl);
 
-        let video = 'http://192.168.0.200:7070/api/expand/upload/video';
-        // let video = 'https://api.gzwjfh.com/api/expand/upload/video';
+        // let video = 'http://192.168.0.200:7070/api/expand/upload/video';
+        let video = 'https://api.gzwjfh.com/api/expand/upload/video';
         localStorage.setItem('videoUrl', video);
         // 文档上传
-        let fileUrl = 'http://192.168.0.200:7070/api/expand/upload/word';
-        // let fileUrl = 'https://api.gzwjfh.com/api/expand/upload/word';
+        // let fileUrl = 'http://192.168.0.200:7070/api/expand/upload/word';
+        let fileUrl = 'https://api.gzwjfh.com/api/expand/upload/word';
         localStorage.setItem('fileUrl', fileUrl);
     }
 };
@@ -51,6 +51,28 @@ input::-webkit-input-placeholder {
     color: #aab2bd;
     font-size: 12px;
     text-align: left;
+}
+
+.el-date-picker.has-sidebar {
+    width: 438px;
+    position: relative;
+    z-index: 999;
+}
+.el-date-editor {
+    border: 1px solid #dcdee2 !important;
+    border-radius: 4px !important;
+}
+.el-date-editor .el-range__icon {
+    line-height: 20px !important;
+}
+.el-date-editor .el-range-separator {
+    line-height: 20px !important;
+}
+.el-input__inner {
+    height: 35px !important;
+}
+.el-input__icon {
+    line-height: 35px !important;
 }
 </style>
 

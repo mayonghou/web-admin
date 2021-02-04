@@ -15,8 +15,10 @@
                 <el-date-picker
                     v-model="time"
                     class="time"
-                    type="datetimerange"
-                    range-separator="-"
+                    type="daterange"
+                    align="right"
+                    unlink-panels
+                    range-separator="——"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
                     value-format="yyyy-MM-dd HH:mm:ss"
@@ -26,9 +28,9 @@
             </div>
         </div>
         <div class="text-button">
-            <div class="button">
-                <el-button @click="addRenting" type="primary">发布商品</el-button>
-            </div>
+            <!-- <div class="button"> -->
+            <el-button class="addShopping" @click="addRenting">发布商品</el-button>
+            <!-- </div> -->
         </div>
         <el-table :data="tableData" border style="width: 100%;">
             <el-table-column prop="index" type="index" label="序号" align="center"></el-table-column>
@@ -409,18 +411,18 @@ export default {
 }
 
 .text-button {
-    margin-top: 8px;
-    margin-bottom: 10px;
-}
-
-.text-button .button {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
     text-align: right;
-    padding: 0;
-    margin: 0;
 }
 
-.text-button .button .el-button {
+.text-button .addShopping {
     width: 104px;
+    height: 35px;
+    background: #2450d2;
+    color: #fff;
+    padding: 0;
 }
 
 .el-table .el_button {
@@ -519,6 +521,9 @@ export default {
     line-height: 30px;
 }
 .el-date-editor .el-range-separator {
-    line-height: 24px;
+    line-height: 22px;
+}
+.el-dialog__header {
+    background: #f9f9fa;
 }
 </style>

@@ -17,6 +17,14 @@
     padding-left: 10px;
 }
 
+.terracr_top .queryBtn {
+    width: 80px;
+    height: 32px;
+    background-color: #2482D2;
+    padding: 0;
+    color: #fff;
+}
+
 .asdas {
     margin-left: 10px;
 }
@@ -61,6 +69,7 @@
 
 .add_Del .add_qiye {
     background: #2482D2;
+
 }
 
 .terraceIndex .tab_gl {
@@ -229,4 +238,22 @@
 
 .el-form-item__label {
     text-align: right;
+}
+
+.el-input__inner {
+    height: 30px;
+    line-height: 30px;
+}
+
+.el-date-editor .el-range-separator {
+    line-height: 22px;
+}
+
+.el-date-editor .el-range__icon {
+    line-height: 20px;
+}
+
+.el-input__icon {
+    line-height: 20px;
+
 }

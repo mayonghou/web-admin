@@ -21,7 +21,7 @@
                 </FormItem>
                 <FormItem label="视频封面">
                     <Upload
-                        style="width:250px; height:120px;"
+                        style="width:250px; height:auto;"
                         multiple
                         type="drag"
                         :action="action"
@@ -32,7 +32,13 @@
                             <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                             <p>重新上传</p>
                         </div>
-                        <img width="100%" height="100%" v-else :src="this.imgUrl" />
+                        <img
+                            width="250"
+                            height="auto"
+                            style="display:block;"
+                            v-else
+                            :src="this.imgUrl"
+                        />
                     </Upload>
                 </FormItem>
                 <FormItem label="上传视频">

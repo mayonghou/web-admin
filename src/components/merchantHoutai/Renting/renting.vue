@@ -20,6 +20,7 @@
                     prefix-icon="md-date_range"
                     v-model="time"
                     type="daterange"
+                    unlink-panels
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
                     value-format="yyyy-MM-dd"
@@ -51,9 +52,9 @@
             </div>
         </div>
         <div class="text-button">
-            <div class="button">
-                <el-button @click="addRenting" type="primary">发布房源</el-button>
-            </div>
+            <!-- <div class="button"> -->
+            <el-button @click="addRenting" class="addRenting">发布房源</el-button>
+            <!-- </div> -->
         </div>
         <el-table :data="tableData" border style="width: 100%;">
             <!-- <el-table-column type="selection" width="" align="center"></el-table-column> -->
@@ -356,7 +357,7 @@ export default {
     margin-left: 10px;
 }
 .select-el .el-input__inner {
-    padding: 0;
+    padding: 0 10px;
 }
 
 .renting {
@@ -415,19 +416,19 @@ export default {
 }
 
 .text-button {
-    margin-top: 8px;
-    margin-bottom: 10px;
-}
-
-.text-button .button {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
     text-align: right;
-    padding: 0;
-    margin: 0;
 }
 
-.text-button .button .el-button {
+.text-button .addRenting {
     width: 104px;
+    height: 35px;
+    background: #2450d2;
+    color: #fff;
     font-size: 14px;
+    padding: 0;
 }
 
 .el-table .el_button {

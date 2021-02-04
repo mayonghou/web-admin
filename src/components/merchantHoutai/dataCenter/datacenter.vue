@@ -1,14 +1,23 @@
 <template>
     <!-- 数据中心 -->
     <div class="datacenter" id="datacenter">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <!-- <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="行业数据" name="first">
                 <industrydata></industrydata>
             </el-tab-pane>
             <el-tab-pane label="我的数据" name="second">
                 <myData></myData>
             </el-tab-pane>
-        </el-tabs>
+        </el-tabs>-->
+        <span
+            class="dataCenteress"
+            v-for="item in tabList"
+            ref="tablist"
+            :key="item.index"
+            :class="item.index == 0?'active':''"
+            @click="tabQiehuan(item)"
+        >{{item.name}}</span>
+        <router-view></router-view>
     </div>
 </template>
 
@@ -35,7 +44,16 @@ export default {
         handleClick(tab, event) {
             console.log(tab, event);
         },
-        tabqiehuan(item) {
+        tabQiehuan(item) {
+            if (item.index == 0) {
+                this.$router.push({
+                    path: './industrydata'
+                });
+            } else if (item.index == 1) {
+                this.$router.push({
+                    path: './shoppingMall'
+                });
+            }
             for (let i = 0; i < this.$refs.tablist.length; i++) {
                 if (item.index == i) {
                     this.$refs.tablist[i].classList.add('active');
@@ -49,6 +67,23 @@ export default {
 </script>
 
 <style>
+.dataCenteress {
+    width: 100px;
+    height: 40px;
+    display: inline-block;
+    border: 1px solid #0000ff;
+    text-align: center;
+    line-height: 40px;
+}
+.dataCenteress.active {
+    background: #0000ff;
+    color: #fff;
+}
+.dataCenteress:hover {
+    background: #0000ff;
+    color: #fff;
+}
+
 .datacenter .el-tabs__header {
     background-color: #f5f9f1;
     height: 52px;

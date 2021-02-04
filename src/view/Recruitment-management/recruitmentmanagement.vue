@@ -23,7 +23,7 @@
                     ></el-date-picker>
                     <el-select
                         v-model="model2"
-                        style="width:150px; margin-right:10px;"
+                        style="width:150px; margin-left:10px; margin-right:10px;"
                         @change="changeStatus"
                         placeholder="全部行业"
                     >

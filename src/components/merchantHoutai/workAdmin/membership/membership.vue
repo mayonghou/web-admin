@@ -5,10 +5,12 @@
                 <label>用户查询</label>
             </div>
             <div class="search">
-                <el-input v-model="input" placeholder="输入昵称、电话号码"></el-input>
-            </div>
-            <div class="top_time">
-                <Select v-model="model1" style="width: 200px" placeholder="会员组">
+                <Input v-model="input" style="width:200px; " placeholder="输入昵称、电话号码" />
+                <Select
+                    v-model="model1"
+                    style="width: 200px; margin-left: 10px; "
+                    placeholder="会员组"
+                >
                     <Option
                         v-for="item in cityList"
                         :value="item.value"

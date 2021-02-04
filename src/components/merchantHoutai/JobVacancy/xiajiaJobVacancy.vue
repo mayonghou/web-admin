@@ -20,6 +20,7 @@
                     prefix-icon="md-date_range"
                     v-model="time"
                     type="daterange"
+                    unlink-panels
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
                     @change="templateTime"
@@ -84,7 +85,7 @@ export default {
             options: [],
             page: 1,
             limit: 10,
-            counts: this.counts,
+            counts: 0,
             startTime: '',
             endTime: '',
             dataID: []
@@ -182,7 +183,7 @@ export default {
         //上架
         changjia_prise(row) {
             this.$router.push({
-                path: './updateJobVacancy',
+                path: '/updateJobVacancy',
                 name: 'updateJobVacancy',
                 params: {
                     data: row
@@ -299,6 +300,7 @@ export default {
                             ListData[index].offDate = time1;
                         });
                         this.tableData = ListData;
+                        this.counts = data.data.total;
                     } else {
                         this.$message({
                             showClose: true,
@@ -380,7 +382,10 @@ export default {
 .renting-top .rent-top {
     font-size: 14px;
 }
-
+.reat-search {
+    display: flex;
+    align-items: center;
+}
 .reat-search .search {
     width: 220px;
     height: 30px;
@@ -460,11 +465,11 @@ export default {
     width: 100%;
     height: 100%;
 }
-.el-input__inner {
+/* .el-input__inner {
     height: 30px;
     line-height: 30px;
 }
 .el-date-editor .el-range-separator {
     line-height: 24px;
-}
+} */
 </style>

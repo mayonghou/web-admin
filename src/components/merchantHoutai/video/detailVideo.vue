@@ -190,6 +190,7 @@ export default {
     margin-left: 35%;
     background-color: #2482d2;
     color: #fff;
+    padding: 0;
 }
 .detailvideo .el-form-item__content .elInput {
     line-height: 30px;

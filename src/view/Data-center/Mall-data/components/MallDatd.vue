@@ -1,6 +1,6 @@
 <template>
     <Card style="min-height:195px">
-        <div class="abnfClassd">
+        <div class="abnfClassd" @click="ViewsDataSee">
             <div class="imgClass-xiaoyuerd">
                 <div class="IconClssd">
                     <Icon type="logo-chrome" />
@@ -29,6 +29,13 @@ export default {
                 transaction: '今日浏览量'
             }
         };
+    },
+    methods: {
+        ViewsDataSee() {
+            this.$router.push({
+                path: './ViewXiaoyuerDetails'
+            });
+        }
     }
 };
 </script>

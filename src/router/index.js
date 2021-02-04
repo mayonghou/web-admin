@@ -50,6 +50,14 @@ export default new Router({
                     ]
                 },
                 {
+                    path: '/ViewXiaoyuerDetails',
+                    component: () => import('../view/Data-center/Mall-data/components/ViewXiaoyuerDetails.vue'),
+                    // component: Index,
+                    meta: {
+                        title: '浏览量详情'
+                    }
+                },
+                {
                     path: '/marketingindex',
                     component: () => import('../view/Marketing-Center/marketingindex.vue'),
                     // component: Index,
@@ -964,6 +972,14 @@ export default new Router({
                         title: '下架的商品列表'
                     }
                 },
+                {
+                    path: '/editgoods',
+                    component: () => import('../components/merchantHoutai/goods/editgoods.vue'),
+                    // component: Index,
+                    meta: {
+                        title: '编辑商品上架'
+                    }
+                },
                 // 商机管理
                 {
                     path: '/business',
@@ -1048,6 +1064,7 @@ export default new Router({
                 },
                 {
                     path: '/updateJobVacancy',
+                    name: 'updateJobVacancy',
                     component: () => import('../components/merchantHoutai/JobVacancy/updateJobVacancy.vue'),
                     // component: Index,
                     meta: {
@@ -1512,6 +1529,27 @@ export default new Router({
                     meta: {
                         title: '数据中心'
                     },
+                    children: [{
+                            path: '/',
+                            component: () => import('../components/merchantHoutai/dataCenter/industrydata/industrydata.vue'),
+                            meta: {
+                                title: '行业数据'
+                            },
+                        }, {
+                            path: '/industrydata',
+                            component: () => import('../components/merchantHoutai/dataCenter/industrydata/industrydata.vue'),
+                            meta: {
+                                title: '行业数据'
+                            },
+                        },
+                        {
+                            path: '/shoppingMall',
+                            component: () => import('../components/merchantHoutai/dataCenter/myData/shoppingMall.vue'),
+                            meta: {
+                                title: '我的数据'
+                            }
+                        }
+                    ],
                 },
                 {
                     path: '/shareData',
@@ -1527,7 +1565,8 @@ export default new Router({
                     meta: {
                         title: '营销专区'
                     }
-                }, , {
+                }, ,
+                {
                     path: '/xiaozhishiList',
                     component: () => import('../components/merchantHoutai/marketingCenter/marketingxizozhishi/xiaozhishiList.vue'),
                     meta: {
@@ -1541,13 +1580,15 @@ export default new Router({
                     meta: {
                         title: '营销活动列表'
                     }
-                }, {
+                },
+                {
                     path: '/activityDetail',
                     component: () => import('../components/merchantHoutai/marketingCenter/activitymarket/activityDetail.vue'),
                     meta: {
                         title: '营销活动详情'
                     }
-                }, {
+                },
+                {
                     path: '/zhishiDeatil',
                     component: () => import('../components/merchantHoutai/marketingCenter/marketingxizozhishi/zhishiDeatil.vue'),
                     meta: {

@@ -1,0 +1,215 @@
+.BgColorAdd {
+    background-color: #fff;
+    transition: background-color 300ms linear;
+    color: #2450d2;
+    border-bottom: solid #0177d5 1px;
+}
+
+.topDataBox {
+    display: flex;
+    align-items: center;
+}
+
+.topDataBox li {
+    height: 70px;
+    text-align: center;
+    line-height: 70px;
+    list-style: none;
+    cursor: pointer;
+}
+
+.topDataBox li div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+}
+
+.topDataBox li span:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2px;
+}
+
+.topDataBox li span:nth-child(2) {
+    line-height: 70px;
+}
+
+.topDataBox li span:first-child img {
+    display: inline-block;
+    width: 70%;
+    height: auto;
+}
+
+.fl {
+    float: left;
+}
+
+.header {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    height: 70px;
+    font-size: 22px;
+    color: #fff;
+}
+
+.collapse-btn {
+    float: left;
+    padding: 0 15px;
+    cursor: pointer;
+    line-height: 70px;
+}
+
+.collapse {
+    width: 30px;
+    float: left;
+    line-height: 70px;
+}
+
+.collapse-btn .img {
+    background: #fff;
+    width: 50px;
+    height: 50px;
+    margin-top: 10px;
+    border-radius: 50%;
+}
+
+.header .logo {
+    float: left;
+    width: 195px;
+    line-height: 70px;
+    text-align: center;
+}
+
+.header .page-top {
+    float: left;
+    width: 190px;
+    line-height: 71px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.header .page-top.active {
+    background-color: #ffffff;
+    color: #4985f0;
+}
+
+.header .page-top .icon {
+    width: 18px;
+    height: 18px;
+}
+
+.header-right {
+    float: right;
+    padding-right: 50px;
+}
+
+.header-user-con {
+    display: flex;
+    height: 70px;
+    align-items: center;
+}
+
+.btn-fullscreen {
+    transform: rotate(45deg);
+    margin-right: 5px;
+    font-size: 24px;
+}
+
+.btn-bell {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.btn-bell,
+.btn-fullscreen {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.btn-bell-badge {
+    position: absolute;
+    right: 0;
+    top: -2px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #f56c6c;
+    color: #fff;
+    padding: 0;
+    font-size: 3px;
+}
+
+.btn-bell .el-icon-bell {
+    color: #fff;
+}
+
+.user-name {
+    margin-left: 10px;
+}
+
+.user-avator {
+    margin-left: 20px;
+}
+
+.user-avator .el-avatar {
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.el-dropdown-link {
+    color: #fff;
+    cursor: pointer;
+}
+
+.el-dropdown-menu__item {
+    text-align: center;
+}
+
+.iconfontssda {
+    font-size: 20px;
+    font-weight: 1000px;
+    color: #fff;
+}
+
+.iconEnlorder {
+    position: relative;
+}
+
+.iconEnlorder .iconfont {
+    position: absolute;
+    top: -65px;
+    right: 30px;
+}
+
+.inputddd {
+    width: 200px;
+}
+
+.xinpasswo .Btn {
+    width: 100px;
+    height: 30px;
+    background: #2450d2;
+    color: #fff;
+    padding: 0;
+    margin-left: 36%;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+.el-form-item__label {
+    text-align: right;
+}
+
+.UPpassword {
+    cursor: pointer;
+}

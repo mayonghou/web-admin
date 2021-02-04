@@ -24,7 +24,7 @@
                     <Button
                         @click="CouponDataQuery"
                         type="primary"
-                        style="padding-left: 40px; padding-right: 40px"
+                        style="padding-left: 40px; padding-right: 40px; margin-left:10px"
                     >查询</Button>
                 </Col>
             </Row>
@@ -228,11 +228,6 @@ export default {
                                 this.Datar20 = [{ name: '暂无数据！' }];
                             });
                         }
-                        // if (!res.data.list || res.data.list.length == 0) {
-                        //     this.$nextTick(() => {
-                        //         this.Datar20 = [{ name: '暂无数据！' }];
-                        //     });
-                        // }
                     }
                 })
                 .catch((err) => {

@@ -29,7 +29,7 @@
                     ></el-date-picker>
                     <Select
                         v-model="model1"
-                        style="width:150px; margin-right:10px;"
+                        style="width:150px; margin-right:10px; margin-left:10px"
                         placeholder="全部订单状态"
                     >
                         <Option

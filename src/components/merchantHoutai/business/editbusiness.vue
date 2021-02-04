@@ -104,10 +104,16 @@
                     :options="editressOptions"
                     @change="handleChange"
                 ></el-cascader>
-                <el-input class="elselect" v-model="editbus.detailaddress" placeholder="输入详细地址"></el-input>
+                <el-input
+                    style="width: 200px; margin-left:20px;"
+                    v-model="editbus.detailaddress"
+                    placeholder="输入详细地址"
+                ></el-input>
             </el-form-item>
         </el-form>
-        <el-button @click="baocunBtns" class="addbusBtn">保存</el-button>
+        <div class="editBtn">
+            <el-button @click="baocunBtns" class="addbusBtn">保存</el-button>
+        </div>
     </div>
 </template>
 
@@ -613,14 +619,17 @@ img {
 .elselect .el-input__inner {
     width: 215px;
 }
-
-.aeditbusiness .addbusBtn {
+.editBtn {
+    width: 100%;
+    text-align: center;
+}
+.editBtn .addbusBtn {
     width: 90px;
     height: 30px;
     background-color: #2482d2;
     color: #fff;
-    margin-left: 50%;
     margin-top: 30px;
+    padding: 0;
 }
 
 .input-new-tag {

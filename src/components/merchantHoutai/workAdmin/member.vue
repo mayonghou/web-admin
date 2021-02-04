@@ -17,6 +17,8 @@
                     prefix-icon="md-date_range"
                     v-model="time"
                     type="daterange"
+                    align="right"
+                    unlink-panels
                     value-format="yyyy-MM-dd"
                     @change="timeCuo"
                 ></el-date-picker>
@@ -24,8 +26,8 @@
             </div>
         </div>
         <!-- 删除和管理成员、添加成员-->
-        <div class="add_Del">
-            <label>{{this.companyName}}</label>
+        <div class="add_Dels">
+            <el-button type="text" style="font-size:16px; color:#000;">{{this.companyName}}</el-button>
             <el-button @click="addMember" class="button add_qiye">添加成员名片</el-button>
             <el-button @click="Manageositions" class="button qiyeGL">管理职位</el-button>
             <el-button @click="del_All" class="tab_del button">全部删除</el-button>
@@ -245,7 +247,7 @@
                 </el-row>
             </el-form>
             <div class="dialogs">
-                <el-button @click="addMem">保存</el-button>
+                <el-button style="padding:0;" @click="addMem">保存</el-button>
             </div>
         </el-dialog>
 
@@ -630,6 +632,7 @@
                         <img
                             v-if="item.checked || checkList.indexOf(item.id) !=-1"
                             :src="item.icon1"
+                            style="margin-right: 50px;"
                         />
                         <img v-else :src="item.icon2" />
                         {{item.name}}
@@ -637,7 +640,7 @@
                 </el-checkbox-group>
             </div>
             <div class="dialogs">
-                <el-button @click="permissionsSave">保存</el-button>
+                <el-button style="padding:0;" @click="permissionsSave">保存</el-button>
             </div>
         </el-dialog>
     </div>
@@ -1924,33 +1927,33 @@ export default {
     margin-left: 10px;
 }
 
-.add_Del {
+.add_Dels {
     width: 100%;
     height: 50px;
     line-height: 50px;
     font-size: 14px;
 }
 
-.add_Del .button {
+.add_Dels .button {
     width: auto;
     height: 30px;
     font-size: 14px;
     color: #fff;
-    /* border-radius: 50px; */
     float: right;
     margin-right: 5px;
+    padding: 0;
     padding: 0 10px;
 }
 
-.add_Del .add_qiye {
+.add_Dels .add_qiye {
     background: #2482d2;
 }
 
-.add_Del .qiyeGL {
+.add_Dels .qiyeGL {
     background: #ff8d00;
 }
 
-.add_Del .tab_del {
+.add_Dels .tab_del {
     background: #ff0000;
 }
 
@@ -2062,6 +2065,7 @@ export default {
 }
 .el-checkbox-lists .el-checkbox__input.is-checked + .el-checkbox__label {
     color: #3b58ff;
+    padding-left: 23px;
 }
 .el-checkbox-lists .el-checkbox__input.is-checked .el-checkbox__inner {
     background-color: #3b58ff;

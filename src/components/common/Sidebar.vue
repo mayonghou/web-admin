@@ -14,6 +14,7 @@
                 <template v-if="item.subs">
                     <el-submenu :index="item.index" :key="item.index">
                         <template slot="title">
+                            <!--列表项目List-->
                             <div @click="xioayuerfnx(item)">
                                 <img class="imgIcon" width="13" height="13" :src="item.icon" />
                                 <span style="margin-left: 10px;" slot="title">{{ item.title }}</span>
@@ -32,6 +33,7 @@
                                     :index="threeItem.index"
                                 >{{ threeItem.title }}</el-menu-item>
                             </el-submenu>
+                            <!--列表项options-->
                             <el-menu-item
                                 @click="SendData(subItem.title)"
                                 v-else

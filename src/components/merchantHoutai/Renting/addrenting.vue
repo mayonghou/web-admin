@@ -213,7 +213,7 @@
             </el-form-item>
         </el-form>
         <div class="formbutton">
-            <el-button @click="fabufw" type="primary">发布</el-button>
+            <el-button @click="fabufw" class="addRentingBtn">发布</el-button>
         </div>
     </div>
 </template>
@@ -754,12 +754,15 @@ export default {
 }
 .formbutton {
     width: 100%;
+    text-align: center;
 }
 
-.formbutton .el-button {
+.formbutton .addRentingBtn {
     width: 90px;
     height: 30px;
-    margin-left: 35%;
+    padding: 0;
+    background: #0177d5;
+    color: #fff;
 }
 
 .el-tag + .el-tag {

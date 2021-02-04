@@ -5,7 +5,8 @@
                 <li class="listLi" v-if="this.dataList == ''">
                     <img
                         style="margin: 0 auto;"
-                        src="../../../../assets/img/marketingqianlima/zhanwuData.png"
+                        width="100%"
+                        src="../../../../assets/img/queshengPage/ques1.png"
                         alt
                     />
                 </li>
@@ -16,19 +17,21 @@
                     :key="item.id"
                     @click="detaitl(item)"
                 >
-                    <!-- 这个地方渲染出错下 -->
-                    <!-- <div>{{item}}</div> -->
                     <div class="xaiozhishiListass">
-                        <!-- <img class="imgUrl" src="../../../../assets/img/img.jpg" /> -->
+                        <div class="titleList">
+                            <div style="text-align: center; font-size: 24px;">{{ item.title }}</div>
+                            <div class="countVhtml" v-html="item.content"></div>
+                        </div>
+                        <i style="font-size: 28px" class="el-icon-right"></i>
+                    </div>
+                    <!-- 这个地方渲染出错下 -->
+                    <!-- <div class="xaiozhishiListass">
                         <div class="titleText">
                             <div class="title">{{ item.title }}</div>
-                            <div class="text" v-html="item.content"></div>
+                            <div class="text dsadsadsad" v-html="item.content"></div>
                         </div>
-                    </div>
-                    <!-- <div v-html="item.content"></div> -->
-                    <!-- 这个地方渲染出错上 -->
-
-                    <i style="font-size: 28px" class="el-icon-right"></i>
+                        <i style="font-size: 28px" class="el-icon-right"></i>
+                    </div>-->
                 </li>
             </ul>
             <el-pagination
@@ -94,7 +97,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
 .marketimgzhishi {
     box-sizing: border-box;
     padding: 20px;
@@ -148,17 +151,28 @@ export default {
     width: 100%;
     height: 50px;
 }
+.titleText .text p img {
+    display: none;
+}
 .el-pagination {
     width: 100%;
     margin-top: 20px;
     text-align: center;
 }
 .xaiozhishiListass {
+    width: 100%;
+    height: 180px;
     display: flex;
-    flex-direction: row;
-    margin-top: 20px;
+    justify-content: space-between;
+    align-items: center;
 }
-.text img {
-    display: inline-block;
+.xaiozhishiListass .titleList {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.xaiozhishiListass .countVhtml img {
+    display: none;
 }
 </style>

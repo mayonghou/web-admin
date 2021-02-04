@@ -77,17 +77,34 @@ export default {
             total: 0,
             banbenData: {},
             functionList: [],
+            dataColor: ['#DADCFF', '#F0BF41', '#149F73', '#618076'],
             columns12: [
-                {
-                    type: 'selection',
-                    width: 60,
-                    align: 'center'
-                },
                 {
                     title: '序号',
                     key: 'slot0',
-                    type: 'index',
-                    align: 'center'
+                    width: 100,
+                    align: 'center',
+                    render: (h, p) => {
+                        return h('div', [
+                            h(
+                                'Button',
+                                {
+                                    props: {
+                                        size: 'large'
+                                    },
+                                    style: {
+                                        borderRadius: '100px',
+                                        backgroundColor: this.dataColor[p.index % this.dataColor.length],
+                                        color: '#000000',
+                                        border: '0',
+                                        outline: 'none',
+                                        margin: '20px 0px'
+                                    }
+                                },
+                                p.index + 1
+                            )
+                        ]);
+                    }
                 },
                 {
                     title: '版本名称',
@@ -102,7 +119,40 @@ export default {
                 {
                     title: '版本功能标题',
                     key: 'slot3',
-                    align: 'center'
+                    align: 'center',
+                    render: (h, pr) => {
+                        return h('div', [
+                            h(
+                                'div',
+                                {
+                                    style: {
+                                        height: '60px',
+                                        overflow: 'hidden'
+                                    }
+                                },
+                                pr.row.slot3.map((val) => {
+                                    return h(
+                                        'Button',
+                                        {
+                                            props: {
+                                                type: 'error',
+                                                size: 'small'
+                                            },
+                                            style: {
+                                                margin: '5px',
+                                                backgroundColor: '#DADCFF',
+                                                border: 0,
+                                                outline: 'none',
+                                                color: '#797979',
+                                                opacity: 0.8
+                                            }
+                                        },
+                                        val
+                                    );
+                                })
+                            )
+                        ]);
+                    }
                 },
                 {
                     title: '发布日期',
@@ -120,7 +170,7 @@ export default {
                 {
                     slot1: 'John Brown',
                     slot2: 18,
-                    slot3: ' 1 Lake Park',
+                    slot3: [],
                     slot4: 'New York No.'
                 }
             ]
@@ -161,6 +211,7 @@ export default {
                             message: data.msg,
                             type: 'success'
                         });
+                        this.getQueryLastVersion();
                         this.getVersionList();
                     } else {
                         this.$message({
@@ -219,9 +270,11 @@ export default {
                             tabList[index].slot1 = val.versionName;
                             tabList[index].slot2 = val.versionDescribe;
                             if (val.title) {
+                                let bbList = [];
                                 val.title.forEach(function (v, i) {
-                                    tabList[index].slot3 = v;
+                                    bbList[i] = v;
                                 });
+                                tabList[index].slot3 = bbList;
                             }
                             //  = val.title;
                             tabList[index].slot4 = val.createTime;

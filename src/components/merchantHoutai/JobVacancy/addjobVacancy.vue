@@ -79,7 +79,11 @@
                     @change="handleChange"
                     placeholder="请选择"
                 ></el-cascader>
-                <el-input class="elselect" v-model="addjob.detailaddress" placeholder="输入详细地址"></el-input>
+                <el-input
+                    style="width:400px; margin-left:20px;"
+                    v-model="addjob.detailaddress"
+                    placeholder="输入详细地址"
+                ></el-input>
             </el-form-item>
             <el-form-item label="联系电话:" prop="phone" :label-width="labelwidth">
                 <el-input class="phonedada" v-model="addjob.phone" placeholder="输入联系电话"></el-input>
@@ -104,12 +108,60 @@
                     show-word-limit
                 ></el-input>
             </el-form-item>
+            <el-form-item label="任职要求:" prop="jobRequirements" :label-width="labelwidth">
+                <el-upload
+                    :with-credentials="true"
+                    multiple
+                    class="quill-upload"
+                    :action="action"
+                    style="display: none;width:0;"
+                    :show-file-list="false"
+                    accept="image/*"
+                    :on-success="success"
+                    :before-upload="beforeAvatarUpload"
+                >
+                    <i class="el-icon-upload"></i>
+                </el-upload>
+                <quill-editor
+                    ref="myQuillEditor"
+                    :content="content"
+                    v-model="addjob.jobRequirements"
+                    :options="editorOption"
+                ></quill-editor>
+            </el-form-item>
+            <el-form-item label="岗位职责:" prop="positionStatement" :label-width="labelwidth">
+                <el-upload
+                    :with-credentials="true"
+                    multiple
+                    class="quill-upload"
+                    :action="action"
+                    style="display: none;width:0;"
+                    :show-file-list="false"
+                    accept="image/*"
+                    :on-success="successpost"
+                    :before-upload="beforeAvatarUploadpost"
+                >
+                    <i class="el-icon-upload positionData"></i>
+                </el-upload>
+                <quill-editor
+                    ref="myQuillEditorpost"
+                    :content="content"
+                    v-model="addjob.positionStatement"
+                    :options="editorOptionloasd"
+                ></quill-editor>
+            </el-form-item>
         </el-form>
-        <el-button @click="addjobdata" class="fabuss">发布</el-button>
+        <div style="width:100%; text-align:center;">
+            <el-button @click="addjobdata" class="fabuss">发布</el-button>
+        </div>
     </div>
 </template>
 
 <script>
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
+import { quillEditor, Quill } from 'vue-quill-editor';
 import citydata from '../../../api/address.json';
 export default {
     name: 'addjobVacancy',
@@ -121,9 +173,60 @@ export default {
             }
             // 实时把非数字的输入过滤掉
             this.addjob.phone = curVal.match(/\d/gi) ? curVal.match(/\d/gi).join('') : '';
+        },
+        serviceUrl(val) {
+            this.serviceUrl = val;
+        },
+        getHeader(val) {
+            this.getHeader = val;
+        },
+        editorData(val) {
+            this.$emit('getEditorData', this.editorData);
+        },
+        content(val) {
+            this.content = val;
         }
     },
     data() {
+        const toolbarOptions = [
+            ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+            ['blockquote', 'code-block'],
+
+            [{ header: 1 }, { header: 2 }], // custom button values
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
+            [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+            [{ direction: 'rtl' }], // text direction
+
+            [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+            [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+            [{ font: [] }],
+            [{ align: [] }],
+            ['image'],
+            ['clean'] // remove formatting button
+        ];
+        // 岗位职责
+        const toolbarOptionsdata = [
+            ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+            ['blockquote', 'code-block'],
+
+            [{ header: 1 }, { header: 2 }], // custom button values
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
+            [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+            [{ direction: 'rtl' }], // text direction
+
+            [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+            [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+            [{ font: [] }],
+            [{ align: [] }],
+            ['image'],
+            ['clean'] // remove formatting button
+        ];
         // 手机号验证
         const validatePhone = (rule, value, callback) => {
             if (value === '') {
@@ -139,6 +242,37 @@ export default {
         return {
             labelwidth: '220px',
             addressOptions: {},
+            content: '',
+            action: localStorage.getItem('actionUrl'),
+            editorOption: {
+                placeholder: '请输入任职要求',
+                modules: {
+                    toolbar: {
+                        container: toolbarOptions,
+                        handlers: {
+                            // 重写点击组件上的图片按钮要执行的代码
+                            image: function (value) {
+                                document.querySelector('.quill-upload .el-icon-upload').click();
+                            }
+                        }
+                    }
+                }
+            },
+            // 岗位职责
+            editorOptionloasd: {
+                placeholder: '请输入岗位职责',
+                modules: {
+                    toolbar: {
+                        container: toolbarOptionsdata,
+                        handlers: {
+                            // 重写点击组件上的图片按钮要执行的代码
+                            image: function (value) {
+                                document.querySelector('.quill-upload .positionData').click();
+                            }
+                        }
+                    }
+                }
+            },
             // 所属行业
             optionIndus: [],
             // 职位名称
@@ -290,7 +424,9 @@ export default {
                 detailaddress: '', //详细地址
                 phone: '',
                 postdescribe: '',
-                teamIntroduction: ''
+                teamIntroduction: '',
+                jobRequirements: '',
+                positionStatement: ''
             },
             rules: {
                 industry: [
@@ -385,6 +521,57 @@ export default {
         this.getWeldareAll();
     },
     methods: {
+        beforeAvatarUpload(file) {
+            this.$emit('beforeAvatarUpload', file);
+        },
+        success(res, file, fileList) {
+            // res为图片服务器返回的数据
+            // 获取富文本组件实例
+            let quill = this.$refs.myQuillEditor.quill;
+            // 如果上传成功
+            if (res.code == 200) {
+                // 获取光标所在位置
+                const pos = quill.selection.savedRange.index; //这个得注意下，网上很多都是不对的
+                // 插入图片到光标位置
+                quill.insertEmbed(pos, 'image', localStorage.getItem('imgUrl') + res.data);
+                // 调整光标到最后
+                quill.setSelection(length + 1);
+            } else {
+                this.$message({
+                    showClose: true,
+                    message: '详情图片上传失败',
+                    type: 'error'
+                });
+            }
+            // loading动画消失
+            this.quillUpdateImg = false;
+        },
+        // ============================岗位职责
+        successpost(res, file, fileList) {
+            // res为图片服务器返回的数据
+            // 获取富文本组件实例
+            let quill = this.$refs.myQuillEditorpost.quill;
+            // 如果上传成功
+            if (res.code == 200) {
+                // 获取光标所在位置
+                const pos = quill.selection.savedRange.index; //这个得注意下，网上很多都是不对的
+                // 插入图片到光标位置
+                quill.insertEmbed(pos, 'image', localStorage.getItem('imgUrl') + res.data);
+                // 调整光标到最后
+                quill.setSelection(length + 1);
+            } else {
+                this.$message({
+                    showClose: true,
+                    message: '详情图片上传失败',
+                    type: 'error'
+                });
+            }
+            // loading动画消失
+            this.quillUpdateImg = false;
+        },
+        beforeAvatarUploadpost(file) {
+            this.$emit('beforeAvatarUploadpost', file);
+        },
         handleChange(value) {},
         // 查询行业
         getindustryList() {
@@ -514,6 +701,8 @@ export default {
                             background: 'rgba(0, 0, 0, 0.7)'
                         });
                         let data = {
+                            province: this.addjob.address[0],
+                            city: this.addjob.address[1],
                             industryName: this.industryName,
                             industryId: this.addjob.industry,
                             jobName: this.jobdataName, // this.addjob.positionJob,
@@ -523,10 +712,12 @@ export default {
                             education: this.eductionName,
                             experience: this.ageName,
                             addr: this.addjob.address[0] + '/' + this.addjob.address[1] + '/' + this.addjob.address[2],
-                            address: this.addjob.detailaddress,
+                            address: this.addjob.address[0] + this.addjob.address[1] + this.addjob.address[2] + this.addjob.detailaddress,
                             tel: this.addjob.phone,
                             jobIntroduce: this.addjob.postdescribe,
-                            team: this.addjob.teamIntroduction
+                            team: this.addjob.teamIntroduction,
+                            requirements: this.addjob.jobRequirements,
+                            jobDescription: this.addjob.positionStatement
                         };
                         this.$axios.post('admin/job/manage/add/jobDetail', data).then((res) => {
                             loading.close();
@@ -618,7 +809,7 @@ export default {
     padding: 0;
     background-color: #2482d2;
     color: #fff;
-    margin-left: 30%;
+    /* margin-left: 30%; */
 }
 
 .phonedada .el-input__inner {
@@ -627,5 +818,11 @@ export default {
     border: 0;
     border-radius: 0;
     border-bottom: 1px solid #c1c1c1;
+}
+.ql-container {
+    width: 1000px;
+}
+.ql-toolbar {
+    width: 1000px;
 }
 </style>

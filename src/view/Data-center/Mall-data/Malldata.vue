@@ -29,7 +29,6 @@
         <div class="secondCLass">
             <div>
                 <div class="loyadClass">
-                    <!--  v-for="(item,index) in 3" :key="index" -->
                     <div class="three">
                         <listTable :status="1" :orderCountssituation="orderCountssituation"></listTable>
                     </div>

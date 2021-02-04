@@ -1,11 +1,11 @@
 <template>
     <div class="cooperationList" id="cooperationList">
         <div class="header_Top">
-            <div class>
+            <div style="padding-left: 5px;">
                 <label>企业查询</label>
             </div>
             <div class="top_search">
-                <el-input class="search" v-model="value" placeholder="输入企业名称、法人"></el-input>
+                <el-input class="search" v-model="value" placeholder="输入企业名称"></el-input>
                 <i
                     style="font-size: 22px;color: #2494D2;margin-left: 30px; padding-right: 38px;padding-top: 5px;"
                     class="el-icon-date"
@@ -15,6 +15,8 @@
                     value-format="yyyy-MM-dd"
                     v-model="timess"
                     type="daterange"
+                    align="right"
+                    unlink-panels
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
                     @change="Datefunct"

@@ -818,6 +818,7 @@ export default {
     color: #fff;
     border-radius: 8px;
     background-color: #0000ff;
+    padding: 0;
 }
 
 .addgoods .shangyibu {
@@ -827,6 +828,7 @@ export default {
     height: 30px;
     color: #fff;
     border-radius: 8px;
+    padding: 0;
     background-color: #0000ff;
 }
 
@@ -862,6 +864,7 @@ export default {
     height: 30px;
     color: #fff;
     border-radius: 8px;
+    padding: 0;
     background-color: #0000ff;
 }
 .el-form-item .el-form-item {

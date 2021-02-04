@@ -97,7 +97,7 @@ export default {
 };
 </script>
 
-<style scope>
+<style>
 .activityList {
     box-sizing: border-box;
     padding: 20px;
@@ -135,7 +135,7 @@ export default {
 .list-li .list-body .pImg img {
     height: 130px;
     width: 130px;
-    /* display: inline-block; */
+    display: none;
     margin-right: 20px;
 }
 .el-pagination {

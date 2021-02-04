@@ -623,6 +623,7 @@ export default {
     color: #fff;
     border-radius: 8px;
     margin-left: 30%;
+    padding: 0;
 }
 .enterprise .uploadIed {
     width: 148px;

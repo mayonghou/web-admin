@@ -417,8 +417,17 @@ export default {
     margin-left: 35%;
     background-color: #2482d2;
     color: #fff;
+    padding: 0;
 }
 .addVideo .el-form-item__label {
     text-align: right;
+}
+
+.el-upload--text {
+    width: 400px;
+    height: auto;
+    min-height: 200px;
+    line-height: 200px;
+    border: 1px dashed #c0ccda;
 }
 </style>

@@ -107,10 +107,17 @@
                     @change="handleChange"
                     placeholder="请选择"
                 ></el-cascader>
-                <el-input class="elselect" v-model="addbus.detailaddress" placeholder="输入详细地址"></el-input>
+                <el-input
+                    class
+                    style="width:200px; margin-left:20px;"
+                    v-model="addbus.detailaddress"
+                    placeholder="输入详细地址"
+                ></el-input>
             </el-form-item>
         </el-form>
-        <el-button @click="addbusBtns" class="addbusBtn">发布</el-button>
+        <div class="addbusBtndiv">
+            <el-button @click="addbusBtns" class="addbusBtn">发布</el-button>
+        </div>
     </div>
 </template>
 
@@ -517,9 +524,9 @@ img {
     height: 100px;
 }
 
-.addbus .el-select {
+/* .addbus .el-select {
     float: left;
-}
+} */
 
 .el-form-item {
     position: relative;
@@ -535,14 +542,17 @@ img {
     margin-left: 30px;
     border-radius: 0px;
 }
-
-.addbusiness .addbusBtn {
+.addbusBtndiv {
+    width: 100%;
+    text-align: center;
+}
+.addbusBtndiv .addbusBtn {
     width: 90px;
     height: 30px;
     background-color: #2482d2;
     color: #fff;
-    margin-left: 50%;
     margin-top: 30px;
+    padding: 0;
 }
 
 .input-new-tag {

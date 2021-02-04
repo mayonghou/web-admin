@@ -8,12 +8,18 @@
                     <el-date-picker
                         v-model="time"
                         type="daterange"
+                        unlink-panels
                         start-placeholder="开始日期"
                         end-placeholder="结束日期"
                         value-format="yyyy-MM-dd"
                         @change="timeDate"
                     ></el-date-picker>
-                    <el-select v-model="optionsStatus" placeholder="请选择提现状态" clearable>
+                    <el-select
+                        v-model="optionsStatus"
+                        style="margin-left:20px;"
+                        placeholder="请选择提现状态"
+                        clearable
+                    >
                         <el-option
                             v-for="(item, index) in options"
                             :key="index"

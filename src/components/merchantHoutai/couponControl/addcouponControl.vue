@@ -456,6 +456,7 @@ export default {
     border-radius: 8px;
     background-color: #2450d2;
     color: #fff;
+    padding: 0;
 }
 
 .addcouponControl .addcouponBtn .buttonr.mL {

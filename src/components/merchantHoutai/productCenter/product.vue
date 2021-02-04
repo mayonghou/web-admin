@@ -29,16 +29,16 @@
                 <el-card class="el-card-body-right">
                     <h1>精选功能</h1>
                     <div class="functionBody">
-                        <happy-scroll color="rgba(0,0,0,0.5)" size="5">
+                        <happy-scroll color="rgba(0,0,0,0.5)" size="5" v-if="iSshow">
                             <ul class="functionUL">
                                 <li
                                     style="width:100%; text-align: center;"
-                                    v-if="this.functionList != []"
+                                    v-if="this.functionList == ''"
                                 >
                                     <img
                                         width="auto"
                                         height="260px"
-                                        src="../../../assets/img/marketingqianlima/zhanwuData.png"
+                                        src="../../../assets/img/queshengPage/ques1.png"
                                         alt
                                         srcset
                                     />
@@ -49,6 +49,7 @@
                                     v-for="(item, index) in this.functionList"
                                     :key="index"
                                 >
+                                    <!-- {{item.function}} -->
                                     <div style="width:280px;">
                                         <div class="functionName">{{item.function}}</div>
                                         <div class="functiondescrib">{{item.resume}}</div>
@@ -120,6 +121,7 @@ export default {
     name: 'productindex',
     data() {
         return {
+            iSshow: false,
             tableData: [
                 {
                     name: 'djaksl',
@@ -169,6 +171,9 @@ export default {
                     let data = res.data;
                     if (data.code == 200) {
                         this.functionList = data.data.list;
+                        if (this.functionList != '') {
+                            this.iSshow = !this.iSshow;
+                        }
                         this.versionName = data.data.versionName;
                         this.title = data.data.title;
                         this.versionDescribe = data.data.versionDescribe;
@@ -250,19 +255,7 @@ export default {
                         });
                         this.counts = data.totalCount;
                         this.tableData = dataList;
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            message: data.msg,
-                            type: 'error'
-                        });
                     }
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: data.msg,
-                        type: 'error'
-                    });
                 }
             });
         }
@@ -329,6 +322,9 @@ export default {
     font-family: Source Han Sans CN ExtraLight;
     height: 220px;
     overflow: hidden;
+    line-height: 25px;
+    display: -webkit-box;
+    /* padding-bottom: 20px; */
 }
 .el-card-body-left .lookdetail {
     width: auto;
@@ -405,7 +401,7 @@ export default {
 }
 .functionLI {
     list-style: none;
-    width: 280px;
+    width: 350px;
     text-align: center;
 }
 .functionLI .functionName {

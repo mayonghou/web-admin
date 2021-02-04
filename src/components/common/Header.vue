@@ -12,10 +12,18 @@
             </div>
             <div class="fl">
                 <ul class="topDataBox">
-                    <li v-for="item in navData" :key="item.index" @click="routerbtn(item)">
-                        <div v-show="item.index != 0 || qiyeID != 0" ref="TopnavBgcolor">
+                    <li
+                        v-for="item in navData"
+                        :key="item.index"
+                        @click="routerbtn(item)"
+                        ref="TopnavBgcolor"
+                        :class="(qiyeID == 0 && item.index == 1)?'BgColorAdd':(qiyeID != 0 && item.index == 0)?'BgColorAdd':''"
+                    >
+                        <div v-show="item.index != 0 || qiyeID != 0">
                             <span>
-                                <img :src="item.imgUrl" alt />
+                                <Icon
+                                    :type="item.index==0?'ios-home':item.index==1?'ios-cube':item.index==2?'ios-stats':item.index==3?'md-filing':''"
+                                />
                             </span>
                             <span>{{ item.name }}</span>
                         </div>
@@ -148,7 +156,9 @@ export default {
                         trigger: 'blur'
                     }
                 ]
-            }
+            },
+            Sid1: '',
+            Sid2: ''
         };
     },
     computed: {
@@ -167,14 +177,15 @@ export default {
             return username ? username : this.name;
         }
     },
+    created() {
+        this.yuerFunctionky();
+    },
     mounted() {
         this.qiyeID = localStorage.getItem('loginData');
         // 侧边栏折叠
         if (document.body.clientWidth > 1500) {
             this.collapseChage();
         }
-        // 背景切换
-        this.BackgroundSwitch();
     },
     methods: {
         // 用户名下拉菜单选择事件
@@ -188,6 +199,7 @@ export default {
             localStorage.removeItem('token');
             this.$router.push('/login');
         },
+        // nav=>Click
         routerbtn(item) {
             if (item.index == 0 && this.qiyeID != 0) {
                 this.$router
@@ -197,6 +209,13 @@ export default {
                     .catch((err) => {
                         console.log(err);
                     });
+                for (let k = 0; k < this.$refs.TopnavBgcolor.length; k++) {
+                    if (item.index == k) {
+                        this.$refs.TopnavBgcolor[k].classList.add('BgColorAdd');
+                    } else if (item.index != k) {
+                        this.$refs.TopnavBgcolor[k].classList.remove('BgColorAdd');
+                    }
+                }
             } else if (item.index == 1) {
                 if (this.qiyeID == 0) {
                     this.$router
@@ -216,6 +235,13 @@ export default {
                             console.log(err);
                         });
                 }
+                for (let k = 0; k < this.$refs.TopnavBgcolor.length; k++) {
+                    if (item.index == k) {
+                        this.$refs.TopnavBgcolor[k].classList.add('BgColorAdd');
+                    } else if (item.index != k) {
+                        this.$refs.TopnavBgcolor[k].classList.remove('BgColorAdd');
+                    }
+                }
             } else if (item.index == 2) {
                 if (this.qiyeID == 0) {
                     this.$router.push({
@@ -226,7 +252,14 @@ export default {
                         path: './marketing'
                     });
                 }
-            } else {
+                for (let k = 0; k < this.$refs.TopnavBgcolor.length; k++) {
+                    if (item.index == k) {
+                        this.$refs.TopnavBgcolor[k].classList.add('BgColorAdd');
+                    } else if (item.index != k) {
+                        this.$refs.TopnavBgcolor[k].classList.remove('BgColorAdd');
+                    }
+                }
+            } else if (item.index == 3) {
                 if (this.qiyeID == 0) {
                     this.$router.push({
                         path: './productindex'
@@ -235,6 +268,13 @@ export default {
                     this.$router.push({
                         path: './product'
                     });
+                }
+                for (let k = 0; k < this.$refs.TopnavBgcolor.length; k++) {
+                    if (item.index == k) {
+                        this.$refs.TopnavBgcolor[k].classList.add('BgColorAdd');
+                    } else if (item.index != k) {
+                        this.$refs.TopnavBgcolor[k].classList.remove('BgColorAdd');
+                    }
                 }
             }
         },
@@ -335,215 +375,28 @@ export default {
                 }
             });
         },
-        // 背景切换
-        BackgroundSwitch() {
-            // console.log('asdasd');
+        // 取消nav选中状态
+        yuerFunctionky() {
+            bus.$on('SidebarFn1', (SideSon1) => {
+                this.Sid1 = SideSon1[1];
+                for (let k = 0; k < this.$refs.TopnavBgcolor.length; k++) {
+                    if (this.Sid1) {
+                        this.$refs.TopnavBgcolor[k].classList.remove('BgColorAdd');
+                    }
+                }
+            });
+            bus.$on('SidebarFn2', (SideSon2) => {
+                this.Sid2 = SideSon2;
+                for (let k = 0; k < this.$refs.TopnavBgcolor.length; k++) {
+                    if (this.Sid2) {
+                        this.$refs.TopnavBgcolor[k].classList.remove('BgColorAdd');
+                    }
+                }
+            });
         }
     }
 };
 </script>
 <style>
-.topDataBox {
-    display: flex;
-    align-items: center;
-}
-
-.topDataBox li {
-    height: 70px;
-    text-align: center;
-    line-height: 70px;
-    list-style: none;
-    cursor: pointer;
-}
-.topDataBox li div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 180px;
-}
-.topDataBox li span:first-child {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 2px;
-}
-.topDataBox li span:nth-child(2) {
-    line-height: 70px;
-}
-.topDataBox li span:first-child img {
-    display: inline-block;
-    width: 70%;
-    height: auto;
-}
-.fl {
-    float: left;
-}
-
-.header {
-    position: relative;
-    box-sizing: border-box;
-    width: 100%;
-    height: 70px;
-    font-size: 22px;
-    color: #fff;
-}
-
-.collapse-btn {
-    float: left;
-    padding: 0 15px;
-    cursor: pointer;
-    line-height: 70px;
-}
-
-.collapse {
-    width: 30px;
-    float: left;
-    line-height: 70px;
-}
-
-.collapse-btn .img {
-    background: #fff;
-    width: 50px;
-    height: 50px;
-    margin-top: 10px;
-    border-radius: 50%;
-}
-
-.header .logo {
-    float: left;
-    width: 195px;
-    line-height: 70px;
-    text-align: center;
-}
-
-.header .page-top {
-    float: left;
-    width: 190px;
-    line-height: 71px;
-    text-align: center;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.header .page-top.active {
-    background-color: #ffffff;
-    color: #4985f0;
-}
-
-.header .page-top .icon {
-    width: 18px;
-    height: 18px;
-}
-
-.header-right {
-    float: right;
-    padding-right: 50px;
-}
-
-.header-user-con {
-    display: flex;
-    height: 70px;
-    align-items: center;
-}
-
-.btn-fullscreen {
-    transform: rotate(45deg);
-    margin-right: 5px;
-    font-size: 24px;
-}
-
-.btn-bell {
-    margin-left: 20px;
-    margin-right: 20px;
-}
-
-.btn-bell,
-.btn-fullscreen {
-    position: relative;
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    border-radius: 15px;
-    cursor: pointer;
-}
-
-.btn-bell-badge {
-    position: absolute;
-    right: 0;
-    top: -2px;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background: #f56c6c;
-    color: #fff;
-    padding: 0;
-    font-size: 3px;
-}
-
-.btn-bell .el-icon-bell {
-    color: #fff;
-}
-
-.user-name {
-    margin-left: 10px;
-}
-
-.user-avator {
-    margin-left: 20px;
-}
-
-.user-avator .el-avatar {
-    display: block;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
-
-.el-dropdown-link {
-    color: #fff;
-    cursor: pointer;
-}
-
-.el-dropdown-menu__item {
-    text-align: center;
-}
-
-.iconfontssda {
-    font-size: 20px;
-    font-weight: 1000px;
-    color: #fff;
-}
-
-.iconEnlorder {
-    position: relative;
-}
-
-.iconEnlorder .iconfont {
-    position: absolute;
-    top: -65px;
-    right: 30px;
-}
-
-.inputddd {
-    width: 200px;
-}
-
-.xinpasswo .Btn {
-    width: 100px;
-    height: 30px;
-    background: #2450d2;
-    color: #fff;
-    padding: 0;
-    margin-left: 36%;
-    margin-bottom: 30px;
-    margin-top: 30px;
-}
-
-.el-form-item__label {
-    text-align: right;
-}
-
-.UPpassword {
-    cursor: pointer;
-}
+@import './Header.css';
 </style>

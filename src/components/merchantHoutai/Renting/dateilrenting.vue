@@ -93,7 +93,7 @@
             </el-form-item>
         </el-form>
         <div class="formbutton">
-            <el-button @click="returnRent" type="primary">返回</el-button>
+            <el-button @click="returnRent" class="returnrenting">返回</el-button>
         </div>
     </div>
 </template>
@@ -279,12 +279,15 @@ export default {
 
 .formbutton {
     width: 100%;
+    text-align: center;
 }
 
-.formbutton .el-button {
+.formbutton .returnrenting {
     width: 90px;
     height: 30px;
-    margin-left: 35%;
+    background: #0177d5;
+    padding: 0;
+    color: #fff;
 }
 .addrenting .buttonList {
     float: left;

@@ -31,7 +31,7 @@
                     <Button
                         type="primary"
                         @click="queryData"
-                        style="padding-left: 40px; padding-right: 40px"
+                        style="padding-left: 40px; padding-right: 40px; margin-left:10px"
                     >查询</Button>
                 </Col>
             </Row>

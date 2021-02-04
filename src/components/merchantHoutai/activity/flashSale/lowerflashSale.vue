@@ -14,6 +14,7 @@
                     prefix-icon="md-date_range"
                     v-model="time"
                     type="daterange"
+                    unlink-panels
                     tart-placeholder="开始日期"
                     end-placeholder="结束日期"
                     alue-format="yyyy-MM-dd"

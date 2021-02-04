@@ -9,6 +9,8 @@
                     v-model="value1"
                     class="el-date-picker"
                     type="daterange"
+                    align="right"
+                    unlink-panels
                     range-separator="—"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"

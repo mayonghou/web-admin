@@ -390,6 +390,7 @@ export default {
     line-height: 5px;
     color: #fff;
     background-color: #109955;
+    padding: 0;
 }
 
 .datu {

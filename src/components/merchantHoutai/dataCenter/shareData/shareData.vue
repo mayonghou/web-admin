@@ -2,13 +2,13 @@
     <div class="shareData" id="shareData">
         <div class="shareData-top">
             <div class="top-body">
-                <h1>15616</h1>
+                <h1>{{this.viewCounts}}</h1>
                 <span>浏览量</span>
             </div>
         </div>
         <div class="shareData-search">
             <h3>浏览查询</h3>
-            <div class="condition">
+            <div class="condition" style="display: flex; align-items: flex-start;">
                 <el-input v-model="companyName" style="width:300px;" clearable placeholder="企业名称"></el-input>
                 <el-select
                     v-model="service"
@@ -31,15 +31,21 @@
                         :label="item.name"
                     ></el-option>
                 </el-select>
+                <!-- v-if="timeType == 'date'" -->
                 <el-date-picker
                     v-model="valuedates"
                     align="right"
                     style="margin-left: 20px;"
-                    type="date"
+                    :type="timeType"
                     placeholder="选择日期"
                     :picker-options="pickerOptions"
-                    value-format="yyyy-MM-dd"
+                    @change="timeChange"
                 ></el-date-picker>
+                <!-- :value-format="valueFormat" -->
+
+                <span id="dateDay" @click="today" style="display:none;">天</span>
+                <span id="monthData" @click="dateMonth" style="display:none;">月</span>
+                <span id="dateYear" @click="dateYear" style="display:none;">年</span>
                 <el-button type="primary" @click="queryBtn" style="margin-left: 20px;">查询</el-button>
             </div>
         </div>
@@ -70,15 +76,21 @@
 export default {
     data() {
         return {
+            timeType: '',
+            valueFormat: '',
+            viewCounts: '',
             dataList: [],
             companyName: '',
             service: '',
             source: '',
-            valuedates: '',
+            valuedates: null,
             tableData: [],
             page: 1,
             limit: 10,
             counts: 0,
+            dateType: '',
+            dateTime: '',
+            valuedatesdasd: '',
             SourceOptions: [
                 {
                     index: 0,
@@ -101,34 +113,110 @@ export default {
                     {
                         text: '今天',
                         onClick(picker) {
+                            document.getElementById('dateDay').click();
                             picker.$emit('pick', new Date());
                         }
                     },
                     {
                         text: '一月',
                         onClick(picker) {
-                            const date = new Date();
-                            date.setTime(date.getFullYear() - 3600 * 1000 * 24);
-                            picker.$emit('pick', date);
+                            document.getElementById('monthData').click();
+                            picker.$emit('pick', new Date());
                         }
                     },
                     {
-                        text: '一周前',
+                        text: '一年',
                         onClick(picker) {
-                            const date = new Date();
-                            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-                            picker.$emit('pick', date);
+                            document.getElementById('dateYear').click();
+                            picker.$emit('pick', new Date());
                         }
                     }
                 ]
             }
         };
     },
+    watch: {
+        timeType: {
+            handler(newName, oldata) {
+                if (newName == 'date') {
+                    this.timeType = newName;
+                    this.valueFormat = 'yyyy-MM-dd';
+                } else if (newName == 'month') {
+                    this.timeType = newName;
+                    this.valueFormat = 'yyyy-MM';
+                } else if (newName == 'year') {
+                    this.timeType = newName;
+                    this.valueFormat = 'yyyy';
+                }
+            },
+            deep: true,
+            immediate: true
+        }
+    },
     mounted() {
         this.getServiceList();
         this.getShareData();
+        this.$nextTick(() => {
+            this.today();
+        });
     },
     methods: {
+        today() {
+            this.valuedates = null;
+            this.timeType = 'date';
+            this.valueFormat = 'yyyy-MM-dd';
+            this.dateType = 0;
+        },
+        dateMonth() {
+            this.valuedates = null;
+            this.dateType = 1;
+            this.timeType = 'month';
+            this.valueFormat = 'yyyy-MM';
+            let dateM = new Date();
+            let year = dateM.getFullYear();
+            let month = dateM.getMonth() + 1;
+            if (month < 10) {
+                month = '0' + month;
+            }
+            this.valuedates = year + '-' + month;
+        },
+        dateYear() {
+            this.valuedates = null;
+            this.timeType = 'year';
+            this.valueFormat = 'yyyy';
+            let dateY = new Date();
+            this.valuedates = dateY.getFullYear();
+            this.dateType = 2;
+        },
+        timeChange(value) {
+            if (value) {
+                let timeDate = new Date(value);
+                if (this.timeType == 'date') {
+                    this.dateTime =
+                        timeDate.getFullYear() +
+                        '-' +
+                        (timeDate.getMonth() + 1 < 10 ? '0' + (timeDate.getMonth() + 1) : timeDate.getMonth() + 1) +
+                        '-' +
+                        timeDate.getDate();
+                } else if (this.timeType == 'month') {
+                    this.dateTime =
+                        timeDate.getFullYear() +
+                        '-' +
+                        (timeDate.getMonth() + 1 < 10 ? '0' + (timeDate.getMonth() + 1) : timeDate.getMonth() + 1) +
+                        '-' +
+                        timeDate.getDate();
+                } else if (this.timeType == 'year') {
+                    this.dateTime =
+                        timeDate.getFullYear() +
+                        '-' +
+                        (timeDate.getMonth() + 1 < 10 ? '0' + (timeDate.getMonth() + 1) : timeDate.getMonth() + 1) +
+                        '-' +
+                        timeDate.getDate();
+                }
+            } else {
+                this.dateTime = '';
+            }
+        },
         // 分页
         handleSizeChange(val) {
             this.limit = val;
@@ -148,7 +236,8 @@ export default {
                 companyName: this.companyName,
                 customerService: this.service,
                 sourceType: this.source,
-                date: this.valuedates,
+                date: this.dateTime,
+                dateType: this.dateType,
                 page: this.page,
                 limit: this.limit
             };
@@ -159,22 +248,23 @@ export default {
                         let dataList = [];
                         data.data.forEach(function (val, index) {
                             dataList[index] = val;
-                            let date = new Date(parseInt(val.viewTime));
+                            let dateS = new Date(parseInt(val.viewTime));
                             dataList[index].viewTimes =
-                                date.getFullYear() +
+                                dateS.getFullYear() +
                                 '-' +
-                                (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                                (dateS.getMonth() + 1 < 10 ? '0' + (dateS.getMonth() + 1) : dateS.getMonth() + 1) +
                                 '-' +
-                                date.getDate() +
+                                dateS.getDate() +
                                 ' ' +
-                                date.getHours() +
+                                dateS.getHours() +
                                 ':' +
-                                date.getMinutes() +
+                                dateS.getMinutes() +
                                 ':' +
-                                date.getSeconds();
+                                dateS.getSeconds();
                         });
                         this.tableData = dataList;
                         this.counts = data.totalCount;
+                        this.viewCounts = data.viewCount;
                     }
                 }
             });
@@ -194,7 +284,10 @@ export default {
 };
 </script>
 
-<style  scoped>
+<style >
+.el-picker-panel__body {
+    z-index: 1;
+}
 .shareData {
     width: 100%;
     box-sizing: border-box;

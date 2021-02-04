@@ -29,7 +29,7 @@
                     ></el-date-picker>
                     <Select
                         v-model="model2"
-                        style="width:150px; margin-right:10px;"
+                        style="width:200px; margin-right:10px; margin-left:10px;"
                         placeholder="房源类型不限"
                     >
                         <Option

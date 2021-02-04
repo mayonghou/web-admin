@@ -29,7 +29,7 @@
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
                 ></el-date-picker>
-                <el-button type="primary" @click="queryQY" class="button">查询</el-button>
+                <el-button @click="queryQY" class="button queryBtn">查询</el-button>
             </div>
         </div>
         <!-- 删除和添加企业 -->

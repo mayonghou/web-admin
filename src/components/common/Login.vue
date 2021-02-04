@@ -62,7 +62,6 @@ export default {
                     _this.$axios
                         .get('admin/system/login?account=' + _this.param.username + '&password=' + _this.$md5(_this.param.password))
                         .then(function (res) {
-                            console.log(res);
                             loading.close();
                             if (res.status == 200) {
                                 var data = res.data;
@@ -77,8 +76,12 @@ export default {
                                         _this.$message.success('登录成功');
                                     } else {
                                         _this.$router.push('./indexshouye');
+                                        localStorage.setItem('industryName', data.data.companyDTO.industry);
+                                        localStorage.setItem('industryId', data.data.companyDTO.industryId);
+                                        localStorage.setItem('industryId', data.data.companyDTO.industryId);
+                                        localStorage.setItem('name', data.data.companyDTO.legal);
+                                        localStorage.setItem('companyName', data.data.companyDTO.companyName);
                                         _this.$message.success('登录成功');
-                                        // _this.$message.success('登录成功');
                                     }
                                 }
                                 if (data.code != 200) {

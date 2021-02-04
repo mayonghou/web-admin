@@ -55,6 +55,12 @@
             <el-form-item label="团队介绍:" prop="teamIntroduction" :label-width="labelwidth">
                 <label>{{lookjob.teamIntroduction}}</label>
             </el-form-item>
+            <el-form-item label="任职要求:" prop="jobRequirements" :label-width="labelwidth">
+                <div class="postdadas" v-html="lookjob.jobRequirements"></div>
+            </el-form-item>
+            <el-form-item label="岗位描述:" prop="positionStatement" :label-width="labelwidth">
+                <div class="postdadas" v-html="lookjob.positionStatement"></div>
+            </el-form-item>
         </el-form>
         <el-button @click="returnjob" class="fabuss">返回</el-button>
     </div>
@@ -83,7 +89,9 @@ export default {
                 detailaddress: '', //详细地址
                 phone: '',
                 postdescribe: '',
-                teamIntroduction: ''
+                teamIntroduction: '',
+                jobRequirements: '',
+                positionStatement: ''
             }
         };
     },
@@ -115,6 +123,7 @@ export default {
                     var data = res.data;
                     if (data.code == 200) {
                         var dataList = data.data;
+
                         this.lookjob.industry = dataList.industryName;
                         this.lookjob.positionJob = dataList.jobName;
                         this.lookjob.pay = dataList.salaries;
@@ -123,10 +132,13 @@ export default {
                         this.lookjob.benefits = dataList.welfare;
                         this.lookjob.education = dataList.education;
                         this.lookjob.ageLimit = dataList.experience;
+
                         this.lookjob.address = dataList.province + dataList.city + dataList.address;
                         this.lookjob.phone = dataList.tel;
                         this.lookjob.postdescribe = dataList.jobIntroduce;
                         this.lookjob.teamIntroduction = dataList.team;
+                        this.lookjob.jobRequirements = dataList.requirements;
+                        this.lookjob.positionStatement = dataList.jobDescription;
                     } else {
                         this.$message({
                             showClose: true,

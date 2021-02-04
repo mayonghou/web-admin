@@ -1,5 +1,5 @@
 <template>
-    <Card style="min-height:472px">
+    <Card style="min-height:472px; margin-top:15px">
         <div>
             <div class="huoqushijian">
                 <el-date-picker
@@ -13,7 +13,15 @@
                 <span @click="monthData">一月</span>
                 <span @click="todaysData">七天</span>
             </div>
-            <div ref="main02" style="width: 100%; height:400px"></div>
+            <div ref="main02" style="width: 100%; height:400px" v-show="iSshowDara"></div>
+            <div ref="main0n" style="width: 100%; height:400px" v-show="iSshowDara == false">
+                <img
+                    class="imgClass"
+                    src="../../../../../src/assets/img/queshengPage/ques1.png"
+                    alt
+                />
+                <h3 style="text-align: center; color:#515a6e80">暂无数据</h3>
+            </div>
         </div>
     </Card>
 </template>
@@ -24,7 +32,8 @@ export default {
     data() {
         return {
             value: '',
-            statTimeType: 0
+            statTimeType: 0,
+            iSshowDara: true
         };
     },
     mounted() {
@@ -60,9 +69,14 @@ export default {
                     if (data.code == 200) {
                         let name = [];
                         let value = [];
+                        if (data.data == '') {
+                            this.iSshowDara = false;
+                        } else {
+                            this.iSshowDara = true;
+                        }
                         data.data.forEach(function (val, index) {
                             name[index] = val.name;
-                            value[index] = val.value;
+                            value[index] = val.value / 100;
                         });
                         var myChart = echarts.init(this.$refs.main02);
                         // 指定图表的配置项和数据
@@ -102,9 +116,16 @@ export default {
     width: 100%;
     display: flex;
     flex-direction: row-reverse;
+    align-items: center;
 }
 .huoqushijian span {
     cursor: pointer;
     margin-right: 20px;
+}
+.imgClass {
+    display: block;
+    width: 100%;
+    height: auto;
+    padding-top: 50px;
 }
 </style>

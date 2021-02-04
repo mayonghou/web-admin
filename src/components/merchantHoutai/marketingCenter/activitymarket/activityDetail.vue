@@ -57,7 +57,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .marketactivity {
     box-sizing: border-box;
     padding: 20px;
@@ -88,5 +88,6 @@ export default {
 }
 .detail-text img {
     display: block;
+    width: 1000px;
 }
 </style>

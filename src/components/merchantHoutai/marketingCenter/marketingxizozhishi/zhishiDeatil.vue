@@ -13,16 +13,7 @@
                 <span>{{this.dataList.title}}</span>
             </div>
         </div>
-        <!-- 这个地方渲染可能出错 -->
-        <div>
-            <div class="imgUrl">
-                <!-- <el-image class="el-img" :src="src"></el-image> -->
-            </div>
-            <div class="contents" v-html="this.dataList.content">
-                <!-- {{this.dataList.content}} -->
-            </div>
-        </div>
-        <!-- ---------------以上 -->
+        <div class="contents" v-html="this.dataList.content"></div>
     </div>
 </template>
 
@@ -66,7 +57,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .zhishiDateitl {
     box-sizing: border-box;
     padding: 20px;
@@ -124,6 +115,7 @@ export default {
 }
 .contents img {
     display: block;
+    width: 1000px;
 }
 </style>
 

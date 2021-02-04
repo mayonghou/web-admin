@@ -296,40 +296,65 @@
                     <div class="ordermeter">
                         <el-card>
                             <div class="meter">
-                                <!-- <label @click="statTimeType1" class="meterspan">七天</label> -->
-                                <label @click="statTimeType2" class="meterspan">一月</label>
-                                <label @click="statTimeType3" class="meterspan">一年</label>
+                                <!-- <label @click="statTimeType1" class="meterspan">一周</label> -->
+                                <span @click="statTimeType2" class="meterspan">一月</span>
+                                <span @click="statTimeType3" class="meterspan">一年</span>
                                 <el-date-picker
                                     v-model="value1"
-                                    type="date"
+                                    :type="timeType"
                                     placeholder="选择日期"
-                                    value-format="yyyy-MM-dd"
                                     @change="changeTime"
                                 ></el-date-picker>
                             </div>
                             <div
                                 id="orderChart"
-                                ref="orders"
+                                v-show=" this.isShowOrder"
                                 :style="{width: '850px', height: '300px',}"
                             ></div>
+                            <div
+                                v-show=" this.isShowOrder == false"
+                                style="width:100%; text-align: center;"
+                            >
+                                <img
+                                    width="100%"
+                                    src="../../../../assets/img/marketingqianlima/qiushengye(2).png"
+                                />
+                                <h3 class="colorlost">暂无数据</h3>
+                            </div>
                         </el-card>
                     </div>
                     <!-- 销售统计 -->
                     <div class="Marketmeter">
                         <el-card>
                             <div class="meter">
-                                <!-- <label @click="timeType1" class="meterspan">七天</label> -->
+                                <!-- <label @click="timeType1" class="meterspan">一周</label> -->
                                 <label @click="timeType2" class="meterspan">一月</label>
                                 <label @click="timeType3" class="meterspan">一年</label>
                                 <el-date-picker
                                     v-model="value2"
-                                    type="date"
+                                    :type="datesType"
                                     placeholder="选择日期"
-                                    value-format="yyyy-MM-dd"
                                     @change="changeTime2"
                                 ></el-date-picker>
+                                <!-- value-format="yyyy-MM-dd" -->
                             </div>
-                            <div id="marketChart" :style="{width: '850px', height: '300px',}"></div>
+
+                            <!-- id="marketChart" -->
+                            <div
+                                ref="marketChart"
+                                v-if="this.isShowmarket"
+                                :style="{width: '850px', height: '300px',}"
+                            ></div>
+                            <div
+                                v-show=" this.isShowmarket == false"
+                                style="width:100%; text-align: center;"
+                            >
+                                <img
+                                    width="100%"
+                                    src="../../../../assets/img/marketingqianlima/qiushengye(2).png"
+                                />
+                                <h3 class="colorlost">暂无数据</h3>
+                            </div>
                         </el-card>
                     </div>
                 </div>
@@ -374,176 +399,226 @@
         <!-- 招聘数据 -->
         <div class="recruitment tab-list" v-show="this.activeIndex == 1">
             <!-- 关键指标 -->
-            <div class="recruitment-top">
-                <div class="indicator">
-                    <label style="margin-left: 20px;">关键指标</label>
+            <el-card>
+                <div class="recruitment-top">
+                    <div class="indicator">
+                        <label style="margin-left: 20px;">关键指标</label>
+                    </div>
+                    <div class="indicator-data">
+                        <div class="indicator-list">
+                            <div>职位被收藏次数</div>
+                            <div
+                                style="font-size: 30px;font-weight: bold;"
+                            >{{this.hzibiaoData.collection}}</div>
+                        </div>
+                        <div class="indicator-list">
+                            <div>沟通过</div>
+                            <div
+                                style="font-size: 30px;font-weight: bold;"
+                            >{{this.hzibiaoData.totalConnect}}</div>
+                        </div>
+                        <div class="indicator-list">
+                            <div>在招职位</div>
+                            <div
+                                style="font-size: 30px;font-weight: bold;"
+                            >{{this.hzibiaoData.groundingPosition}}</div>
+                        </div>
+                        <div class="indicator-list">
+                            <div>累计浏览量</div>
+                            <div
+                                style="font-size: 30px;font-weight: bold;"
+                            >{{this.hzibiaoData.totalViews}}</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="indicator-data">
-                    <div class="indicator-list">
-                        <div>职位被收藏次数</div>
-                        <div
-                            style="font-size: 30px;font-weight: bold;"
-                        >{{this.hzibiaoData.collection}}</div>
-                    </div>
-                    <div class="indicator-list">
-                        <div>沟通过</div>
-                        <div
-                            style="font-size: 30px;font-weight: bold;"
-                        >{{this.hzibiaoData.totalConnect}}</div>
-                    </div>
-                    <div class="indicator-list">
-                        <div>在招职位</div>
-                        <div
-                            style="font-size: 30px;font-weight: bold;"
-                        >{{this.hzibiaoData.groundingPosition}}</div>
-                    </div>
-                    <div class="indicator-list">
-                        <div>累计浏览量</div>
-                        <div
-                            style="font-size: 30px;font-weight: bold;"
-                        >{{this.hzibiaoData.totalViews}}</div>
-                    </div>
-                </div>
-            </div>
+            </el-card>
             <!-- 在招职位浏览量及沟通量 -->
-            <div class="recrutment-echarts">
-                <div class="echarts-select">
-                    <el-select
-                        class="select"
-                        v-model="selectName"
-                        @change="selectNamedata"
-                        clearable
-                    >
-                        <el-option
-                            v-for="item in options"
-                            :key="item.id"
-                            :label="item.name"
-                            :value="item.id"
-                        ></el-option>
-                    </el-select>
-                    <el-date-picker
-                        class="data-picker"
-                        v-model="methed"
-                        type="month"
-                        placeholder="选择月"
-                        value-format="yyyy-MM"
-                        @change="timeData"
-                    ></el-date-picker>
-                </div>
-                <div style="width: 100%;text-align:center;" v-if="this.postTList != []">
+            <el-card style="margin-top:20px;">
+                <div class="recrutment-echarts">
+                    <div class="echarts-select">
+                        <el-select
+                            class="select"
+                            v-model="selectName"
+                            @change="selectNamedata"
+                            clearable
+                        >
+                            <el-option
+                                v-for="item in options"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id"
+                            ></el-option>
+                        </el-select>
+                        <el-date-picker
+                            class="data-picker"
+                            v-model="methed"
+                            type="month"
+                            placeholder="选择月"
+                            value-format="yyyy-MM"
+                            @change="timeData"
+                        ></el-date-picker>
+                    </div>
+                    <!-- <div style="width: 100%;text-align:center;" v-if="this.postTList != []">
                     <img src="../../../../assets/img/marketingqianlima/zhanwuData.png" alt />
+                    </div>-->
+                    <div
+                        id="positionEcharts"
+                        v-show=" this.isShowposition == true"
+                        :style="{width: '1587px', height: '300px',}"
+                    ></div>
+                    <div
+                        v-show=" this.isShowposition == false"
+                        style="width:100%; text-align: center;"
+                    >
+                        <img
+                            width="100%"
+                            src="../../../../assets/img/marketingqianlima/qiushengye(2).png"
+                        />
+                        <h3 class="colorlost">暂无数据</h3>
+                    </div>
                 </div>
-                <div id="positionEcharts" v-else :style="{width: '1587px', height: '300px',}"></div>
-            </div>
+            </el-card>
             <!-- 招聘简历的平台数据 -->
             <div class="resumeData">
                 <div class="echartsPie">
-                    <el-select
-                        class="pie-select"
-                        v-model="echartPie"
-                        @change="resumepingtai"
-                        clearable
-                    >
-                        <el-option
-                            v-for="item in industryData"
-                            :key="item.id"
-                            :label="item.name"
-                            :value="item.id"
-                        ></el-option>
-                    </el-select>
-                    <div
-                        style="width: 100%;text-align:center;"
-                        v-if="this.educationDataDTOList != []"
-                    >
-                        <img src="../../../../assets/img/marketingqianlima/zhanwuData.png" alt />
-                    </div>
-                    <div
-                        id="resumeDataPie"
-                        class="resumeDataPie"
-                        :style="{width:'590px',height:'300px',}"
-                    ></div>
+                    <el-card>
+                        <el-select
+                            class="pie-select"
+                            v-model="echartPie"
+                            @change="resumepingtai"
+                            clearable
+                        >
+                            <el-option
+                                v-for="item in industryData"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id"
+                            ></el-option>
+                        </el-select>
+                        <div
+                            id="resumeDataPie"
+                            class="resumeDataPie"
+                            v-show=" this.isShowresume == true"
+                            :style="{width:'590px',height:'300px',}"
+                        ></div>
+                        <div
+                            v-show=" this.isShowresume == false"
+                            style="width:100%; text-align: center; "
+                        >
+                            <img
+                                width="100%"
+                                height="100%"
+                                src="../../../../assets/img/marketingqianlima/qiushengye(2).png"
+                            />
+                            <h3 class="colorlost">暂无数据</h3>
+                        </div>
+                    </el-card>
                 </div>
                 <div class="echartstable">
-                    <el-table :data="tableData">
-                        <el-table-column type="index" label="排名" align="center"></el-table-column>
-                        <el-table-column prop="experience" label="工作经验" align="center"></el-table-column>
-                        <el-table-column prop="proportion" label="占比%" width="300" align="center">
-                            <template slot-scope="scope">
-                                <el-progress
-                                    :text-inside="true"
-                                    :stroke-width="12"
-                                    :percentage="parseInt(scope.row.proportion)"
-                                ></el-progress>
-                            </template>
-                        </el-table-column>
-                    </el-table>
+                    <el-card>
+                        <el-table :data="tableData">
+                            <el-table-column type="index" label="排名" align="center"></el-table-column>
+                            <el-table-column prop="experience" label="工作经验" align="center"></el-table-column>
+                            <el-table-column
+                                prop="proportion"
+                                label="占比%"
+                                width="300"
+                                align="center"
+                            >
+                                <template slot-scope="scope">
+                                    <el-progress
+                                        :text-inside="true"
+                                        :stroke-width="12"
+                                        :percentage="parseInt(scope.row.proportion)"
+                                    ></el-progress>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </el-card>
                 </div>
             </div>
         </div>
         <!-- 房源数据 -->
         <div class="housing tab-list" v-show="this.activeIndex == 2">
             <!-- 关键指标 -->
-            <div class="recruitment-top">
-                <div class="indicator">
-                    <label style="margin-left: 20px;">关键指标</label>
+            <el-card>
+                <div class="recruitment-top">
+                    <div class="indicator">
+                        <label style="margin-left: 20px;">关键指标</label>
+                    </div>
+                    <div class="indicator-data">
+                        <div class="indicator-list">
+                            <div>上架房源</div>
+                            <div
+                                style="font-size: 30px;font-weight: bold;"
+                            >{{this.houserdataList.groundingHouse}}</div>
+                        </div>
+                        <div class="indicator-list">
+                            <div>被收藏的房源</div>
+                            <div
+                                style="font-size: 30px;font-weight: bold;"
+                            >{{this.houserdataList.collection}}</div>
+                        </div>
+                        <div class="indicator-list">
+                            <div>累计沟通</div>
+                            <div
+                                style="font-size: 30px;font-weight: bold;"
+                            >{{this.houserdataList.totalConnect}}</div>
+                        </div>
+                        <div class="indicator-list">
+                            <div>累计浏览量</div>
+                            <div
+                                style="font-size: 30px;font-weight: bold;"
+                            >{{this.houserdataList.totalViews}}</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="indicator-data">
-                    <div class="indicator-list">
-                        <div>上架房源</div>
-                        <div
-                            style="font-size: 30px;font-weight: bold;"
-                        >{{this.houserdataList.groundingHouse}}</div>
-                    </div>
-                    <div class="indicator-list">
-                        <div>被收藏的房源</div>
-                        <div
-                            style="font-size: 30px;font-weight: bold;"
-                        >{{this.houserdataList.collection}}</div>
-                    </div>
-                    <div class="indicator-list">
-                        <div>累计沟通</div>
-                        <div
-                            style="font-size: 30px;font-weight: bold;"
-                        >{{this.houserdataList.totalConnect}}</div>
-                    </div>
-                    <div class="indicator-list">
-                        <div>累计浏览量</div>
-                        <div
-                            style="font-size: 30px;font-weight: bold;"
-                        >{{this.houserdataList.totalViews}}</div>
-                    </div>
-                </div>
-            </div>
+            </el-card>
             <!-- 在招房源浏览量及沟通量 -->
-            <div class="recrutment-echarts">
-                <div class="echarts-select">
-                    <el-select
-                        class="select"
-                        v-model="selecthousing"
-                        placeholder="全部在租房源"
-                        clearable
-                        @change="fangyuanchange"
+            <el-card style="margin-top:20px;">
+                <div class="recrutment-echarts">
+                    <div class="echarts-select">
+                        <el-select
+                            class="select"
+                            v-model="selecthousing"
+                            placeholder="全部在租房源"
+                            clearable
+                            @change="fangyuanchange"
+                        >
+                            <el-option
+                                v-for="item in this.fangyuanList"
+                                :key="item.id"
+                                :label="item.houseTitle"
+                                :value="item.id"
+                            ></el-option>
+                        </el-select>
+                        <el-date-picker
+                            class="data-picker"
+                            v-model="monthed"
+                            type="month"
+                            placeholder="选择月"
+                            @change="houseDate"
+                        ></el-date-picker>
+                    </div>
+                    <div
+                        style="width: 100%;height: 300px; text-align:center;"
+                        v-if="this.posdsadasList == false"
                     >
-                        <el-option
-                            v-for="item in this.fangyuanList"
-                            :key="item.id"
-                            :label="item.houseTitle"
-                            :value="item.id"
-                        ></el-option>
-                    </el-select>
-                    <el-date-picker
-                        class="data-picker"
-                        v-model="monthed"
-                        type="month"
-                        placeholder="选择月"
-                        @change="houseDate"
-                    ></el-date-picker>
+                        <img
+                            width="100%"
+                            height="80%"
+                            src="../../../../assets/img/marketingqianlima/qiushengye(2).png"
+                            alt
+                        />
+                        <h3 style="color:#c1c1c1;">暂无数据</h3>
+                    </div>
+                    <div
+                        id="housingecharts"
+                        v-if="this.posdsadasList == true"
+                        style="width:100%;height: 300px;"
+                    ></div>
                 </div>
-                <div style="width: 100%;text-align:center;" v-if="this.posdsadasList != []">
-                    <img src="../../../../assets/img/marketingqianlima/zhanwuData.png" alt />
-                </div>
-                <div id="housingecharts" style="width:100%;height: 300px;"></div>
-            </div>
+            </el-card>
         </div>
     </div>
 </template>
@@ -553,6 +628,13 @@ export default {
     name: 'mydatas',
     data() {
         return {
+            timeType: '',
+            datesType: '',
+            dateTime: '',
+            isShowOrder: false,
+            isShowmarket: false,
+            isShowposition: false,
+            isShowresume: false,
             postTList: [],
             navlist: [
                 {
@@ -595,7 +677,7 @@ export default {
             statTimeType: 3,
             statTimeTypes: 3,
             shangcheng: {},
-            posdsadasList: [],
+            posdsadasList: false,
             houserdataList: {},
             options: [],
             zhiweiName: '',
@@ -607,34 +689,38 @@ export default {
             industryData: [],
             valueindustry: '',
             fangyuanList: [],
-            fangyaunid: ''
+            fangyaunid: '',
+            dateTime1: '',
+            orderData: []
         };
     },
     mounted() {
-        // this.navTab(this.navlist[0]);
-        this.statTimeType2();
-        this.timeType2();
-        this.getAdminConsumerDataStat();
-        this.getAdminProductDataStat();
-        this.getAdminDataCenterOrder();
-        this.getAdminDataCenterConsumer();
-        this.getAdminDataCenterPageMiddle();
-        this.getQueryPageHeaderData();
-        this.getAdminDataCenterProduct();
+        this.navTab(this.navlist[0]);
+        // this.statTimeType2();
+        // this.timeType2();
+        // this.getAdminConsumerDataStat();
+        // this.getAdminProductDataStat();
+        // this.getAdminDataCenterOrder();
+        // this.getAdminDataCenterConsumer();
+        // this.getAdminDataCenterPageMiddle();
+        // this.getQueryPageHeaderData();
+        // this.getAdminDataCenterProduct();
     },
     methods: {
         // 导航切换
         navTab(item) {
             if (item.index == 0) {
-                this.statTimeType2();
                 this.timeType2();
+                this.statTimeType2();
+                this.getQueryPageHeaderData();
+                this.getAdminDataCenterProduct();
                 this.getAdminConsumerDataStat();
                 this.getAdminProductDataStat();
                 this.getAdminDataCenterOrder();
-                this.getAdminDataCenterConsumer();
-                this.getAdminDataCenterPageMiddle();
-                this.getQueryPageHeaderData();
-                this.getAdminDataCenterProduct();
+                this.$nextTick(() => {
+                    this.getAdminDataCenterConsumer();
+                    this.getAdminDataCenterPageMiddle();
+                });
             } else if (item.index == 1) {
                 // 招聘数据
                 this.getJobData();
@@ -758,37 +844,80 @@ export default {
         },
         // 订单天数
         statTimeType1() {
+            this.timeType = 'week';
+            let timeDate = new Date();
+            this.value1 =
+                timeDate.getFullYear() +
+                '-' +
+                (timeDate.getMonth() + 1 < 10 ? '0' + (timeDate.getMonth() + 1) : timeDate.getMonth() + 1) +
+                '-' +
+                timeDate.getDate();
             this.statTimeType = 0;
             this.orderEcharts();
         },
         statTimeType2() {
+            this.timeType = 'month';
             let date = new Date();
             let yyyy = date.getFullYear();
             let month = date.getMonth() + 1;
             if (month.toString().length < 2) {
                 month = '0' + month;
             }
-            this.value1 = yyyy + '-' + month + '-' + '01';
+            let timeDate = new Date();
+            this.value1 = yyyy + '-' + month;
+            this.dateTime =
+                timeDate.getFullYear() +
+                '-' +
+                (timeDate.getMonth() + 2 < 10 ? '0' + (timeDate.getMonth() + 2) : timeDate.getMonth() + 2) +
+                '-01';
             this.statTimeType = 1;
             this.orderEcharts();
         },
         statTimeType3() {
-            let date = new Date();
-            this.value1 = date.getFullYear() + '-' + '01-01';
+            this.timeType = 'year';
+            let timeDate = new Date();
+            this.dateTime =
+                timeDate.getFullYear() +
+                1 +
+                '-' +
+                (timeDate.getMonth() + 1 < 10 ? '0' + (timeDate.getMonth() + 1) : timeDate.getMonth() + 1) +
+                '-01';
             this.statTimeType = 2;
             this.orderEcharts();
         },
         changeTime(value) {
-            console.log(value);
-            this.value1 = value;
-            // this.statTimeType = 3;
+            if (value) {
+                let timeDate = new Date(value);
+                if (this.timeType == 'date') {
+                    this.dateTime =
+                        timeDate.getFullYear() +
+                        '-' +
+                        (timeDate.getMonth() + 1 < 10 ? '0' + (timeDate.getMonth() + 1) : timeDate.getMonth() + 1) +
+                        '-31';
+                } else if (this.timeType == 'month') {
+                    this.dateTime =
+                        timeDate.getFullYear() +
+                        '-' +
+                        (timeDate.getMonth() + 2 < 10 ? '0' + (timeDate.getMonth() + 2) : timeDate.getMonth() + 2) +
+                        '-01';
+                } else if (this.timeType == 'year') {
+                    this.dateTime =
+                        timeDate.getFullYear() +
+                        1 +
+                        '-' +
+                        (timeDate.getMonth() + 1 < 10 ? '0' + (timeDate.getMonth() + 1) : timeDate.getMonth() + 1) +
+                        '-01';
+                }
+            } else {
+                this.dateTime = '';
+            }
             this.orderEcharts();
         },
         // 订单统计
         orderEcharts() {
             let data = {
                 statTimeType: parseInt(this.statTimeType) || 1,
-                statDate: this.value1,
+                statDate: this.dateTime,
                 statType: 0
             };
             this.$axios.post('admin/mall/dataCenter/getOrderTimeline', data).then((res) => {
@@ -797,6 +926,11 @@ export default {
                     if (datas.code == 200) {
                         var name = [];
                         var value = [];
+                        if (datas.data == '') {
+                            this.isShowOrder = false;
+                        } else {
+                            this.isShowOrder = true;
+                        }
                         datas.data.forEach(function (val, index) {
                             name[index] = val.name;
                             value[index] = val.value;
@@ -841,32 +975,60 @@ export default {
             this.marketEcharts();
         },
         timeType2() {
+            this.datesType = 'month';
             let date = new Date();
             let yyyy = date.getFullYear();
             let month = date.getMonth() + 1;
             if (month.toString().length < 2) {
                 month = '0' + month;
             }
-            this.value2 = yyyy + '-' + month + '-' + '01';
+            this.value2 = yyyy + '-' + month;
+            this.dateTime1 =
+                date.getFullYear() + '-' + (date.getMonth() + 2 < 10 ? '0' + (date.getMonth() + 2) : date.getMonth() + 2) + '-01';
             this.statTimeTypes = 1;
             this.marketEcharts();
         },
         timeType3() {
+            this.datesType = 'year';
             this.statTimeTypes = 2;
             let date = new Date();
-            this.value2 = date.getFullYear() + '-' + '01-01';
+            this.value2 = date.getFullYear();
+            this.dateTime1 = date.getFullYear() + 1 + '-' + '01-01';
             this.marketEcharts();
         },
         changeTime2(value) {
-            this.value2 = value;
-            // this.statTimeTypes = 3;
+            if (value) {
+                let timeDate = new Date(value);
+                if (this.datesType == 'date') {
+                    this.dateTime1 =
+                        timeDate.getFullYear() +
+                        '-' +
+                        (timeDate.getMonth() + 1 < 10 ? '0' + (timeDate.getMonth() + 1) : timeDate.getMonth() + 1) +
+                        '-31';
+                } else if (this.datesType == 'month') {
+                    this.dateTime1 =
+                        timeDate.getFullYear() +
+                        '-' +
+                        (timeDate.getMonth() + 2 < 10 ? '0' + (timeDate.getMonth() + 2) : timeDate.getMonth() + 2) +
+                        '-01';
+                } else if (this.datesType == 'year') {
+                    this.dateTime1 =
+                        timeDate.getFullYear() +
+                        1 +
+                        '-' +
+                        (timeDate.getMonth() + 1 < 10 ? '0' + (timeDate.getMonth() + 1) : timeDate.getMonth() + 1) +
+                        '-01';
+                }
+            } else {
+                this.dateTime1 = '';
+            }
             this.marketEcharts();
         },
         // 销售统计
         marketEcharts() {
             let datac = {
                 statTimeType: parseInt(this.statTimeTypes),
-                statDate: this.value2,
+                statDate: this.dateTime1,
                 statType: 1
             };
             this.$axios.post('admin/mall/dataCenter/getOrderTimeline', datac).then((res) => {
@@ -875,39 +1037,48 @@ export default {
                     if (data.code == 200) {
                         var names = [];
                         var values = [];
+                        if (data.data == '') {
+                            this.isShowmarket = false;
+                        } else {
+                            this.isShowmarket = true;
+                        }
                         data.data.forEach(function (val, index) {
                             names[index] = val.name;
                             values[index] = val.value / 100;
                         });
                         // 基于准备好的dom，初始化echarts实例
-                        let mark = document.getElementById('marketChart');
-                        let market = this.$echarts.init(mark);
-                        // 绘制图表
-                        market.setOption({
-                            title: {
-                                text: '销售统计'
-                            },
-                            tooltip: {},
-                            xAxis: {
-                                data: names
-                            },
-                            yAxis: {},
-                            grid: {
-                                left: '0%',
-                                right: '0%',
-                                bottom: 0,
-                                containLabel: true
-                            },
-                            series: [
-                                {
-                                    name: '销量',
-                                    type: 'line',
-                                    color: '#f6d393',
-                                    // data: [5, 20, 36, 10, 10, 20,30,40,50,60,90,70],
-                                    data: values
-                                }
-                            ]
-                        });
+                        // let market = document.getElementById('marketChart');
+                        let marketsd = this.$refs.marketChart;
+                        console.log(this.$refs.marketChart);
+                        if (marketsd && marketsd !== undefined) {
+                            let market = this.$echarts.init(marketsd);
+                            // 绘制图表
+                            market.setOption({
+                                title: {
+                                    text: '销售统计'
+                                },
+                                tooltip: {},
+                                xAxis: {
+                                    data: names
+                                },
+                                yAxis: {},
+                                grid: {
+                                    left: '0%',
+                                    right: '0%',
+                                    bottom: 0,
+                                    containLabel: true
+                                },
+                                series: [
+                                    {
+                                        name: '销量',
+                                        type: 'line',
+                                        color: '#f6d393',
+                                        // data: [5, 20, 36, 10, 10, 20,30,40,50,60,90,70],
+                                        data: values
+                                    }
+                                ]
+                            });
+                        }
                     }
                 }
             });
@@ -938,6 +1109,11 @@ export default {
                         let connectCount = [];
                         let views = [];
                         this.postTList = data.data.data;
+                        if (data.data.data == '') {
+                            this.isShowposition == false;
+                        } else {
+                            this.isShowposition == true;
+                        }
                         data.data.data.forEach(function (val, index) {
                             today[index] = val.toDay;
                             connectCount[index] = val.connectCount;
@@ -1078,6 +1254,11 @@ export default {
                     if (data.code == 200) {
                         let dataListss = [];
                         this.educationDataDTOList = data.data.data.educationDataDTOList;
+                        if (data.data.data.educationDataDTOList == '') {
+                            this.isShowresume == false;
+                        } else {
+                            this.isShowresume == true;
+                        }
                         data.data.data.educationDataDTOList.forEach(function (val, index) {
                             dataListss[index] = val;
                             dataListss[index].value = val.count;
@@ -1184,9 +1365,12 @@ export default {
                         let today = [];
                         let connectCount = [];
                         let views = [];
-                        this.posdsadasList = dataList.data.data;
+                        if (dataList.data.data == '') {
+                            this.posdsadasList = false;
+                        } else {
+                            this.posdsadasList = true;
+                        }
                         dataList.data.data.forEach(function (val, index) {
-                            console.log();
                             today[index] = val.toDay;
                             connectCount[index] = val.connectCount;
                             views[index] = val.views;
@@ -1511,7 +1695,7 @@ export default {
 }
 .shoppingmall .orderCount .orderMarket {
     width: 60%;
-    display: flex;
+    /* display: flex; */
     /* margin-top: 80px; */
     flex-direction: column;
 }
@@ -1523,10 +1707,14 @@ export default {
     position: absolute;
     right: 0px;
     top: 17px;
-    z-index: 1;
+
+    /* display: flex;
+    align-items: center;
+    flex-direction: row-reverse; */
 }
 .meter .meterspan {
     margin-left: 10px;
+    margin-right: 10px;
     cursor: pointer;
 }
 .meter .meterspan:nth-child(3) {
@@ -1573,6 +1761,7 @@ export default {
     height: 20px;
     text-align: center;
     line-height: 20px;
+    margin-left: 10px;
     background-color: #9ad1f0;
     color: #fff;
     border-radius: 50%;
@@ -1680,7 +1869,7 @@ export default {
     z-index: 1;
 }
 .resumeData .echartstable {
-    width: 50%;
+    width: 49%;
     height: 300px;
 }
 .housing {
@@ -1714,5 +1903,24 @@ export default {
     min-height: 250px;
     display: flex;
     align-items: center;
+}
+.el-input__icon {
+    height: 30px;
+    line-height: 30px;
+}
+.el-input__inner {
+    height: 30px;
+    line-height: 30px;
+}
+.el-date-editor .el-range-separator {
+    line-height: 24px;
+}
+.el-date-picker.has-sidebar {
+    width: 438px;
+    position: relative;
+    z-index: 999;
+}
+.el-card__body {
+    width: 100%;
 }
 </style>

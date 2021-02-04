@@ -51,7 +51,7 @@
         </el-form>
         <div class="addcouponBtn">
             <el-button @click="quxiaoAdd" class="buttonr">取消</el-button>
-            <el-button @click="addcouponControla" class="buttonr mL">添加</el-button>
+            <el-button @click="addcouponControla" class="buttonr mL">编辑</el-button>
         </div>
 
         <el-dialog title="关联商品" :visible.sync="dialogVisible" width="80%">
@@ -485,6 +485,7 @@ export default {
     border-radius: 8px;
     background-color: #2450d2;
     color: #fff;
+    padding: 0;
 }
 
 .addcouponControl .addcouponBtn .buttonr.mL {

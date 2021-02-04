@@ -21,6 +21,7 @@
                     prefix-icon="md-date_range"
                     v-model="time"
                     type="daterange"
+                    unlink-panels
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
                     value-format="yyyy-MM-dd"
@@ -585,6 +586,7 @@ export default {
     width: 100px;
     height: 30px;
     border-radius: 8px;
+    padding: 0;
 }
 .juaunBtn.bbtn {
     margin-left: 40px;
