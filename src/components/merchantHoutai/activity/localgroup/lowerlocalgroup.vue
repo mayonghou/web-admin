@@ -96,7 +96,6 @@ export default {
     },
     methods: {
         groupChange(val) {
-            console.log(val);
             this.groupId = val;
         },
         delgroupAll() {

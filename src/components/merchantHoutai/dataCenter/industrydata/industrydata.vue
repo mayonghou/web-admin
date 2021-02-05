@@ -15,7 +15,7 @@
                 </div>
                 <div
                     id="myChart"
-                    v-show="isShowIndusty"
+                    class="myChartsdada"
                     ref="myChart"
                     :style="{width: '100%', height: '300px',}"
                 ></div>
@@ -423,5 +423,8 @@ export default {
 .sameMerchant,
 .sameElCard {
     min-height: 530px;
+}
+.myChartsdada div canvas {
+    width: 100%;
 }
 </style>

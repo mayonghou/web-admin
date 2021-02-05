@@ -33,7 +33,7 @@
             <el-table-column prop="countSale" label="已售" align="center" width></el-table-column>
             <el-table-column prop="activityPrice" label="抢购价" align="center" width>
                 <template slot-scope="scope">
-                    <label>{{scope.row.activityPrice}}￥</label>
+                    <label>{{scope.row.activityPrice / 100}}￥</label>
                 </template>
             </el-table-column>
             <el-table-column prop="productName" label="关联的商品" align="center"></el-table-column>

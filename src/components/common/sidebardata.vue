@@ -1,59 +1,31 @@
 <template>
-    <div class="sidebar">
-        <el-menu class="sidebar-el-menu" unique-opened router>
-            <!-- :default-active="onRoutes"
-            :collapse="collapse"
-            background-color="#393D49"
-            text-color="#bfcbd9"
-            active-text-color="#20a0ff"-->
-            <template v-for="item in items">
-                <template v-if="item.subs">
-                    <el-submenu
-                        ref="tablistData"
-                        :index="item.index"
-                        :key="item.index"
-                        id="tablistData"
-                    >
-                        <template slot="title">
-                            <!--列表项目List-->
-                            <div @click="xioayuerfnx(item)">
-                                <img class="imgIcon" width="13" height="13" :src="item.icon" />
-                                <span style="margin-left: 10px;" slot="title">{{ item.title }}</span>
-                            </div>
-                        </template>
-                        <template v-for="subItem in item.subs">
-                            <el-submenu
-                                v-if="subItem.subs"
-                                :index="subItem.index"
-                                :key="subItem.index"
-                            >
-                                <template slot="title">{{ subItem.title }}</template>
-                                <el-menu-item
-                                    v-for="(threeItem,index) in subItem.subs"
-                                    :key="index"
-                                    :index="threeItem.index"
-                                >{{ threeItem.title }}</el-menu-item>
-                            </el-submenu>
-                            <!--列表项options-->
-                            <el-menu-item
-                                @click="SendData(subItem.title)"
-                                v-else
-                                :index="subItem.index"
-                                :key="subItem.index"
-                            >
-                                <span class="subItemdata"></span>
-                                <span>{{ subItem.title }}</span>
-                            </el-menu-item>
-                        </template>
+    <div class="sidebarData" id="sidebarData">
+        <el-menu>
+            <el-submenu v-for="item in items" :key="item.index" :index="item.index">
+                <template slot="title">
+                    <div @click="xioayuerfnx(item)">
+                        <img class="imgIcon" width="13" height="13" :src="item.icon" />
+                        <span style="margin-left: 10px;" slot="title">{{ item.title }}</span>
+                    </div>
+                </template>
+                <template v-for="subItem in item.subs">
+                    <el-submenu v-if="subItem.subs" :index="subItem.index" :key="subItem.index">
+                        <template slot="title">{{ subItem.title }}</template>
+                        <el-menu-item
+                            v-for="(threeItem,index) in subItem.subs"
+                            :key="index"
+                            :index="threeItem.index"
+                        >{{ threeItem.title }}</el-menu-item>
                     </el-submenu>
+                    <!--列表项options-->
+                    <el-menu-item
+                        @click="SendData(subItem.title)"
+                        v-else
+                        :index="subItem.index"
+                        :key="subItem.index"
+                    >{{ subItem.title }}</el-menu-item>
                 </template>
-                <template v-else>
-                    <el-menu-item :index="item.index" :key="item.index">
-                        <i :class="item.icon"></i>
-                        <span slot="title">{{ item.title }}</span>
-                    </el-menu-item>
-                </template>
-            </template>
+            </el-submenu>
         </el-menu>
     </div>
 </template>
@@ -61,14 +33,12 @@
 <script>
 import bus from './bus.js';
 export default {
+    name: 'sidebarData',
+
     data() {
         return {
             collapse: false,
-            items: [],
-            isNew: ['/dataCenterindex', '/marketingindex', '/productindex'], //qyId =0
-            isNew1: ['/indexshouye', '/datacenter', '/marketing', '/product'], //qyId !=0
-            isNew2: ['/dataCenterindex', '/Malldata', '/Recruitmentdata', '/housedata'], // dataCenterindex  qyId =0
-            isNew3: ['/Orderment', '/UnpaidPage', '/haveInHand', '/CompletedPage', '/TheDealFailed'] // Orderment  qyId =0
+            items: []
         };
     },
     computed: {
@@ -87,19 +57,10 @@ export default {
         this.loginData();
     },
     methods: {
+        // li上的点击事件 让图标旋转180度
+        sidebarDa() {},
         xioayuerfnx(item) {
             bus.$emit('SidebarFn1', [item, 'Sid1']);
-
-            console.log(item);
-            // let datalistid = this.items.indexOf(item);
-            // console.log(this.$refs.tablistData);
-            // for (let i = 0; i < this.$refs.tablistData.length; i++) {
-            //     // if (datalistid == i) {
-            //     //     this.$refs.tablistData[i].classList.add('.is-active');
-            //     // } else {
-            //     //     this.$refs.tablistData[i].classList.remove('.is-active');
-            //     // }
-            // }
         },
         SendData(subs) {
             bus.$emit('SidebarFn2', subs);
@@ -607,58 +568,49 @@ export default {
 </script>
 
 <style>
-.sidebar {
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 70px;
-    bottom: 0;
-    overflow-y: scroll;
-    background-color: #fcfbfc;
-}
-
-.sidebar::-webkit-scrollbar {
-    width: 0;
-}
-
-.sidebar-el-menu:not(.el-menu--collapse) {
-    width: 220px;
-}
-
-.sidebar > ul {
+.sidebarData {
+    width: 11.4%;
     height: 100%;
+    background: #fcfbfc;
 }
-.sidebar .imgIcon {
-    width: 13px;
-    height: 13px;
+.sidebarDataLi {
+    padding: 12px 20px;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
 }
-
-.el-menu-item.is-active {
-    color: #377fff;
-}
-
-.el-submenu.is-active .el-submenu__title {
+.sidebarDataLi:hover {
     background-image: linear-gradient(to right, #4760ff, #0dccff);
     color: #fff;
     border-radius: 0 50px 50px 0;
 }
-.el-submenu.is-active .el-submenu__icon-arrow.el-icon-arrow-down {
+.sidebarDataLi .sidebarTitle {
+    padding: 3px 15px;
+    cursor: pointer;
+}
+.el-submenu__title:hover {
+    background-image: linear-gradient(to right, #4760ff, #0dccff);
+    color: #fff;
+    border-radius: 0 50px 50px 0;
+}
+.el-submenu__title:active {
+    background-image: linear-gradient(to right, #4760ff, #0dccff);
+    color: #fff;
+    border-radius: 0 50px 50px 0;
+}
+.el-submenu__icon-arrow.el-icon-arrow-down:hover {
     color: #fff;
 }
-.el-menu-item.is-active .subItemdata {
-    display: inline-block;
-    width: 6px;
-    height: 20px;
-    margin-right: 10px;
-    background-image: linear-gradient(#4760ff, #0dccff);
+.el-menu .el-menu-item:hover {
+    background: #0dccff;
     border-radius: 50px 50px 50px 50px;
+    color: #fff;
 }
-/* .el-menu-item :hover {
-    display: inline-block;
-    width: 6px;
-    height: 20px;
-    margin-right: 10px;
-    background-image: linear-gradient(#4760ff, #0dccff);
+.el-menu .el-menu-item:active {
+    background: #0dccff;
     border-radius: 50px 50px 50px 50px;
-} */
+    color: #fff;
+}
 </style>

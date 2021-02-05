@@ -683,6 +683,7 @@ export default {
     background: #2450d2;
     color: #fff;
     border-radius: 8px;
+    padding: 0;
 }
 .orderTabel .tabel-top .lijifahuo {
     float: right;

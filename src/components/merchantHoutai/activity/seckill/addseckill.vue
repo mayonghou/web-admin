@@ -43,6 +43,7 @@
                     v-model="inputValue"
                     ref="saveTagInput"
                     size="small"
+                    placeholder="请输入标签"
                     @keyup.enter.native="handleInputConfirm"
                     @blur="handleInputConfirm"
                 ></el-input>
@@ -70,6 +71,7 @@
                     prefix-icon="md-date_range"
                     v-model="addseckill.time"
                     type="daterange"
+                    unlink-panels
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
                     value-format="yyyy-MM-dd"
@@ -86,7 +88,7 @@
             </el-form-item>
         </el-form>
         <div class="addcouponBtn">
-            <el-button class="buttonr">取消</el-button>
+            <el-button class="buttonr" @click="quxiaoBtn">取消</el-button>
             <el-button @click="addseckillData" class="buttonr mL">添加</el-button>
         </div>
 
@@ -260,6 +262,10 @@ export default {
             this.page = 1;
             this.getAllListproudect();
         },
+        // 取消
+        quxiaoBtn() {
+            this.$router.push({ path: './seckillgl' });
+        },
         //  选择关联
         GLgoods(row) {
             this.shoppId = row.id;
@@ -378,7 +384,7 @@ export default {
                                         type: 'success'
                                     });
                                     this.$router.push({
-                                        path: './seckill'
+                                        path: './seckillgl'
                                     });
                                     this.$refs.addseckill.resetFields();
                                 } else {

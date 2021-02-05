@@ -795,7 +795,7 @@ export default {
     border-bottom: 1px solid #c1c1c1;
 }
 
-.textarea {
+.addjobVacancy .textarea.el-textarea {
     width: 613px;
 }
 

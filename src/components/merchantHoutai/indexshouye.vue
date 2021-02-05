@@ -41,6 +41,11 @@
                 <el-card class="box-card">
                     <div class="statisticspar" id="statisticspar"></div>
                 </el-card>
+                <el-card class="box-card" v-if="this.isShowData == false">
+                    <div style="width:100%; text-align: center;">
+                        <img src="../../assets/img/marketingqianlima/zhanwuData.png" />
+                    </div>
+                </el-card>
             </div>
             <!-- 平台公告 -->
             <div class="Bulletin">
@@ -50,6 +55,17 @@
                         <span @click="gonggaoList" class="spanfont">更多 >></span>
                     </div>
                     <div
+                        style="width:100%; text-align: center; height:260px;"
+                        v-if="this.pintaigonggao == ''"
+                    >
+                        <img
+                            width="auto"
+                            height="100%"
+                            src="../../assets/img/marketingqianlima/zhanwuData.png"
+                        />
+                    </div>
+                    <div
+                        v-else
                         v-for="(item,index) in this.pintaigonggao"
                         :key="index"
                         class="text item"
@@ -213,7 +229,8 @@ export default {
             dataList1: [],
             dataList2: [],
             dataList3: [],
-            dataList4: []
+            dataList4: [],
+            isShowData: false
         };
     },
     mounted() {
@@ -296,6 +313,11 @@ export default {
                         var genders = [];
                         var nan = [];
                         var nv = [];
+                        if (data.data == '') {
+                            this.isShowData = false;
+                        } else {
+                            this.isShowData = true;
+                        }
                         data.data.forEach(function (val, index) {
                             if (val.gender == '保密') {
                                 genders.push(val.gender);

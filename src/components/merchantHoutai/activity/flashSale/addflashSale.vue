@@ -44,12 +44,19 @@
                     v-model="inputValue"
                     ref="saveTagInput"
                     size="small"
+                    placeholder="请输入标签"
                     @keyup.enter.native="handleInputConfirm"
                     @blur="handleInputConfirm"
                 ></el-input>
-                <el-input v-else class="button-new-tag" type="text" size="small" @click="showInput">
+                <el-button
+                    v-else
+                    class="button-new-tag"
+                    type="text"
+                    size="small"
+                    @click="showInput"
+                >
                     <i class="el-icon-circle-plus-outline"></i>
-                </el-input>
+                </el-button>
             </el-form-item>
             <el-form-item label="抢购价:" prop="activityPrice" :label-width="labelwidth">
                 <el-input
@@ -65,6 +72,7 @@
                     prefix-icon="md-date_range"
                     v-model="addActivitydata.activityTime"
                     type="daterange"
+                    unlink-panels
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
                     value-format="yyyy-MM-dd"
@@ -510,6 +518,7 @@ export default {
     border-radius: 8px;
     background-color: #2450d2;
     color: #fff;
+    padding: 0;
 }
 .addactivityBtn .buttonr.mL {
     margin-left: 100px;

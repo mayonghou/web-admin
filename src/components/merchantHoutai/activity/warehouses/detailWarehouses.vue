@@ -83,7 +83,6 @@ export default {
         },
         getDatadetail() {
             var data = this.$route.query.data;
-            console.log(data);
             if (data != undefined) {
                 this.detailWarehou.activityShopp = data.productDTOList;
                 var dddd = [];

@@ -26,6 +26,7 @@
                     prefix-icon="md-date_range"
                     v-model="addActivitydata.activityTime"
                     type="daterange"
+                    unlink-panels
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
                     value-format="yyyy-MM-dd"
@@ -96,10 +97,10 @@
                 :label-width="labelwidth"
             >
                 <label style="color: #a4a4a4; display: block">(数量在3-6个之间)</label>
-                <div v-for="(item, index) in addActivitydata.activityjuansda" :key="index">
+                <div v-for="(item, index) in this.addActivitydata.activityjuansda" :key="index">
                     <el-form-item
-                        :label="(index + 1) + ' 等奖:'"
-                        v-if="item.name != ''"
+                        :label="index == 0?'一等奖:': index == 1 ?  '二等奖:':index == 2?'三等奖:': index == 3 ?  '四等奖:': index ==  4?  '五等奖:':'六等奖:'"
+                        v-if="item.prizeName != ''"
                         :prop="'activityjuansda.' + index + '.name'"
                         label-width="70px"
                         :rules="{
@@ -109,7 +110,7 @@
                         }"
                     >
                         <el-input class="ddddd" readonly v-model="item.name"></el-input>
-                        <el-button @click="shoppingDGsss" class="shoppXuanzhe">从新关联</el-button>
+                        <el-button @click="shoppingDGsss(item)" class="shoppXuanzhe">从新关联</el-button>
                         <el-form-item
                             label="奖项名称:"
                             :prop="'activityjuansda.' + index + '.prizeName'"
@@ -229,6 +230,65 @@
                 :total="counts"
             ></el-pagination>
         </el-dialog>
+        <!-- 重新关联 -->
+        <el-dialog title="重新关联优惠券" :visible.sync="dialogVisibleCXGL" width="80%">
+            <div class="iconEnlorder" @click="enlarge">
+                <el-tooltip effect="dark" :content="fullscreen ? `取消全屏` : `全屏`" placement="bottom">
+                    <i class="iconfont icon-quanping"></i>
+                </el-tooltip>
+            </div>
+            <div class="goodsSeacher">
+                <el-input class="goodInputs" v-model="goodData">
+                    <i slot="prefix" class="el-input__icon el-icon-search"></i>
+                </el-input>
+                <el-button @click="seacherdata" type="text" class="seacher">搜索</el-button>
+            </div>
+            <el-table :data="tableData" style="width: 100%;" border>
+                <el-table-column type="selection" width align="center"></el-table-column>
+                <el-table-column prop="order" label="序号" width="100" align="center"></el-table-column>
+                <el-table-column prop="name" label="优惠券名称" width align="center"></el-table-column>
+                <el-table-column prop="createByUser" label="发布人" align="center"></el-table-column>
+                <el-table-column prop="shoppName" label="关联商品" align="center">
+                    <template slot-scope="scope">
+                        <label style="color: #2494d2">{{ scope.row.shoppName }}</label>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="tab" label="规则" align="center"></el-table-column>
+                <el-table-column prop="countAvailable" label="库存" align="center"></el-table-column>
+                <el-table-column label="操作" width="250" align="center">
+                    <template slot-scope="scope">
+                        <el-button
+                            @click="GLgoodsCX(scope.row)"
+                            v-if="scope.row.id != shoppId && scope.row.bindabilityStatus == 0"
+                            class="shoppXuanzhe"
+                            size="small"
+                        >选择关联</el-button>
+                        <el-button
+                            type="text"
+                            style="color: #ff8d00"
+                            v-if="scope.row.id == shoppId"
+                            size="small"
+                        >当前关联</el-button>
+                        <el-button
+                            type="text"
+                            style="color: #ff8d00"
+                            v-if="scope.row.bindabilityStatus != 0"
+                            size="small"
+                        >已关联</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-pagination
+                class="pagintion"
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="page"
+                :page-sizes="[10, 20, 30, 40]"
+                :page-size="limit"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="counts"
+            ></el-pagination>
+        </el-dialog>
     </div>
 </template>
 
@@ -239,6 +299,7 @@ export default {
         return {
             labelwidth: '230px',
             dialogVisible: false,
+            dialogVisibleCXGL: false,
             fullscreen: '',
             goodData: '',
             tableData: [],
@@ -258,6 +319,7 @@ export default {
             },
             id: '',
             countNum: 0,
+            choujiangIndex: '',
             rules: {
                 activityTitle: [
                     {
@@ -351,9 +413,13 @@ export default {
             this.getAllListCoupon();
             this.dialogVisible = true;
         },
-        shoppingDGsss() {
+        shoppingDGsss(item) {
+            let index = this.addActivitydata.activityjuansda.indexOf(item);
+            if (index != -1) {
+                this.choujiangIndex = index;
+            }
             this.getAllListCoupon();
-            this.dialogVisible = true;
+            this.dialogVisibleCXGL = true;
         },
         // 全屏
         enlarge() {},
@@ -376,9 +442,8 @@ export default {
         // 删除奖项
         deljuan(item) {
             var indexa = this.addActivitydata.activityjuansda.indexOf(item);
-            console.log(indexa);
             if (indexa != -1) {
-                this.addActivitydata.activityjuansda.splice(item, 1);
+                this.addActivitydata.activityjuansda.splice(indexa, 1);
             }
         },
         // 商品搜索
@@ -405,6 +470,12 @@ export default {
                 prizeType: 1
             });
             this.dialogVisible = false;
+        },
+        GLgoodsCX(row) {
+            this.addActivitydata.activityjuansda[this.choujiangIndex].name = row.name;
+            this.addActivitydata.activityjuansda[this.choujiangIndex].prizeId = row.id;
+            this.addActivitydata.activityjuansda[this.choujiangIndex].prizeLevel = this.countNum;
+            this.dialogVisibleCXGL = false;
         },
         // 查询优惠券
         getAllListCoupon() {
@@ -445,7 +516,6 @@ export default {
             });
         },
         propnuum(value) {
-            console.log(value);
             if (value > 100) {
                 return this.$message({
                     showClose: true,
@@ -542,9 +612,9 @@ export default {
                         dataList[index].name = val.productName;
                         dataList[index].prizeId = val.prizeId;
                     });
+                    console.log(dataList);
+                    this.addActivitydata.activityjuansda = dataList;
                 }
-                this.addActivitydata.activityjuansda = dataList;
-                console.log(dataList);
                 this.addActivitydata.activityTime = data.time.split('----');
                 this.timestamp();
                 this.addActivitydata.activityTitle = data.title;
@@ -631,7 +701,6 @@ export default {
     margin-left: 10px;
     width: 290px;
     height: 30px;
-    border: 0px;
 }
 
 .seacher {
@@ -680,6 +749,7 @@ export default {
     border-radius: 8px;
     background-color: #2450d2;
     color: #fff;
+    padding: 0;
 }
 
 .addactivityBtn .buttonr.mL {

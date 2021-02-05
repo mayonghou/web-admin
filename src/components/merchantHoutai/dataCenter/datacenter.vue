@@ -22,14 +22,14 @@
 </template>
 
 <script>
-import industrydata from './industrydata/industrydata.vue';
-import myData from './myData/shoppingMall.vue';
+// import industrydata from './industrydata/industrydata.vue';
+// import myData from './myData/shoppingMall.vue';
 export default {
     name: 'datecenter',
-    components: {
-        industrydata,
-        myData
-    },
+    // components: {
+    //     industrydata,
+    //     myData
+    // },
     data() {
         return {
             tabList: [
@@ -74,6 +74,7 @@ export default {
     border: 1px solid #0000ff;
     text-align: center;
     line-height: 40px;
+    cursor: pointer;
 }
 .dataCenteress.active {
     background: #0000ff;

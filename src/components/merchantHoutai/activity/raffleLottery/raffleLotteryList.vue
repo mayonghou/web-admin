@@ -325,6 +325,7 @@ export default {
     height: 30px;
     background-color: #2482d2;
     color: #fff;
+    padding: 0;
     border-radius: 8px;
 }
 

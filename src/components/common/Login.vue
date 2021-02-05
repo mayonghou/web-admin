@@ -141,7 +141,6 @@ export default {
     color: #fff;
     font-size: 24px;
     padding: 0;
-    padding: 0;
 }
 .loginData:hover {
     padding: 0;
@@ -155,5 +154,12 @@ export default {
 .el-input {
     width: 290px;
     /* margin: 0 auto; */
+}
+.loginInput .el-input__inner {
+    height: 60px !important;
+    line-height: 60px !important;
+}
+.loginInput .el-input__inner::-webkit-input-placeholder {
+    font-size: 24px;
 }
 </style>

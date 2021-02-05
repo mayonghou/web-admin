@@ -67,11 +67,11 @@
         </el-dialog>
         <!-- 查看详情 -->
         <el-dialog title="查看详情" :visible.sync="dialogVisibleakehuleixingxiangqing" width="50%">
-            <div class="iconEnlkh" @click="enlarge">
+            <!-- <div class="iconEnlkh" @click="enlarge">
                 <el-tooltip effect="dark" :content="fullscreen ? `取消全屏` : `全屏`" placement="bottom">
                     <i class="iconfont icon-quanping"></i>
                 </el-tooltip>
-            </div>
+            </div>-->
             <el-form :model="kehuleixingxiangqing" :rules="rules" ref="kehuleixingxiangqing">
                 <el-form-item label="客户类型名称:" prop="kehuleixingName" :label-width="formLabelWidth">
                     <el-input
@@ -145,9 +145,9 @@
                     ></el-input>
                 </el-form-item>
             </el-form>
-            <span class="dialogfooter">
+            <div class="dialogfooter">
                 <el-button @click="updatekehuleixing" class="addkehuleixing">修改</el-button>
-            </span>
+            </div>
         </el-dialog>
     </div>
 </template>

@@ -221,7 +221,6 @@ export default {
                             title: this.addActivitydata.activityTitle,
                             id: this.addActivitydata.id
                         };
-                        console.log(data);
                         this.$axios.post('admin/company/activity/company/publish', data).then((res) => {
                             loading.close();
                             if (res.status == 200) {
@@ -258,7 +257,6 @@ export default {
         // 获取重新发布的数据
         getlowerData() {
             var data = this.$route.query.data;
-            console.log(data);
             if (data != undefined) {
                 this.addActivitydata.activityTitle = data.title;
                 this.addActivitydata.activityDetail = data.detailHtml;

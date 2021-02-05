@@ -18,7 +18,7 @@
             >
                 <div v-if="item.shoppId != ''">
                     <el-input v-model="item.name" readonly class="eeInput"></el-input>
-                    <el-button @click="shoppingDGda" class="shoppXuanzhe">从新关联</el-button>
+                    <el-button @click="shoppingDGda(item)" class="shoppXuanzhe">从新关联</el-button>
                     <el-form-item
                         label="清仓价:"
                         :prop="'activityShopp.' + index + '.activityPrice'"
@@ -109,6 +109,7 @@
                     prefix-icon="md-date_range"
                     v-model="addActivitydata.activityTime"
                     type="daterange"
+                    unlink-panels
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
                     value-format="yyyy-MM-dd"
@@ -182,6 +183,68 @@
                 :total="counts"
             ></el-pagination>
         </el-dialog>
+
+        <el-dialog title="重新关联商品" :visible.sync="dialogVisibleCxguanlian" width="80%">
+            <div class="iconEnlorder" @click="enlarge">
+                <el-tooltip effect="dark" :content="fullscreen ? `取消全屏` : `全屏`" placement="bottom">
+                    <i class="iconfont icon-quanping"></i>
+                </el-tooltip>
+            </div>
+            <div class="goodsSeacher">
+                <el-input v-model="goodData">
+                    <i slot="prefix" class="el-input__icon el-icon-search"></i>
+                </el-input>
+                <el-button @click="seacherdata" type="text" class="seacher">搜索</el-button>
+            </div>
+            <el-table :data="tableData" style="width: 100%;" border>
+                <el-table-column prop="order" label="序号" width="100" align="center"></el-table-column>
+                <el-table-column prop="name" label="商品名称" width align="center"></el-table-column>
+                <el-table-column prop="price" label="商品售价" align="center">
+                    <template slot-scope="scope">
+                        <label>{{scope.row.price / 100}}￥</label>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="picture" label="商品封面" align="center">
+                    <template slot-scope="scope">
+                        <img width="80" height="80" :src="scope.row.picture" />
+                    </template>
+                </el-table-column>
+                <el-table-column prop="no" label="商品货号" align="center"></el-table-column>
+                <el-table-column prop="time" label="发布时间" align="center"></el-table-column>
+                <el-table-column label="操作" width="250" align="center">
+                    <template slot-scope="scope">
+                        <el-button
+                            @click="CXGLgoods(scope.row)"
+                            v-if="scope.row.canBind == true && scope.row.id != shoppId "
+                            class="shoppXuanzhe"
+                            size="small"
+                        >选择关联</el-button>
+                        <el-button
+                            type="text"
+                            style="color: #FF8D00;"
+                            v-if="scope.row.id == shoppId"
+                            size="small"
+                        >当前关联</el-button>
+                        <el-button
+                            type="text"
+                            style="color: #FF8D00;"
+                            v-if="scope.row.canBind == false"
+                            size="small"
+                        >已关联</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-pagination
+                class="pagintion"
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="page"
+                :page-sizes="[10, 20, 30, 40]"
+                :page-size="limit"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="counts"
+            ></el-pagination>
+        </el-dialog>
     </div>
 </template>
 
@@ -192,6 +255,7 @@ export default {
         return {
             labelwidth: '230px',
             dialogVisible: false,
+            dialogVisibleCxguanlian: false,
             fullscreen: '',
             labels: '选择活动商品:',
             goodData: '',
@@ -205,6 +269,7 @@ export default {
             clearancePrice: '',
             clearanceNumber: '',
             activityId: '',
+            shoppIndex: '',
             addActivitydata: {
                 name: '',
                 activityShopp: [],
@@ -243,9 +308,11 @@ export default {
         this.timestamp();
     },
     methods: {
-        shoppingDGda() {
+        shoppingDGda(item) {
+            let index = this.addActivitydata.activityShopp.indexOf(item);
+            this.shoppIndex = index; // 拿到重新关联时的数据在数组上的位置
             this.getActivityAllList();
-            this.dialogVisible = true;
+            this.dialogVisibleCxguanlian = true;
         },
         // 关联商品弹框
         shoppingDG() {
@@ -294,6 +361,13 @@ export default {
                 productPrice: row.price
             });
             this.dialogVisible = false;
+        },
+        CXGLgoods(row) {
+            this.shoppId = row.id;
+            this.addActivitydata.activityShopp[this.shoppIndex].name = row.name;
+            this.addActivitydata.activityShopp[this.shoppIndex].productId = row.id;
+            this.addActivitydata.activityShopp[this.shoppIndex].productPrice = row.price;
+            this.dialogVisibleCxguanlian = false;
         },
         // 查询商品
         getActivityAllList() {
@@ -394,7 +468,6 @@ export default {
                             companyId: parseInt(localStorage.getItem('loginData')),
                             industryId: parseInt(localStorage.getItem('industryId'))
                         };
-                        console.log(data);
                         const loading = this.$loading({
                             lock: true,
                             text: '发布中...',
@@ -429,7 +502,6 @@ export default {
                                     });
                                 }
                             } else {
-                                console.log('ashufh');
                                 this.$message({
                                     showClose: true,
                                     message: data.msg,
@@ -463,37 +535,18 @@ export default {
                     date1.getDate();
                 var time = time1 + ',' + time2;
                 this.addActivitydata.activityTime = time.split(',');
+
                 this.activityId = data.id;
-                // var dataList = [];
-                // data.productDTOList.forEach(function(val, index){
-                // 	dataList[index] = val;
-                // 	dataList[index].name = val.productName;
-                // 	dataList[index].productId = val.productId;
-                // 	dataList[index].activityPrice = val.activityPrice / 100;
-                // 	dataList[index].numLimitation = val.numLimitation;
-                // });
-                // this.dataAllList = dataList;
-                // this.addActivitydata.activityShopp = dataList;
-                var name = '';
-                var productId = '';
-                var activityPrice = '';
-                var numLimitation = '';
-                var productNum = '';
-                for (let i in data.productDTOList) {
-                    name = data.productDTOList[i].productName;
-                    productId = data.productDTOList[i].productId;
-                    activityPrice = data.productDTOList[i].activityPrice;
-                    numLimitation = data.productDTOList[i].numLimitation;
-                    productNum = data.productDTOList[i].productNum;
-                }
-                this.addActivitydata.activityShopp.push({
-                    name: name,
-                    productId: productId,
-                    activityPrice: activityPrice / 100,
-                    numLimitation: numLimitation,
-                    productNum: productNum
+                var dataList = [];
+                data.productDTOList.forEach(function (val, index) {
+                    dataList[index] = val;
+                    dataList[index].name = val.productName;
+                    dataList[index].productId = val.productId;
+                    dataList[index].activityPrice = val.activityPrice / 100;
+                    dataList[index].numLimitation = val.numLimitation;
                 });
-                console.log(this.addActivitydata.activityShopp);
+                this.dataAllList = dataList;
+                this.addActivitydata.activityShopp = dataList;
             }
         }
     }

@@ -126,7 +126,7 @@ export default {
             ],
             page: 1,
             limit: 10,
-            counts: this.counts || 1,
+            counts: 0,
             date1: '',
             startTime: '',
             endTime: '',
@@ -443,6 +443,7 @@ export default {
     height: 30px;
     font-size: 14px;
     color: #fff;
+    padding: 0;
     border-radius: 8px;
 }
 .el-input__inner {

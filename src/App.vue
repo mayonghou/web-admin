@@ -58,7 +58,7 @@ input::-webkit-input-placeholder {
     position: relative;
     z-index: 999;
 }
-.el-date-editor {
+/* .el-date-editor {
     border: 1px solid #dcdee2 !important;
     border-radius: 4px !important;
 }
@@ -71,8 +71,9 @@ input::-webkit-input-placeholder {
 .el-input__inner {
     height: 35px !important;
 }
+
 .el-input__icon {
     line-height: 35px !important;
-}
+} */
 </style>
 
