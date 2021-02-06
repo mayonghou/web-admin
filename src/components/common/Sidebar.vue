@@ -1,8 +1,14 @@
 <template>
     <div class="sidebar">
-        <el-menu class="sidebar-el-menu" unique-opened router>
-            <!-- :default-active="onRoutes"
+        <el-menu
+            class="sidebar-el-menu"
+            unique-opened
+            router
             :collapse="collapse"
+            @open="handleOpen"
+            @close="handleClose"
+        >
+            <!-- :default-active="onRoutes"
             background-color="#393D49"
             text-color="#bfcbd9"
             active-text-color="#20a0ff"-->
@@ -12,11 +18,12 @@
                         ref="tablistData"
                         :index="item.index"
                         :key="item.index"
-                        id="tablistData"
+                        @click="sadkjsak(item)"
                     >
                         <template slot="title">
                             <!--列表项目List-->
-                            <div @click="xioayuerfnx(item)">
+
+                            <div @click="xioayuerfnx(item)" class="dsadsa">
                                 <img class="imgIcon" width="13" height="13" :src="item.icon" />
                                 <span style="margin-left: 10px;" slot="title">{{ item.title }}</span>
                             </div>
@@ -65,10 +72,9 @@ export default {
         return {
             collapse: false,
             items: [],
-            isNew: ['/dataCenterindex', '/marketingindex', '/productindex'], //qyId =0
-            isNew1: ['/indexshouye', '/datacenter', '/marketing', '/product'], //qyId !=0
-            isNew2: ['/dataCenterindex', '/Malldata', '/Recruitmentdata', '/housedata'], // dataCenterindex  qyId =0
-            isNew3: ['/Orderment', '/UnpaidPage', '/haveInHand', '/CompletedPage', '/TheDealFailed'] // Orderment  qyId =0
+            opanKey: '',
+            opanKeyPath: [],
+            fullpathUrl: ''
         };
     },
     computed: {
@@ -82,24 +88,39 @@ export default {
             this.collapse = msg;
             bus.$emit('collapse-content', msg);
         });
+        bus.$on('closeHandle', (msg) => {
+            // let index = this.$route.fullPath.lastIndexOf('/');
+            // this.fullpathUrl = this.$route.fullPath.substring(index + 1, this.$route.fullPath.length);
+            console.log(msg);
+            console.log(this.$refs.tablistData);
+            // if (msg == '') {
+            //     this.handleOpen(this.opanKey, this.opanKeyPath);
+            // } else {
+            //     this.handleClose(this.opanKey, this.opanKeyPath);
+            // }
+        });
     },
     mounted() {
         this.loginData();
     },
     methods: {
-        xioayuerfnx(item) {
-            bus.$emit('SidebarFn1', [item, 'Sid1']);
-
-            console.log(item);
-            // let datalistid = this.items.indexOf(item);
-            // console.log(this.$refs.tablistData);
-            // for (let i = 0; i < this.$refs.tablistData.length; i++) {
-            //     // if (datalistid == i) {
-            //     //     this.$refs.tablistData[i].classList.add('.is-active');
-            //     // } else {
-            //     //     this.$refs.tablistData[i].classList.remove('.is-active');
+        handleOpen(key, keyPath) {
+            console.log(key, keyPath);
+            this.opanKey = key;
+            this.opanKeyPath = keyPath;
+        },
+        handleClose(key, keyPath) {
+            console.log(key, keyPath);
+            // let arraysub = document.getElementsByClassName('el-submenu');
+            // for (let i in arraysub) {
+            //     // if (this.fullpathUrl != key) {
+            //     arraysub[i].classList.remove('is-opened');
+            //     arraysub[i].classList.remove('el-submenu el-menu-item is-active');
             //     // }
             // }
+        },
+        xioayuerfnx(item) {
+            bus.$emit('SidebarFn1', [item, 'Sid1']);
         },
         SendData(subs) {
             bus.$emit('SidebarFn2', subs);
@@ -637,12 +658,12 @@ export default {
     color: #377fff;
 }
 
-.el-submenu.is-active .el-submenu__title {
+.el-submenu.is-opened .el-submenu__title {
     background-image: linear-gradient(to right, #4760ff, #0dccff);
     color: #fff;
     border-radius: 0 50px 50px 0;
 }
-.el-submenu.is-active .el-submenu__icon-arrow.el-icon-arrow-down {
+.el-submenu.is-opened .el-submenu__icon-arrow.el-icon-arrow-down {
     color: #fff;
 }
 .el-menu-item.is-active .subItemdata {
@@ -653,12 +674,4 @@ export default {
     background-image: linear-gradient(#4760ff, #0dccff);
     border-radius: 50px 50px 50px 50px;
 }
-/* .el-menu-item :hover {
-    display: inline-block;
-    width: 6px;
-    height: 20px;
-    margin-right: 10px;
-    background-image: linear-gradient(#4760ff, #0dccff);
-    border-radius: 50px 50px 50px 50px;
-} */
 </style>

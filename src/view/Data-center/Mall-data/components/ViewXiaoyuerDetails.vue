@@ -30,11 +30,16 @@
                 >
                     <Option
                         v-for="item in cityList1"
-                        :value="item.value"
+                        :value="item.label"
                         :key="item.value"
                     >{{ item.label }}</Option>
                 </Select>
-                <Select v-model="model2" style="width:200px; margin-right:10px" placeholder="全部来源">
+                <Select
+                    v-model="model2"
+                    style="width:200px; margin-right:10px"
+                    placeholder="全部来源"
+                    @on-change="changeData2"
+                >
                     <Option
                         v-for="item in cityList2"
                         :value="item.value"
@@ -43,23 +48,26 @@
                 </Select>
                 <span span="12">
                     <DatePicker
+                        format="yyyy-MM-dd"
                         type="date"
                         placeholder="选择时间..."
+                        @on-change="DateData"
+                        v-model="model3"
                         style="width: 200px; margin-right:10px"
                     ></DatePicker>
                 </span>
-                <Button type="primary">查询</Button>
+                <Button type="primary" @click="requestDataBtn">查询</Button>
             </div>
             <div>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th v-for="(item,index) in tableData" :key="index">{{ item.Title }}</th>
+                            <th v-for="(item, index) in tableData" :key="index">{{ item.Title }}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item,index) in dataSlot" :key="index">
-                            <td v-for=" (i ,ikey) in  item" :key="ikey">{{ i }}</td>
+                        <tr v-for="(item, index) in dataSlot" :key="index">
+                            <td v-for="(i, ikey) in item" :key="ikey">{{ i }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -78,7 +86,6 @@
         </div>
     </div>
 </template>
-
 <script>
 export default {
     data() {
@@ -90,11 +97,15 @@ export default {
             cityList1: [
                 {
                     value: 1,
-                    label: 'asdasdasd'
+                    label: ''
                 }
             ],
             model1: '',
             cityList2: [
+                {
+                    value: '全部来源',
+                    label: '全部来源'
+                },
                 {
                     value: '游客',
                     label: '游客'
@@ -112,114 +123,56 @@ export default {
             tableData: [
                 {
                     Title: '用户名',
-                    key: 'slot1'
+                    key: 'userName'
                 },
                 {
                     Title: '行业',
-                    key: 'slot2'
+                    key: 'industryName'
                 },
                 {
                     Title: '企业名称',
-                    key: 'slot3'
+                    key: 'companyName'
                 },
                 {
                     Title: '手机号码',
-                    key: 'slot4'
+                    key: 'phone'
                 },
                 {
                     Title: '累积浏览次数',
-                    key: 'slot5'
+                    key: 'viewCount'
                 },
                 {
                     Title: '最后浏览时间',
-                    key: 'slot6'
+                    key: 'viewTime'
                 }
             ],
-            dataSlot: [
-                {
-                    slot1: '小鱼儿',
-                    slot2: '服装',
-                    slot3: '万疆烽火',
-                    slot4: '13136925864',
-                    slot5: '3000（次）',
-                    slot6: '2021-12-25'
-                },
-                {
-                    slot1: '小鱼儿',
-                    slot2: '服装',
-                    slot3: '万疆烽火',
-                    slot4: '13136925864',
-                    slot5: '3000（次）',
-                    slot6: '2021-12-25'
-                },
-                {
-                    slot1: '小鱼儿',
-                    slot2: '服装',
-                    slot3: '万疆烽火',
-                    slot4: '13136925864',
-                    slot5: '3000（次）',
-                    slot6: '2021-12-25'
-                },
-                {
-                    slot1: '小鱼儿',
-                    slot2: '服装',
-                    slot3: '万疆烽火',
-                    slot4: '13136925864',
-                    slot5: '3000（次）',
-                    slot6: '2021-12-25'
-                },
-                {
-                    slot1: '小鱼儿',
-                    slot2: '服装',
-                    slot3: '万疆烽火',
-                    slot4: '13136925864',
-                    slot5: '3000（次）',
-                    slot6: '2021-12-25'
-                },
-                {
-                    slot1: '小鱼儿',
-                    slot2: '服装',
-                    slot3: '万疆烽火',
-                    slot4: '13136925864',
-                    slot5: '3000（次）',
-                    slot6: '2021-12-25'
-                },
-                {
-                    slot1: '小鱼儿',
-                    slot2: '服装',
-                    slot3: '万疆烽火',
-                    slot4: '13136925864',
-                    slot5: '3000（次）',
-                    slot6: '2021-12-25'
-                },
-                {
-                    slot1: '小鱼儿',
-                    slot2: '服装',
-                    slot3: '万疆烽火',
-                    slot4: '13136925864',
-                    slot5: '3000（次）',
-                    slot6: '2021-12-25'
-                },
-                {
-                    slot1: '小鱼儿',
-                    slot2: '服装',
-                    slot3: '万疆烽火',
-                    slot4: '13136925864',
-                    slot5: '3000（次）',
-                    slot6: '2021-12-25'
-                }
-            ]
+            // 表格数据
+            dataSlot: [],
+            model3: ''
         };
     },
     mounted() {
         this.inderStryData();
+        this.HttpRequest();
     },
     methods: {
-        handleSizeChange() {},
-        handleCurrentChange() {},
+        handleSizeChange(val) {
+            this.limit = val;
+            this.HttpRequest();
+        },
+        handleCurrentChange(val) {
+            this.page = val;
+            this.HttpRequest();
+        },
         // 选择行业回调
         changeData() {
             console.log(this.model1);
+        },
+        // 选择全部类型回调
+        changeData2() {},
+        // 时间选择回调
+        DateData(value) {
+            this.model3 = value;
         },
         // 行业列表
         inderStryData() {
@@ -244,40 +197,64 @@ export default {
                 })
                 .catch((err) => {});
         },
+        // 查询Btn
+        requestDataBtn() {
+            this.page = 1;
+            this.HttpRequest();
+        },
         // 数据源
         HttpRequest() {
             const url = 'admin/mall/dataCenter/queryMallViewInfo';
             let data = {
-                companyName: 'string',
-                customerService: 'string',
-                date: 'string',
+                companyName: this.value,
+                customerService: '',
+                date: this.model3,
                 dateType: 0,
-                industryName: 'string',
+                industryName: this.model1,
                 limit: this.limit,
                 page: this.page,
-                sourceType: 'string'
+                sourceType: this.model2
             };
             this.$axios
-                .get(url, data)
+                .post(url, data)
                 .then((res) => {
-                    console.log(res);
+                    if (res.status == 200) {
+                        const data = res.data;
+                        if (data.code == 200) {
+                            const dataer = res.data.data;
+                            this.counts = data.totalCount;
+                            this.dataSlot = [];
+                            dataer.forEach((item) => {
+                                var list = {
+                                    userName: item.userName,
+                                    industryName: item.industryName,
+                                    companyName: item.companyName,
+                                    phone: item.phone,
+                                    viewCount: item.viewCount,
+                                    viewTime: item.viewTime
+                                };
+                                this.dataSlot.push(list);
+                            });
+                        }
+                    }
                 })
                 .catch((err) => {});
         }
     }
 };
 </script>
-
 <style scope>
 .DetailsData {
     padding: 0 20px;
 }
+
 .nav {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 40px;
 }
+
 .nav_1_1 {
     width: 100px;
     height: 100px;
@@ -288,11 +265,13 @@ export default {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
+
 .opcity {
     color: #fff;
     font-size: 56px;
     opacity: 0.8;
 }
+
 .nav_1_2 {
     width: 200px;
     height: 100px;
@@ -303,24 +282,30 @@ export default {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+
 .counts {
     padding: 20px 0;
 }
+
 .table {
     width: 100%;
     text-align: center;
     border-collapse: collapse;
 }
+
 .table thead tr {
     height: 46px;
     background-color: #393d490f;
 }
+
 .table tbody tr {
     border-bottom: 1px solid #dcdee2;
 }
+
 .table tbody tr td {
     padding: 10px 10px;
 }
+
 .table tbody tr:hover {
     background-color: aliceblue;
 }

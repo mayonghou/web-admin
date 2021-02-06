@@ -401,7 +401,7 @@ export default {
 }
 .functionLI {
     list-style: none;
-    width: 350px;
+    width: 280px;
     text-align: center;
 }
 .functionLI .functionName {

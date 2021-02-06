@@ -22,12 +22,7 @@
                         <p class="sonClss">{{this.repeatRate}}%</p>
                     </div>
                     <div class="sdeondClass">
-                        <i-circle :percent="parseInt(this.repeatRate)" :size="100">
-                            <!-- <span
-                                class="demo-Circle-inner"
-                                style="font-size:24px"
-                            >{{ parseInt(this.repeatRate)}}</span>-->
-                        </i-circle>
+                        <i-circle :percent="parseInt(this.repeatRate)" :size="100"></i-circle>
                     </div>
                 </span>
             </div>

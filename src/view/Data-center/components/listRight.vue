@@ -8,7 +8,16 @@
             <div class="tableDiv">
                 <Table :columns="columns1" :data="data1"></Table>
                 <div class="Pagefy">
-                    <Page :total="total" />
+                    <!-- <Page :total="total" /> -->
+                    <el-pagination
+                        @prev-click="prev_click"
+                        @next-click="next_click"
+                        @current-change="current_change"
+                        :current-page="page"
+                        :page-size="10"
+                        :total="total"
+                        layout="prev, pager, next"
+                    ></el-pagination>
                 </div>
             </div>
         </div>
@@ -21,6 +30,8 @@ export default {
     data() {
         return {
             total: 0,
+            page: 1,
+            limit: 10,
             IndustyId: '',
             columns1: [
                 {
@@ -50,30 +61,6 @@ export default {
                     cooler2: '中国',
                     cooler3: '898',
                     cooler4: '2016-10-03'
-                },
-                {
-                    cooler1: '万境烽火',
-                    cooler2: '中国',
-                    cooler3: '898',
-                    cooler4: '2016-10-03'
-                },
-                {
-                    cooler1: '万境烽火',
-                    cooler2: '中国',
-                    cooler3: '898',
-                    cooler4: '2016-10-03'
-                },
-                {
-                    cooler1: '万境烽火',
-                    cooler2: '中国',
-                    cooler3: '898',
-                    cooler4: '2016-10-03'
-                },
-                {
-                    cooler1: '万境烽火',
-                    cooler2: '中国',
-                    cooler3: '898',
-                    cooler4: '2016-10-03'
                 }
             ]
         };
@@ -86,16 +73,29 @@ export default {
     },
     mounted() {},
     methods: {
+        prev_click(e) {
+            this.page = e;
+            this.getAdminDataCenterNewBusiness();
+        },
+        next_click(e) {
+            this.page = e;
+            this.getAdminDataCenterNewBusiness();
+        },
+        current_change(e) {
+            this.page = e;
+            this.getAdminDataCenterNewBusiness();
+        },
         getAdminDataCenterNewBusiness() {
             let data = {
-                page: 1,
-                limit: 10,
+                page: this.page,
+                limit: this.limit,
                 industryId: this.IndustyId
             };
             this.$axios.post('admin/mall/dataCenter/getAdminDataCenterNewBusiness', data).then((res) => {
                 if (res.status == 200) {
                     let data = res.data;
                     if (data.code == 200) {
+                        console.log(data);
                         let DataLis = res.data.data;
                         let dataLsit = [];
                         this.total = data.total;
@@ -106,6 +106,7 @@ export default {
                             dataLsit[index].cooler3 = val.viewCount;
                             dataLsit[index].cooler4 = val.time;
                         });
+                        this.data1 = dataLsit;
                     }
                 }
             });

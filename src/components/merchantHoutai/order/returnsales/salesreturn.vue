@@ -280,6 +280,7 @@ export default {
     background: #2450d2;
     color: #fff;
     margin-left: 10px;
+    padding: 0;
 }
 .el-table .tab_button {
     background: #2450d2;

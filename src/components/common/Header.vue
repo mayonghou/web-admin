@@ -201,6 +201,7 @@ export default {
         },
         // nav=>Click
         routerbtn(item) {
+            bus.$emit('closeHandle', item);
             if (item.index == 0 && this.qiyeID != 0) {
                 this.$router
                     .push({
