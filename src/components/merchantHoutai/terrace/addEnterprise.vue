@@ -39,7 +39,7 @@
                 </el-form-item>
 
                 <el-form-item label="所属行业:" prop="industry" :label-width="formLabelWidth">
-                    <el-select class="formWidth" v-model="addform.industry" placeholder="请选择">
+                    <el-select class="formWidth" v-model="addform.industry" placeholder="请选择" @change="indusChange">
                         <el-option
                             v-for="item in optionsas"
                             :key="item.id"
@@ -65,8 +65,8 @@
                         class="formWidth"
                         v-model="addform.register"
                         :options="options"
-                        @change="handleChange"
                     ></el-cascader>
+                        <!-- @change="handleChange" -->
                     <label style="margin-left: 20px">详细地址：</label>
                     <el-input
                         class="formWidth address"
@@ -80,8 +80,8 @@
                         class="formWidth"
                         v-model="addform.manageAddress"
                         :options="options"
-                        @change="handleChange"
                     ></el-cascader>
+                        <!-- @change="handleChange" -->
                     <label style="margin-left: 20px">详细地址：</label>
                     <el-input
                         class="formWidth address"
@@ -96,6 +96,7 @@
                 </el-form-item>
 
                 <el-form-item label="成立日期:" prop="setupTime" :label-width="formLabelWidth">
+                    <!-- <el-date-picker v-model="addform.setupTime" type="date" placeholder="选择日期"></el-date-picker> -->
                     <el-date-picker v-model="addform.setupTime" type="date" placeholder="选择日期"></el-date-picker>
                 </el-form-item>
 
@@ -249,6 +250,7 @@ export default {
                 qiyeJiancheng: '', // 企业简称
                 license: '', // 营业执照
                 industry: '', // 所属行业
+				industryName: '',
                 typeqiyeleixin: '', // 企业类型
                 creditCode: '', // 社会统一信用代码
                 register: [], // 注册地址
@@ -270,7 +272,8 @@ export default {
                 shoukuanzh: '', // 收款账号
                 province: '', // 省
                 city: '', // 市
-                region: '' // 区
+                region: '' ,// 区
+				
             },
             // 注册地址
             options: address,
@@ -369,8 +372,13 @@ export default {
         licenseSuccessc(response, file, fileList) {
             this.addform.papersImages = response.data;
         },
-
-        handleChange() {},
+		indusChange(value){
+			let obj = {};
+			obj = this.optionsas.find((item) => {
+				return item.id === value;
+			});
+			this.addform.industryName = obj.name;
+		},
         // 添加时回调
         addButton() {
             var addformObj = new Object();
@@ -378,12 +386,12 @@ export default {
                 (addformObj.remark = this.addform.qiyeJiancheng), // 企业简称
                 (addformObj.code = this.addform.creditCode), // 社会统一信用代码
                 (addformObj.licenseUrl = this.addform.license), // 营业执照
-                (addformObj.industry = this.addform.industry), // 所属行业
+                (addformObj.industry = this.addform.industryName), // 所属行业
                 (addformObj.industryId = this.addform.industry), // 行业ID
                 (addformObj.businessType = this.addform.typeqiyeleixin), // 企业类型
                 (addformObj.id = localStorage.getItem('loginData')), // 企业ID
-                (addformObj.registerAddress = this.addform.register), // 注册地址
-                (addformObj.address = this.addform.manageAddress), // 经营地址
+                (addformObj.registerAddress = this.addform.register.join('') + this.addform.registeraddress), // 注册地址
+                (addformObj.address = this.addform.manageaddressed), // 经营地址 企业详细地址
                 (addformObj.registerMoney = this.addform.capital), // 注册资本
                 (addformObj.registerTime = this.addform.setupTime), // 成立日期
                 (addformObj.backgroundImage = this.addform.backdrop), // 企业背景图
@@ -397,9 +405,9 @@ export default {
                 (addformObj.depositBank = this.addform.kaihuyinhan), // 开户银行
                 (addformObj.branch = this.addform.kaihuwang), // 开户网点
                 (addformObj.bankNumber = this.addform.shoukuanzh), // 收款账号
-                (addformObj.province = this.addform.register[0]), // 省
-                (addformObj.city = this.addform.register[1]), // 市
-                (addformObj.region = this.addform.register[2]), // 区
+                (addformObj.province = this.addform.manageAddress[0]), // 省
+                (addformObj.city = this.addform.manageAddress[1]), // 市
+                (addformObj.region = this.addform.manageAddress[2]), // 区
                 this.$axios
                     .post('admin/company/add', addformObj)
                     .then((res) => {
@@ -410,6 +418,10 @@ export default {
                                     showClose: true,
                                     message: data.msg,
                                     type: 'success'
+                                });
+                                this.$router.push({
+                                    path: './index',
+                                    query: {}
                                 });
                             } else {
                                 this.$message({
@@ -429,10 +441,6 @@ export default {
                     .catch((error) => {
                         console.log(error);
                     });
-            this.$router.push({
-                path: './index',
-                query: {}
-            });
         },
         // 取消
         ReturnToEnterpriseList() {

@@ -841,6 +841,7 @@ export default {
                 this.pageid.shift();
                 var bbb = this.pageid.pop();
                 this.columns12 = this.pageid;
+				console.log(this.Datar2);
                 if (this.Datar2 == undefined) {
                     this.$Message.info('喔，NO，Bady，数据丢失了！');
                 } else if (this.Datar2[0].name == '暂无数据！') {
@@ -1083,6 +1084,7 @@ export default {
             } else if (this.pageid[0].pageid == 20) {
                 //平台管理----人员管理
                 this.pageid.shift();
+				console.log(this.Datar20);
                 var bbb = this.pageid.pop();
                 this.columns12 = this.pageid;
                 this.isShowIfShow = !this.isShowIfShow; //table-Btn

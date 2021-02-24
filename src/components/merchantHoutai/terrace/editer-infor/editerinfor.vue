@@ -1,10 +1,13 @@
 <template>
     <div class="xiaoyuerRoot">
         <div class="TopClass">
-            <h4>企业信息：</h4>
+           <!-- <h4>企业信息：</h4>
             <h4>{{this.companyDataName}}</h4>
             <h4 class="fontColor">已入住</h4>
-            <h4 class="fontColor">入驻时间：{{this.ruzhuTime}}</h4>
+            <h4 class="fontColor">入驻时间：{{this.ruzhuTime}}</h4> -->
+			<div>企业信息：{{this.companyDataName}}</div>
+			<div class="fontColor">已入住</div>
+			<div class="fontColor">入驻时间：{{this.ruzhuTime}}</div>
         </div>
         <Form :model="formRight" label-position="right" :label-width="200">
             <FormItem label="企业名称：" class="fatherClass">
@@ -39,7 +42,7 @@
                 </Upload>
             </FormItem>
             <FormItem label="所属行业：" class="fatherClass">
-                <Select v-model="ciaoyuermodel1" style="width:200px">
+                <Select v-model="ciaoyuermodel1" style="width:200px" @on-change="fdsjkfdsfds">
                     <Option
                         v-for="item in xiaoyuerInstry1"
                         :value="item.id"
@@ -58,6 +61,7 @@
             </FormItem>
             <FormItem label="注册地址：" class="fatherClass">
                 <el-cascader class="formWidth" v-model="formRight.registerzc" :options="options"></el-cascader>
+                <span>详细地址：</span>
                 <input class="InputClass" v-model="formRight.input4" placeholder="请输入注册地址..." />
             </FormItem>
             <FormItem label="经营地址：" class="fatherClass">
@@ -67,6 +71,7 @@
                     :options="options"
                     @change="handleChange"
                 ></el-cascader>
+                <span>详细地址：</span>
                 <input class="InputClass" v-model="formRight.input5" placeholder="请输入经营地址..." />
             </FormItem>
             <FormItem label="注册资本：" class="fatherClass">
@@ -206,11 +211,11 @@
             <FormItem label="开户网点：" class="fatherClass">
                 <input class="InputClass" v-model="formRight02.input1" placeholder="请输入开户网点..." />
             </FormItem>
-            <FormItem label="账户名称：" class="fatherClass">
-                <input class="InputClass" v-model="formRight02.input2" placeholder="请输入开户网点..." />
-            </FormItem>
+          <!--  <FormItem label="账户名称：" class="fatherClass">
+                <input class="InputClass" v-model="formRight02.input2" placeholder="请输入账户名称..." />
+            </FormItem> -->
             <FormItem label="收款账号：" class="fatherClass">
-                <input class="InputClass" v-model="formRight02.input3" placeholder="请输入开户网点..." />
+                <input class="InputClass" v-model="formRight02.input3" placeholder="请输入收款账号..." />
             </FormItem>
         </Form>
         <div class="btnButtonClas">
@@ -265,11 +270,11 @@ export default {
                 },
                 {
                     value: 1,
-                    label: '社会团体'
+                    label: '事业单位'
                 },
                 {
                     value: 2,
-                    label: '个体经营'
+                    label: '社会团体'
                 },
                 {
                     value: 3,
@@ -279,11 +284,11 @@ export default {
             ciaoyuermodel2: '',
             xiaoyuerInstry3: [
                 {
-                    value: 0,
+                    value: 1,
                     label: '对公'
                 },
                 {
-                    value: 1,
+                    value: 2,
                     label: '对私'
                 }
             ],
@@ -343,7 +348,7 @@ export default {
             }
         },
         returnBtn() {
-            console.log(this.formRight.input7);
+            // console.log(this.formRight.input7);
             this.$router.push({
                 path: './index'
             });
@@ -359,6 +364,9 @@ export default {
                 }
             });
         },
+		fdsjkfdsfds(value){
+			console.log(value);
+		},
         // 银行list
         BankInquiry() {
             const url = 'admin/sideline/list_wx_bank';
@@ -397,7 +405,7 @@ export default {
                 licenseUrl: this.imgUrlData, //营业执照
                 industryId: this.ciaoyuermodel1,
                 businessType: this.ciaoyuermodel2,
-                registerAddress: this.formRight.input4,
+                registerAddress:this.formRight.registerzc.join('')+this.formRight.input4,
                 address: this.formRight.input5,
                 registerMoney: this.formRight.input6 * 1000000,
                 registerTime: this.formRight.input7,
@@ -405,7 +413,7 @@ export default {
                 backgroundImage: this.bgimgUrldata, //企业背景图
                 logoUrl: this.logoUrldata, //企业LOGO
                 legal: this.formRight01.input1,
-                identityId: this.formRight02.input2,
+                identityId: this.formRight01.input2,
                 frontImage: this.sfzUrldata, //身份证正面
                 backImage: this.sffUrldata, //身份证反面
                 bankType: this.ciaoyuermodel3,
@@ -468,27 +476,41 @@ export default {
                         }
                         this.ciaoyuermodel1 = data.data.industryId;
                         this.ciaoyuermodel2 = data.data.businessType;
-                        this.formRight.registerzc;
+						let shengLength = data.data.registerAddress.lastIndexOf('省') + 1;
+						let zhuceCity = data.data.registerAddress.lastIndexOf('市') + 1;
+						let quLength = data.data.registerAddress.lastIndexOf('区') + 1;
+						let zhuceaddressLength = data.data.registerAddress.length;
+						let zhuceShengName = data.data.registerAddress.substring(0,shengLength);
+						let zhuceCityname = data.data.registerAddress.substring(shengLength,zhuceCity);
+						let zhucequName = data.data.registerAddress.substring(zhuceCity,quLength);
+						let addressDetailName = data.data.registerAddress.substring(quLength,zhuceaddressLength);
+						let bbbss = zhuceShengName+'/'+zhuceCityname+'/'+zhucequName;
+                        this.formRight.registerzc = bbbss.split('/');
                         let addressdata = data.data.province + '/' + data.data.city + '/' + data.data.region;
+						this.province = data.data.province;
+						this.city = data.data.city;
+						this.region = data.data.region;
                         this.formRight.registerjy = addressdata.split('/');
-                        this.formRight.input4 = data.data.registerAddress;
+                        this.formRight.input4 = addressDetailName;
                         this.formRight.input5 = data.data.address;
                         this.formRight.input6 = data.data.registerMoney / 1000000;
-                        let date = new Date(data.data.registerTime);
-                        var time1 =
-                            date.getFullYear() +
-                            '-' +
-                            (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-                            '-' +
-                            date.getDate();
-                        this.formRight.input7 = time1;
+						if(data.data.registerTime != 0){
+							let date = new Date(data.data.registerTime);
+							var time1 =
+								date.getFullYear() +
+								'-' +
+								(date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+								'-' +
+								date.getDate();
+							this.formRight.input7 = time1;
+						}
                         let dateTime = new Date(parseInt(data.data.time));
                         var timedata =
-                            date.getFullYear() +
+                            dateTime.getFullYear() +
                             '-' +
-                            (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+                            (dateTime.getMonth() + 1 < 10 ? '0' + (dateTime.getMonth() + 1) : dateTime.getMonth() + 1) +
                             '-' +
-                            date.getDate();
+                            dateTime.getDate();
                         this.ruzhuTime = timedata;
                         this.companyDataName = data.data.name;
                         if (data.data.backgroundImage) {
@@ -509,6 +531,7 @@ export default {
                         }
                         this.formRight01.input1 = data.data.legal;
                         this.formRight01.input2 = data.data.identityId;
+						
                         this.formRight01.input3 = data.data.serverPhone;
                         if (data.data.frontImage) {
                             this.sfzUrldata = data.data.frontImage;
@@ -545,6 +568,10 @@ export default {
     justify-content: space-between;
     margin: 30px 0 20px 0;
     background-color: #f5f7fa;
+	height: 45px;
+	align-items: center;
+	font-size: 16px;
+	padding: 0 20px;
 }
 .TopClass02 {
     padding: 15px;
@@ -560,7 +587,7 @@ export default {
 }
 .TopClass h4:nth-child(odd) {
     width: 280px;
-    text-align: center;
+    text-align: right;
 }
 .InputClass {
     padding: 0px 5px;

@@ -13,6 +13,7 @@
                     />
                     <el-date-picker
                         v-model="value2"
+						class="eldatepickeer"
                         type="daterange"
                         range-separator="——"
                         start-placeholder="开始日期"
@@ -249,5 +250,9 @@ export default {
 }
 .bTnClass {
     padding: 0px 50px;
+	margin-left: 10px;
+}
+.eldatepickeer{
+	border: 1px solid #DCDFE6;
 }
 </style>

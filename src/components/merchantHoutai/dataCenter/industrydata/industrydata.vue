@@ -3,7 +3,7 @@
     <div class="industrydata" id="industrydata">
         <el-tag>{{this.indusrtName}}业数据</el-tag>
         <div class="tubiao">
-            <el-card class="elCard-time">
+            <el-card class="elCard-time" id="elcardTime">
                 <div class="timeCount">
                     <el-date-picker
                         v-model="valueTime"
@@ -17,13 +17,15 @@
                     id="myChart"
                     class="myChartsdada"
                     ref="myChart"
-                    :style="{width: '100%', height: '300px',}"
+                    style="width: 100%; height: 300px;"
+					v-show="isShowIndusty"
                 ></div>
                 <div style="width:100%; text-align:center;" v-show="isShowIndusty == false">
                     <img
                         width="100%"
-                        src="../../../../assets/img/marketingqianlima/qiushengye(2).png"
+						src="../../../../assets/img/marketingqianlima/qiushengye(2).png"
                     />
+                        <!-- src="../../../../assets/img/marketingqianlima/qiushengye(2).png" -->
                     <p style="font-size:26px;">暂无数据</p>
                 </div>
             </el-card>
@@ -164,6 +166,9 @@ export default {
         };
     },
     mounted() {
+		let card = document.getElementById('elcardTime');
+		let mypie = document.getElementById('myChart');
+		mypie.style.width = card.offsetWidth + 'px';
         this.getAdminDataCenterIndustryNewBusiness();
         this.getAdminDataCenterIndustryBusiness();
         let Year = new Date().getFullYear();

@@ -22,7 +22,7 @@
                     ></el-option>
                 </el-select>
                 <el-date-picker
-                    class="asdas"
+                    class="asdas eldatapicker"
                     value-format="yyyy-MM-dd"
                     v-model="time"
                     type="daterange"
@@ -69,9 +69,17 @@
                     <el-button
                         @click="del_enterprise(scope.row)"
                         type="text"
+						v-if="scope.row.company.status == 1"
                         class="tab_del tab_button"
                         size="small"
-                    >删除</el-button>
+                    >禁用</el-button>
+					<el-button
+					    @click="qiyopngCompany(scope.row)"
+					    type="text"
+						v-if="scope.row.company.status == 2"
+					    class="tab_qiyong tab_button"
+					    size="small"
+					>启用</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -169,18 +177,32 @@ export default {
         // 删除一个
         del_enterprise(row) {
             let id = row.company.id;
-            this.$axios.get('admin/company/delete?ids=' + id).then((res) => {
+            this.$axios.get('admin/company/delete?ids=' + id +'&status=2').then((res) => {
                 if (res.status == 200) {
                     var data = res.data;
                     if (data.code == 200) {
-                        this.$message.success('删除成功');
+                        this.$message.success('禁用成功');
                         this.getTerraceList();
                     } else {
-                        this.$message.error('删除失败');
+                        this.$message.error('禁用失败');
                     }
                 }
             });
         },
+		qiyopngCompany(row){
+			let id = row.company.id;
+			this.$axios.get('admin/company/delete?ids='+id+'&status=1').then((res) => {
+				if (res.status == 200) {
+				    var data = res.data;
+				    if (data.code == 200) {
+				        this.$message.success('启用成功');
+				        this.getTerraceList();
+				    } else {
+				        this.$message.error('启用失败');
+				    }
+				}
+			});
+		},
         // 管理
         admin(row) {
             this.$router.push({
@@ -191,7 +213,6 @@ export default {
             });
         },
         edit_enterprise(row) {
-            console.log(row);
             this.$router.push({
                 path: './editerinfor',
                 query: {
@@ -219,15 +240,15 @@ export default {
             this.PassworClick = true;
         },
         resetSubmit() {
-            const pwdRegex = new RegExp('(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9]).{6,18}');
+            const pwdRegex = /^[a-zA-Z0-9]([a-zA-Z0-9])/;
             if (this.formRight.input1 != this.formRight.input2) {
                 this.$Message.info('两次密码输入不一致！');
             } else if (this.formRight.input1.length < 6 || this.formRight.input2.length < 6) {
                 this.$Message.info('密码至少为6位数！');
             } else if (this.formRight.input1.length > 18 || this.formRight.input2.length > 18) {
                 this.$Message.info('密码最多为18位数！');
-            } else if (!pwdRegex.test(this.formRight.input1) || !pwdRegex.test(this.formRight.input2)) {
-                this.$Message.info('您的密码不符合要求（密码中必须包含大小写字母、数字、特殊字符）并以字母开头，请重新输入！');
+            } else if (pwdRegex.test(this.formRight.input1) == false || pwdRegex.test(this.formRight.input1) == false) {
+                this.$Message.info('密码不能包含中文');
             } else if (
                 this.formRight.input1 == this.formRight.input2 &&
                 pwdRegex.test(this.formRight.input1) == true &&
@@ -244,7 +265,7 @@ export default {
         PasswordResetNterface() {
             const url = 'admin/user/edit';
             const data = {
-                password: this.formRight.input2,
+                password: this.$md5(this.formRight.input2),
                 userId: this.Id
             };
             this.$axios
@@ -253,7 +274,12 @@ export default {
                     if (res.status == 200) {
                         if (res.data.code == 200) {
                             this.$Message.info(res.data.msg);
-                        }
+							this.formRight.input1 = '';
+							this.formRight.input2 = '';
+                        } else {
+							this.formRight.input1 = '';
+							this.formRight.input2 = '';
+						}
                     }
                 })
                 .catch((err) => {});

@@ -3,7 +3,7 @@
         <div>
             <div class="right">
                 <h4 class="ulFirstClass">贵阳市入住的同行商家（近一个月）</h4>
-                <h4 class="colorFont">999</h4>
+                <!-- <h4 class="colorFont">999</h4> -->
             </div>
             <div class="tableDiv">
                 <Table :columns="columns1" :data="data1"></Table>
@@ -104,7 +104,7 @@ export default {
                             dataLsit[index].cooler1 = val.name;
                             dataLsit[index].cooler2 = val.address;
                             dataLsit[index].cooler3 = val.viewCount;
-                            dataLsit[index].cooler4 = val.time;
+                            dataLsit[index].cooler4 = val.date;
                         });
                         this.data1 = dataLsit;
                     }

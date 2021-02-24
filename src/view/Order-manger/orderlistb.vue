@@ -14,6 +14,7 @@
                         v-model="value2"
                         type="daterange"
                         align="right"
+						class="eldateeditor"
                         unlink-panels
                         range-separator="——"
                         start-placeholder="开始日期"
@@ -389,4 +390,7 @@ export default {
 };
 </script>
 <style scope>
+	.eldateeditor {
+	    border: 1px solid #dcdee2 ;
+	}
 </style>

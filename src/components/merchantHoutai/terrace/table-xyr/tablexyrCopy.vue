@@ -15,6 +15,7 @@
                     <el-date-picker
                         v-model="value2"
                         type="daterange"
+						class="eldateeditor"
                         range-separator="——"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期"
@@ -237,5 +238,11 @@ export default {
 }
 .returnBtn {
     padding: 0px 25px;
+}
+.eldateeditor {
+    border: 1px solid #dcdee2 ;
+}
+.bTnClass{
+	margin-left: 10px;
 }
 </style>

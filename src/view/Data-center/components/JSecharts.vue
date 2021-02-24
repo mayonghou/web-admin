@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Card style="min-height:545px">
+        <Card id="jsEcharts" style="min-height:545px">
             <div class="echatsDatatitle">
                 <span>{{this.IndustyName}}业成交量</span>
                 <div>
@@ -8,7 +8,11 @@
                     <span>订单量</span>
                 </div>
             </div>
-            <div id="main" class="EchatsData"></div>
+            <div id="main" v-show="this.isShow" class="EchatsData" ></div>
+			<div style="width: 100%; height: 100%; text-align: center;" v-show="this.isShow == false">
+				<img width="100%" height="100%" src="../../../assets/img/marketingqianlima/qiushengye(2).png" />
+				<h3 style="color: rgb(203 207 210);">暂无数据</h3>
+			</div>
         </Card>
     </div>
 </template>
@@ -21,7 +25,8 @@ export default {
         return {
             IndustyName: '',
             TimeData: '',
-            IndustyId: ''
+            IndustyId: '',
+			isShow:false
         };
     },
     created() {
@@ -58,11 +63,19 @@ export default {
                         if (data.code == 200) {
                             let today = [];
                             let value = [];
+							if(data.data == ''){
+								this.isShow = false;
+							} else {
+								this.isShow = true;
+							}
                             data.data.forEach(function (val, index) {
                                 today[index] = val.name;
                                 value[index] = val.value;
                             });
-                            var myChart = echarts.init(document.getElementById('main'));
+							let jsEcharts = document.getElementById('jsEcharts');
+							let mian = document.getElementById('main');
+							mian.style.width = jsEcharts.offsetWidth + 'px';
+                            var myChart = echarts.init(mian);
                             let option = {
                                 xAxis: {
                                     type: 'category',

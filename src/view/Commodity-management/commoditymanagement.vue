@@ -29,6 +29,7 @@
                     </Select>
                     <el-date-picker
                         v-model="value2"
+						class="eldateeditor"
                         type="datetimerange"
                         range-separator="——"
                         start-placeholder="开始日期"
@@ -406,5 +407,8 @@ export default {
 .pageFy {
     margin-top: -20px;
     padding-bottom: 90px;
+}
+.eldateeditor {
+    border: 1px solid #dcdee2 ;
 }
 </style>

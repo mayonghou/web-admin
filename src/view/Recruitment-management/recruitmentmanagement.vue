@@ -18,6 +18,7 @@
                         range-separator="——"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期"
+						class="eldateeditor"
                         :picker-options="pickerOptions"
                         @change="fgetLocalTime"
                     ></el-date-picker>
@@ -423,5 +424,8 @@ export default {
     box-sizing: border-box;
     padding: 0 20px;
     margin-top: 20px;
+}
+.eldateeditor {
+    border: 1px solid #dcdee2 ;
 }
 </style>

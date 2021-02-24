@@ -18,6 +18,7 @@
                     />
                     <el-date-picker
                         v-model="value2"
+						class="eldateeditor"
                         type="daterange"
                         align="right"
                         unlink-panels
@@ -390,5 +391,8 @@ export default {
     box-sizing: border-box;
     padding: 0 20px;
     margin-top: 20px;
+}
+.eldateeditor {
+    border: 1px solid #dcdee2 ;
 }
 </style>

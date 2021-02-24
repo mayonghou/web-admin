@@ -4,13 +4,16 @@
             <div class="logo">
                 <div class="collapse-btn">
                     <img class="img" src="../../assets/logo.png" alt />
-                </div>商盟
+                </div>
+				<div>
+					商盟
+				</div>
             </div>
-            <div class="collapse" @click="collapseChage">
+            <div class="collapse" @click="collapseChage" v-if="isShow == false">
                 <i v-if="!collapse" class="el-icon-s-fold"></i>
                 <i v-else class="el-icon-s-unfold"></i>
             </div>
-            <div class="fl">
+            <div class="fl" v-if="isShow == false">
                 <ul class="topDataBox">
                     <li
                         v-for="item in navData"
@@ -59,9 +62,9 @@
                             :content="message ? `有${message}条未读消息` : `消息中心`"
                             placement="bottom"
                         >
-                            <router-link to="/messagelist">
+                            <span @click="messageBtn">
                                 <i class="iconfontssda iconfont icon-laba1"></i>
-                            </router-link>
+                            </span>
                         </el-tooltip>
                         <span class="btn-bell-badge" v-if="message">{{ message }}</span>
                     </div>
@@ -107,6 +110,7 @@ export default {
     data() {
         return {
             collapse: true,
+            isShow: false,
             fullscreen: false,
             name: '',
             message: 0,
@@ -173,6 +177,11 @@ export default {
                 }
             }
             this.qiyeID = localStorage.getItem('loginData');
+			if(this.qiyeID == -1){
+				this.isShow = true;
+			} else {
+				this.isShow = false;
+			}
             let username = localStorage.getItem('ms_username');
             return username ? username : this.name;
         }
@@ -182,12 +191,29 @@ export default {
     },
     mounted() {
         this.qiyeID = localStorage.getItem('loginData');
+		if(this.qiyeID == -1){
+			this.isShow = true;
+		} else {
+			this.isShow = false;
+		}
         // 侧边栏折叠
         if (document.body.clientWidth > 1500) {
             this.collapseChage();
         }
     },
     methods: {
+		messageBtn(){
+		
+			if(this.isShow == false ) {
+				this.$router.push({
+					path:'./messagelist'
+				});
+			} else {
+				this.$router.push({
+					path:'./partMessage'
+				});
+			}
+		},
         // 用户名下拉菜单选择事件
         enlarge() {},
         updatePassword() {
@@ -326,6 +352,7 @@ export default {
                             spinner: 'el-icon-loading',
                             background: 'rgba(0, 0, 0, 0.7)'
                         });
+						let passwordZhenze = /^[a-zA-Z0-9]([a-zA-Z0-9])/;
                         if (this.password.xinpass != this.password.quedingpass) {
                             loading.close();
                             return this.$message({
@@ -333,16 +360,21 @@ export default {
                                 message: '您两次输入的密码不一致',
                                 type: 'error'
                             });
-                        } else {
+                        } else if(passwordZhenze.test(this.password.xinpass) == false ||　passwordZhenze.test(this.password.quedingpass) ==false ){
+							loading.close();
+							return this.$message({
+							    showClose: true,
+							    message: '密码不能包含中文',
+							    type: 'error'
+							});
+						} else {
                             let password = this.password.quedingpass;
                             let data = {
                                 avatar: '',
                                 password: this.$md5(password),
                                 userId: parseInt(localStorage.getItem('userIds'))
                             };
-                            console.log(data);
                             this.$axios.post('admin/user/edit', data).then((res) => {
-                                console.log(res);
                                 loading.close();
                                 if (res.status == 200) {
                                     let data = res.data;

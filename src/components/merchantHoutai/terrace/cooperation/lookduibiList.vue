@@ -42,7 +42,7 @@
                 <el-button @click="lookOrderlist" class="lookOrder">查看订单</el-button>
             </div>
         </div>
-        <el-dialog title="关联优惠券" :visible.sync="dialogVisible" width="80%">
+        <el-dialog title="查看订单" :visible.sync="dialogVisible" width="80%">
             <div class="dialog-top">
                 <div class="search">
                     <el-input class="searchInput" v-model="orderSn" placeholder="请输入订单编号">
@@ -53,14 +53,21 @@
             </div>
             <el-table :data="tableData" border style="width: 100%;background: #F5F9F1;">
                 <el-table-column type="index" label="序号" align="center"></el-table-column>
-                <el-table-column prop="orderSn" label="订单编号" align="center"></el-table-column>
+                <el-table-column prop="orderSn" label="流水号" align="center"></el-table-column>
+                <el-table-column prop="orderSn" label="订单编号" align="center">
+					
+				</el-table-column>
                 <el-table-column prop="userName" label="客户名" align="center"></el-table-column>
                 <el-table-column prop="payAmount" label="订单金额" align="center">
                     <template slot-scope="scope">
                         <label>￥{{scope.row.payAmount / 100 }}</label>
                     </template>
                 </el-table-column>
-                <el-table-column prop="sourceUserName" label="来源客服" align="center"></el-table-column>
+                <el-table-column prop="sourceUserName" label="平台扣除(3%)" align="center"></el-table-column>
+                <el-table-column prop="sourceUserName" label="代言客服扣除(3%)" align="center"></el-table-column>
+                <el-table-column prop="sourceUserName" label="代言企业扣除(3%)" align="center"></el-table-column>
+                <el-table-column prop="sourceUserName" label="入帐金额" align="center"></el-table-column>
+                <el-table-column prop="sourceUserName" label="来源企业" align="center"></el-table-column>
                 <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
                 <el-table-column label="操作" width="100" align="center">
                     <template slot-scope="scope">
@@ -109,6 +116,7 @@ export default {
         this.duifabngcompanyDuuibi();
     },
     methods: {
+	
         drawLine() {
             this.$axios.get('admin/company/queryCompanyData?partnerCompanyId=' + this.$route.query.id).then((res) => {
                 if (res.status == 200) {

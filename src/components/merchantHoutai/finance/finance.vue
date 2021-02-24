@@ -1,32 +1,23 @@
 <template>
     <!-- 财务管理列表 -->
     <div class="finance" id="finance">
+		<div class="finance-top">
+			<div class="money">
+				<i style="font-size: 80px; color: #fff;" class="el-icon-view"></i>
+				<div class="">
+					<h2>4530</h2>
+					<p>入账金额</p>
+				</div>
+			</div>
+			<div class="money">
+				<i style="font-size: 80px; color: #fff;" class="el-icon-view"></i>
+				<div class="">
+					<h2>3000</h2>
+					<p>押金金额</p>
+				</div>
+			</div>
+		</div>
         <div class="caiwu-top">
-            <div class="accounttitle">
-                <!-- <el-button class="tixianRecord" @click="tixianjilu" type="text">提现记录</el-button> -->
-                <div class="account-num">
-                    <div class="shoppyee">
-                        <label>商户当前余额</label>
-                    </div>
-                    <div class="numbermoney">
-                        <label style="width: 100px;">￥{{momeyData}}</label>
-                        <i
-                            style="margin-left: 10px; cursor: pointer; font-size: 40px;"
-                            @click="lookmoney"
-                            class="iconfont icon-yanjing"
-                            v-if="moneyboolean == false"
-                        ></i>
-                        <i
-                            v-else
-                            style="margin-left: 10px; cursor: pointer; font-size: 40px;"
-                            @click="lookmoneylist"
-                            class="iconfont icon-biyan1"
-                        ></i>
-                    </div>
-                    <el-button @click="tixannum" class="tixiansss" round>提现</el-button>
-                </div>
-                <div class="promptMessage">提现说明：提现时平台收取{{ this.moneydatasdda}}%的订单服务费，将从提现金额中扣除。</div>
-            </div>
             <div class="jiluchaxun">
                 <label style="display: block;">记录查询</label>
                 <div class="search-tinajian">
@@ -53,6 +44,14 @@
         <el-table :data="tableData" border style="width: 100%;">
             <el-table-column type="index" prop label="序号" align="center" width="80"></el-table-column>
             <el-table-column prop="orderSn" label="流水号" align="center"></el-table-column>
+            <el-table-column prop="orderSn" label="订单编号" align="center">
+				<template slot-scope="scope">
+					<span style="color: #42A7FF; cursor: pointer;" @click="lookOrderDetail(scope.row)">{{scope.row.orderSn}}</span>
+				</template>
+			</el-table-column>
+            <el-table-column prop="totalAmount" label="平台扣除(3%)" align="center"></el-table-column>
+            <el-table-column prop="totalAmount" label="代言客服扣除(3%)" align="center"></el-table-column>
+            <el-table-column prop="totalAmount" label="代言企业扣除(3%)" align="center"></el-table-column>
             <el-table-column prop="totalAmount" label="入账金额" align="center"></el-table-column>
             <el-table-column prop="payTypeList" label="支付平台" align="center"></el-table-column>
             <el-table-column prop="createTime" label="入账时间" align="center"></el-table-column>
@@ -68,62 +67,11 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
         ></el-pagination>
-
-        <!-- 提现弹框 -->
-        <el-dialog title="提现" :visible.sync="dialogFormVisible">
-            <div class="iconEqan" @click="enlarge">
-                <el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
-                    <i class="iconfont icon-quanping"></i>
-                </el-tooltip>
-            </div>
-            <el-form :model="tixianNumber" :rules="rules" ref="tixianNumber">
-                <el-form-item label="输入提现金额:" prop="money" :label-width="formLabelWidth">
-                    <el-input
-                        v-model="tixianNumber.money"
-                        onkeyup="value=value.replace(/[^\0-9]./g,'')"
-                        placeholder="请输入金额"
-                        @change="realityMoney"
-                    ></el-input>
-                </el-form-item>
-                <el-form-item label="实际到账金额:" prop="realitymoney" :label-width="formLabelWidth">
-                    <el-input
-                        class="realitymoney"
-                        v-model="tixianNumber.realitymoney"
-                        placeholder="请输入体现金额"
-                        disabled
-                    ></el-input>
-                </el-form-item>
-            </el-form>
-            <div class="account-xinxi">
-                <div class="tixian-xinxi">提现信息:</div>
-                <div class="jibenxinxi">
-                    <div class="bank">
-                        <label class="bank-name">开户银行：</label>
-                        <label class="bank-text">{{this.companyData.depositBank}}</label>
-                    </div>
-                    <div class="bank">
-                        <label class="bank-name">开户网点：</label>
-                        <label class="bank-text">{{this.companyData.branch}}</label>
-                    </div>
-                    <div class="bank">
-                        <label class="bank-name">账号名称：</label>
-                        <label class="bank-text">{{this.companyData.name}}</label>
-                    </div>
-                    <div class="bank">
-                        <label class="bank-name">收款账号：</label>
-                        <label class="bank-text">{{this.companyData.bankNumber}}</label>
-                    </div>
-                </div>
-            </div>
-            <div class="baocunfinance">
-                <el-button class="finbtn" @click="tixianBaocun">保存</el-button>
-            </div>
-            <div class="prMessage">提现说明：提现时平台收取{{ this.moneydatasdda}}%的订单服务费，将从提现金额中扣除。</div>
-        </el-dialog>
     </div>
 </template>
 
 <script>
+	
 export default {
     name: 'finance',
     data() {
@@ -161,9 +109,13 @@ export default {
     },
     mounted() {
         this.getFinanceData();
-        this.getmoney();
+        // this.getmoney();
     },
     methods: {
+		// 查看订单详情
+		lookOrderDetail(row){
+			
+		},
         // 计算实际到账金额
         realityMoney(value) {
             this.$axios.get('admin/financialManagement/accountBalance').then((res) => {
@@ -191,98 +143,9 @@ export default {
                 path: './moneyNumber'
             });
         },
-        lookmoney() {
-            this.moneyboolean = true;
-            this.momeyData = this.momeyDataList;
-        },
-        lookmoneylist() {
-            this.moneyboolean = false;
-            let nbs = [];
-            for (let i = 0; i < this.momeyData.length; i++) {
-                nbs[i] = this.momeyData[i].replace(this.momeyData[i], '*');
-            }
-            this.momeyData = nbs.join('');
-        },
-
-        // 余额
-        getmoney() {
-            this.$axios.get('admin/financialManagement/accountBalance').then((res) => {
-                if (res.status == 200) {
-                    let data = res.data;
-                    if (data.code == 200) {
-                        this.momeyDataList = data.data / 100 + '';
-                        let money = data.data / 100 + '';
-                        let nbs = [];
-                        for (let i = 0; i < money.length; i++) {
-                            nbs[i] = money[i].replace(money[i], '*');
-                        }
-                        this.momeyData = nbs.join('');
-                    }
-                }
-            });
-        },
-        tixannum() {
-            this.dialogFormVisible = true;
-            this.$axios.get('admin/company/info/' + localStorage.getItem('loginData')).then((res) => {
-                if (res.status == 200) {
-                    let data = res.data;
-                    if (data.code == 200) {
-                        this.companyData = data.data;
-                    }
-                }
-            });
-        },
-        // 提现保存
-        tixianBaocun() {
-            this.$refs.tixianNumber.validate((valid) => {
-                if (valid) {
-                    this.$confirm('是否确定提现金额【 ' + this.tixianNumber.money + '】', '温馨提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(() => {
-                        let data = {
-                            account: parseInt(this.tixianNumber.money) * 100
-                        };
-                        const loading = this.$loading({
-                            lock: true,
-                            text: '提现中 ...',
-                            spinner: 'el-icon-loading',
-                            background: 'rgba(0, 0, 0, 0.7)'
-                        });
-                        this.$axios.post('admin/financialManagement/postWithdrawal', data).then((res) => {
-                            loading.close();
-                            if (res.status == 200) {
-                                let datas = res.data;
-                                if (datas.code == 200) {
-                                    this.$message({
-                                        showClose: true,
-                                        message: data.msg,
-                                        type: 'success'
-                                    });
-                                    this.getmoney();
-                                } else {
-                                    this.$message({
-                                        showClose: true,
-                                        message: data.msg,
-                                        type: 'error'
-                                    });
-                                }
-                            } else {
-                                this.$message({
-                                    showClose: true,
-                                    message: res.data.msg,
-                                    type: 'error'
-                                });
-                            }
-                        });
-                    });
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
-            });
-        },
+       
+      
+       
         // 全屏事件
         enlarge() {},
         // 页面
@@ -373,7 +236,7 @@ export default {
     width: 100%;
     box-sizing: border-box;
     /* padding: 20px; */
-    background: #fafafa;
+    /* background: #fafafa; */
 }
 .caiwu-top {
     width: 100%;
@@ -501,5 +364,22 @@ export default {
 }
 .el-date-editor .el-range-separator {
     line-height: 24px;
+}
+.finance-top{
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+.finance-top .money{
+	width: 20%;
+	height: 90px;
+	min-width: 260px;
+	background-color: #42A7FF;
+	border-radius: 4px;
+	display: flex;
+	align-items: center;
+	color: #fff;
+	justify-content: space-around;
 }
 </style>

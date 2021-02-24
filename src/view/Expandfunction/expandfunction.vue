@@ -153,6 +153,7 @@ export default {
         Datar20: {
             handler(newdata, oldata) {
                 this.Datar20 = newdata;
+				console.log(newdata);
             },
             deep: true,
             immediate: true
@@ -196,10 +197,10 @@ export default {
                 .post(url, data)
                 .then((res) => {
                     if (res.status == 200) {
-                        const statusCode = res.data.code;
-                        this.statusCode = statusCode;
-                        let data = res.data;
+						let data = res.data;
                         if (data.code == 200) {
+							const statusCode = res.data.code;
+							this.statusCode = statusCode;
                             let AjaxData = data.data.dataList;
                             let AjaxData20 = [];
                             this.counts = data.data.totalCount;
@@ -260,7 +261,7 @@ export default {
             const url = 'admin/platform/delete';
             const data = ids;
             this.$axios
-                .post(url, data)
+                .post(url,data)
                 .then((res) => {
                     if (res.status == 200) {
                         const data = res.data;

@@ -5,6 +5,9 @@
             <div class="jiluchaxun">
                 <label style="display: block;">记录查询</label>
                 <div class="search-tinajian">
+					<el-input v-model="liushuihao" style="width:200px;" placeholder="请输入流水号"></el-input>
+					<el-input v-model="companyName" style="width:200px;margin-left: 10px;" placeholder="请输入企业名称"></el-input>
+					<span style="margin-left: 10px;">退款时间：</span>
                     <el-date-picker
                         v-model="time"
                         type="daterange"
@@ -14,7 +17,7 @@
                         value-format="yyyy-MM-dd"
                         @change="timeDate"
                     ></el-date-picker>
-                    <el-select
+                   <!-- <el-select
                         v-model="optionsStatus"
                         style="margin-left:20px;"
                         placeholder="请选择提现状态"
@@ -26,7 +29,7 @@
                             :label="item.name"
                             :value="item.index"
                         ></el-option>
-                    </el-select>
+                    </el-select> -->
                     <el-button @click="queryData" class="chaxunbtn">查询</el-button>
                 </div>
             </div>
@@ -34,17 +37,13 @@
         <div style="height: 30px;"></div>
         <el-table :data="tableData" border style="width: 100%">
             <el-table-column type="index" prop label="序号" align="center" width="80"></el-table-column>
-            <el-table-column prop="withAccount" label="提现金额" align="center"></el-table-column>
-            <el-table-column prop="serviceCharge" label="平台服务费" align="center"></el-table-column>
-            <el-table-column prop="incomeAccount" label="到账金额" align="center"></el-table-column>
-            <el-table-column prop="handlename" label="提现状态" align="center"></el-table-column>
-            <el-table-column prop="createTime" label="申请时间" align="center"></el-table-column>
+            <el-table-column prop="withAccount" label="流水号" align="center"></el-table-column>
+            <el-table-column prop="withAccount" label="订单编号" align="center"></el-table-column>
+            <el-table-column prop="withAccount" label="企业" align="center"></el-table-column>
+            <el-table-column prop="withAccount" label="金额" align="center"></el-table-column>
+            <el-table-column prop="serviceCharge" label="退款用户" align="center"></el-table-column>
             <el-table-column prop="handleTime" label="处理时间" align="center"></el-table-column>
-            <el-table-column label="操作" align="center">
-                <template slot-scope="scope">
-                    <el-button @click="lookdetailmoney(scope.row)" class="lookdetail" round>查看详情</el-button>
-                </template>
-            </el-table-column>
+
         </el-table>
         <!-- 页码 -->
         <el-pagination
@@ -57,7 +56,7 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="counts"
         ></el-pagination>
-        <el-dialog title="提现申请详情" :visible.sync="dialogFormVisible">
+       <!-- <el-dialog title="提现申请详情" :visible.sync="dialogFormVisible">
             <el-form :model="tixianNumber">
                 <el-form-item label="提现企业:" prop="company" :label-width="formLabelWidth">
                     <label>{{tixianNumber.company}}</label>
@@ -90,7 +89,7 @@
                     </div>
                 </div>
             </div>
-        </el-dialog>
+        </el-dialog> -->
     </div>
 </template>
 
@@ -101,6 +100,8 @@ export default {
         return {
             time: '',
             tableData: [],
+			liushuihao:'',
+			companyName:'',
             page: 1,
             limit: 10,
             counts: 0,
@@ -333,7 +334,13 @@ export default {
     margin-left: 100px;
 }
 .jiluchaxun {
+	
     padding-left: 20px;
+}
+.search-tinajian{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }
 
 .search-tinajian .chaxunbtn {
@@ -343,6 +350,7 @@ export default {
     color: #ffffff;
     margin-left: 40px;
     border-radius: 8px;
+	padding: 0;
 }
 .el-table .lookdetail {
     background: #4985f0;

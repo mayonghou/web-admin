@@ -1506,6 +1506,32 @@ export default new Router({
                         title: '查看新闻公告'
                     }
                 },
+				
+				// 官网管理----综合服务
+				{
+				    path: '/lookpressRelease',
+				    component: () => import('../components/merchantHoutai/officialWebsite/pressRelease/lookpressRelease.vue'),
+				    meta: {
+				        title: '查看新闻公告'
+				    }
+				},
+				// 官网管理----添加综合服务
+				{
+				    path: '/lookpressRelease',
+				    component: () => import('../components/merchantHoutai/officialWebsite/pressRelease/lookpressRelease.vue'),
+				    meta: {
+				        title: '查看新闻公告'
+				    }
+				},
+				// 官网管理----投诉反馈
+				{
+				    path: '/lookpressRelease',
+				    component: () => import('../components/merchantHoutai/officialWebsite/pressRelease/lookpressRelease.vue'),
+				    meta: {
+				        title: '查看新闻公告'
+				    }
+				},
+				
                 // 店铺管理
                 {
                     path: '/store',
@@ -1693,12 +1719,10 @@ export default new Router({
                     meta: {
                         title: '平台公告详情'
                     },
-                },
-
+                }
             ],
 
         },
-
         {
             path: '/login',
             component: () => import( /* webpackChunkName: "login" */ '../components/common/Login.vue'),
@@ -1706,5 +1730,81 @@ export default new Router({
                 title: '登录'
             }
         },
+        {
+            path: '/partTimer',
+            component: () => import( /* webpackChunkName: "login" */ '../components/jobPartTime/jobIndex.vue'),
+            meta: {
+                title: '兼职首页'
+            },
+            children: [{
+                    path: '/',
+                    component: () => import( /* webpackChunkName: "login" */ '../components/jobPartTime/Index/partTimer.vue'),
+                    meta: {
+                        title: '兼职首页'
+                    }
+                }, {
+                    path: '/partMessage',
+                    component: () => import( /* webpackChunkName: "login" */ '../components/jobPartTime/Index/partMessage.vue'),
+                    meta: {
+                        title: '兼职消息'
+                    }
+                }, {
+                    path: '/editPersonalData',
+                    component: () => import( /* webpackChunkName: "login" */ '../components/jobPartTime/Index/editPersonalData.vue'),
+                    meta: {
+                        title: '编辑个人资料'
+                    }
+                }, {
+                    path: '/orderDispose',
+                    component: () => import( /* webpackChunkName: "login" */ '../components/jobPartTime/order/orderDispose.vue'),
+                    meta: {
+                        title: '订单处理'
+                    }
+                }, {
+                    path: '/myOrder',
+                    component: () => import( /* webpackChunkName: "login" */ '../components/jobPartTime/order/myOrder.vue'),
+                    meta: {
+                        title: '我的订单'
+                    }
+                }, {
+                    path: '/offTheStocks',
+                    component: () => import( /* webpackChunkName: "login" */ '../components/jobPartTime/order/offTheStocks.vue'),
+                    meta: {
+                        title: '已完成的订单内容'
+                    }
+                },
+                // 兼职端订单申请延长时间
+                {
+                    path: '/orderProlong',
+                    component: () => import( /* webpackChunkName: "login" */ '../components/jobPartTime/order/orderProlong.vue'),
+                    meta: {
+                        title: '申请延长时间'
+                    }
+                },
+                // 上传任务作品
+                {
+                    path: '/uploadWorks',
+                    component: () => import( /* webpackChunkName: "login" */ '../components/jobPartTime/order/uploadWorks.vue'),
+                    meta: {
+                        title: '上传任务作品'
+                    }
+                },
+                // 作品上传
+                {
+                    path: '/uploadFile',
+                    component: () => import( /* webpackChunkName: "login" */ '../components/jobPartTime/upload/uploadFile.vue'),
+                    meta: {
+                        title: '作品上传'
+                    }
+                },
+				{
+				    path: '/showreel',
+				    component: () => import( /* webpackChunkName: "login" */ '../components/jobPartTime/showreel/showreel.vue'),
+				    meta: {
+				        title: '作品集编辑'
+				    }
+				},
+            ]
+        }
     ]
 });

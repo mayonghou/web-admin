@@ -148,7 +148,7 @@
             <img class="dfsdikf" :src="'data:image/jpg;base64,'+imgbase64" />
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                <el-button type="primary" @click="quedianBtn">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -172,6 +172,7 @@ export default {
             orderDataList: [],
             startTime: '',
             endTime: '',
+			orderNumber:'',
             navList: [
                 {
                     index: 0,
@@ -194,8 +195,31 @@ export default {
     },
     mounted() {
         this.getSwiftHorseorder();
+		
     },
     methods: {
+		quedianBtn(){
+			this.dialogVisible = false;
+			this.$axios.get('admin/sideline/payment/query_payment_status?orderNo='+this.orderNumber).then((res) => {
+				if(res.status == 200){
+					let data = res.data;
+					console.log(data);
+					if(res.code == 200){
+						// this.$message({
+						//     showClose: true,
+						//     message: data.msg,
+						//     type: 'success'
+						// });
+					} else {
+						// this.$message({
+						//     showClose: true,
+						//     message: data.msg,
+						//     type: 'error'
+						// });
+					}
+				}
+			});
+		},
         truebtn(item) {
             this.$confirm('是否同意延期处理【' + item.delayApplication.days + '】天?', '温馨提示', {
                 confirmButtonText: '确定',
@@ -307,6 +331,7 @@ export default {
         },
         // 立即支付按钮
         zhufuBtn(item) {
+			this.orderNumber = item.orderNo;
             this.imgbase64 = item.qrCodeBase64;
             this.dialogVisible = true;
         },

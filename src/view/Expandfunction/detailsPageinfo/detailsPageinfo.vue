@@ -182,7 +182,8 @@ export default {
                 let data = {
                     detail: this.formItem.content,
                     noticeRange: this.formItem.select,
-                    title: this.formItem.input
+                    title: this.formItem.input,
+					id:0
                 };
                 const loading = this.$loading({
                     lock: true,

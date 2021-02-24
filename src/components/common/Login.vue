@@ -11,6 +11,7 @@
                 </el-form-item>
                 <el-form-item prop="password">
                     <el-input
+					
                         class="loginInput"
                         type="password"
                         placeholder="请输入密码"
@@ -71,23 +72,29 @@ export default {
                                     localStorage.setItem('userIds', data.data.id);
                                     localStorage.setItem('token', data.data.token);
                                     localStorage.setItem('ms_username', _this.param.username);
-                                    if (data.data.companyId == 0) {
+									if(data.data.companyId == -1){
+										localStorage.setItem('partTimerId', data.data.id);
+										_this.$router.push('/partTimer');
+										_this.$message.success('登录成功');
+									} else if (data.data.companyId == 0) {
                                         _this.$router.push('/dataCenterindex');
                                         _this.$message.success('登录成功');
                                     } else {
                                         _this.$router.push('./indexshouye');
                                         localStorage.setItem('industryName', data.data.companyDTO.industry);
                                         localStorage.setItem('industryId', data.data.companyDTO.industryId);
-                                        localStorage.setItem('industryId', data.data.companyDTO.industryId);
                                         localStorage.setItem('name', data.data.companyDTO.legal);
                                         localStorage.setItem('companyName', data.data.companyDTO.companyName);
                                         _this.$message.success('登录成功');
                                     }
-                                }
-                                if (data.code != 200) {
-                                    _this.$message.error(data.msg);
-                                    return false;
-                                }
+                                } else {
+									    _this.$message.error(data.msg);
+									    return false;
+								}
+                                // if (data.code != 200) {
+                                //     _this.$message.error(data.msg);
+                                //     return false;
+                                // }
                             }
                         });
                 }

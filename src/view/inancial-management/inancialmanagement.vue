@@ -1,19 +1,27 @@
 <template>
     <div class="table_css_xiaoyuer">
         <!-- 财务列表 -->
+		<div style="width: 100%; text-align: right;">
+			<el-button type="text" @click="tuiKuanJiLu">退款记录</el-button>
+		</div>
+		<div class="finance-top">
+			<div class="money">
+				<i style="font-size: 80px; color: #fff;" class="el-icon-view"></i>
+				<div class="">
+					<h2>4530</h2>
+					<p>入账金额</p>
+				</div>
+			</div>
+			<div class="money">
+				<i style="font-size: 80px; color: #fff;" class="el-icon-view"></i>
+				<div class="">
+					<h2>3000</h2>
+					<p>支出金额</p>
+				</div>
+			</div>
+		</div>
         <div class="top-compo inancialmanagement">
-            <div class="inancialman">
-                <h2 class="centerText">当前余额</h2>
-                <div class="inputcenter">
-                    <inputa v-if="DataDataA != ''" :DataDataA="DataDataA"></inputa>
-                </div>
-                <div class="inputcenter">
-                    <Badge :count="1000" :overflow-count="this.counts">
-                        <button href="#" class="demo-badge buttontjsq">提现申请</button>
-                    </Badge>
-                </div>
-            </div>
-            <Row style="width:100%;">
+            <Row style="width:100%; ">
                 <Col span="12">
                     <Input
                         v-model="value01"
@@ -26,7 +34,7 @@
                         placeholder="输入企业名称..."
                         clearable
                         style="width: 200px; margin-right:10px; margin-left:5px;"
-                    />审批时间：
+                    />入账时间：
                     <el-date-picker
                         v-model="value2"
                         type="daterange"
@@ -37,12 +45,13 @@
                         end-placeholder="结束日期"
                         :picker-options="pickerOptions"
                         @change="changeTime"
+						class="eldateeditor"
                         value-format="yyyy-MM-dd"
                     ></el-date-picker>
                     <Button
                         type="primary"
                         @click="queryBtn"
-                        style="padding-left:40px; padding-right:40px;"
+                        style="padding:0 40px;margin-left: 10px;"
                     >查询</Button>
                 </Col>
             </Row>
@@ -94,8 +103,13 @@ export default {
                     key: 'col1',
                     align: 'center'
                 },
+				{
+				    title: '订单编号',
+				    key: 'col1',
+				    align: 'center'
+				},
                 {
-                    title: '企业名称',
+                    title: '支出/付款方',
                     key: 'col2',
                     align: 'center'
                 },
@@ -105,13 +119,18 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '入账方式',
+                    title: '实际金额',
                     key: 'col4',
                     align: 'center'
                 },
+				{
+				    title: '记录类型',
+				    key: 'col5',
+				    align: 'center'
+				},
                 {
                     title: '入账时间',
-                    key: 'col5',
+                    key: 'col6',
                     align: 'center'
                 },
                 {
@@ -121,7 +140,8 @@ export default {
                     col2: '123SD',
                     col3: '微信',
                     col4: '推广',
-                    col5: '622401789465621'
+					col5:'支出/入账',
+                    col6: '622401789465621',
                 }
             ],
             page: 1,
@@ -252,7 +272,7 @@ export default {
                                     (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
                                     '-' +
                                     date.getDate();
-                                DataAjax2[index].col5 = time1;
+                                DataAjax2[index].col6 = time1;
                             });
                             this.Datar2 = DataAjax2;
                         } else {
@@ -291,15 +311,22 @@ export default {
                     }
                 })
                 .catch((err) => {});
-        }
-    }
+        },
+		// 退款记录
+		tuiKuanJiLu(){
+			this.$router.push({
+				path:'./moneyNumber'
+			});
+		},
+	}
 };
 </script>
 
 <style scope>
 .inancialmanagement {
     width: 100%;
-    height: 256px;
+    height: 82px;
+	line-height: 80px;
     background-color: #faffe0;
     padding: 15px 0px 20px 0px;
 }
@@ -337,5 +364,25 @@ export default {
 }
 .buttontjsq:active {
     background-color: #3669ff;
+}
+.finance-top{
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+.finance-top .money{
+	width: 20%;
+	height: 90px;
+	min-width: 260px;
+	background-color: #42A7FF;
+	border-radius: 4px;
+	display: flex;
+	align-items: center;
+	color: #fff;
+	justify-content: space-around;
+}
+.eldateeditor {
+    border: 1px solid #dcdee2 ;
 }
 </style>

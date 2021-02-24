@@ -87,6 +87,11 @@
     border: 0;
     background-image: linear-gradient(to right, #FF887C, #FF6060);
 }
+.terraceIndex .tab_qiyong{
+	outline: 0;
+	border: 0;
+	background: #00E2A7;
+}
 
 .terraceIndex .tab_bj {
     outline: 0;
@@ -241,8 +246,13 @@
 }
 
 .el-input__inner {
-    height: 30px;
+    /* height: 30px; */
     line-height: 30px;
+}
+
+.el-date-editor {
+    height: 30px;
+    border: 0;
 }
 
 .el-date-editor .el-range-separator {
@@ -255,5 +265,7 @@
 
 .el-input__icon {
     line-height: 20px;
-
+}
+.eldatapicker{
+	border: 1px solid #DCDFE6;
 }

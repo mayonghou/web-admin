@@ -30,7 +30,7 @@
                 <h2>代言企业销售额TOP101商品</h2>
                 <div class="bgClass">
                     <div class="BgcountClass">
-                        <echarts></echarts>
+                        <echarts v-if="companyId != ''" :companyId="companyId"></echarts>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                 <h2 class="title-dy">对方企业代言数据对比</h2>
                 <div class="bgClassv">
                     <div class="BgcountClassv">
-                        <echartsb></echartsb>
+                        <echartsb v-if="companyId != ''" :companyId="companyId"></echartsb>
                     </div>
                 </div>
             </div>
@@ -84,6 +84,7 @@ export default {
             page: 1,
             limit: 10,
             counts: 0,
+			companyId:'',
             ModalTableData: [
                 //ModalTable
                 // {
@@ -129,6 +130,7 @@ export default {
         },
         // $ajax//公司合作的数据
         getdataList() {
+			this.companyId = this.$route.query.id;
             const url = 'admin/company/queryCompanyData?partnerCompanyId=' + this.$route.query.id;
             this.$axios.get(url).then((res) => {
                 if (res.status == 200) {

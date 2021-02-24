@@ -16,7 +16,8 @@
 
 <script>
 export default {
-    data() {
+	props:['companyId'],
+	data() {
         return {
             itemData: ['100%', '90%', '80%', '70%', '60%', '50%', '40%', '30%', '20%', '10%']
         };
@@ -26,6 +27,9 @@ export default {
             for (let i = 0; i < this.itemData.length; i++) {
                 this.$refs.refsdata[i].style.width = this.itemData[i];
             }
+			this.$axios.get('admin/company/queryCompanyData?partnerCompanyId='+this.companyId).then((res) => {
+				console.log(res);
+			});
         }
     },
     mounted() {

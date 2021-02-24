@@ -91,8 +91,8 @@ export default {
         bus.$on('closeHandle', (msg) => {
             // let index = this.$route.fullPath.lastIndexOf('/');
             // this.fullpathUrl = this.$route.fullPath.substring(index + 1, this.$route.fullPath.length);
-            console.log(msg);
-            console.log(this.$refs.tablistData);
+            // console.log(msg);
+            // console.log(this.$refs.tablistData);
             // if (msg == '') {
             //     this.handleOpen(this.opanKey, this.opanKeyPath);
             // } else {
@@ -105,12 +105,12 @@ export default {
     },
     methods: {
         handleOpen(key, keyPath) {
-            console.log(key, keyPath);
+            // console.log(key, keyPath);
             this.opanKey = key;
             this.opanKeyPath = keyPath;
         },
         handleClose(key, keyPath) {
-            console.log(key, keyPath);
+            // console.log(key, keyPath);
             // let arraysub = document.getElementsByClassName('el-submenu');
             // for (let i in arraysub) {
             //     // if (this.fullpathUrl != key) {
@@ -132,7 +132,7 @@ export default {
                 // 总后台
                 items = [
                     {
-                        icon: require('../../assets/img/icon/qiye.png'),
+                        icon: require('../../assets/img/zongIcon/qiye.png'),
                         index: 'terrace',
                         title: '企业管理',
                         subs: [
@@ -143,7 +143,7 @@ export default {
                         ]
                     },
                     {
-                        icon: require('../../assets/img/icon/qiye.png'),
+                        icon: require('../../assets/img/zongIcon/huiyuan.png'),
                         index: 'membership',
                         title: '会员管理',
                         subs: [
@@ -155,7 +155,7 @@ export default {
                     },
                     // xiaoyuer
                     {
-                        icon: require('../../assets/img/icon/qiye.png'),
+                        icon: require('../../assets/img/zongIcon/shangping.png'),
                         index: 'Commodity-management',
                         title: '商品管理',
                         subs: [
@@ -166,7 +166,7 @@ export default {
                         ]
                     },
                     {
-                        icon: require('../../assets/img/icon/qiye.png'),
+                        icon: require('../../assets/img/zongIcon/order.png'),
                         index: 'Order-manger',
                         title: '订单管理',
                         subs: [
@@ -181,7 +181,7 @@ export default {
                         ]
                     },
                     {
-                        icon: require('../../assets/img/icon/qiye.png'),
+                        icon: require('../../assets/img/zongIcon/caiwu.png'),
                         index: 'inancial-management',
                         title: '财务管理',
                         subs: [
@@ -192,7 +192,7 @@ export default {
                         ]
                     },
                     {
-                        icon: require('../../assets/img/icon/qiye.png'),
+                        icon: require('../../assets/img/zongIcon/zufang.png'),
                         index: 'Rental-management',
                         title: '租房管理',
                         subs: [
@@ -203,7 +203,7 @@ export default {
                         ]
                     },
                     {
-                        icon: require('../../assets/img/icon/qiye.png'),
+                        icon: require('../../assets/img/zongIcon/zhaopin.png'),
                         index: 'Recruitment-management',
                         title: '招聘管理',
                         subs: [
@@ -214,7 +214,7 @@ export default {
                         ]
                     },
                     {
-                        icon: require('../../assets/img/icon/qiye.png'),
+                        icon: require('../../assets/img/zongIcon/video.png'),
                         index: 'Video-management',
                         title: '视频管理',
                         subs: [
@@ -225,7 +225,7 @@ export default {
                         ]
                     },
                     {
-                        icon: require('../../assets/img/icon/qiye.png'),
+                        icon: require('../../assets/img/zongIcon/shangji.png'),
                         index: 'Opportunity-mg',
                         title: '商机管理',
                         subs: [
@@ -237,7 +237,7 @@ export default {
                     },
                     // 活动管理
                     {
-                        icon: require('../../assets/img/icon/qiye.png'),
+                        icon: require('../../assets/img/zongIcon/activity.png'),
                         index: 'Activity-management',
                         title: '活动管理',
                         subs: [
@@ -276,7 +276,7 @@ export default {
                         ]
                     },
                     {
-                        icon: require('../../assets/img/icon/qiye.png'),
+                        icon: require('../../assets/img/zongIcon/dongtai.png'),
                         index: 'Dynamic-management',
                         title: '动态管理',
                         subs: [
@@ -291,7 +291,7 @@ export default {
                         ]
                     },
                     {
-                        icon: require('../../assets/img/icon/qiye.png'),
+                        icon: require('../../assets/img/zongIcon/indusity.png'),
                         index: 'Industry',
                         title: '行业管理',
                         subs: [
@@ -302,7 +302,7 @@ export default {
                         ]
                     },
                     {
-                        icon: require('../../assets/img/icon/qiye.png'),
+                        icon: require('../../assets/img/zongIcon/gonggao.png'),
                         index: 'advertisement-gl',
                         title: '广告管理',
                         subs: [
@@ -313,7 +313,7 @@ export default {
                         ]
                     },
                     {
-                        icon: require('../../assets/img/icon/qiye.png'),
+                        icon: require('../../assets/img/zongIcon/gongxiang.png'),
                         index: 'Sharing-Qianlima',
                         title: '共享千里马',
                         subs: [
@@ -332,7 +332,7 @@ export default {
                         ]
                     },
                     {
-                        icon: require('../../assets/img/icon/qiye.png'),
+                        icon: require('../../assets/img/zongIcon/tuozhang.png'),
                         index: 'Expandfunction',
                         title: '拓展功能',
                         subs: [
@@ -443,10 +443,6 @@ export default {
                             {
                                 index: 'finance',
                                 title: '财务列表'
-                            },
-                            {
-                                index: 'moneyNumber',
-                                title: '提现记录'
                             }
                         ]
                     },
